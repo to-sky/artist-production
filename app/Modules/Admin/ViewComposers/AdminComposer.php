@@ -1,0 +1,33 @@
+<?php
+
+namespace App\Modules\Admin\ViewComposers;
+
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Route;
+use App\Models\Menu;
+
+class AdminComposer
+{
+    /**
+     * Bind data to the view.
+     *
+     * @param  View  $view
+     * @return void
+     */
+    public function compose(View $view)
+    {
+        $route = Route::currentRouteName();
+        $parts = explode('.', $route);
+
+        if (isset($parts[1])) {
+            $menu = Menu::where('plural_name', $parts[1])
+                ->first();
+
+            $view->with('menu', $menu);
+        }
+
+        if (isset($parts[2])) {
+            $view->with('action', $parts[2]);
+        }
+    }
+}

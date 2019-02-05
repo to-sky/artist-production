@@ -1,0 +1,22 @@
+{
+  "name": "artist_production",
+  "description": "",
+  "main": "",
+  "authors": [
+    "evgen-eremin <evgeni.eremin@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "admin-lte": "^2.4.8"
+  }
+}
