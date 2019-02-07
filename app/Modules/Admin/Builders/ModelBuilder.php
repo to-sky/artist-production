@@ -132,7 +132,7 @@ class ModelBuilder
         }
         foreach ($this->fields as $key => $field) {
             // Check if there is no duplication for radio and checkbox
-            if (! in_array($field->title, $used)) {
+            if (! in_array($field->name, $used)) {
                 if ($count > 1) {
                     $fillables .= '          '; // Add formatting space to the model
                 }
@@ -140,8 +140,8 @@ class ModelBuilder
                     $fillables .= "'" . $field->relationship_name . "_id'";
                     $used[$field->relationship_name] = $field->relationship_name;
                 } else {
-                    $fillables .= "'" . $field->title . "'";
-                    $used[$field->title] = $field->title;
+                    $fillables .= "'" . $field->name . "'";
+                    $used[$field->name] = $field->name;
                 }
                 // Formatting lines
                 if ($count != 1) {
@@ -216,14 +216,14 @@ class ModelBuilder
         $passwordHashes = '';
         foreach ($this->fields as $field) {
             if ($field->type == 'password') {
-                $camel = ucfirst(Str::camel(str_replace('_', ' ', $field->title)));
+                $camel = ucfirst(Str::camel(str_replace('_', ' ', $field->name)));
                 $passwordHashes .= '/**
      * Hash password
      * @param $input
      */
     public function set' . $camel . 'Attribute($input)
     {
-        $this->attributes[\'' . $field->title . '\'] = Hash::make($input);
+        $this->attributes[\'' . $field->name . '\'] = Hash::make($input);
     }' . "\r\n\r\n";
             }
         }
@@ -236,7 +236,7 @@ class ModelBuilder
         $dates = '';
         foreach ($this->fields as $field) {
             if ($field->type == 'date') {
-                $camel = ucfirst(Str::camel(str_replace('_', ' ', $field->title)));
+                $camel = ucfirst(Str::camel(str_replace('_', ' ', $field->name)));
                 $dates .= '/**
      * Set attribute to date format
      * @param $input
@@ -244,9 +244,9 @@ class ModelBuilder
     public function set' . $camel . 'Attribute($input)
     {
         if($input != \'\') {
-            $this->attributes[\'' . $field->title . '\'] = Carbon::createFromFormat(config(\'admin.date_format\'), $input)->format(\'Y-m-d\');
+            $this->attributes[\'' . $field->name . '\'] = Carbon::createFromFormat(config(\'admin.date_format\'), $input)->format(\'Y-m-d\');
         }else{
-            $this->attributes[\'' . $field->title . '\'] = \'\';
+            $this->attributes[\'' . $field->name . '\'] = \'\';
         }
     }
 
@@ -275,7 +275,7 @@ class ModelBuilder
         $dates = '';
         foreach ($this->fields as $field) {
             if ($field->type == 'datetime') {
-                $camel = ucfirst(Str::camel(str_replace('_', ' ', $field->title)));
+                $camel = ucfirst(Str::camel(str_replace('_', ' ', $field->name)));
                 $dates .= '/**
      * Set attribute to datetime format
      * @param $input
@@ -283,9 +283,9 @@ class ModelBuilder
     public function set' . $camel . 'Attribute($input)
     {
         if($input != \'\') {
-            $this->attributes[\'' . $field->title . '\'] = Carbon::createFromFormat(config(\'admin.date_format\') . \' \' . config(\'admin.time_format\'), $input)->format(\'Y-m-d H:i:s\');
+            $this->attributes[\'' . $field->name . '\'] = Carbon::createFromFormat(config(\'admin.date_format\') . \' \' . config(\'admin.time_format\'), $input)->format(\'Y-m-d H:i:s\');
         }else{
-            $this->attributes[\'' . $field->title . '\'] = \'\';
+            $this->attributes[\'' . $field->name . '\'] = \'\';
         }
     }
 
@@ -331,7 +331,7 @@ class ModelBuilder
                         $values .= ', ';
                     }
                 }
-                $return .= '    public static $' . $field->title . ' = [' . $values . '];' . "\r\n";
+                $return .= '    public static $' . $field->name . ' = [' . $values . '];' . "\r\n";
             }
         }
 

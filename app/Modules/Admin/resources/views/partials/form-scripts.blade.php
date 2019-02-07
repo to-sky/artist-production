@@ -22,16 +22,16 @@
         });
 
         // Place the focus on the first element in the form
-        @if(config('admin.focusFirstField'))
-            var focusField = $('form').find('input, textarea, select').not('[type="hidden"]').eq(0),
-                fieldOffset = focusField.offset().top,
-                scrollTolerance = $(window).height() / 2;
+                @if(config('admin.focusFirstField'))
+        var focusField = $('form').find('input, textarea, select').not('[type="hidden"]').eq(0),
+            fieldOffset = focusField.offset().top,
+            scrollTolerance = $(window).height() / 2;
 
-            focusField.trigger('focus');
+        focusField.trigger('focus');
 
-            if (fieldOffset > scrollTolerance) {
-                $('html, body').animate({scrollTop: (fieldOffset - 30)});
-            }
+        if (fieldOffset > scrollTolerance) {
+            $('html, body').animate({scrollTop: (fieldOffset - 30)});
+        }
         @endif
 
         // Add inline errors to the DOM
@@ -39,24 +39,32 @@
 
             window.errors = {!! json_encode($errors->messages()) !!};
 
-            $.each(errors, function (property, messages) {
+        $.each(errors, function (property, messages) {
 
-                var normalizedProperty = property.split('.').map(function (item, index) {
-                        return index === 0 ? item : '[' + item + ']';
-                    }).join(''),
-                    field = $('[name="' + normalizedProperty + '[]"]').length ? $('[name="' + normalizedProperty + '[]"]') : $('[name="' + normalizedProperty + '"]'),
-                    container = field.parents('.form-group');
+            var normalizedProperty = property.split('.').map(function (item, index) {
+                    return index === 0 ? item : '[' + item + ']';
+                }).join(''),
+                field = $('[name="' + normalizedProperty + '[]"]').length ? $('[name="' + normalizedProperty + '[]"]') : $('[name="' + normalizedProperty + '"]'),
+                container = field.parents('.form-group');
 
-                container.addClass('has-error');
+            container.addClass('has-error');
 
-                $.each(messages, function (key, msg) {
-                    // highlight the input that errored
-                    var row = $('<div class="help-block">' + msg + '</div>');
-                    row.appendTo(container);
-                });
+            $.each(messages, function (key, msg) {
+                // highlight the input that errored
+                var row = $('<div class="help-block">' + msg + '</div>');
+                row.appendTo(container);
             });
+        });
 
         @endif
+
+        $('.datepicker').datepicker({
+            format: "yyyy-mm-dd"
+        });
+
+//        $('.ckeditor').each(function () {
+//            CKEDITOR.replace($(this));
+//        })
 
     });
 </script>

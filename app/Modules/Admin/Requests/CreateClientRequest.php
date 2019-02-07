@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Modules\Admin\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateDishRequest extends FormRequest {
+class CreateClientRequest extends FormRequest {
 
 	/**
 	 * Determine if the user is authorized to make this request.
@@ -24,8 +24,9 @@ class CreateDishRequest extends FormRequest {
 	public function rules()
 	{
 		return [
-            'name' => 'required', 
-            'price' => 'numeric', 
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required',
             
 		];
 	}

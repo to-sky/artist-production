@@ -11,7 +11,7 @@
             @endforeach
         </select>
     <td>
-        <input type="text" name="f_title[]" value="{{ old('f_title.'.$index) }}" class="form-control title"
+        <input type="text" name="f_name[]" value="{{ old('f_name.'.$index) }}" class="form-control title"
                required="required" placeholder="{{ trans('Admin::templates.templates-menu_field_line-field_db_name') }}">
 
         <!-- File size limit -->
@@ -31,10 +31,15 @@
                placeholder="{{ trans('Admin::templates.templates-menu_field_line-maximum_height_placeholder') }}" style="display: none;">
         <!-- /File dimensions limit -->
 
-        <!-- Value for radio button -->
-        <input type="text" name="f_value[]" value="{{ old('f_value.'.$index) }}" class="form-control value"
-               placeholder="{{ trans('Admin::templates.templates-menu_field_line-value') }}" style="display: none;">
-        <!-- /Value for radio button -->
+        <!-- Values for radio button -->
+        <input type="text" name="f_values[]" value="{{ old('f_values.'.$index) }}" class="form-control values"
+               placeholder="{{ trans('Admin::templates.templates-menu_field_line-values') }}" style="display: none;">
+        <!-- /Values for radio button -->
+
+        <!-- Labels for radio button and checkbox -->
+        <input type="text" name="f_labels[]" value="{{ old('f_labels.'.$index) }}" class="form-control labels"
+               placeholder="{{ trans('Admin::templates.templates-menu_field_line-labels') }}" style="display: none;">
+        <!-- /Labels for radio button and checkbox -->
 
         <!-- Default value of a checkbox -->
         <select name="f_default[]" class="form-control default_c" style="display: none;">
@@ -74,7 +79,7 @@
         <!-- /ENUM values -->
     </td>
     <td>
-        <input type="text" name="f_label[]" value="{{ old('f_label.'.$index) }}" class="form-control"
+        <input type="text" name="f_title[]" value="{{ old('f_title.'.$index) }}" class="form-control"
                required="required" placeholder="{{ trans('Admin::templates.templates-menu_field_line-field_visual_title_placeholder') }}">
         <input type="text" name="f_helper[]" value="{{ old('f_helper.'.$index) }}" class="form-control"
                placeholder="{{ trans('Admin::templates.templates-menu_field_line-comment_below_placeholder') }}">

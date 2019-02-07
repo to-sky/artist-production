@@ -11,6 +11,7 @@ use App\Modules\Admin\Requests\$UPDATEREQUESTNAME$;
 use Illuminate\Http\Request;
 $FILETRAIT$
 $RELATIONSHIP_NAMESPACES$
+use Prologue\Alerts\Facades\Alert;
 
 class $CLASS$ extends AdminController {
 
@@ -50,7 +51,10 @@ class $CLASS$ extends AdminController {
 	    $FILESAVING$
 		$MODEL$::create($request->all());
 
-		return redirect()->route(config('admin.route').'.$PLURAL$.index');
+        Alert::success(trans('Admin::admin.users-controller-successfully_created'))->flash();
+
+        $this->redirectService->setRedirect($request);
+        return $this->redirectService->redirect($request);
 	}
 
 	/**
@@ -81,7 +85,10 @@ class $CLASS$ extends AdminController {
 
 		$$SINGULAR$->update($request->all());
 
-		return redirect()->route(config('admin.route').'.$PLURAL$.index');
+        Alert::success(trans('Admin::admin.users-controller-successfully_created'))->flash();
+
+        $this->redirectService->setRedirect($request);
+        return $this->redirectService->redirect($request);
 	}
 
 	/**
@@ -93,7 +100,7 @@ class $CLASS$ extends AdminController {
 	{
 		$MODEL$::destroy($id);
 
-		return redirect()->route(config('admin.route').'.$PLURAL$.index');
+		return response()->json(null, 204);
 	}
 
     /**

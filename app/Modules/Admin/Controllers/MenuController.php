@@ -165,11 +165,12 @@ class MenuController extends AdminController
         foreach ($request->f_type as $index => $field) {
             $fields[$index] = [
                 'type'               => $field,
+                'name'               => $request->f_name[$index],
                 'title'              => $request->f_title[$index],
-                'label'              => $request->f_label[$index],
                 'helper'             => $request->f_helper[$index],
                 'validation'         => $request->f_validation[$index],
-                'value'              => $request->f_value[$index],
+                'labels'              => $request->f_labels[$index],
+                'values'              => $request->f_values[$index],
                 'default'            => $request->f_default[$index],
                 'relationship_id'    => $request->has('f_relationship.' . $index) ? $request->f_relationship[$index] : '',
                 'relationship_name'  => $request->has('f_relationship.' . $index) ? isset($models[$request->f_relationship[$index]]) ? $models[$request->f_relationship[$index]] : '' : '',
@@ -213,8 +214,8 @@ class MenuController extends AdminController
         ]);
         $menu->roles()->sync($request->input('roles', []));
         // Create migrations
-        $migrationBuilder = new MigrationBuilder();
-        $migrationBuilder->build();
+//        $migrationBuilder = new MigrationBuilder();
+//        $migrationBuilder->build();
         // Create model
         $modelBuilder = new ModelBuilder();
         $modelBuilder->build();
@@ -229,7 +230,7 @@ class MenuController extends AdminController
         $viewsBuilder->build();
 
         // Call migrations
-        Artisan::call('migrate');
+//        Artisan::call('migrate');
 
         // Destroy our cache file
         $cache->destroy('fieldsinfo');

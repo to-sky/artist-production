@@ -137,22 +137,22 @@ class ViewsBuilder
         foreach ($this->fields as $field) {
             // Check if there is no duplication for radio and checkbox.
             // Password fields are excluded from the table too.
-            if (! in_array($field->title, $used)
+            if (! in_array($field->name, $used)
                 && $field->type != 'password'
                 && $field->type != 'textarea'
                 && $field->show == 1
             ) {
-                $headings .= "<th>$field->label</th>\r\n";
+                $headings .= "<th>$field->title</th>\r\n";
                 // Format our table column by field type
                 if ($field->type == 'relationship') {
                     $columns .= '<td>{{ isset($row->' . $field->relationship_name . '->' . $field->relationship_field . ') ? $row->' . $field->relationship_name . '->' . $field->relationship_field . " : '' }}</td>\r\n";
                     $used[$field->relationship_field] = $field->relationship_field;
                 } elseif ($field->type == 'photo') {
-                    $columns .= '<td>@if($row->' . $field->title . ' != \'\')<img src="{{ asset(\'uploads/thumb\') . \'/\'.  $row->' . $field->title . " }}\">@endif</td>\r\n";
-                    $used[$field->title] = $field->title;
+                    $columns .= '<td>@if($row->' . $field->name . ' != \'\')<img src="{{ asset(\'uploads/thumb\') . \'/\'.  $row->' . $field->title . " }}\">@endif</td>\r\n";
+                    $used[$field->name] = $field->name;
                 } else {
-                    $columns .= '<td>{{ $row->' . $field->title . " }}</td>\r\n";
-                    $used[$field->title] = $field->title;
+                    $columns .= '<td>{{ $row->' . $field->name . " }}</td>\r\n";
+                    $used[$field->name] = $field->name;
                 }
             }
         }
@@ -167,45 +167,51 @@ class ViewsBuilder
     {
         $form = '';
         foreach ($this->fields as $field) {
-            $title = addslashes($field->label);
-            $label = $field->title;
+            $name = $field->name;
+            $title = addslashes($field->title);
             if (in_array($field->validation,
                     $this->starred) && $field->type != 'password' && $field->type != 'file' && $field->type != 'photo'
             ) {
                 $title .= '*';
             }
             if ($field->type == 'relationship') {
-                $label = $field->relationship_name . '_id';
+                $name = $field->relationship_name . '_id';
             }
             if ($field->type == 'checkbox') {
-                $field->default = '$' . $this->singular_name . '->' . $label . ' == 1';
+                $field->default = '$' . $this->singular_name . '->' . $name . ' == 1';
             }
             $temp = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'Templates' . DIRECTORY_SEPARATOR . 'fields' . DIRECTORY_SEPARATOR . $field->type);
-            $temp = str_replace([
-                'old(\'$LABEL$\')',
-                '$LABEL$',
-                '$TITLE$',
-                '$VALUE$',
-                '$STATE$',
-                '$SELECT$',
-                '$TEXTEDITOR$',
-                '$HELPER$',
-                '$WIDTH$',
-                '$HEIGHT$',
-            ], [
-                'old(\'$LABEL$\',$' . $this->singular_name . '->' . $label . ')',
-                $label,
-                $title,
-                $field->type != 'radio' ?
-                    $field->value != '' ? ', "' . $field->value . '"' : ''
-                    : "'$field->value'",
-                $field->default,
-                '$' . $field->relationship_name,
-                $field->texteditor == 1 ? ' ckeditor' : '',
-                $this->helper($field->helper),
-                $field->dimension_w,
-                $field->dimension_h,
-            ], $temp);
+            $temp = str_replace(
+                [
+                    'old(\'$NAME$\')',
+                    '$NAME$',
+                    '$TITLE$',
+                    '$LABELS$',
+                    '$VALUES$',
+                    '$STATE$',
+                    '$SELECT$',
+                    '$TEXTEDITOR$',
+                    '$HELPER$',
+                    '$WIDTH$',
+                    '$HEIGHT$',
+                    '$SINGULAR$'
+                ],
+                [
+                    'old(\'$NAME$\',$' . $this->singular_name . '->' . $name . ')',
+                    $name,
+                    $title,
+                    $field->labels,
+                    $field->values,
+                    $field->default,
+                    '$' . $field->relationship_name,
+                    $field->texteditor == 1 ? ' ckeditor' : '',
+                    $this->helper($field->helper),
+                    $field->dimension_w,
+                    $field->dimension_h,
+                    $this->singular_name
+                ],
+                $temp
+            );
             $form .= $temp;
         }
         $this->formFieldsEdit = $form;
@@ -218,38 +224,44 @@ class ViewsBuilder
     {
         $form = '';
         foreach ($this->fields as $field) {
-            $title = addslashes($field->label);
-            $key   = $field->title;
+            $name = $field->name;
+            $title = addslashes($field->title);
             if (in_array($field->validation, $this->starred)) {
                 $title .= '*';
             }
             if ($field->type == 'relationship') {
-                $key = $field->relationship_name . '_id';
+                $name = $field->relationship_name . '_id';
             }
             $temp = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'Templates' . DIRECTORY_SEPARATOR . 'fields' . DIRECTORY_SEPARATOR . $field->type);
-            $temp = str_replace([
-                '$LABEL$',
-                '$TITLE$',
-                '$VALUE$',
-                '$STATE$',
-                '$SELECT$',
-                '$TEXTEDITOR$',
-                '$HELPER$',
-                '$WIDTH$',
-                '$HEIGHT$',
-            ], [
-                $key,
-                $title,
-                $field->type != 'radio' ?
-                    $field->value != '' ? ', ' . $field->value : ''
-                    : "'$field->value'",
-                $field->default,
-                '$' . $field->relationship_name,
-                $field->texteditor == 1 ? ' ckeditor' : '',
-                $this->helper($field->helper),
-                $field->dimension_w,
-                $field->dimension_h,
-            ], $temp);
+            $temp = str_replace(
+                [
+                    '$NAME$',
+                    '$TITLE$',
+                    '$LABELS$',
+                    '$VALUES$',
+                    '$STATE$',
+                    '$SELECT$',
+                    '$TEXTEDITOR$',
+                    '$HELPER$',
+                    '$WIDTH$',
+                    '$HEIGHT$',
+                    '$SINGULAR$'
+                ],
+                [
+                    $name,
+                    $title,
+                    $field->labels,
+                    $field->values,
+                    $field->default,
+                    '$' . $field->relationship_name,
+                    $field->texteditor == 1 ? ' ckeditor' : '',
+                    $this->helper($field->helper),
+                    $field->dimension_w,
+                    $field->dimension_h,
+                    $this->singular_name
+                ],
+                $temp
+            );
             $form .= $temp;
         }
         $this->formFieldsCreate = $form;

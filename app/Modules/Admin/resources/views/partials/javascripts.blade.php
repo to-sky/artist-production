@@ -3,11 +3,16 @@
 <!-- Bootstrap 3.3.5 -->
 <script src="{{ asset('/bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('/bower_components/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('/bower_components/jquery-ui/jquery-ui.min.js') }}"></script>
+<script src="{{ asset('/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+<script src="{{ asset('/bower_components/jquery-ui/ui/minified/core.min.js') }}"></script>
+<script src="{{ asset('/bower_components/jquery-ui/ui/minified/widget.min.js') }}"></script>
+<script src="{{ asset('/bower_components/jquery-ui/ui/minified/mouse.min.js') }}"></script>
+<script src="{{ asset('/bower_components/jquery-ui/ui/minified/sortable.min.js') }}"></script>
 <script src="{{ asset('/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
 <script src="{{ asset('/bower_components/admin-lte/plugins/pace/pace.js') }}"></script>
 <script src="{{ asset('/bower_components/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
 <script src="{{ asset('/bower_components/fastclick/lib/fastclick.js') }}"></script>
+{{--<script src="{{ asset('/bower_components/ckeditor/ckeditor.js') }}"></script>--}}
 <script src="{{ asset('/bower_components/admin-lte/dist/js/adminlte.min.js') }}"></script>
 
 <!-- page script -->
@@ -39,5 +44,5 @@
         var form = $(this).parents('form');
         form.submit();
     })
-    
+
 </script>

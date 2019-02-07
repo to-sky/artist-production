@@ -84,21 +84,21 @@
 
                         <table class="table">
                             <tbody id="generator">
-                                <tr>
-                                    <td>{{ trans('Admin::qa.menus-createCrud-show_in_list') }}</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                @if(old('f_type'))
-                                    @foreach(old('f_type') as $index => $fieldName)
-                                        @include('Admin::templates.menu_field_line', ['index' => $index])
-                                    @endforeach
-                                @else
-                                    @include('Admin::templates.menu_field_line', ['index' => ''])
-                                @endif
+                            <tr>
+                                <td>{{ trans('Admin::qa.menus-createCrud-show_in_list') }}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            @if(old('f_type'))
+                                @foreach(old('f_type') as $index => $fieldName)
+                                    @include('Admin::templates.menu_field_line', ['index' => $index])
+                                @endforeach
+                            @else
+                                @include('Admin::templates.menu_field_line', ['index' => ''])
+                            @endif
                             </tbody>
                         </table>
 
@@ -112,9 +112,9 @@
                     <hr/>
 
                     {{--<div class="form-group">--}}
-                        {{--<div class="col-md-12">--}}
-                            {{--{!! Form::submit(trans('Admin::qa.menus-createCrud-create_crud'), ['class' => 'btn btn-primary']) !!}--}}
-                        {{--</div>--}}
+                    {{--<div class="col-md-12">--}}
+                    {{--{!! Form::submit(trans('Admin::qa.menus-createCrud-create_crud'), ['class' => 'btn btn-primary']) !!}--}}
+                    {{--</div>--}}
                     {{--</div>--}}
                 </div>
 
@@ -136,7 +136,7 @@
     <div style="display: none;">
         <table>
             <tbody id="line">
-                @include('Admin::templates.menu_field_line', ['index' => ''])
+            @include('Admin::templates.menu_field_line', ['index' => ''])
             </tbody>
         </table>
 
@@ -150,8 +150,8 @@
                     </option>
                 @endforeach
             </select>
-        @endforeach
-                    <!-- /Select for relationship column-->
+    @endforeach
+    <!-- /Select for relationship column-->
     </div>
 
 @endsection
@@ -178,7 +178,8 @@
             $(e).parent().parent().parent().find('.show_hid').val(1);
             switch (val) {
                 case 'radio':
-                    $(e).parent().parent().find('.value').show();
+                    $(e).parent().parent().find('.values').show();
+                    $(e).parent().parent().find('.labels').show();
                     break;
                 case 'checkbox':
                     $(e).parent().parent().find('.default_c').show();

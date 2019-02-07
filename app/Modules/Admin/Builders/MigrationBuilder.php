@@ -85,7 +85,7 @@ class MigrationBuilder
                     '$STATE$',
                     '$RELATIONSHIP$',
                 ], [
-                    $field->title,
+                    $field->name,
                     $field->default == 'true' ? 1 : 0,
                     $field->relationship_name
                 ], $migrationTypes[$field->type]);
