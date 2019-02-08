@@ -37,7 +37,7 @@ class CityController extends AdminController {
 	 */
 	public function create()
 	{
-	    $countries = Country::pluck("name", "id")->prepend('Please select', 0);
+	    $countries = Country::orderby('name')->pluck("name", "id")->prepend('Please select', 0);
 
 
 	    return view('Admin::city.create', compact("countries"));
@@ -69,7 +69,6 @@ class CityController extends AdminController {
 	{
 		$city = City::find($id);
 	    $countries = Country::orderby('name')->pluck("name", "id")->prepend('Please select', 0);
-
 
 		return view('Admin::city.edit', compact('city', "countries"));
 	}

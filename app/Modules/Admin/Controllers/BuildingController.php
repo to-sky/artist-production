@@ -37,7 +37,7 @@ class BuildingController extends AdminController {
 	 */
 	public function create()
 	{
-	    $cities = City::pluck("name", "id")->prepend('Please select', 0);
+	    $cities = City::orderby('name')->pluck("name", "id")->prepend('Please select', 0);
 
 
 	    return view('Admin::building.create', compact("cities"));

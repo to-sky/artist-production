@@ -36,8 +36,6 @@ class CountryController extends AdminController {
 	 */
 	public function create()
 	{
-	    
-	    
 	    return view('Admin::country.create');
 	}
 
@@ -48,7 +46,7 @@ class CountryController extends AdminController {
 	 */
 	public function store(CreateCountryRequest $request)
 	{
-	    
+
 		Country::create($request->all());
 
         Alert::success(trans('Admin::admin.users-controller-successfully_created'))->flash();
@@ -66,8 +64,8 @@ class CountryController extends AdminController {
 	public function edit($id)
 	{
 		$country = Country::find($id);
-	    
-	    
+
+
 		return view('Admin::country.edit', compact('country'));
 	}
 
@@ -81,7 +79,7 @@ class CountryController extends AdminController {
 	{
 		$country = Country::findOrFail($id);
 
-        
+
 
 		$country->update($request->all());
 

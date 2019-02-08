@@ -37,7 +37,7 @@ class HallController extends AdminController {
 	 */
 	public function create()
 	{
-	    $buildings = Building::pluck("name", "id")->prepend('Please select', 0);
+	    $buildings = Building::orderby('name')->pluck("name", "id")->prepend('Please select', 0);
 
 
 	    return view('Admin::hall.create', compact("buildings"));

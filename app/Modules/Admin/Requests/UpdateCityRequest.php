@@ -24,9 +24,9 @@ class UpdateCityRequest extends FormRequest {
 	public function rules()
 	{
 		return [
-            'name' => 'required|unique:city,name,'.$this->city, 
-            'countries_id' => 'required|unique:city,countries,'.$this->city, 
-            
+            'name' => 'required|unique:cities,name,'.$this->city,
+            'countries_id' => 'required|unique:cities,countries_id,'.$this->city,
+
 		];
 	}
 }

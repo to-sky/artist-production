@@ -11,6 +11,8 @@ class City extends Model
      */
     protected $fillable = ['countries_id', 'name'];
 
+    public $timestamps = false;
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

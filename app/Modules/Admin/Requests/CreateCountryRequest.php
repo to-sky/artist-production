@@ -24,7 +24,7 @@ class CreateCountryRequest extends FormRequest {
 	public function rules()
 	{
 		return [
-            'name' => 'required|unique:country,name,'.$this->country
+            'name' => 'required|unique:countries,name,'.$this->country
 		];
 	}
 }

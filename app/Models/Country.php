@@ -12,6 +12,8 @@ class Country extends Model
      */
     protected $fillable = ['name'];
 
+    public $timestamps = false;
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
