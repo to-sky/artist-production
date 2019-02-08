@@ -18,7 +18,7 @@ class CreateEventsTable extends Migration {
 			$table->string('name');
 			$table->dateTime('date');
 			$table->boolean('is_active')->default(0);
-			$table->integer('tickets_return_expires')->default(0);
+			$table->integer('ticket_refund_period')->default(0);
             $table->unsignedInteger('buildings_id')->index('fk_events_buildings1_idx');
             $table->timestamps();
         });

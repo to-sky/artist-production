@@ -27,16 +27,16 @@
                 <div class="box-body row">
                     <div class="form-group col-md-12">
     {!! Form::label('name', 'Name*') !!}
-    {!! Form::text('name', old('$name'), array('class'=>'form-control')) !!}
-    
+    {!! Form::text('name', old('name'), array('class'=>'form-control')) !!}
+
 </div><div class="form-group col-md-12">
     {!! Form::label('buildings_id', 'Building*') !!}
     {!! Form::select('buildings_id', $buildings, old('buildings_id',$hall->buildings_id), array('class'=>'form-control')) !!}
-    
+
 </div><div class="form-group col-md-12">
     {!! Form::label('accounting_code', 'Accounting code') !!}
-    {!! Form::text('accounting_code', old('$accounting_code'), array('class'=>'form-control')) !!}
-    
+    {!! Form::text('accounting_code', old('accounting_code'), array('class'=>'form-control')) !!}
+
 </div>
                 </div>
 

@@ -26,8 +26,8 @@
                 <div class="box-body row">
                     <div class="form-group col-md-12">
     {!! Form::label('name', 'Name*') !!}
-    {!! Form::text('name', old('$name'), array('class'=>'form-control')) !!}
-    
+    {!! Form::text('name', old('name'), array('class'=>'form-control')) !!}
+
 </div>
                 </div>
 
