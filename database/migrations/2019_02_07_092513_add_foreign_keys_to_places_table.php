@@ -14,7 +14,9 @@ class AddForeignKeysToPlacesTable extends Migration {
 	{
 		Schema::table('places', function(Blueprint $table)
 		{
-			$table->foreign('zones_id', 'fk_places_zones1')->references('id')->on('zones')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+			$table->foreign('zones_id')
+                ->references('id')
+                ->on('zones')->onDelete('cascade');
 		});
 	}
 
@@ -28,7 +30,7 @@ class AddForeignKeysToPlacesTable extends Migration {
 	{
 		Schema::table('places', function(Blueprint $table)
 		{
-			$table->dropForeign('fk_places_zones1');
+			$table->dropForeign(['zones_id']);
 		});
 	}
 

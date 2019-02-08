@@ -14,8 +14,8 @@ class CreatePricePlaceTable extends Migration {
 	{
 		Schema::create('price_place', function(Blueprint $table)
 		{
-			$table->integer('place_id')->index('fk_places_has_prices_places1_idx');
-			$table->integer('price_id')->index('fk_places_has_prices_prices1_idx');
+			$table->unsignedInteger('place_id')->index('fk_places_has_prices_places1_idx');
+			$table->unsignedInteger('price_id')->index('fk_places_has_prices_prices1_idx');
 			$table->primary(['place_id','price_id']);
 		});
 	}

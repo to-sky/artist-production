@@ -14,12 +14,12 @@ class CreatePlacesTable extends Migration {
 	{
 		Schema::create('places', function(Blueprint $table)
 		{
-			$table->integer('id')->primary();
+			$table->increments('id');
 			$table->string('row_num', 191);
 			$table->string('place_num', 191);
 			$table->string('place_text', 191)->nullable();
 			$table->string('help_text', 191)->nullable();
-			$table->integer('zones_id')->index('fk_places_zones1_idx');
+			$table->unsignedInteger('zones_id');
 			$table->timestamps();
 		});
 	}
