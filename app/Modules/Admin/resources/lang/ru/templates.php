@@ -36,9 +36,14 @@ return [
   'templates-view_index-list' => 'Список',
   'templates-view_index-edit' => 'Редактировать',
   'templates-view_index-delete' => 'Удалить',
-  'templates-view_index-delete_checked' => 'Удалить отметку',
+  'templates-view_index-delete_checked' => 'Удалить отмеченное',
   'templates-view_index-confirm_deletion2' => 'Действительно хотите удалить?',  
   'templates-view_index-no_entries_found' => 'Ничего не найдено.',
   'templates-view_index-are_you_sure' => 'Уверены?',
+
+    // save buttons
+    'save-and-stay' => 'Сохранить и остаться',
+    'save-and-new' => 'Сохранить и новый',
+    'save-and-back' => 'Сохранить и назад'
 
 ];

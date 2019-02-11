@@ -33,7 +33,7 @@
                     {!! Form::open(['url' => 'logout']) !!}
                     <ul class="nav navbar-nav">
                         <li>
-                            <a id="logout-button" href="{{ route('logout') }}"><i class="fa fa-btn fa-sign-out"></i> {{ 'Logout' }}</a>
+                            <a id="logout-button" href="{{ route('logout') }}"><i class="fa fa-btn fa-sign-out"></i> {{ trans('Admin::auth.logout') }}</a>
                         </li>
                     </ul>
                     {!! Form::close() !!}

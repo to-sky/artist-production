@@ -34,6 +34,13 @@ class Client extends Model {
           'code',
           'comment'
     ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['fullname'];
     
 
     public static function boot()
@@ -41,6 +48,11 @@ class Client extends Model {
         parent::boot();
 
         Client::observe(new UserActionsObserver);
+    }
+
+    public function getFullnameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
     }
     
     

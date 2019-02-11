@@ -20,11 +20,12 @@ return [
 
     // auth-reset
     'reset-reset_password' => 'Reset password',
-    'reset-email' => 'Email',
+    'reset-email' => 'E-Mail Address',
     'reset-password' => 'Password',
     'reset-confirm_password' => 'Confirm password',
     'reset-btnreset_password' => 'Reset password',
 
+    'logout' => 'Logout',
     'register' => 'Register'
 
 ];

@@ -41,17 +41,18 @@ class ClientController extends AdminController {
 	    return view('Admin::client.create');
 	}
 
-	/**
-	 * Store a newly created client in storage.
-	 *
-     * @param CreateClientRequest|Request $request
-	 */
+    /**
+     * Store a newly created client in storage.
+     *
+     * @param CreateClientRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
 	public function store(CreateClientRequest $request)
 	{
 	    
 		Client::create($request->all());
 
-        Alert::success(trans('Admin::admin.users-controller-successfully_created'))->flash();
+        Alert::success(trans('Admin::admin.controller-successfully_created', ['item' => trans('Admin::models.Client')]))->flash();
 
         $this->redirectService->setRedirect($request);
         return $this->redirectService->redirect($request);
@@ -71,31 +72,31 @@ class ClientController extends AdminController {
 		return view('Admin::client.edit', compact('client'));
 	}
 
-	/**
-	 * Update the specified client in storage.
-     * @param UpdateClientRequest|Request $request
+    /**
+     * Update the specified client in storage.
      *
-	 * @param  int  $id
-	 */
+     * @param $id
+     * @param UpdateClientRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
 	public function update($id, UpdateClientRequest $request)
 	{
 		$client = Client::findOrFail($id);
 
-        
-
 		$client->update($request->all());
 
-        Alert::success(trans('Admin::admin.users-controller-successfully_created'))->flash();
+        Alert::success(trans('Admin::admin.controller-successfully_updated', ['item' => trans('Admin::models.Client')]))->flash();
 
         $this->redirectService->setRedirect($request);
         return $this->redirectService->redirect($request);
 	}
 
-	/**
-	 * Remove the specified client from storage.
-	 *
-	 * @param  int  $id
-	 */
+    /**
+     * Remove the specified client from storage.
+     *
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
 	public function destroy($id)
 	{
 		Client::destroy($id);
@@ -105,8 +106,8 @@ class ClientController extends AdminController {
 
     /**
      * Mass delete function from index page
-     * @param Request $request
      *
+     * @param Request $request
      * @return mixed
      */
     public function massDelete(Request $request)

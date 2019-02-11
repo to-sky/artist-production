@@ -3,7 +3,7 @@
     <li @if(Request::path() == 'dashboard') class="active" @endif>
         <a href="{{ url(config('admin.homeRoute')) }}">
             <i class="fa fa-dashboard"></i>
-            <span>{{ 'Dashboard' }}</span>
+            <span>{{ trans('Admin::admin.Dashboard') }}</span>
         </a>
     </li>
 
@@ -12,7 +12,7 @@
             <li @if(isset(explode('/',Request::path())[1]) && explode('/',Request::path())[1] == strtolower($menu->plural_name)) class="active" @endif>
                 <a href="{{ route(config('admin.route').'.'.strtolower($menu->plural_name).'.index') }}">
                     <i class="fa {{ $menu->icon }}"></i>
-                    <span class="title">{{ $menu->title }}</span>
+                    <span class="title">{{ trans('Admin::admin.' . $menu->title) }}</span>
                 </a>
             </li>
         @else
