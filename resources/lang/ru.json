@@ -1,0 +1,19 @@
+{
+    "First name*": "Имя*",
+    "First name": "Имя",
+    "Last name*": "Фамилия*",
+    "Last name": "Фамилия",
+    "Phone": "Телефон",
+    "Commission": "Комиссия",
+    "Code": "Код бухгалтерии",
+    "Comment": "Комментарий",
+    "Street": "Улица",
+    "House": "Дом",
+    "Apartment": "Квартира",
+    "Apart.": "Кв.",
+    "Post code": "Индекс",
+    "City": "Город",
+    "Country": "Страна",
+    "Address": "Адрес",
+    "Manage addresses": "Управление адресами"
+}

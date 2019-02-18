@@ -2,6 +2,8 @@
 
 namespace App\Modules\Admin\Controllers;
 
+use App\Models\Address;
+use App\Models\Country;
 use App\Modules\Admin\Controllers\AdminController;
 use Redirect;
 use Schema;
@@ -36,9 +38,10 @@ class ClientController extends AdminController {
 	 */
 	public function create()
 	{
+	    $countries = Country::pluck('name', 'id')->toArray();
+	    $addresses = [];
 	    
-	    
-	    return view('Admin::client.create');
+	    return view('Admin::client.create', compact('countries', 'addresses'));
 	}
 
     /**
@@ -49,8 +52,27 @@ class ClientController extends AdminController {
      */
 	public function store(CreateClientRequest $request)
 	{
-	    
-		Client::create($request->all());
+		$client = Client::create($request->all());
+
+		$addresses = $request->get('Addresses');
+
+		if (empty($addresses)) {
+            Address::create([
+                'first_name' => $request->get('first_name'),
+                'last_name' => $request->get('last_name'),
+                'street' => $request->get('street'),
+                'house' => $request->get('house'),
+                'apartment' => $request->get('apartment'),
+                'city' => $request->get('city'),
+                'country_id' => $request->get('country_id'),
+                'active' => Address::ACTIVE,
+                'client_id' => $client->id
+            ]);
+        } else {
+		    foreach ($addresses as $address) {
+		        Address::create($address + ['client_id' => $client->id]);
+            }
+        }
 
         Alert::success(trans('Admin::admin.controller-successfully_created', ['item' => trans('Admin::models.Client')]))->flash();
 
@@ -67,9 +89,10 @@ class ClientController extends AdminController {
 	public function edit($id)
 	{
 		$client = Client::find($id);
+        $countries = Country::pluck('name', 'id')->toArray();
+        $addresses = $client->addresses->toArray();
 	    
-	    
-		return view('Admin::client.edit', compact('client'));
+		return view('Admin::client.edit', compact('client', 'countries', 'addresses'));
 	}
 
     /**

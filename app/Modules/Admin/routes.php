@@ -34,6 +34,8 @@ Route::group([
     Route::get('home', 'DashboardController@index');
     Route::post('logout', 'Auth\LoginController@logout')->name('logout');
     Route::get('admin/reviews/dinners', 'ReviewController@dinners');
+    Route::post('addresses/manage', 'AddressController@manage')->name('addresses.manage');
+    Route::delete('addresses/{id}', 'AddressController@destroy')->name('addresses.destroy');
 });
 
 

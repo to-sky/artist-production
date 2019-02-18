@@ -17,6 +17,7 @@
     "tests"
   ],
   "dependencies": {
-    "admin-lte": "^2.4.8"
+    "admin-lte": "^2.4.8",
+    "jsrender": "^1.0.2"
   }
 }

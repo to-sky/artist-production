@@ -13,6 +13,7 @@
 <script src="{{ asset('/bower_components/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
 <script src="{{ asset('/bower_components/fastclick/lib/fastclick.js') }}"></script>
 {{--<script src="{{ asset('/bower_components/ckeditor/ckeditor.js') }}"></script>--}}
+<script src="{{ asset('/bower_components/jsrender/jsrender.min.js') }}"></script>
 <script src="{{ asset('/bower_components/admin-lte/dist/js/adminlte.min.js') }}"></script>
 
 <!-- page script -->
