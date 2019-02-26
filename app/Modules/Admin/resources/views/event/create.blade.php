@@ -1,9 +1,7 @@
 @extends('Admin::layouts.master')
 
 @section('page-header')
-
     @include('Admin::partials.page-header')
-
 @endsection
 
 @section('content')
@@ -25,52 +23,45 @@
 
                 <div class="box-body row">
                     <div class="form-group col-md-12">
-    {!! Form::label('name', 'Name*') !!}
-    {!! Form::text('name', old('name'), array('class'=>'form-control')) !!}
-
-</div><div class="form-group col-md-12">
-    {!! Form::label('date', 'Date*') !!}
-    {!! Form::text('date', old('date'), array('class'=>'form-control datetimepicker')) !!}
-    <p class="help-block">Event date and time</p>
-</div><div class="form-group col-md-12">
-    {!! Form::label('buildings_id', 'Building*') !!}
-    {!! Form::select('buildings_id', $buildings, old('buildings_id'), array('class'=>'form-control')) !!}
-
-</div><div class="form-group col-md-12">
-    {!! Form::label('ticket_refund_period', 'Ticket refund period') !!}
-    {!! Form::text('ticket_refund_period', old('ticket_refund_period'), array('class'=>'form-control')) !!}
-
-</div><div class="form-group col-md-12">
-    {!! Form::label('is_active', 'Active') !!}
-    {!! Form::hidden('is_active','') !!}
-    <div class="checkbox">
-        <label>
-            {!! Form::checkbox('is_active', 1, false) !!}
-            Active
-        </label>
-    </div>
-    <p class="help-block">Check this if event is active</p>
-</div>
+                        {!! Form::label('name', 'Name*') !!}
+                        {!! Form::text('name', old('name'), array('class'=>'form-control')) !!}
+                    </div>
+                    <div class="form-group col-md-12">
+                        {!! Form::label('date', 'Date*') !!}
+                        {!! Form::text('date', old('date'), array('class'=>'form-control datetimepicker')) !!}
+                        <p class="help-block">Select date and time event</p>
+                    </div>
+                    <div class="form-group col-md-12">
+                        {!! Form::label('city_id', 'City*') !!}
+                        {!! Form::select('city_id', $cities, old('city_id'), array('class'=>'form-control')) !!}
+                    </div>
+                    <div class="form-group col-md-12">
+                        {!! Form::label('building_id', 'Building*') !!}
+                        {!! Form::select('building_id', $buildings, old('building_id'), array('class'=>'form-control', 'disabled')) !!}
+                    </div>
+                    <div class="form-group col-md-12">
+                        {!! Form::label('hall_id', 'Hall*') !!}
+                        {!! Form::select('hall_id', $halls, old('hall_id'), array('class'=>'form-control', 'disabled')) !!}
+                    </div>
+                    <div class="form-group col-md-12">
+                        {!! Form::label('ticket_refund_period', 'Ticket refund period') !!}
+                        {!! Form::text('ticket_refund_period', old('ticket_refund_period'), array('class'=>'form-control')) !!}
+                    </div>
                 </div>
 
                 <div class="box-footer">
-
                     @include('Admin::partials.save-buttons')
-
                 </div>
-
             </div>
-
             {!! Form::close() !!}
-
         </div>
-
     </div>
-
 @endsection
 
 @section('after_scripts')
-
     @include('Admin::partials.form-scripts')
 
+    <script>
+        // $('#city_id').select2();
+    </script>
 @endsection

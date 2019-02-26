@@ -3,22 +3,33 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Modules\Admin\Observers\UserActionsObserver;
 use Carbon\Carbon;
 
 
-class Event extends Model
-{
-    /**
-     * @var array
-     */
-    protected $fillable = ['buildings_id', 'name', 'date', 'is_active', 'ticket_refund_period', 'created_at', 'updated_at'];
+class Event extends Model {
+
+    protected $fillable = [
+          'name',
+          'date',
+          'is_active',
+          'hall_id',
+          'ticket_refund_period'
+    ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        Event::observe(new UserActionsObserver);
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function buildings()
+    public function hall()
     {
-        return $this->belongsTo('App\Models\Building', 'buildings_id');
+        return $this->belongsTo(Hall::class);
     }
 
     /**
@@ -43,7 +54,7 @@ class Event extends Model
     public function getDateAttribute($input)
     {
         if($input != '0000-00-00') {
-            return Carbon::createFromFormat('Y-m-d H:i:s', $input)->format(config('admin.date_format') . ' ' .config('admin.time_format'));
+            return Carbon::createFromFormat('Y-m-d H:i:s', $input);
         }else{
             return '';
         }

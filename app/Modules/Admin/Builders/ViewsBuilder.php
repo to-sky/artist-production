@@ -169,14 +169,18 @@ class ViewsBuilder
         foreach ($this->fields as $field) {
             $name = $field->name;
             $title = addslashes($field->title);
-            if (in_array($field->validation,
-                    $this->starred) && $field->type != 'password' && $field->type != 'file' && $field->type != 'photo'
+            if (in_array($field->validation, $this->starred)
+                && $field->type != 'password'
+                && $field->type != 'file'
+                && $field->type != 'photo'
             ) {
                 $title .= '*';
             }
+
             if ($field->type == 'relationship') {
                 $name = $field->relationship_name . '_id';
             }
+
             if ($field->type == 'checkbox') {
                 $field->default = '$' . $this->singular_name . '->' . $name . ' == 1';
             }

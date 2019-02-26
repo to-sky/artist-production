@@ -27,30 +27,28 @@
                 <div class="box-body row">
                     <div class="form-group col-md-12">
     {!! Form::label('name', 'Name*') !!}
-    {!! Form::text('name', old('name'), array('class'=>'form-control')) !!}
-
+    {!! Form::text('name', old('$name'), array('class'=>'form-control')) !!}
+    
 </div><div class="form-group col-md-12">
     {!! Form::label('date', 'Date*') !!}
-    {!! Form::text('date', old('date',$event->date), array('class'=>'form-control datetimepicker')) !!}
-    <p class="help-block">Event date and time</p>
+    {!! Form::text('$date', old('date',$event->date), array('class'=>'form-control datetimepicker')) !!}
+    <p class="help-block">Select date and time event</p>
 </div><div class="form-group col-md-12">
-    {!! Form::label('buildings_id', 'Building*') !!}
-    {!! Form::select('buildings_id', $buildings, old('buildings_id',$event->buildings_id), array('class'=>'form-control')) !!}
-
+    {!! Form::label('users_id', 'City*') !!}
+    {!! Form::select('users_id', $users, old('users_id',$event->users_id), array('class'=>'form-control')) !!}
+    
+</div><div class="form-group col-md-12">
+    {!! Form::label('users_id', 'Building*') !!}
+    {!! Form::select('users_id', $users, old('users_id',$event->users_id), array('class'=>'form-control')) !!}
+    
+</div><div class="form-group col-md-12">
+    {!! Form::label('users_id', 'Hall*') !!}
+    {!! Form::select('users_id', $users, old('users_id',$event->users_id), array('class'=>'form-control')) !!}
+    
 </div><div class="form-group col-md-12">
     {!! Form::label('ticket_refund_period', 'Ticket refund period') !!}
-    {!! Form::text('ticket_refund_period', old('ticket_refund_period'), array('class'=>'form-control')) !!}
-
-</div><div class="form-group col-md-12">
-    {!! Form::label('is_active', 'Active') !!}
-    {!! Form::hidden('is_active','') !!}
-    <div class="checkbox">
-        <label>
-            {!! Form::checkbox('is_active', 1, $event->is_active == 1) !!}
-            Active
-        </label>
-    </div>
-    <p class="help-block">Check this if event is active</p>
+    {!! Form::text('ticket_refund_period', old('$ticket_refund_period'), array('class'=>'form-control')) !!}
+    
 </div>
                 </div>
 

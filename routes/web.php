@@ -12,5 +12,13 @@
 */
 
 Route::get('/', function () {
+    $api = new \App\Libs\Kartina\Api();
+
+    $result = $api->storeHallSchema(581834836);
+//    $result = $api->getAuth();
+//    $result = $api->getBuildingsFromCache();
+
+    dd($result);
+
     return view('welcome');
 });

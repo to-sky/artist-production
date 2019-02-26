@@ -62,6 +62,10 @@
             format: "yyyy-mm-dd"
         });
 
+        $('.datetimepicker').datetimepicker({
+            format: 'Y-MM-D HH:mm'
+        });
+
 //        $('.ckeditor').each(function () {
 //            CKEDITOR.replace($(this));
 //        })

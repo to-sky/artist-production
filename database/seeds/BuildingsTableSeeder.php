@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Building;
+use App\Libs\Kartina\Api;
 use Illuminate\Database\Seeder;
 
 class BuildingsTableSeeder extends Seeder
@@ -9,9 +9,10 @@ class BuildingsTableSeeder extends Seeder
      * Run the database seeds.
      *
      * @return void
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function run()
     {
-        factory(Building::class, 50)->create();
+        //
     }
 }

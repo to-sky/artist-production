@@ -39,51 +39,6 @@ class MenuTableSeeder extends Seeder
                 'position' => 3,
                 'roles' => 1
             ],
-            'country' => [
-                'singular_name' => 'country',
-                'plural_name' => 'countries',
-                'icon' => 'fa-globe',
-                'title' => 'Countries',
-                'menu_type' => 1,
-                'position' => 4,
-                'roles' => 1
-            ],
-            'city' => [
-                'singular_name' => 'city',
-                'plural_name' => 'cities',
-                'icon' => 'fa-location-arrow',
-                'title' => 'Cities',
-                'menu_type' => 1,
-                'position' => 5,
-                'roles' => 1
-            ],
-            'building' => [
-                'singular_name' => 'building',
-                'plural_name' => 'buildings',
-                'icon' => 'fa-building',
-                'title' => 'Buildings',
-                'menu_type' => 1,
-                'position' => 1,
-                'roles' => 1
-            ],
-            'hall' => [
-                'singular_name' => 'hall',
-                'plural_name' => 'halls',
-                'icon' => 'fa-columns',
-                'title' => 'Halls',
-                'menu_type' => 1,
-                'position' => 2,
-                'roles' => 1
-            ],
-            'event' => [
-                'singular_name' => 'event',
-                'plural_name' => 'events',
-                'icon' => 'fa-calendar',
-                'title' => 'Events',
-                'menu_type' => 1,
-                'position' => 3,
-                'roles' => 1
-            ],
             'client' => [
                 'singular_name' => 'client',
                 'plural_name' => 'clients',
@@ -92,7 +47,7 @@ class MenuTableSeeder extends Seeder
                 'menu_type' => 1,
                 'position' => 8,
                 'roles' => 1
-            ]
+            ],
         ];
 
         foreach ($menu as $entity => $data) {

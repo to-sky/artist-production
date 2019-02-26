@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Hall;
+use App\Libs\Kartina\Api;
 use Illuminate\Database\Seeder;
 
 class HallsTableSeeder extends Seeder
@@ -12,6 +12,6 @@ class HallsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Hall::class, 100)->create();
+        //
     }
 }

@@ -4,29 +4,32 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @property int $id
- * @property int $buildings_id
- * @property string $name
- * @property string $accounting_code
- * @property string $created_at
- * @property string $updated_at
- * @property Building $building
- * @property Place[] $places
- */
 class Hall extends Model
 {
-    /**
-     * @var array
-     */
-    protected $fillable = ['buildings_id', 'name', 'accounting_code', 'created_at', 'updated_at'];
+    protected $fillable = ['name', 'building_id', 'kartina_id'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function buildings()
+    public function building()
     {
-        return $this->belongsTo('App\Models\Building', 'buildings_id');
+        return $this->belongsTo(Building::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function zones()
+    {
+        return $this->hasMany(Zone::class);
     }
 
     /**
@@ -34,6 +37,6 @@ class Hall extends Model
      */
     public function places()
     {
-        return $this->hasMany('App\Models\Place', 'halls_id');
+        return $this->hasMany(Place::class);
     }
 }
