@@ -29,4 +29,19 @@ class AdminController extends Controller
         $this->redirectService = $redirectService;
     }
 
+    /**
+     * Returns datatables jquery plugin translation json
+     *
+     * @param $locale
+     * @return mixed
+     */
+    public function dataTablesLocale($locale)
+    {
+        $path = base_path('app/Modules/Admin/resources/lang/dataTables/' . $locale . '.json');
+
+        if (is_file($path)) {
+            return json_decode(file_get_contents($path), true);
+        }
+    }
+
 }

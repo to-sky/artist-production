@@ -34,6 +34,9 @@ Route::group([
     Route::get('home', 'DashboardController@index');
     Route::post('logout', 'Auth\LoginController@logout')->name('logout');
     Route::get('admin/reviews/dinners', 'ReviewController@dinners');
+    Route::post('addresses/manage', 'AddressController@manage')->name('addresses.manage');
+    Route::delete('addresses/{id}', 'AddressController@destroy')->name('addresses.destroy');
+    Route::get('dataTables/locale/{locale}', 'AdminController@dataTablesLocale')->name('dataTables.locale');
 });
 
 
@@ -66,8 +69,11 @@ if (Schema::hasTable('menus')) {
                         break;
                 }
             }
+
+            Route::get('clients/excel', 'ClientController@excel')->name('clients.excel');
         });
     }
+
 }
 
 Route::group([

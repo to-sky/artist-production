@@ -9,7 +9,10 @@
                     targets: 'no-sort',
                     orderable: false
                 }
-            ]
+            ],
+            language: {
+                url: '{{ route('dataTables.locale', ['locale' => App::getLocale()]) }}'
+            }
         });
 
         $('#datatable').on('click', '.delete-button', function(e){
