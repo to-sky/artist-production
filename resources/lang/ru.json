@@ -5,6 +5,7 @@
     "Last name": "Фамилия",
     "Phone": "Телефон",
     "Commission": "Комиссия",
+    "Commission %": "Комиссия, %",
     "Code": "Код бухгалтерии",
     "Comment": "Комментарий",
     "Street": "Улица",
@@ -15,5 +16,9 @@
     "City": "Город",
     "Country": "Страна",
     "Address": "Адрес",
-    "Manage addresses": "Управление адресами"
+    "Manage addresses": "Управление адресами",
+    "Full name": "Ф.И.О.",
+    "Type": "Тип",
+    "Export": "Экспорт",
+    "Clients list": "Список клиентов"
 }

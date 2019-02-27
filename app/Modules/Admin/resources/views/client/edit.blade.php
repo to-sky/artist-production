@@ -7,30 +7,6 @@
 @endsection
 
 @section('content')
-    <style>
-        .modal {
-            text-align: center;
-            padding: 0!important;
-        }
-
-        .modal:before {
-            content: '';
-            display: inline-block;
-            height: 100%;
-            vertical-align: middle;
-            margin-right: -4px; /* Adjusts for spacing */
-        }
-
-        .modal-dialog {
-            display: inline-block;
-            text-align: left;
-            vertical-align: middle;
-        }
-
-        #address-table th, td{
-            padding: 5px;
-        }
-    </style>
 
     <div class="row">
 
@@ -143,11 +119,56 @@
 
 @endsection
 
+@section('after_styles')
+    <link rel="stylesheet" href="{{ asset('/bower_components/intl-tel-input/build/css/intlTelInput.min.css') }}">
+
+    <style>
+        .modal {
+            text-align: center;
+            padding: 0!important;
+        }
+
+        .modal:before {
+            content: '';
+            display: inline-block;
+            height: 100%;
+            vertical-align: middle;
+            margin-right: -4px; /* Adjusts for spacing */
+        }
+
+        .modal-dialog {
+            display: inline-block;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        #address-table th, td{
+            padding: 5px;
+        }
+
+        .intl-tel-input {
+            display: block;
+        }
+
+    </style>
+@endsection
+
 @section('after_scripts')
+    <script src="{{ asset('/bower_components/intl-tel-input/build/js/intlTelInput-jquery.min.js') }}"></script>
 
     @include('Admin::partials.form-scripts')
 
     <script>
+
+        var countryCodes = @json($countryCodes);
+
+        $("#phone").intlTelInput({
+            autoHideDialCode: false,
+            nationalMode: false,
+            preferredCountries: ['UA', 'RU', 'BY', 'US', 'UK', 'DE', 'AT'],
+            initialCountry: 'DE',
+            onlyCountries: countryCodes,
+        });
 
         $(document).on('click', '#manage-addresses', function (event) {
             $('#modalForm').modal('show');
@@ -229,10 +250,10 @@
         }
 
         function saveAddresses() {
-            data = [];
+            var addresses = [];
 
             $.each($('.address-row'), function(index, item){
-                data.push({
+                addresses.push({
                     first_name: $(this).find('.first-name').val(),
                     last_name: $(this).find('.last-name').val(),
                     street: $(this).find('.street').val(),
@@ -248,7 +269,7 @@
 
             $.ajax({
                 url: '{!! route('addresses.manage') !!}',
-                data: {addresses: data, client_id: '{!! $client->id !!}'},
+                data: {addresses: addresses, client_id: '{!! $client->id !!}'},
                 dataType: 'json',
                 type: 'POST',
                 success: function(response) {

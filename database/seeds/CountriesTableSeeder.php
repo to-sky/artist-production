@@ -17,7 +17,8 @@ class CountriesTableSeeder extends Seeder
         foreach ($countries as $country) {
             factory(\App\Models\Country::class)->create([
                 'kartina_id' => $country['kartina_id'],
-                'name' =>  $country['name']
+                'name' =>  $country['name'],
+                'code' => $country['code']
             ]);
         }
     }

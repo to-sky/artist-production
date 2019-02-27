@@ -16,6 +16,7 @@ class AlterCountriesTable extends Migration
         Schema::table('countries', function(Blueprint $table)
         {
             $table->string('kartina_id')->nullable();
+            $table->string('code')->nullable();
         });
     }
 
@@ -29,6 +30,7 @@ class AlterCountriesTable extends Migration
         Schema::table('countries', function(Blueprint $table)
         {
             $table->dropColumn('kartina_id');
+            $table->dropColumn('code');
         });
     }
 }

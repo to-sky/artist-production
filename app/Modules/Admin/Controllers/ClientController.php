@@ -11,6 +11,9 @@ use App\Models\Client;
 use App\Modules\Admin\Requests\CreateClientRequest;
 use App\Modules\Admin\Requests\UpdateClientRequest;
 use Illuminate\Http\Request;
+use App\Exports\ClientsExport;
+use Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 
 use Prologue\Alerts\Facades\Alert;
@@ -39,9 +42,10 @@ class ClientController extends AdminController {
 	public function create()
 	{
 	    $countries = Country::pluck('name', 'id')->toArray();
+        $countryCodes = Country::pluck('code')->toArray();
 	    $addresses = [];
 	    
-	    return view('Admin::client.create', compact('countries', 'addresses'));
+	    return view('Admin::client.create', compact('countries', 'countryCodes', 'addresses'));
 	}
 
     /**
@@ -91,8 +95,9 @@ class ClientController extends AdminController {
 		$client = Client::find($id);
         $countries = Country::pluck('name', 'id')->toArray();
         $addresses = $client->addresses->toArray();
+        $countryCodes = Country::pluck('code')->toArray();
 	    
-		return view('Admin::client.edit', compact('client', 'countries', 'addresses'));
+		return view('Admin::client.edit', compact('client', 'countries', 'countryCodes', 'addresses'));
 	}
 
     /**
@@ -143,6 +148,11 @@ class ClientController extends AdminController {
         }
 
         return redirect()->route(config('admin.route').'.clients.index');
+    }
+
+    public function excel()
+    {
+        return Excel::download(new ClientsExport(), 'clients.xlsx');
     }
 
 }

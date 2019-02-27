@@ -13,6 +13,9 @@
             <a href="{{ route(config('admin.route').'.clients.create') }}" class="btn btn-primary" data-style="zoom-in">
                 <span class="ladda-label"><i class="fa fa-plus"></i> {{ trans('Admin::admin.add-new', ['item' => trans('Admin::models.' . $menu->singular_name)]) }}</span>
             </a>
+            <a href="{{ route(config('admin.route').'.clients.excel') }}" class="btn btn-success">
+                <span><i class="fa fa-file-excel-o"></i> {{ __('Export') }}</span>
+            </a>
         </div>
 
         <div class="box-body">
@@ -22,12 +25,12 @@
                     <th class="no-sort" width="5%" style="text-align: center">
                         {!! Form::checkbox('delete_all',1,false,['class' => 'mass']) !!}
                     </th>
-                    <th>Full name</th>
-                    <th>Comission %</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Type</th>
-                    <th>Comment</th>
+                    <th>{{ __('Full name') }}</th>
+                    <th>{{ __('Commission %') }}</th>
+                    <th>{{ __('Email') }}</th>
+                    <th>{{ __('Phone') }}</th>
+                    <th>{{ __('Type') }}</th>
+                    <th>{{ __('Comment') }}</th>
 
                     <th>&nbsp;</th>
                 </tr>
