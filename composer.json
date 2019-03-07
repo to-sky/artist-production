@@ -17,7 +17,7 @@
         "prologue/alerts": "^0.4.3",
         "symfony/dom-crawler": "^4.2",
         "ext-json": "*",
-        "maatwebsite/excel": "^3.1",
+        "maatwebsite/excel": "^3.1"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
