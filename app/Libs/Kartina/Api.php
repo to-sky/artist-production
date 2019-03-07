@@ -25,13 +25,7 @@ class Api extends Base
      *
      * @var array
      */
-    protected $urls = [
-        'getAuth' => 'https://kassir.kartina.tv/LoginCommand.cmd',
-        'getCities' => 'https://kassir.kartina.tv/GetCities.cmd',
-        'getBuildings' => 'https://kassir.kartina.tv/GetBuildings.cmd',
-        'getHalls' => 'https://kassir.kartina.tv/GetHalls.cmd',
-        'getHallSchema' => 'https://kassir.kartina.tv/GetFlashHallDataCommand.cmd',
-    ];
+    protected $urls;
 
     /**
      * Api constructor.
@@ -42,6 +36,7 @@ class Api extends Base
     {
         parent::__construct();
 
+        $this->urls = config('kartina.api');
         $this->auth = $this->getAuth();
     }
 
