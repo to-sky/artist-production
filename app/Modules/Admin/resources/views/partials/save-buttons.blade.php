@@ -5,8 +5,7 @@
     <div class="btn-group">
 
         <button type="submit" class="btn btn-success">
-            <span class="fa fa-save" role="presentation" aria-hidden="true"></span> &nbsp;
-            <span data-redrect="{{ $saveButtons['active']['redirect'] }}">{{ $saveButtons['active']['text'] }}</span>
+            <span class="fa fa-save" role="presentation" aria-hidden="true"></span> <span data-redrect="{{ $saveButtons['active']['redirect'] }}">{{ $saveButtons['active']['text'] }}</span>
         </button>
 
         <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aira-expanded="false">
@@ -22,5 +21,5 @@
 
     </div>
 
-    <a href="{{ route(config('admin.route') . '.' . $menu->plural_name . '.index') }}" class="btn btn-default"><span class="fa fa-ban"></span> &nbsp;{{ trans('Admin::admin.cancel') }}</a>
+    <a href="{{ route(config('admin.route') . '.' . $menu->plural_name . '.index') }}" class="btn btn-default"><span class="fa fa-ban"></span>&nbsp;{{ trans('Admin::admin.cancel') }}</a>
 </div>

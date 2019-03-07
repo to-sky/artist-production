@@ -45,13 +45,14 @@ class $CLASS$ extends AdminController {
 	 * Store a newly created $SINGULAR$ in storage.
 	 *
      * @param $CREATEREQUESTNAME$|Request $request
+     * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function store($CREATEREQUESTNAME$ $request)
 	{
 	    $FILESAVING$
 		$MODEL$::create($request->all());
 
-        Alert::success(trans('Admin::admin.users-controller-successfully_created'))->flash();
+        Alert::success(trans('Admin::admin.controller-successfully_created', ['item' => trans('Admin::models.$CLASS$')]))->flash();
 
         $this->redirectService->setRedirect($request);
         return $this->redirectService->redirect($request);
@@ -73,9 +74,10 @@ class $CLASS$ extends AdminController {
 
 	/**
 	 * Update the specified $SINGULAR$ in storage.
+	 *
      * @param $UPDATEREQUESTNAME$|Request $request
-     *
-	 * @param  int  $id
+	 * @param $id
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function update($id, $UPDATEREQUESTNAME$ $request)
 	{
@@ -85,7 +87,7 @@ class $CLASS$ extends AdminController {
 
 		$$SINGULAR$->update($request->all());
 
-        Alert::success(trans('Admin::admin.users-controller-successfully_created'))->flash();
+        Alert::success(trans('Admin::admin.controller-successfully_created', ['item' => trans('Admin::models.$CLASS$')]))->flash();
 
         $this->redirectService->setRedirect($request);
         return $this->redirectService->redirect($request);
@@ -94,7 +96,8 @@ class $CLASS$ extends AdminController {
 	/**
 	 * Remove the specified $SINGULAR$ from storage.
 	 *
-	 * @param  int  $id
+	 * @param $id
+     * @return \Illuminate\Http\JsonResponse
 	 */
 	public function destroy($id)
 	{
@@ -105,8 +108,8 @@ class $CLASS$ extends AdminController {
 
     /**
      * Mass delete function from index page
-     * @param Request $request
      *
+     * @param Request $request
      * @return mixed
      */
     public function massDelete(Request $request)

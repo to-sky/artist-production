@@ -6,7 +6,7 @@
             <div class="box box-default">
 
                 <div class="box-header with-border">
-                    <div class="box-title">Reset Password</div>
+                    <div class="box-title">{{ __('Admin::auth.reset-reset_password') }}</div>
                 </div>
 
                 <div class="box-body">
@@ -20,7 +20,7 @@
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                            <label for="email" class="col-md-4 control-label">{{ __('Admin::auth.reset-email') }}</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
@@ -37,7 +37,7 @@
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-btn fa-envelope"></i>
-                                    Send Password Reset Link
+                                    {{ __('Admin::auth.password-btnsend_password') }}
                                 </button>
                             </div>
                         </div>

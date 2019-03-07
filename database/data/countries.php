@@ -2,851 +2,1063 @@
 
 return [
     [
+        'kartina_id' => '3128121',
         'name' => 'Albania',
-        'kartina_id' => '3128121'
+        'code' => 'AL'
     ],
     [
+        'kartina_id' => '3128211',
         'name' => 'Algeria',
-        'kartina_id' => '3128211'
+        'code' => 'DZ'
     ],
     [
+        'kartina_id' => '3128020',
         'name' => 'Andorra',
-        'kartina_id' => '3128020'
+        'code' => 'AD'
     ],
     [
+        'kartina_id' => '3128021',
         'name' => 'Angola',
-        'kartina_id' => '3128021'
+        'code' => 'AO'
     ],
     [
+        'kartina_id' => '3128209',
         'name' => 'Argentina',
-        'kartina_id' => '3128209'
+        'code' => 'AR'
     ],
     [
+        'kartina_id' => '3128006',
         'name' => 'Armenia',
-        'kartina_id' => '3128006'
+        'code' => 'AM'
     ],
     [
+        'kartina_id' => '3128022',
         'name' => 'Aruba',
-        'kartina_id' => '3128022'
+        'code' => 'AW'
     ],
     [
+        'kartina_id' => '3128200',
         'name' => 'Australia',
-        'kartina_id' => '3128200'
+        'code' => 'AU'
     ],
     [
+        'kartina_id' => '484077',
         'name' => 'Austria',
-        'kartina_id' => '484077'
+        'code' => 'AT'
     ],
     [
+        'kartina_id' => '3128007',
         'name' => 'Azerbaijan',
-        'kartina_id' => '3128007'
+        'code' => 'AZ'
     ],
     [
+        'kartina_id' => '3128023',
         'name' => 'Bahamas',
-        'kartina_id' => '3128023'
+        'code' => 'BS'
     ],
     [
+        'kartina_id' => '3128024',
         'name' => 'Bahrain',
-        'kartina_id' => '3128024'
+        'code' => 'BH'
     ],
     [
+        'kartina_id' => '3128025',
         'name' => 'Belarus',
-        'kartina_id' => '3128025'
+        'code' => 'BY'
     ],
     [
+        'kartina_id' => '3128026',
         'name' => 'Belgium',
-        'kartina_id' => '3128026'
+        'code' => 'BE'
     ],
     [
+        'kartina_id' => '3128027',
         'name' => 'Belize',
-        'kartina_id' => '3128027'
+        'code' => 'BZ'
     ],
     [
+        'kartina_id' => '3128028',
         'name' => 'Benin',
-        'kartina_id' => '3128028'
+        'code' => 'BJ'
     ],
     [
+        'kartina_id' => '3128001',
         'name' => 'Bhutan',
-        'kartina_id' => '3128001'
+        'code' => 'BT'
     ],
     [
+        'kartina_id' => '3128029',
         'name' => 'Bolivia',
-        'kartina_id' => '3128029'
+        'code' => 'BO'
     ],
     [
+        'kartina_id' => '3128030',
         'name' => 'Bosnia and Herzegowina',
-        'kartina_id' => '3128030'
+        'code' => 'BA'
     ],
     [
+        'kartina_id' => '3128031',
         'name' => 'Botswana',
-        'kartina_id' => '3128031'
+        'code' => 'BW'
     ],
     [
+        'kartina_id' => '3128206',
         'name' => 'Brazil',
-        'kartina_id' => '3128206'
+        'code' => 'BR'
     ],
     [
+        'kartina_id' => '3128032',
         'name' => 'British Indian Ocean Territory',
-        'kartina_id' => '3128032'
+        'code' => 'IO'
     ],
     [
+        'kartina_id' => '3128002',
         'name' => 'Brunei',
-        'kartina_id' => '3128002'
+        'code' => 'BN'
     ],
     [
+        'kartina_id' => '3128033',
         'name' => 'Bulgaria',
-        'kartina_id' => '3128033'
+        'code' => 'BG'
     ],
     [
+        'kartina_id' => '3128034',
         'name' => 'Burkina Faso',
-        'kartina_id' => '3128034'
+        'code' => 'BF'
     ],
     [
+        'kartina_id' => '3128035',
         'name' => 'Burundi',
-        'kartina_id' => '3128035'
+        'code' => 'BI'
     ],
     [
+        'kartina_id' => '3128003',
         'name' => 'Cambodia',
-        'kartina_id' => '3128003'
+        'code' => 'KH'
     ],
     [
+        'kartina_id' => '3128036',
         'name' => 'Cameroon',
-        'kartina_id' => '3128036'
+        'code' => 'CM'
     ],
     [
+        'kartina_id' => '3128037',
         'name' => 'Canada',
-        'kartina_id' => '3128037'
+        'code' => 'CA'
     ],
     [
+        'kartina_id' => '3128038',
         'name' => 'Cayman Islands',
-        'kartina_id' => '3128038'
+        'code' => 'KY'
     ],
     [
+        'kartina_id' => '3128039',
         'name' => 'Central African Republic',
-        'kartina_id' => '3128039'
+        'code' => 'CF'
     ],
     [
+        'kartina_id' => '3128018',
         'name' => 'Chile',
-        'kartina_id' => '3128018'
+        'code' => 'CL'
     ],
     [
+        'kartina_id' => '3128201',
         'name' => 'China',
-        'kartina_id' => '3128201'
+        'code' => 'CN'
     ],
     [
+        'kartina_id' => '3128040',
         'name' => 'Christmas Island',
-        'kartina_id' => '3128040'
+        'code' => 'CX'
     ],
     [
+        'kartina_id' => '3128041',
         'name' => 'Cocos (Keeling) Islands',
-        'kartina_id' => '3128041'
+        'code' => 'CC'
     ],
     [
+        'kartina_id' => '3128208',
         'name' => 'Colombia',
-        'kartina_id' => '3128208'
+        'code' => 'CO'
     ],
     [
+        'kartina_id' => '3128042',
         'name' => 'Cook Islands',
-        'kartina_id' => '3128042'
+        'code' => 'CK'
     ],
     [
+        'kartina_id' => '3128043',
         'name' => 'Costa Rica',
-        'kartina_id' => '3128043'
+        'code' => 'CR'
     ],
     [
+        'kartina_id' => '3128044',
         'name' => 'Cote D\'Ivoire',
-        'kartina_id' => '3128044'
+        'code' => 'CI'
     ],
     [
+        'kartina_id' => '3128045',
         'name' => 'Croatia',
-        'kartina_id' => '3128045'
+        'code' => 'HR'
     ],
     [
+        'kartina_id' => '3128046',
         'name' => 'Cuba',
-        'kartina_id' => '3128046'
+        'code' => 'CU'
     ],
     [
+        'kartina_id' => '3128047',
         'name' => 'Cyprus',
-        'kartina_id' => '3128047'
+        'code' => 'CY'
     ],
     [
+        'kartina_id' => '3128048',
         'name' => 'Czech Republic',
-        'kartina_id' => '3128048'
+        'code' => 'CZ'
     ],
     [
+        'kartina_id' => '3128049',
         'name' => 'Denmark',
-        'kartina_id' => '3128049'
+        'code' => 'DK'
     ],
     [
+        'kartina_id' => '3128050',
         'name' => 'Dominica',
-        'kartina_id' => '3128050'
+        'code' => 'DM'
     ],
     [
+        'kartina_id' => '3128051',
         'name' => 'Dominican Republic',
-        'kartina_id' => '3128051'
+        'code' => 'DO'
     ],
     [
+        'kartina_id' => '3128052',
         'name' => 'East Timor',
-        'kartina_id' => '3128052'
+        'code' => 'TL'
     ],
     [
+        'kartina_id' => '3128053',
         'name' => 'Ecuador',
-        'kartina_id' => '3128053'
+        'code' => 'EC'
     ],
     [
+        'kartina_id' => '3128054',
         'name' => 'Egypt',
-        'kartina_id' => '3128054'
+        'code' => 'EG'
     ],
     [
+        'kartina_id' => '3128055',
         'name' => 'Estonia',
-        'kartina_id' => '3128055'
+        'code' => 'EE'
     ],
     [
+        'kartina_id' => '3128056',
         'name' => 'Finland',
-        'kartina_id' => '3128056'
+        'code' => 'FI'
     ],
     [
+        'kartina_id' => '3128057',
         'name' => 'France',
-        'kartina_id' => '3128057'
+        'code' => 'FR'
     ],
     [
+        'kartina_id' => '3128058',
         'name' => 'France, Metropolitan',
-        'kartina_id' => '3128058'
+        'code' => ''
     ],
     [
+        'kartina_id' => '3128059',
         'name' => 'Georgia',
-        'kartina_id' => '3128059'
+        'code' => 'GE'
     ],
     [
+        'kartina_id' => '10002',
         'name' => 'Germany',
-        'kartina_id' => '10002'
+        'code' => 'DE'
     ],
     [
+        'kartina_id' => '3128010',
         'name' => 'Gibraltar',
-        'kartina_id' => '3128010'
+        'code' => 'GI'
     ],
     [
+        'kartina_id' => '3128060',
         'name' => 'Greece',
-        'kartina_id' => '3128060'
+        'code' => 'GR'
     ],
     [
+        'kartina_id' => '3128061',
         'name' => 'Grenada',
-        'kartina_id' => '3128061'
+        'code' => 'GD'
     ],
     [
+        'kartina_id' => '3128062',
         'name' => 'Guadeloupe',
-        'kartina_id' => '3128062'
+        'code' => 'GP'
     ],
     [
+        'kartina_id' => '3128063',
         'name' => 'Guam',
-        'kartina_id' => '3128063'
+        'code' => 'GU'
     ],
     [
+        'kartina_id' => '3128064',
         'name' => 'Guatemala',
-        'kartina_id' => '3128064'
+        'code' => 'GT'
     ],
     [
+        'kartina_id' => '3128065',
         'name' => 'Guinea',
-        'kartina_id' => '3128065'
+        'code' => 'GN'
     ],
     [
+        'kartina_id' => '3128066',
         'name' => 'Guinea-bissau',
-        'kartina_id' => '3128066'
+        'code' => 'GW'
     ],
     [
+        'kartina_id' => '3128067',
         'name' => 'Guyana',
-        'kartina_id' => '3128067'
+        'code' => 'GY'
     ],
     [
+        'kartina_id' => '3128011',
         'name' => 'Hong Kong',
-        'kartina_id' => '3128011'
+        'code' => 'HK'
     ],
     [
+        'kartina_id' => '3128068',
         'name' => 'Hungary',
-        'kartina_id' => '3128068'
+        'code' => 'HU'
     ],
     [
+        'kartina_id' => '3128069',
         'name' => 'Iceland',
-        'kartina_id' => '3128069'
+        'code' => 'IS'
     ],
     [
+        'kartina_id' => '3128012',
         'name' => 'India',
-        'kartina_id' => '3128012'
+        'code' => 'IN'
     ],
     [
+        'kartina_id' => '3128070',
         'name' => 'Indonesia',
-        'kartina_id' => '3128070'
+        'code' => 'ID'
     ],
     [
+        'kartina_id' => '3128014',
         'name' => 'Iran, Islamic Republic of',
-        'kartina_id' => '3128014'
+        'code' => ''
     ],
     [
+        'kartina_id' => '3128013',
         'name' => 'Iraq',
-        'kartina_id' => '3128013'
+        'code' => 'IQ'
     ],
     [
+        'kartina_id' => '3128071',
         'name' => 'Ireland',
-        'kartina_id' => '3128071'
+        'code' => 'IE'
     ],
     [
+        'kartina_id' => '3128072',
         'name' => 'Israel',
-        'kartina_id' => '3128072'
+        'code' => 'IL'
     ],
     [
+        'kartina_id' => '3128073',
         'name' => 'Italy',
-        'kartina_id' => '3128073'
+        'code' => 'IT'
     ],
     [
+        'kartina_id' => '3128074',
         'name' => 'Jamaica',
-        'kartina_id' => '3128074'
+        'code' => 'JM'
     ],
     [
+        'kartina_id' => '3128203',
         'name' => 'Japan',
-        'kartina_id' => '3128203'
+        'code' => 'JP'
     ],
     [
+        'kartina_id' => '3128075',
         'name' => 'Jordan',
-        'kartina_id' => '3128075'
+        'code' => 'JO'
     ],
     [
+        'kartina_id' => '3128078',
         'name' => 'Kazakhstan',
-        'kartina_id' => '3128078'
+        'code' => 'KZ'
     ],
     [
+        'kartina_id' => '3128019',
         'name' => 'Kenya',
-        'kartina_id' => '3128019'
+        'code' => 'KE'
     ],
     [
+        'kartina_id' => '3128015',
         'name' => 'Kuwait',
-        'kartina_id' => '3128015'
+        'code' => 'KW'
     ],
     [
+        'kartina_id' => '3128076',
         'name' => 'Kyrgyzstan',
-        'kartina_id' => '3128076'
+        'code' => 'KG'
     ],
     [
+        'kartina_id' => '3128004',
         'name' => 'Laos',
-        'kartina_id' => '3128004'
+        'code' => 'LA'
     ],
     [
+        'kartina_id' => '3128077',
         'name' => 'Latvia',
-        'kartina_id' => '3128077'
+        'code' => 'LV'
     ],
     [
+        'kartina_id' => '3128016',
         'name' => 'Lebanon',
-        'kartina_id' => '3128016'
+        'code' => 'LB'
     ],
     [
+        'kartina_id' => '3128079',
         'name' => 'Liberia',
-        'kartina_id' => '3128079'
+        'code' => 'LR'
     ],
     [
+        'kartina_id' => '3128017',
         'name' => 'Libya',
-        'kartina_id' => '3128017'
+        'code' => 'LY'
     ],
     [
+        'kartina_id' => '3128080',
         'name' => 'Liechtenstein',
-        'kartina_id' => '3128080'
+        'code' => 'LI'
     ],
     [
+        'kartina_id' => '3128081',
         'name' => 'Lithuania',
-        'kartina_id' => '3128081'
+        'code' => 'LT'
     ],
     [
+        'kartina_id' => '3128082',
         'name' => 'Luxembourg',
-        'kartina_id' => '3128082'
+        'code' => 'LU'
     ],
     [
-        'name' => 'Macau',
-        'kartina_id' => '3128083'
+        'kartina_id' => '3128083',
+        'name' => 'Macao',
+        'code' => 'MO'
     ],
     [
+        'kartina_id' => '3128084',
         'name' => 'Macedonia, The Former Yugoslav Republic of',
-        'kartina_id' => '3128084'
+        'code' => 'MK'
     ],
     [
+        'kartina_id' => '3128085',
         'name' => 'Madagascar',
-        'kartina_id' => '3128085'
+        'code' => 'MG'
     ],
     [
+        'kartina_id' => '3128086',
         'name' => 'Malawi',
-        'kartina_id' => '3128086'
+        'code' => 'MW'
     ],
     [
+        'kartina_id' => '3128087',
         'name' => 'Malaysia',
-        'kartina_id' => '3128087'
+        'code' => 'MY'
     ],
     [
+        'kartina_id' => '3128088',
         'name' => 'Maldives',
-        'kartina_id' => '3128088'
+        'code' => 'MV'
     ],
     [
+        'kartina_id' => '3128089',
         'name' => 'Mali',
-        'kartina_id' => '3128089'
+        'code' => 'ML'
     ],
     [
+        'kartina_id' => '3128090',
         'name' => 'Malta',
-        'kartina_id' => '3128090'
+        'code' => 'MT'
     ],
     [
+        'kartina_id' => '3128091',
         'name' => 'Marshall Islands',
-        'kartina_id' => '3128091'
+        'code' => 'MH'
     ],
     [
+        'kartina_id' => '3128092',
         'name' => 'Martinique',
-        'kartina_id' => '3128092'
+        'code' => 'MQ'
     ],
     [
+        'kartina_id' => '3128093',
         'name' => 'Mauritania',
-        'kartina_id' => '3128093'
+        'code' => 'MR'
     ],
     [
+        'kartina_id' => '3128094',
         'name' => 'Mauritius',
-        'kartina_id' => '3128094'
+        'code' => 'MU'
     ],
     [
+        'kartina_id' => '3128095',
         'name' => 'Mayotte',
-        'kartina_id' => '3128095'
+        'code' => 'YT'
     ],
     [
+        'kartina_id' => '3128096',
         'name' => 'Mexico',
-        'kartina_id' => '3128096'
+        'code' => 'MX'
     ],
     [
+        'kartina_id' => '3128097',
         'name' => 'Micronesia, Federated States of',
-        'kartina_id' => '3128097'
+        'code' => 'FM'
     ],
     [
+        'kartina_id' => '3124147',
         'name' => 'Moldova, Republic of',
-        'kartina_id' => '3124147'
+        'code' => 'MD'
     ],
     [
+        'kartina_id' => '3128098',
         'name' => 'Monaco',
-        'kartina_id' => '3128098'
+        'code' => 'MC'
     ],
     [
+        'kartina_id' => '3128099',
         'name' => 'Mongolia',
-        'kartina_id' => '3128099'
+        'code' => 'MN'
     ],
     [
+        'kartina_id' => '3128009',
         'name' => 'Montenegro',
-        'kartina_id' => '3128009'
+        'code' => 'ME'
     ],
     [
+        'kartina_id' => '3128100',
         'name' => 'Montserrat',
-        'kartina_id' => '3128100'
+        'code' => 'MS'
     ],
     [
+        'kartina_id' => '3128101',
         'name' => 'Morocco',
-        'kartina_id' => '3128101'
+        'code' => 'MA'
     ],
     [
+        'kartina_id' => '3128102',
         'name' => 'Mozambique',
-        'kartina_id' => '3128102'
+        'code' => 'MZ'
     ],
     [
+        'kartina_id' => '3128103',
         'name' => 'Myanmar',
-        'kartina_id' => '3128103'
+        'code' => 'MM'
     ],
     [
+        'kartina_id' => '3128104',
         'name' => 'Namibia',
-        'kartina_id' => '3128104'
+        'code' => 'NA'
     ],
     [
+        'kartina_id' => '3128105',
         'name' => 'Nauru',
-        'kartina_id' => '3128105'
+        'code' => 'NR'
     ],
     [
+        'kartina_id' => '3128106',
         'name' => 'Nepal',
-        'kartina_id' => '3128106'
+        'code' => 'NP'
     ],
     [
+        'kartina_id' => '3128107',
         'name' => 'Netherlands',
-        'kartina_id' => '3128107'
+        'code' => 'NL'
     ],
     [
+        'kartina_id' => '3128108',
         'name' => 'Netherlands Antilles',
-        'kartina_id' => '3128108'
+        'code' => 'AN'
     ],
     [
+        'kartina_id' => '3128109',
         'name' => 'New Caledonia',
-        'kartina_id' => '3128109'
+        'code' => 'NC'
     ],
     [
+        'kartina_id' => '3128110',
         'name' => 'New Zealand',
-        'kartina_id' => '3128110'
+        'code' => 'NZ'
     ],
     [
+        'kartina_id' => '3128111',
         'name' => 'Nicaragua',
-        'kartina_id' => '3128111'
+        'code' => 'NI'
     ],
     [
+        'kartina_id' => '3128112',
         'name' => 'Niger',
-        'kartina_id' => '3128112'
+        'code' => 'NE'
     ],
     [
+        'kartina_id' => '3128113',
         'name' => 'Nigeria',
-        'kartina_id' => '3128113'
+        'code' => 'NG'
     ],
     [
+        'kartina_id' => '3128114',
         'name' => 'Niue',
-        'kartina_id' => '3128114'
+        'code' => 'NU'
     ],
     [
+        'kartina_id' => '3128115',
         'name' => 'Norfolk Island',
-        'kartina_id' => '3128115'
+        'code' => 'NF'
     ],
     [
+        'kartina_id' => '3128205',
         'name' => 'North Korea',
-        'kartina_id' => '3128205'
+        'code' => 'KP'
     ],
     [
+        'kartina_id' => '3128116',
         'name' => 'Northern Mariana Islands',
-        'kartina_id' => '3128116'
+        'code' => 'MP'
     ],
     [
+        'kartina_id' => '3128117',
         'name' => 'Norway',
-        'kartina_id' => '3128117'
+        'code' => 'NO'
     ],
     [
+        'kartina_id' => '3128118',
         'name' => 'Oman',
-        'kartina_id' => '3128118'
+        'code' => 'OM'
     ],
     [
+        'kartina_id' => '3128120',
         'name' => 'PMR',
-        'kartina_id' => '3128120'
+        'code' => ''
     ],
     [
+        'kartina_id' => '3128122',
         'name' => 'Pakistan',
-        'kartina_id' => '3128122'
+        'code' => 'PK'
     ],
     [
+        'kartina_id' => '3128124',
         'name' => 'Palau',
-        'kartina_id' => '3128124'
+        'code' => 'PW'
     ],
     [
+        'kartina_id' => '3128125',
         'name' => 'Panama',
-        'kartina_id' => '3128125'
+        'code' => 'PA'
     ],
     [
+        'kartina_id' => '3128126',
         'name' => 'Papua New Guinea',
-        'kartina_id' => '3128126'
+        'code' => 'PG'
     ],
     [
+        'kartina_id' => '3128127',
         'name' => 'Paraguay',
-        'kartina_id' => '3128127'
+        'code' => 'PY'
     ],
     [
+        'kartina_id' => '3128128',
         'name' => 'Peru',
-        'kartina_id' => '3128128'
+        'code' => 'PE'
     ],
     [
+        'kartina_id' => '3128129',
         'name' => 'Philippines',
-        'kartina_id' => '3128129'
+        'code' => 'PH'
     ],
     [
+        'kartina_id' => '3128130',
         'name' => 'Pitcairn',
-        'kartina_id' => '3128130'
+        'code' => 'PN'
     ],
     [
+        'kartina_id' => '3128131',
         'name' => 'Poland',
-        'kartina_id' => '3128131'
+        'code' => 'PL'
     ],
     [
+        'kartina_id' => '3128132',
         'name' => 'Portugal',
-        'kartina_id' => '3128132'
+        'code' => 'PT'
     ],
     [
+        'kartina_id' => '3128133',
         'name' => 'Puerto Rico',
-        'kartina_id' => '3128133'
+        'code' => 'PR'
     ],
     [
+        'kartina_id' => '3128134',
         'name' => 'Qatar',
-        'kartina_id' => '3128134'
+        'code' => 'QA'
     ],
     [
+        'kartina_id' => '3128135',
         'name' => 'Reunion',
-        'kartina_id' => '3128135'
+        'code' => 'RE'
     ],
     [
+        'kartina_id' => '3128136',
         'name' => 'Romania',
-        'kartina_id' => '3128136'
+        'code' => 'RO'
     ],
     [
+        'kartina_id' => '3128207',
         'name' => 'Russia',
-        'kartina_id' => '3128207'
+        'code' => 'RU'
     ],
     [
+        'kartina_id' => '3128137',
         'name' => 'Rwanda',
-        'kartina_id' => '3128137'
+        'code' => 'RW'
     ],
     [
+        'kartina_id' => '3128138',
         'name' => 'Saint Kitts and Nevis',
-        'kartina_id' => '3128138'
+        'code' => 'KN'
     ],
     [
+        'kartina_id' => '3128139',
         'name' => 'Saint Lucia',
-        'kartina_id' => '3128139'
+        'code' => 'LC'
     ],
     [
+        'kartina_id' => '3128140',
         'name' => 'Saint Vincent and the Grenadines',
-        'kartina_id' => '3128140'
+        'code' => 'VC'
     ],
     [
+        'kartina_id' => '3128141',
         'name' => 'Samoa',
-        'kartina_id' => '3128141'
+        'code' => 'WS'
     ],
     [
+        'kartina_id' => '3128142',
         'name' => 'San Marino',
-        'kartina_id' => '3128142'
+        'code' => 'SM'
     ],
     [
+        'kartina_id' => '3128143',
         'name' => 'Sao Tome and Principe',
-        'kartina_id' => '3128143'
+        'code' => 'ST'
     ],
     [
+        'kartina_id' => '3128144',
         'name' => 'Saudi Arabia',
-        'kartina_id' => '3128144'
+        'code' => 'SA'
     ],
     [
+        'kartina_id' => '3128145',
         'name' => 'Senegal',
-        'kartina_id' => '3128145'
+        'code' => 'SN'
     ],
     [
+        'kartina_id' => '3128008',
         'name' => 'Serbia',
-        'kartina_id' => '3128008'
+        'code' => 'RS'
     ],
     [
+        'kartina_id' => '3128202',
         'name' => 'Serbia and Montenegro',
-        'kartina_id' => '3128202'
+        'code' => 'RS'
     ],
     [
+        'kartina_id' => '3128146',
         'name' => 'Seychelles',
-        'kartina_id' => '3128146'
+        'code' => 'SC'
     ],
     [
+        'kartina_id' => '3128147',
         'name' => 'Sierra Leone',
-        'kartina_id' => '3128147'
+        'code' => 'SL'
     ],
     [
+        'kartina_id' => '3128148',
         'name' => 'Singapore',
-        'kartina_id' => '3128148'
+        'code' => 'SG'
     ],
     [
+        'kartina_id' => '3128149',
         'name' => 'Slovakia',
-        'kartina_id' => '3128149'
+        'code' => 'SK'
     ],
     [
+        'kartina_id' => '3128150',
         'name' => 'Slovenia',
-        'kartina_id' => '3128150'
+        'code' => 'SI'
     ],
     [
+        'kartina_id' => '3128151',
         'name' => 'Solomon Islands',
-        'kartina_id' => '3128151'
+        'code' => 'SB'
     ],
     [
+        'kartina_id' => '3128152',
         'name' => 'Somalia',
-        'kartina_id' => '3128152'
+        'code' => 'SO'
     ],
     [
+        'kartina_id' => '3128153',
         'name' => 'South Africa',
-        'kartina_id' => '3128153'
+        'code' => 'ZA'
     ],
     [
+        'kartina_id' => '3128154',
         'name' => 'South Georgia and the South Sandwich Islands',
-        'kartina_id' => '3128154'
+        'code' => 'GS'
     ],
     [
+        'kartina_id' => '3128204',
         'name' => 'South Korea',
-        'kartina_id' => '3128204'
+        'code' => 'KR'
     ],
     [
+        'kartina_id' => '3128155',
         'name' => 'Spain',
-        'kartina_id' => '3128155'
+        'code' => 'ES'
     ],
     [
+        'kartina_id' => '3128005',
         'name' => 'Spain, Canaria Islands',
-        'kartina_id' => '3128005'
+        'code' => ''
     ],
     [
+        'kartina_id' => '3128156',
         'name' => 'Sri Lanka',
-        'kartina_id' => '3128156'
+        'code' => 'LK'
     ],
     [
+        'kartina_id' => '3128157',
         'name' => 'St. Helena',
-        'kartina_id' => '3128157'
+        'code' => 'SH'
     ],
     [
+        'kartina_id' => '3128158',
         'name' => 'St. Pierre and Miquelon',
-        'kartina_id' => '3128158'
+        'code' => 'PM'
     ],
     [
+        'kartina_id' => '3128159',
         'name' => 'Sudan',
-        'kartina_id' => '3128159'
+        'code' => 'SD'
     ],
     [
+        'kartina_id' => '3128160',
         'name' => 'Suriname',
-        'kartina_id' => '3128160'
+        'code' => 'SR'
     ],
     [
+        'kartina_id' => '3128161',
         'name' => 'Svalbard and Jan Mayen Islands',
-        'kartina_id' => '3128161'
+        'code' => 'SJ'
     ],
     [
+        'kartina_id' => '3128162',
         'name' => 'Swaziland',
-        'kartina_id' => '3128162'
+        'code' => 'SZ'
     ],
     [
+        'kartina_id' => '3128163',
         'name' => 'Sweden',
-        'kartina_id' => '3128163'
+        'code' => 'SE'
     ],
     [
+        'kartina_id' => '3128164',
         'name' => 'Switzerland',
-        'kartina_id' => '3128164'
+        'code' => 'CH'
     ],
     [
+        'kartina_id' => '3128165',
         'name' => 'Syrian Arab Republic',
-        'kartina_id' => '3128165'
+        'code' => 'SY'
     ],
     [
+        'kartina_id' => '3128166',
         'name' => 'Taiwan',
-        'kartina_id' => '3128166'
+        'code' => 'TW'
     ],
     [
+        'kartina_id' => '3128167',
         'name' => 'Tajikistan',
-        'kartina_id' => '3128167'
+        'code' => 'TJ'
     ],
     [
+        'kartina_id' => '3128168',
         'name' => 'Tanzania, United Republic of',
-        'kartina_id' => '3128168'
+        'code' => 'TZ'
     ],
     [
+        'kartina_id' => '3128169',
         'name' => 'Thailand',
-        'kartina_id' => '3128169'
+        'code' => 'TH'
     ],
     [
+        'kartina_id' => '3128170',
         'name' => 'Togo',
-        'kartina_id' => '3128170'
+        'code' => 'TG'
     ],
     [
+        'kartina_id' => '3128171',
         'name' => 'Tokelau',
-        'kartina_id' => '3128171'
+        'code' => 'TK'
     ],
     [
+        'kartina_id' => '3128172',
         'name' => 'Tonga',
-        'kartina_id' => '3128172'
+        'code' => 'TO'
     ],
     [
+        'kartina_id' => '3128173',
         'name' => 'Trinidad and Tobago',
-        'kartina_id' => '3128173'
+        'code' => 'TT'
     ],
     [
+        'kartina_id' => '3128174',
         'name' => 'Tunisia',
-        'kartina_id' => '3128174'
+        'code' => 'TN'
     ],
     [
+        'kartina_id' => '3128175',
         'name' => 'Turkey',
-        'kartina_id' => '3128175'
+        'code' => 'TR'
     ],
     [
+        'kartina_id' => '3128176',
         'name' => 'Turkmenistan',
-        'kartina_id' => '3128176'
+        'code' => 'TM'
     ],
     [
+        'kartina_id' => '3128177',
         'name' => 'Turks and Caicos Islands',
-        'kartina_id' => '3128177'
+        'code' => 'TC'
     ],
     [
+        'kartina_id' => '3128178',
         'name' => 'Tuvalu',
-        'kartina_id' => '3128178'
+        'code' => 'TV'
     ],
     [
+        'kartina_id' => '3128119',
         'name' => 'USA',
-        'kartina_id' => '3128119'
+        'code' => 'US'
     ],
     [
+        'kartina_id' => '3128179',
         'name' => 'Uganda',
-        'kartina_id' => '3128179'
+        'code' => 'UG'
     ],
     [
+        'kartina_id' => '3128180',
         'name' => 'Ukraine',
-        'kartina_id' => '3128180'
+        'code' => 'UA'
     ],
     [
+        'kartina_id' => '3128181',
         'name' => 'United Arab Emirates',
-        'kartina_id' => '3128181'
+        'code' => 'AE'
     ],
     [
+        'kartina_id' => '3128182',
         'name' => 'United Kingdom',
-        'kartina_id' => '3128182'
+        'code' => 'GB'
     ],
     [
+        'kartina_id' => '3128183',
         'name' => 'United States',
-        'kartina_id' => '3128183'
+        'code' => 'US'
     ],
     [
+        'kartina_id' => '3128184',
         'name' => 'United States Minor Outlying Islands',
-        'kartina_id' => '3128184'
+        'code' => 'UM'
     ],
     [
+        'kartina_id' => '3128185',
         'name' => 'Uruguay',
-        'kartina_id' => '3128185'
+        'code' => 'UY'
     ],
     [
+        'kartina_id' => '3128186',
         'name' => 'Uzbekistan',
-        'kartina_id' => '3128186'
+        'code' => 'UZ'
     ],
     [
+        'kartina_id' => '3128187',
         'name' => 'Vanuatu',
-        'kartina_id' => '3128187'
+        'code' => 'VU'
     ],
     [
+        'kartina_id' => '3128188',
         'name' => 'Vatican City State (Holy See)',
-        'kartina_id' => '3128188'
+        'code' => 'VA'
     ],
     [
+        'kartina_id' => '3128189',
         'name' => 'Venezuela',
-        'kartina_id' => '3128189'
+        'code' => 'VE'
     ],
     [
+        'kartina_id' => '3128190',
         'name' => 'Vietnam',
-        'kartina_id' => '3128190'
+        'code' => 'VN'
     ],
     [
+        'kartina_id' => '3128191',
         'name' => 'Virgin Islands (British)',
-        'kartina_id' => '3128191'
+        'code' => 'VG'
     ],
     [
+        'kartina_id' => '3128192',
         'name' => 'Virgin Islands (U.S.)',
-        'kartina_id' => '3128192'
+        'code' => 'VI'
     ],
     [
+        'kartina_id' => '3128193',
         'name' => 'Wallis and Futuna Islands',
-        'kartina_id' => '3128193'
+        'code' => 'WF'
     ],
     [
+        'kartina_id' => '3128194',
         'name' => 'Western Sahara',
-        'kartina_id' => '3128194'
+        'code' => 'EH'
     ],
     [
+        'kartina_id' => '3128195',
         'name' => 'Yemen',
-        'kartina_id' => '3128195'
+        'code' => 'YE'
     ],
     [
+        'kartina_id' => '3128196',
         'name' => 'Yugoslavia',
-        'kartina_id' => '3128196'
+        'code' => ''
     ],
     [
+        'kartina_id' => '3128197',
         'name' => 'Zaire',
-        'kartina_id' => '3128197'
+        'code' => ''
     ],
     [
+        'kartina_id' => '3128198',
         'name' => 'Zambia',
-        'kartina_id' => '3128198'
+        'code' => 'ZM'
     ],
     [
+        'kartina_id' => '3128199',
         'name' => 'Zimbabwe',
-        'kartina_id' => '3128199'
+        'code' => 'ZW'
     ],
 ];

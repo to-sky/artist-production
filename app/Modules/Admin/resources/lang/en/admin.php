@@ -49,10 +49,10 @@ return [
     'users-index-are_you_sure'              => 'Are you sure?',
     'users-index-no_entries_found'          => 'No entries found',
 
-    // users-controller
-    'users-controller-successfully_created' => 'User was successfully created!',
-    'users-controller-successfully_updated' => 'User was successfully updated!',
-    'users-controller-successfully_deleted' => 'User was successfully deleted!',
+    // ontroller
+    'controller-successfully_created' => ':item was successfully created!',
+    'controller-successfully_updated' => ':item was successfully updated!',
+    'controller-successfully_deleted' => ':item was successfully deleted!',
 
     // roles-index
     'roles-index-add_new'                   => 'Add new',
@@ -92,9 +92,8 @@ return [
     'please-fix' => 'Please fix the following errors:',
 
     // forms
-    'save-action-save-and-edit' => 'Save and edit this item',
-    'save-action-save-and-new' => 'Save and new item',
-    'save-action-save-and-back' => 'Save and back',
     'cancel' => 'Cancel'
+
+
 ];
 

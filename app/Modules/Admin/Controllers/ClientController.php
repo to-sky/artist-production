@@ -2,6 +2,8 @@
 
 namespace App\Modules\Admin\Controllers;
 
+use App\Models\Address;
+use App\Models\Country;
 use App\Modules\Admin\Controllers\AdminController;
 use Redirect;
 use Schema;
@@ -9,6 +11,9 @@ use App\Models\Client;
 use App\Modules\Admin\Requests\CreateClientRequest;
 use App\Modules\Admin\Requests\UpdateClientRequest;
 use Illuminate\Http\Request;
+use App\Exports\ClientsExport;
+use Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 
 use Prologue\Alerts\Facades\Alert;
@@ -36,22 +41,44 @@ class ClientController extends AdminController {
 	 */
 	public function create()
 	{
+	    $countries = Country::pluck('name', 'id')->toArray();
+        $countryCodes = Country::pluck('code')->toArray();
+	    $addresses = [];
 	    
-	    
-	    return view('Admin::client.create');
+	    return view('Admin::client.create', compact('countries', 'countryCodes', 'addresses'));
 	}
 
-	/**
-	 * Store a newly created client in storage.
-	 *
-     * @param CreateClientRequest|Request $request
-	 */
+    /**
+     * Store a newly created client in storage.
+     *
+     * @param CreateClientRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
 	public function store(CreateClientRequest $request)
 	{
-	    
-		Client::create($request->all());
+		$client = Client::create($request->all());
 
-        Alert::success(trans('Admin::admin.users-controller-successfully_created'))->flash();
+		$addresses = $request->get('Addresses');
+
+		if (empty($addresses)) {
+            Address::create([
+                'first_name' => $request->get('first_name'),
+                'last_name' => $request->get('last_name'),
+                'street' => $request->get('street'),
+                'house' => $request->get('house'),
+                'apartment' => $request->get('apartment'),
+                'city' => $request->get('city'),
+                'country_id' => $request->get('country_id'),
+                'active' => Address::ACTIVE,
+                'client_id' => $client->id
+            ]);
+        } else {
+		    foreach ($addresses as $address) {
+		        Address::create($address + ['client_id' => $client->id]);
+            }
+        }
+
+        Alert::success(trans('Admin::admin.controller-successfully_created', ['item' => trans('Admin::models.Client')]))->flash();
 
         $this->redirectService->setRedirect($request);
         return $this->redirectService->redirect($request);
@@ -66,36 +93,38 @@ class ClientController extends AdminController {
 	public function edit($id)
 	{
 		$client = Client::find($id);
+        $countries = Country::pluck('name', 'id')->toArray();
+        $addresses = $client->addresses->toArray();
+        $countryCodes = Country::pluck('code')->toArray();
 	    
-	    
-		return view('Admin::client.edit', compact('client'));
+		return view('Admin::client.edit', compact('client', 'countries', 'countryCodes', 'addresses'));
 	}
 
-	/**
-	 * Update the specified client in storage.
-     * @param UpdateClientRequest|Request $request
+    /**
+     * Update the specified client in storage.
      *
-	 * @param  int  $id
-	 */
+     * @param $id
+     * @param UpdateClientRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
 	public function update($id, UpdateClientRequest $request)
 	{
 		$client = Client::findOrFail($id);
 
-        
-
 		$client->update($request->all());
 
-        Alert::success(trans('Admin::admin.users-controller-successfully_created'))->flash();
+        Alert::success(trans('Admin::admin.controller-successfully_updated', ['item' => trans('Admin::models.Client')]))->flash();
 
         $this->redirectService->setRedirect($request);
         return $this->redirectService->redirect($request);
 	}
 
-	/**
-	 * Remove the specified client from storage.
-	 *
-	 * @param  int  $id
-	 */
+    /**
+     * Remove the specified client from storage.
+     *
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
 	public function destroy($id)
 	{
 		Client::destroy($id);
@@ -105,8 +134,8 @@ class ClientController extends AdminController {
 
     /**
      * Mass delete function from index page
-     * @param Request $request
      *
+     * @param Request $request
      * @return mixed
      */
     public function massDelete(Request $request)
@@ -119,6 +148,11 @@ class ClientController extends AdminController {
         }
 
         return redirect()->route(config('admin.route').'.clients.index');
+    }
+
+    public function excel()
+    {
+        return Excel::download(new ClientsExport(), 'clients.xlsx');
     }
 
 }

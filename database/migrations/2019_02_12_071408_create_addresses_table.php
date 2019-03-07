@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateClientsTable extends Migration {
+class CreateAddressesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,24 +12,20 @@ class CreateClientsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('clients', function(Blueprint $table)
+		Schema::create('addresses', function(Blueprint $table)
 		{
-			$table->integer('id', true);
+			$table->increments('id');
 			$table->string('first_name')->nullable();
 			$table->string('last_name')->nullable();
-			$table->string('email')->nullable()->unique('email_UNIQUE');
-			$table->string('phone', 45)->nullable();
 			$table->string('street')->nullable();
 			$table->string('house')->nullable();
 			$table->string('apartment')->nullable();
 			$table->string('post_code')->nullable();
 			$table->string('city')->nullable();
-			$table->string('code')->nullable();
-			$table->float('comission')->nullable();
-			$table->text('comment', 65535)->nullable();
-			$table->string('type', 45)->nullable();
+            $table->integer('country_id')->unsigned()->nullable()->index('fk_addreses_countries1_idx');
+			$table->integer('client_id')->index('fk_addreses_clients1_idx');
+			$table->boolean('active')->default(0);
             $table->timestamps();
-			$table->softDeletes();
 		});
 	}
 
@@ -41,7 +37,7 @@ class CreateClientsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('clients');
+		Schema::drop('addresses');
 	}
 
 }

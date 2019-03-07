@@ -3,6 +3,7 @@
 namespace App\Modules\Admin\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateClientRequest extends FormRequest {
 
@@ -26,8 +27,12 @@ class UpdateClientRequest extends FormRequest {
 		return [
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required',
-            
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('clients')->ignore($this->input('id'))
+            ],
+            'comission' => 'numeric|between:0,100'
 		];
 	}
 }

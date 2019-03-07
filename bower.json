@@ -20,5 +20,7 @@
     "admin-lte": "^2.4.8",
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",
     "select2": "^4.0.5"
+    "jsrender": "^1.0.2",
+    "intl-tel-input": "^15.0.0"
   }
 }

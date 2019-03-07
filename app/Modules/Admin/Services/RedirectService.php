@@ -44,7 +44,7 @@ class RedirectService
         $redirect = $request->input('save_redirect', config('admin.defaultRedirect', 'redirect_back'));
         $route = $request->route()->getName();
         $parts = explode('.', $route);
-        array_pop($parts);
+        $action = array_pop($parts);
 
         switch ($redirect) {
             case 'redirect_back':
@@ -55,7 +55,11 @@ class RedirectService
                 return redirect()->route(implode('.', $parts) . '.create');
                 break;
             case 'redirect_stay':
-                return redirect()->route(implode('.', $parts) . '.edit', ['id' => $request->input('id')]);
+                if ($action == 'update') {
+                    return redirect()->route(implode('.', $parts) . '.edit', ['id' => $request->input('id')]);
+                } else {
+                    return redirect()->route(implode('.', $parts) . '.create');
+                }
                 break;
         }
     }
