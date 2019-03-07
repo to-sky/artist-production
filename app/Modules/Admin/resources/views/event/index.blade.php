@@ -1,13 +1,10 @@
 @extends('Admin::layouts.master')
-Changed
+
 @section('page-header')
-
     @include('Admin::partials.page-header')
-
 @endsection
 
 @section('content')
-
     <div class="box">
         <div class="box-header with-border">
             <a href="{{ route(config('admin.route').'.events.create') }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="fa fa-plus"></i> Add {{ $menu->singular_name }}</span></a>
@@ -21,12 +18,14 @@ Changed
                         {!! Form::checkbox('delete_all',1,false,['class' => 'mass']) !!}
                     </th>
                     <th>Name</th>
-<th>Date</th>
-<th>Building</th>
-<th>Ticket refund period</th>
-<th>Active</th>
-
-                    <th>&nbsp;</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>City</th>
+                    <th>Building</th>
+                    <th>Hall</th>
+                    <th>Active</th>
+                    <th>Ticket refund period</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
 
@@ -37,11 +36,13 @@ Changed
                             {!! Form::checkbox('del-'.$row->id,1,false,['class' => 'single','data-id'=> $row->id]) !!}
                         </td>
                         <td>{{ $row->name }}</td>
-<td>{{ $row->date }}</td>
-<td>{{ isset($row->buildings->name) ? $row->buildings->name : '' }}</td>
-<td>{{ $row->ticket_refund_period }}</td>
-<td>{{ $row->is_active }}</td>
-
+                        <td>{{ $row->date->toFormattedDateString() }}</td>
+                        <td>{{ $row->date->format('H:i') }}</td>
+                        <td>{{ $row->hall->building->city->name }}</td>
+                        <td>{{ $row->hall->building->name }}</td>
+                        <td>{{ $row->hall->name }}</td>
+                        <td>{{ $row->is_active }}</td>
+                        <td>{{ $row->ticket_refund_period }}</td>
                         <td>
                             <a href="{{ route(config('admin.route').'.events.edit', [$row->id]) }}" class="btn btn-xs btn-default"><i class="fa fa-edit"></i> {{ trans('Admin::admin.users-index-edit') }}</a>
                             <a href="{{ route(config('admin.route').'.events.destroy', [$row->id]) }}" class="btn btn-xs btn-default delete-button"><i class="fa fa-trash"></i> {{ trans('Admin::admin.users-index-delete') }}</a>
@@ -61,11 +62,8 @@ Changed
             {!! Form::close() !!}
         </div>
     </div>
-
 @endsection
 
 @section('after_scripts')
-
     @include('Admin::partials.datatable-scripts')
-
 @endsection

@@ -4,13 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-
 class Country extends Model
 {
     /**
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'kartina_id'];
 
     public $timestamps = false;
 
@@ -19,6 +18,6 @@ class Country extends Model
      */
     public function cities()
     {
-        return $this->hasMany('App\Models\City', 'countries_id');
+        return $this->hasMany(City::class);
     }
 }

@@ -9,16 +9,16 @@ class City extends Model
     /**
      * @var array
      */
-    protected $fillable = ['countries_id', 'name'];
+    protected $fillable = ['name', 'country_id', 'kartina_id'];
 
     public $timestamps = false;
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function countries()
+    public function country()
     {
-        return $this->belongsTo('App\Models\Country', 'countries_id');
+        return $this->belongsTo(Country::class);
     }
 
     /**
@@ -26,6 +26,6 @@ class City extends Model
      */
     public function buildings()
     {
-        return $this->hasMany('App\Models\Building', 'cities_id');
+        return $this->hasMany(Building::class);
     }
 }

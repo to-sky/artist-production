@@ -78,6 +78,10 @@ return [
                 'stream' => 'php://stderr',
             ],
         ],
+        'parser' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/parser-'.date("Y-m-d").'.log'),
+        ],
 
         'syslog' => [
             'driver' => 'syslog',

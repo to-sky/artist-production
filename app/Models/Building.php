@@ -6,25 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Building extends Model
 {
-    /**
-     * @var array
-     */
-    protected $fillable = ['cities_id', 'name', 'created_at', 'updated_at'];
+    protected $fillable = ['name', 'address', 'city_id', 'kartina_id'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function cities()
+    public function city()
     {
-        return $this->belongsTo('App\Models\City', 'cities_id');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function events()
-    {
-        return $this->hasMany('App\Models\Event', 'buildings_id');
+        return $this->belongsTo(City::class);
     }
 
     /**
@@ -32,6 +21,6 @@ class Building extends Model
      */
     public function halls()
     {
-        return $this->hasMany('App\Models\Hall', 'buildings_id');
+        return $this->hasMany(Hall::class);
     }
 }

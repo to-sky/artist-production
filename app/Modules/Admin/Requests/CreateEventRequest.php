@@ -26,7 +26,9 @@ class CreateEventRequest extends FormRequest {
 		return [
             'name' => 'required', 
             'date' => 'required', 
-            'buildings_id' => 'required', 
+            'users_id' => 'required', 
+            'users_id' => 'required', 
+            'users_id' => 'required', 
             
 		];
 	}

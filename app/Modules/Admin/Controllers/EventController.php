@@ -2,15 +2,13 @@
 
 namespace App\Modules\Admin\Controllers;
 
-use App\Modules\Admin\Controllers\AdminController;
-use Redirect;
-use Schema;
+use App\Models\Building;
+use App\Models\City;
+use App\Models\Hall;
 use App\Models\Event;
 use App\Modules\Admin\Requests\CreateEventRequest;
 use App\Modules\Admin\Requests\UpdateEventRequest;
 use Illuminate\Http\Request;
-
-use App\Models\Building;
 
 use Prologue\Alerts\Facades\Alert;
 
@@ -19,13 +17,11 @@ class EventController extends AdminController {
 	/**
 	 * Display a listing of events
 	 *
-     * @param Request $request
-     *
      * @return \Illuminate\View\View
 	 */
-	public function index(Request $request)
+	public function index()
     {
-        $events = Event::with("buildings")->get();
+        $events = Event::all();
 
 		return view('Admin::event.index', compact('events'));
 	}
@@ -37,23 +33,26 @@ class EventController extends AdminController {
 	 */
 	public function create()
 	{
-	    $buildings = Building::orderBy('name')->pluck("name", "id")->prepend('Please select', 0);
+        $cities = City::has('buildings.halls.places')->pluck("name", "id")->prepend('Please select', '');
+        $buildings = Building::has('halls')->pluck("name", "id")->prepend('Please select', '');
+        $halls = Hall::has('places')->pluck("name", "id")->prepend('Please select', '');
 
-
-	    return view('Admin::event.create', compact("buildings"));
+	    return view('Admin::event.create', compact('buildings', 'cities','halls'));
 	}
 
-	/**
-	 * Store a newly created event in storage.
-	 *
+    public function getBuildings()
+    {
+        return  Building::where('city_id', request()->city_id)->has('halls')->pluck('name', 'id')->toJson();
+	}
+
+    /**
+     * Store a newly created event in storage.
+     *
      * @param CreateEventRequest|Request $request
-	 */
+     * @return \Illuminate\Http\RedirectResponse
+     */
 	public function store(CreateEventRequest $request)
 	{
-        if (is_null($request->is_active)) {
-            $request->merge(['is_active' => 0]);
-        }
-
 		Event::create($request->all());
 
         Alert::success(trans('Admin::admin.users-controller-successfully_created'))->flash();
@@ -71,25 +70,20 @@ class EventController extends AdminController {
 	public function edit($id)
 	{
 		$event = Event::find($id);
-	    $buildings = Building::orderBy('name')->pluck("name", "id")->prepend('Please select', 0);
 
-
-		return view('Admin::event.edit', compact('event', "buildings"));
+		return view('Admin::event.edit', compact('event'));
 	}
 
-	/**
-	 * Update the specified event in storage.
+    /**
+     * Update the specified event in storage.
      * @param UpdateEventRequest|Request $request
      *
-	 * @param  int  $id
-	 */
+     * @param  int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
 	public function update($id, UpdateEventRequest $request)
 	{
 		$event = Event::findOrFail($id);
-
-		if (is_null($request->is_active)) {
-            $request->merge(['is_active' => 0]);
-        }
 
 		$event->update($request->all());
 
@@ -99,11 +93,12 @@ class EventController extends AdminController {
         return $this->redirectService->redirect($request);
 	}
 
-	/**
-	 * Remove the specified event from storage.
-	 *
-	 * @param  int  $id
-	 */
+    /**
+     * Remove the specified event from storage.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
 	public function destroy($id)
 	{
 		Event::destroy($id);
