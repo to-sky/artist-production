@@ -9,6 +9,8 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class Parser extends Base
 {
+    public $host = 'https://biletkartina.tv';
+
     public $kartinaUrl = 'https://biletkartina.tv/api/ru/event/getbyfilter';
 
     /**
@@ -43,7 +45,7 @@ class Parser extends Base
 
         $urls = $crawler->filterXPath('//div[@class="schedule-item_main-info"]//a/@href')
             ->each(function (Crawler $node) {
-                return 'https://biletkartina.tv' . $node->text();
+                return $this->host . $node->text();
             });
 
         return array_unique($urls);

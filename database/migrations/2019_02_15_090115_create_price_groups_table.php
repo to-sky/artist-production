@@ -17,10 +17,10 @@ class CreatePriceGroupsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('discount');
-            $table->unsignedInteger('prices_id');
+            $table->unsignedInteger('price_id');
             $table->timestamps();
 
-            $table->foreign('prices_id')->references('id')->on('prices')->onDelete('cascade');
+            $table->foreign('price_id')->references('id')->on('prices')->onDelete('cascade');
         });
     }
 

@@ -27,28 +27,28 @@
                 <div class="box-body row">
                     <div class="form-group col-md-12">
     {!! Form::label('name', 'Name*') !!}
-    {!! Form::text('name', old('$name'), array('class'=>'form-control')) !!}
-    
+    {!! Form::text('name', old('name', $event->name), array('class'=>'form-control')) !!}
+
 </div><div class="form-group col-md-12">
     {!! Form::label('date', 'Date*') !!}
     {!! Form::text('$date', old('date',$event->date), array('class'=>'form-control datetimepicker')) !!}
-    <p class="help-block">Select date and time event</p>
+    <p class="help-block">Select event date and time</p>
 </div><div class="form-group col-md-12">
     {!! Form::label('users_id', 'City*') !!}
     {!! Form::select('users_id', $users, old('users_id',$event->users_id), array('class'=>'form-control')) !!}
-    
+
 </div><div class="form-group col-md-12">
     {!! Form::label('users_id', 'Building*') !!}
     {!! Form::select('users_id', $users, old('users_id',$event->users_id), array('class'=>'form-control')) !!}
-    
+
 </div><div class="form-group col-md-12">
     {!! Form::label('users_id', 'Hall*') !!}
     {!! Form::select('users_id', $users, old('users_id',$event->users_id), array('class'=>'form-control')) !!}
-    
+
 </div><div class="form-group col-md-12">
     {!! Form::label('ticket_refund_period', 'Ticket refund period') !!}
-    {!! Form::text('ticket_refund_period', old('$ticket_refund_period'), array('class'=>'form-control')) !!}
-    
+    {!! Form::text('ticket_refund_period', old('ticket_refund_period', $ticket_refund_period), array('class'=>'form-control')) !!}
+
 </div>
                 </div>
 

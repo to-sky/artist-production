@@ -16,14 +16,14 @@ class CreatePricesTable extends Migration
         Schema::create('prices', function (Blueprint $table) {
             $table->increments('id');
             $table->decimal('price');
-            $table->unsignedInteger('events_id');
-            $table->unsignedInteger('places_id');
+            $table->unsignedInteger('event_id');
+            $table->unsignedInteger('place_id');
             $table->timestamps();
 
-            $table->unique('events_id', 'places_id');
+            $table->unique('event_id', 'place_id');
 
-            $table->foreign('events_id')->references('id')->on('events')->onDelete('cascade');
-            $table->foreign('places_id')->references('id')->on('places')->onDelete('cascade');
+            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
+            $table->foreign('place_id')->references('id')->on('places')->onDelete('cascade');
         });
     }
 
