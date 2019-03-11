@@ -9,16 +9,13 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class Parser extends Base
 {
-    public $host;
+    public $host = 'https://biletkartina.tv';
 
-    public $kartinaUrl;
+    public $kartinaUrl = 'https://biletkartina.tv/api/ru/event/getbyfilter';
 
     public function __construct()
     {
         parent::__construct();
-
-        $this->host = config('kartina.parser.host');
-        $this->kartinaUrl = config('kartina.parser.startUrl');
     }
 
     /**
