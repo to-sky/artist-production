@@ -13,6 +13,11 @@ class Parser extends Base
 
     public $kartinaUrl = 'https://biletkartina.tv/api/ru/event/getbyfilter';
 
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     /**
      * Get html content from request
      *

@@ -20,17 +20,19 @@ class Api extends Base
      */
     protected $auth;
 
+    protected $host = 'https://kassir.kartina.tv';
+
     /**
      * API urls
      *
      * @var array
      */
     protected $urls = [
-        'getAuth' => 'https://kassir.kartina.tv/LoginCommand.cmd',
-        'getCities' => 'https://kassir.kartina.tv/GetCities.cmd',
-        'getBuildings' => 'https://kassir.kartina.tv/GetBuildings.cmd',
-        'getHalls' => 'https://kassir.kartina.tv/GetHalls.cmd',
-        'getHallSchema' => 'https://kassir.kartina.tv/GetFlashHallDataCommand.cmd',
+        'getAuth' => '/LoginCommand.cmd',
+        'getCities' => '/GetCities.cmd',
+        'getBuildings' => '/GetBuildings.cmd',
+        'getHalls' => '/GetHalls.cmd',
+        'getHallSchema' => '/GetFlashHallDataCommand.cmd',
     ];
 
     /**
@@ -53,7 +55,7 @@ class Api extends Base
      */
     public function getAuth()
     {
-        $auth = $this->sendRequest($this->urls[__FUNCTION__], ['__uid' => env('KARTINA_UID')]);
+        $auth = $this->sendRequest($this->host.$this->urls[__FUNCTION__], ['__uid' => env('KARTINA_UID')]);
 
         if (! isset($auth['__auth'])) {
             return null;
@@ -104,7 +106,7 @@ class Api extends Base
     public function getCities()
     {
         return $this->filterRequest(
-            $this->sendAuthRequest($this->urls[__FUNCTION__])
+            $this->sendAuthRequest($this->host.$this->urls[__FUNCTION__])
         );
     }
 
@@ -117,7 +119,7 @@ class Api extends Base
     public function getBuildings()
     {
         return $this->filterRequest(
-            $this->sendAuthRequest($this->urls[__FUNCTION__])
+            $this->sendAuthRequest($this->host.$this->urls[__FUNCTION__])
         );
     }
 
@@ -130,7 +132,7 @@ class Api extends Base
     public function getHalls()
     {
         return $this->filterRequest(
-            $this->sendAuthRequest($this->urls[__FUNCTION__])
+            $this->sendAuthRequest($this->host.$this->urls[__FUNCTION__])
         );
     }
 
@@ -143,7 +145,7 @@ class Api extends Base
      */
     public function getHallSchema($kartinaEventId)
     {
-        $schema = $this->sendAuthRequest($this->urls[__FUNCTION__], ['event' => $kartinaEventId]);
+        $schema = $this->sendAuthRequest($this->host.$this->urls[__FUNCTION__], ['event' => $kartinaEventId]);
 
         return $this->filterRequest($schema, true);
     }
