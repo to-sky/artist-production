@@ -11,7 +11,7 @@
     <div class="box">
         <div class="box-header with-border">
             <a href="{{ route(config('admin.route').'.clients.create') }}" class="btn btn-primary" data-style="zoom-in">
-                <span class="ladda-label"><i class="fa fa-plus"></i> {{ trans('Admin::admin.add-new', ['item' => trans('Admin::models.' . $menu->singular_name)]) }}</span>
+                <span class="ladda-label"><i class="fa fa-plus"></i> {{ trans('Admin::admin.add-new', ['item' => trans('Admin::models.' . $menuRoute->singular_name)]) }}</span>
             </a>
             <a href="{{ route(config('admin.route').'.clients.excel') }}" class="btn btn-success">
                 <span><i class="fa fa-file-excel-o"></i> {{ __('Export') }}</span>

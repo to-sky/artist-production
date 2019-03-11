@@ -37,6 +37,8 @@ return [
     'users-edit-email_placeholder'          => 'Email',
     'users-edit-password'                   => 'Password',
     'users-edit-password_placeholder'       => 'Password',
+    'users-edit-password_confirmation'      => 'Password confirmation',
+    'users-edit-password_confirmation_placeholder' => 'Password confirmation',
     'users-edit-role'                       => 'Role',
     'users-edit-btnupdate'                  => 'Update',
 

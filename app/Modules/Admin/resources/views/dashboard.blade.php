@@ -3,7 +3,7 @@
 @section('page-header')
     <section class="content-header">
         <h1>
-            <span class="text-capitalize">{{ 'Dashboard' }}</span>
+            <span class="text-capitalize">{{ trans('Admin::admin.Dashboard') }}</span>
         </h1>
 
         <ol class="breadcrumb">

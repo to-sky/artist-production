@@ -5,6 +5,7 @@ namespace App\Modules\Admin\Controllers;
 use App\Models\Address;
 use App\Models\Country;
 use App\Modules\Admin\Controllers\AdminController;
+use App\Modules\Admin\Services\RedirectService;
 use Redirect;
 use Schema;
 use App\Models\Client;
@@ -20,6 +21,13 @@ use Prologue\Alerts\Facades\Alert;
 
 class ClientController extends AdminController {
 
+    public function __construct(RedirectService $redirectService)
+    {
+        $this->authorizeResource(Client::class, 'client');
+
+        parent::__construct($redirectService);
+    }
+
 	/**
 	 * Display a listing of clients
 	 *
@@ -29,6 +37,8 @@ class ClientController extends AdminController {
 	 */
 	public function index(Request $request)
     {
+        $this->authorize('index', Client::class);
+
         $clients = Client::all();
 
 		return view('Admin::client.index', compact('clients'));
@@ -90,9 +100,8 @@ class ClientController extends AdminController {
 	 * @param  int  $id
      * @return \Illuminate\View\View
 	 */
-	public function edit($id)
+	public function edit(Client $client)
 	{
-		$client = Client::find($id);
         $countries = Country::pluck('name', 'id')->toArray();
         $addresses = $client->addresses->toArray();
         $countryCodes = Country::pluck('code')->toArray();
@@ -107,10 +116,8 @@ class ClientController extends AdminController {
      * @param UpdateClientRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-	public function update($id, UpdateClientRequest $request)
+	public function update(Client $client, UpdateClientRequest $request)
 	{
-		$client = Client::findOrFail($id);
-
 		$client->update($request->all());
 
         Alert::success(trans('Admin::admin.controller-successfully_updated', ['item' => trans('Admin::models.Client')]))->flash();

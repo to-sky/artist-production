@@ -11,8 +11,8 @@
     <div class="box">
 
         <div class="box-header with-border">
-            <a href="{{ route(config('admin.route') . '.menu.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> {{ 'Add menu' }}</a>
-            <a href="{{ route(config('admin.route') . '.menu.crud') }}" class="btn btn-primary"><i class="fa fa-plus"></i> {{ 'Add menu with CRUD' }}</a>
+            <a href="{{ route(config('admin.route') . '.menu.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> {{ trans('Admin::admin.add-new', ['item' => trans('Admin::models.' . $menuRoute->singular_name)]) }}</a>
+            <a href="{{ route(config('admin.route') . '.menu.crud') }}" class="btn btn-primary"><i class="fa fa-plus"></i> {{ __('Add menu with CRUD') }}</a>
         </div>
         <div class="box-body">
 

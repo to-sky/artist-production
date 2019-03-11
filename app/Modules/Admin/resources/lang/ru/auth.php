@@ -7,7 +7,7 @@ return [
 
     // auth-login
     'login-login' => 'Логин',
-    'login-email' => 'Email',
+    'login-email' => 'E-Mail адрес',
     'login-password' => 'Пароль',
     'login-remember_me' => 'Запомнить меня',
     'login-btnlogin' => 'Войти',

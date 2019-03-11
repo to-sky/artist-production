@@ -10,11 +10,7 @@
 
         <div class="col-md-8 col-md-offset-2">
 
-            <a href="{{ route(config('admin.route').'.events.index') }}">
-                <i class="fa fa-angle-double-left"></i>
-                {{ trans('Admin::admin.back-to-all-entries') }}
-            </a>
-            <br><br>
+            <a href="{{ route(config('admin.route').'.events.index') }}"><i class="fa fa-angle-double-left"></i> Back to all <span>{{ $menuRoute->plural_name }}</span></a><br><br>
 
             @include('Admin::partials.errors')
 
@@ -23,7 +19,7 @@
 
                 <div class="box-header with-border">
                     <h3 class="box-title">
-                        {{ trans('Admin::admin.add-new', ['item' => mb_strtolower(trans('Admin::models.' . ucfirst($menu->singular_name)))]) }}
+                        {{ trans('Admin::admin.add-new', ['item' => mb_strtolower(trans('Admin::models.' . ucfirst($menuRoute->singular_name)))]) }}
                     </h3>
                 </div>
 

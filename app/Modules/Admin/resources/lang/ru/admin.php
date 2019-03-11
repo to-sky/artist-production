@@ -24,6 +24,8 @@ return [
     'users-create-email_placeholder' => 'Email',
     'users-create-password' => 'Пароль',
     'users-create-password_placeholder' => 'Пароль',
+    'users-edit-password_confirmation' => 'Подтверждение пароля',
+    'users-edit-password_confirmation_placeholder' => 'Подтверждение пароля',
     'users-create-role' => 'Роль',
     'users-create-btncreate' => 'Создать',
 
@@ -63,6 +65,7 @@ return [
     'Users' => 'Пользователи',
     'Clients' => 'Клиенты',
     'Events' => 'Мероприятия',
+    'Menu' => 'Меню',
 
     // actions
     'index' => 'Список',

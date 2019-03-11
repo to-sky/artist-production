@@ -21,5 +21,5 @@
 
     </div>
 
-    <a href="{{ route(config('admin.route') . '.' . $menu->plural_name . '.index') }}" class="btn btn-default"><span class="fa fa-ban"></span>&nbsp;{{ trans('Admin::admin.cancel') }}</a>
+    <a href="{{ route(config('admin.route') . '.' . $menuRoute->plural_name . '.index') }}" class="btn btn-default"><span class="fa fa-ban"></span>&nbsp;{{ trans('Admin::admin.cancel') }}</a>
 </div>
