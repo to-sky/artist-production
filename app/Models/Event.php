@@ -13,8 +13,7 @@ class Event extends Model {
           'name',
           'date',
           'is_active',
-          'hall_id',
-          'ticket_refund_period'
+          'hall_id'
     ];
 
     public static function boot()
@@ -39,7 +38,7 @@ class Event extends Model {
     public function setDateAttribute($input)
     {
         if($input != '') {
-            $this->attributes['date'] = Carbon::createFromFormat(config('admin.date_format') . ' ' . config('admin.time_format'), $input)->format('Y-m-d H:i:s');
+            $this->attributes['date'] = Carbon::createFromFormat('Y-m-d H:i', $input)->format('Y-m-d H:i:s');
         }else{
             $this->attributes['date'] = '';
         }

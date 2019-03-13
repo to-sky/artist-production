@@ -37,6 +37,9 @@ Route::group([
     Route::post('addresses/manage', 'AddressController@manage')->name('addresses.manage');
     Route::delete('addresses/{id}', 'AddressController@destroy')->name('addresses.destroy');
     Route::get('dataTables/locale/{locale}', 'AdminController@dataTablesLocale')->name('dataTables.locale');
+
+    Route::get('events/getBuildings', 'EventController@getBuildings')->name('events.getBuildings');
+    Route::get('events/getHalls', 'EventController@getHalls')->name('events.getHalls');
 });
 
 
