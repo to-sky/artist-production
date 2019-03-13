@@ -62,6 +62,7 @@ return [
     'Roles' => 'Роли',
     'Users' => 'Пользователи',
     'Clients' => 'Клиенты',
+    'Events' => 'Мероприятия',
 
     // actions
     'index' => 'Список',
@@ -69,6 +70,7 @@ return [
     'edit' => 'Редактирование',
     'add-new' => 'Добавить :item',
     'edit-item' => 'Редактировать :item',
+    'select-item' => 'Выберите :item',
 
     'back-to-all-entries' => 'Назад ко всем записям'
 

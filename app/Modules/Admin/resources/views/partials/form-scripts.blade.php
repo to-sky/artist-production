@@ -63,7 +63,8 @@
         });
 
         $('.datetimepicker').datetimepicker({
-            format: 'Y-MM-D HH:mm'
+            format: 'Y-MM-D HH:mm',
+            locale: '{{ app()->getLocale() }}'
         });
 
 //        $('.ckeditor').each(function () {

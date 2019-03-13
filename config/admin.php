@@ -8,6 +8,7 @@ return [
     'date_format'        => 'Y-m-d',
     'date_format_jquery' => 'yy-mm-dd',
     'time_format'        => 'H:i:s',
+    'time_format_hm'     => 'H:i',
     'time_format_jquery' => 'HH:mm:ss',
 
     /**
