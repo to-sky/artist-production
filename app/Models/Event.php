@@ -7,14 +7,16 @@ use App\Modules\Admin\Observers\UserActionsObserver;
 use Carbon\Carbon;
 
 
-class Event extends Model {
+class Event extends Model
+{
+    const ACTIVE = 1;
+    const NOT_ACTIVE = 0;
 
     protected $fillable = [
           'name',
           'date',
           'is_active',
-          'hall_id',
-          'ticket_refund_period'
+          'hall_id'
     ];
 
     public static function boot()
@@ -39,7 +41,9 @@ class Event extends Model {
     public function setDateAttribute($input)
     {
         if($input != '') {
-            $this->attributes['date'] = Carbon::createFromFormat(config('admin.date_format') . ' ' . config('admin.time_format'), $input)->format('Y-m-d H:i:s');
+            $this->attributes['date'] = Carbon::createFromFormat(
+                config('admin.date_format') . ' ' . config('admin.time_format_hm'), $input
+            )->format('Y-m-d H:i:s');
         }else{
             $this->attributes['date'] = '';
         }
@@ -58,5 +62,17 @@ class Event extends Model {
         }else{
             return '';
         }
+    }
+
+    /**
+     * Set is_active attribute
+     *
+     * @param $input
+     */
+    public function setIsActiveAttribute($input)
+    {
+        $this->attributes['is_active'] = empty($input)
+            ? self::NOT_ACTIVE
+            : self::ACTIVE;
     }
 }

@@ -2,6 +2,8 @@
 <script src="{{ asset('/bower_components/jquery/dist/jquery.min.js') }}"></script>
 <!-- Bootstrap 3.3.5 -->
 <script src="{{ asset('/bower_components/moment/min/moment.min.js') }}"></script>
+<script src="{{ asset('/bower_components/moment/locale/ru.js') }}"></script>
+<script src="{{ asset('/bower_components/moment/locale/de.js') }}"></script>
 <script src="{{ asset('/bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('/bower_components/datatables.net/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
@@ -18,6 +20,8 @@
 <script src="{{ asset('/bower_components/jsrender/jsrender.min.js') }}"></script>
 <script src="{{ asset('/bower_components/admin-lte/dist/js/adminlte.min.js') }}"></script>
 <script src="{{ asset('/bower_components/select2/dist/js/select2.full.js') }}"></script>
+<script src="{{ asset('/bower_components/select2/dist/js/i18n/de.js') }}"></script>
+<script src="{{ asset('/bower_components/select2/dist/js/i18n/ru.js') }}"></script>
 
 <!-- page script -->
 <script type="text/javascript">

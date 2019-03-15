@@ -7,26 +7,29 @@
 @section('content')
     <div class="box">
         <div class="box-header with-border">
-            <a href="{{ route(config('admin.route').'.events.create') }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="fa fa-plus"></i> Add {{ $menu->singular_name }}</span></a>
+            <a href="{{ route(config('admin.route').'.events.create') }}" class="btn btn-primary" data-style="zoom-in">
+                <span class="ladda-label"><i class="fa fa-plus"></i>
+                    {{ trans('Admin::admin.add-new', ['item' => mb_strtolower(trans('Admin::models.' . ucfirst($menu->singular_name)))]) }}
+                </span>
+            </a>
         </div>
 
         <div class="box-body">
             <table id="datatable" class="table table-bordered table-hover">
                 <thead>
-                <tr>
-                    <th class="no-sort" width="5%" style="text-align: center">
-                        {!! Form::checkbox('delete_all',1,false,['class' => 'mass']) !!}
-                    </th>
-                    <th>Name</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>City</th>
-                    <th>Building</th>
-                    <th>Hall</th>
-                    <th>Active</th>
-                    <th>Ticket refund period</th>
-                    <th>Actions</th>
-                </tr>
+                    <tr>
+                        <th class="no-sort" width="5%" style="text-align: center">
+                            {!! Form::checkbox('delete_all',1,false,['class' => 'mass']) !!}
+                        </th>
+                        <th>{{ __('Event') }}</th>
+                        <th>{{ __('Date') }}</th>
+                        <th>{{ __('Time') }}</th>
+                        <th>{{ __('City') }}</th>
+                        <th>{{ __('Building') }}</th>
+                        <th>{{ __('Hall') }}</th>
+                        <th>{{ __('Active') }}</th>
+                        <th>{{ __('Actions') }}</th>
+                    </tr>
                 </thead>
 
                 <tbody>
@@ -41,8 +44,7 @@
                         <td>{{ $row->hall->building->city->name }}</td>
                         <td>{{ $row->hall->building->name }}</td>
                         <td>{{ $row->hall->name }}</td>
-                        <td>{{ $row->is_active }}</td>
-                        <td>{{ $row->ticket_refund_period }}</td>
+                        <td>{{ numberToString($row->is_active) }}</td>
                         <td>
                             <a href="{{ route(config('admin.route').'.events.edit', [$row->id]) }}" class="btn btn-xs btn-default"><i class="fa fa-edit"></i> {{ trans('Admin::admin.users-index-edit') }}</a>
                             <a href="{{ route(config('admin.route').'.events.destroy', [$row->id]) }}" class="btn btn-xs btn-default delete-button"><i class="fa fa-trash"></i> {{ trans('Admin::admin.users-index-delete') }}</a>

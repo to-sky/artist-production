@@ -24,12 +24,11 @@ class CreateEventRequest extends FormRequest {
 	public function rules()
 	{
 		return [
-            'name' => 'required', 
-            'date' => 'required', 
-            'users_id' => 'required', 
-            'users_id' => 'required', 
-            'users_id' => 'required', 
-            
+            'name' => 'required',
+            'date' => 'required',
+            'city_id' => 'required',
+            'building_id' => 'required',
+            'hall_id' => 'required',
 		];
 	}
 }

@@ -2,10 +2,7 @@
 
 namespace App\Modules\Admin\Controllers;
 
-use App\Models\Building;
-use App\Models\City;
-use App\Models\Hall;
-use App\Models\Event;
+use App\Models\{Building, City, Hall, Event};
 use App\Modules\Admin\Requests\CreateEventRequest;
 use App\Modules\Admin\Requests\UpdateEventRequest;
 use Illuminate\Http\Request;
@@ -33,16 +30,45 @@ class EventController extends AdminController {
 	 */
 	public function create()
 	{
-        $cities = City::has('buildings.halls.places')->pluck("name", "id")->prepend('Please select', '');
-        $buildings = Building::has('halls')->pluck("name", "id")->prepend('Please select', '');
-        $halls = Hall::has('places')->pluck("name", "id")->prepend('Please select', '');
+        $this->generateParams();
 
-	    return view('Admin::event.create', compact('buildings', 'cities','halls'));
+	    return view('Admin::event.create');
 	}
 
+    /**
+     * Get related buildings for city
+     *
+     * @return mixed
+     */
     public function getBuildings()
     {
-        return  Building::where('city_id', request()->city_id)->has('halls')->pluck('name', 'id')->toJson();
+        return Building::where('city_id', request()->city_id)
+            ->has('halls')
+            ->get(['id', 'name'])
+            ->map(function ($building) {
+                return [
+                    'id' => $building->id,
+                    'text' => $building->name,
+                ];
+            });
+	}
+
+    /**
+     * Get related halls for building
+     *
+     * @return mixed
+     */
+    public function getHalls()
+    {
+        return Hall::where('building_id', request()->building_id)
+            ->has('places')
+            ->get(['id', 'name'])
+            ->map(function ($hall) {
+                return [
+                    'id' => $hall->id,
+                    'text' => $hall->name,
+                ];
+            });
 	}
 
     /**
@@ -55,7 +81,7 @@ class EventController extends AdminController {
 	{
 		Event::create($request->all());
 
-        Alert::success(trans('Admin::admin.users-controller-successfully_created'))->flash();
+        Alert::success(trans('Admin::admin.controller-successfully_created', ['item' => trans('Admin::models.Event')]))->flash();
 
         $this->redirectService->setRedirect($request);
         return $this->redirectService->redirect($request);
@@ -70,6 +96,8 @@ class EventController extends AdminController {
 	public function edit($id)
 	{
 		$event = Event::find($id);
+
+		$this->generateParams();
 
 		return view('Admin::event.edit', compact('event'));
 	}
@@ -87,7 +115,7 @@ class EventController extends AdminController {
 
 		$event->update($request->all());
 
-        Alert::success(trans('Admin::admin.users-controller-successfully_created'))->flash();
+        Alert::success(trans('Admin::admin.controller-successfully_updated', ['item' => trans('Admin::models.Event')]))->flash();
 
         $this->redirectService->setRedirect($request);
         return $this->redirectService->redirect($request);
@@ -124,4 +152,26 @@ class EventController extends AdminController {
         return redirect()->route(config('admin.route').'.events.index');
     }
 
+
+    /**
+     * Share the same variables for different views
+     */
+    public function generateParams()
+    {
+        $cities = City::has('buildings.halls.places')
+            ->pluck('name', 'id')
+            ->prepend(__('Admin::admin.select-item', ['item' => mb_strtolower(__('Admin::models.City'))]), '');
+
+        $buildings = Building::has('halls.places')
+            ->pluck('name', 'id')
+            ->prepend(__('Admin::admin.select-item', ['item' => mb_strtolower(__('Admin::models.Building'))]), '');
+
+        $halls = Hall::has('places')
+            ->pluck('name', 'id')
+            ->prepend(__('Admin::admin.select-item', ['item' => mb_strtolower(__('Admin::models.Hall'))]), '');
+
+        view()->share('cities', $cities);
+        view()->share('buildings', $buildings);
+        view()->share('halls', $halls);
+    }
 }

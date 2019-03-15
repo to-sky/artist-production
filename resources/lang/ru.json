@@ -20,5 +20,11 @@
     "Full name": "Ф.И.О.",
     "Type": "Тип",
     "Export": "Экспорт",
-    "Clients list": "Список клиентов"
+    "Clients list": "Список клиентов",
+
+    "Actions": "Действия",
+    "Date": "Дата",
+    "Time": "Время",
+    "Active": "Активно",
+    "Select event date and time.": "Выберите дату и время мероприятия."
 }
