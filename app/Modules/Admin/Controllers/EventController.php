@@ -79,8 +79,6 @@ class EventController extends AdminController {
      */
 	public function store(CreateEventRequest $request)
 	{
-        $request['is_active'] = $request->is_active ? 1 : 0;
-
 		Event::create($request->all());
 
         Alert::success(trans('Admin::admin.controller-successfully_created', ['item' => trans('Admin::models.Event')]))->flash();
@@ -114,8 +112,6 @@ class EventController extends AdminController {
 	public function update($id, UpdateEventRequest $request)
 	{
 		$event = Event::findOrFail($id);
-
-        $request['is_active'] = $request->is_active ? 1 : 0;
 
 		$event->update($request->all());
 

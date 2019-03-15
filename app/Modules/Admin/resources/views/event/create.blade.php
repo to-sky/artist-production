@@ -29,28 +29,29 @@
 
                 <div class="box-body row">
                     <div class="form-group col-md-12">
-                        {!! Form::label('name', __('Event').'*') !!}
+                        {!! Form::label('name', __('Event')) !!}*
                         {!! Form::text('name', old('name'), array('class'=>'form-control')) !!}
                     </div>
                     <div class="form-group col-md-12">
-                        {!! Form::label('date', __('Date').'*') !!}
+                        {!! Form::label('date', __('Date')) !!}*
                         {!! Form::text('date', old('date'), array('class'=>'form-control datetimepicker')) !!}
                         <p class="help-block">{{ __('Select event date and time.') }}</p>
                     </div>
                     <div class="form-group col-md-12">
-                        {!! Form::label('city_id', __('City').'*') !!}
+                        {!! Form::label('city_id', __('City')) !!}*
                         {!! Form::select('city_id', $cities, old('city_id'), array('class'=>'form-control')) !!}
                     </div>
                     <div class="form-group col-md-12">
-                        {!! Form::label('building_id', __('Building').'*') !!}
+                        {!! Form::label('building_id', __('Building')) !!}*
                         {!! Form::select('building_id', $buildings, old('building_id'), array('class'=>'form-control')) !!}
                     </div>
                     <div class="form-group col-md-12">
-                        {!! Form::label('hall_id', __('Hall').'*') !!}
+                        {!! Form::label('hall_id', __('Hall')) !!}*
                         {!! Form::select('hall_id', $halls, old('hall_id'), array('class'=>'form-control')) !!}
                     </div>
                     <div class="checkbox col-md-12">
                         <label>
+                            <input type="hidden" name="is_active" value="0">
                             <input type="checkbox" name="is_active"> {{ __('Active') }}
                         </label>
                     </div>

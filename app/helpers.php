@@ -7,5 +7,5 @@
  * @return array|string|null
  */
 function numberToString($number){
-    return $number == 1 ? __('Admin::strings.yes') : __('Admin::strings.no');
+    return $number ? __('Admin::strings.yes') : __('Admin::strings.no');
 }

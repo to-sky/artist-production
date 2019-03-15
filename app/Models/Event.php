@@ -7,7 +7,10 @@ use App\Modules\Admin\Observers\UserActionsObserver;
 use Carbon\Carbon;
 
 
-class Event extends Model {
+class Event extends Model
+{
+    const ACTIVE = 1;
+    const NOT_ACTIVE = 0;
 
     protected $fillable = [
           'name',
@@ -59,5 +62,17 @@ class Event extends Model {
         }else{
             return '';
         }
+    }
+
+    /**
+     * Set is_active attribute
+     *
+     * @param $input
+     */
+    public function setIsActiveAttribute($input)
+    {
+        $this->attributes['is_active'] = empty($input)
+            ? self::NOT_ACTIVE
+            : self::ACTIVE;
     }
 }
