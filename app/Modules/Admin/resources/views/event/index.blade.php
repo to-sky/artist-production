@@ -9,7 +9,7 @@
         <div class="box-header with-border">
             <a href="{{ route(config('admin.route').'.events.create') }}" class="btn btn-primary" data-style="zoom-in">
                 <span class="ladda-label"><i class="fa fa-plus"></i>
-                    {{ trans('Admin::admin.add-new', ['item' => trans('Admin::models.' . $menu->singular_name)]) }}
+                    {{ trans('Admin::admin.add-new', ['item' => mb_strtolower(trans('Admin::models.' . ucfirst($menu->singular_name)))]) }}
                 </span>
             </a>
         </div>

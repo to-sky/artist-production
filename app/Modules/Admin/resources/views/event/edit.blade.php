@@ -26,7 +26,7 @@
 
                 <div class="box-header with-border">
                     <h3 class="box-title">
-                        {{ trans('Admin::admin.edit-item', ['item' => trans('Admin::models.' . $menu->singular_name)]) }}
+                        {{ trans('Admin::admin.edit-item', ['item' => mb_strtolower(trans('Admin::models.' . ucfirst($menu->singular_name)))]) }}
                     </h3>
                 </div>
 

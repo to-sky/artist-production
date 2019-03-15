@@ -160,15 +160,15 @@ class EventController extends AdminController {
     {
         $cities = City::has('buildings.halls.places')
             ->pluck('name', 'id')
-            ->prepend(__('Admin::admin.select-item', ['item' => __('city')]), '');
+            ->prepend(__('Admin::admin.select-item', ['item' => mb_strtolower(__('Admin::models.City'))]), '');
 
         $buildings = Building::has('halls.places')
             ->pluck('name', 'id')
-            ->prepend(__('Admin::admin.select-item', ['item' => __('building')]), '');
+            ->prepend(__('Admin::admin.select-item', ['item' => mb_strtolower(__('Admin::models.Building'))]), '');
 
         $halls = Hall::has('places')
             ->pluck('name', 'id')
-            ->prepend(__('Admin::admin.select-item', ['item' => __('hall')]), '');
+            ->prepend(__('Admin::admin.select-item', ['item' => mb_strtolower(__('Admin::models.Hall'))]), '');
 
         view()->share('cities', $cities);
         view()->share('buildings', $buildings);
