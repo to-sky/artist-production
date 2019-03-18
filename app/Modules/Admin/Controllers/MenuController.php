@@ -72,7 +72,7 @@ class MenuController extends AdminController
      */
     public function create() {
         $roles             = Role::all();
-        $parentsSelect     = Menu::where('menu_type', 2)->pluck('title', 'id')->prepend('-- no parent --', '');
+        $parentsSelect     = Menu::where('menu_type', 2)->pluck('title', 'id')->prepend(__('Admin::qa.menu-no-parent'), '');
 
         return view('Admin::menu.create', compact('roles', 'parentsSelect'));
     }
@@ -329,7 +329,8 @@ class MenuController extends AdminController
     public function edit($id)
     {
         $menu          = Menu::findOrFail($id);
-        $parentsSelect = Menu::where('menu_type', 2)->pluck('title', 'id')->prepend('-- no parent --', '');
+
+        $parentsSelect = Menu::where('menu_type', 2)->pluck('title', 'id')->prepend(__('Admin::qa.menu-no-parent'), '');
         $roles         = Role::all();
 
         return view('Admin::menu.edit', compact('menu', 'parentsSelect', 'roles'));

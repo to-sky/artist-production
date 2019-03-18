@@ -20,22 +20,22 @@
             <div class="box">
 
                 <div class="box-header with-border">
-                    <h3 class="box-title">{{ trans('Admin::admin.add-new', ['item' => trans('Admin::models.' . $menu->singular_name)]) }}</h3>
+                    <h3 class="box-title">{{ trans('Admin::admin.add-new', ['item' => trans('Admin::models.' . $menuRoute->singular_name)]) }}</h3>
                 </div>
 
                 <div class="box-body row">
                     <div class="form-group col-md-12">
-                        {!! Form::label('first_name', __('First name*')) !!}
+                        {!! Form::label('first_name', __('First name')) !!}*
                         {!! Form::text('first_name', old('first_name'), array('class'=>'form-control')) !!}
 
                     </div>
                     <div class="form-group col-md-12">
-                        {!! Form::label('last_name', __('Last name*')) !!}
+                        {!! Form::label('last_name', __('Last name')) !!}*
                         {!! Form::text('last_name', old('last_name'), array('class'=>'form-control')) !!}
 
                     </div>
                     <div class="form-group col-md-12">
-                        {!! Form::label('email', __('Email*')) !!}
+                        {!! Form::label('email', __('Email')) !!}*
                         {!! Form::text('email', old('email'), array('class'=>'form-control')) !!}
 
                     </div>

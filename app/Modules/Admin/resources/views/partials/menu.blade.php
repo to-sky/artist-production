@@ -8,34 +8,36 @@
     </li>
 
     @foreach($menus as $menu)
-        @if($menu->menu_type != 2 && is_null($menu->parent_id))
-            <li @if(isset(explode('/',Request::path())[1]) && explode('/',Request::path())[1] == strtolower($menu->plural_name)) class="active" @endif>
-                <a href="{{ route(config('admin.route').'.'.strtolower($menu->plural_name).'.index') }}">
-                    <i class="fa {{ $menu->icon }}"></i>
-                    <span class="title">{{ trans('Admin::admin.' . $menu->title) }}</span>
-                </a>
-            </li>
-        @else
-            @if(!is_null($menu->children()->first()) && is_null($menu->parent_id))
-                <li>
-                    <a href="#">
+        @if ($menu->availableForRole(Auth::user()->role))
+            @if($menu->menu_type != 2 && is_null($menu->parent_id))
+                <li @if(isset(explode('/',Request::path())[1]) && explode('/',Request::path())[1] == strtolower($menu->plural_name)) class="active" @endif>
+                    <a href="{{ route(config('admin.route').'.'.strtolower($menu->plural_name).'.index') }}">
                         <i class="fa {{ $menu->icon }}"></i>
-                        <span class="title">{{ $menu->title }}</span>
-                        <span class="fa arrow"></span>
+                        <span class="title">{{ trans('Admin::admin.' . $menu->title) }}</span>
                     </a>
-                    <ul class="sub-menu">
-                        @foreach($menu['children'] as $child)
-                            <li @if(isset(explode('/',Request::path())[1]) && explode('/',Request::path())[1] == strtolower($child->plural_name)) class="active active-sub" @endif>
-                                <a href="{{ route(strtolower(config('admin.route').'.'.$child->plural_name).'.index') }}">
-                                    <i class="fa {{ $child->icon }}"></i>
-                                    <span class="title">
-                                        {{ $child->title  }}
-                                    </span>
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
                 </li>
+            @else
+                @if(!is_null($menu->children()->first()) && is_null($menu->parent_id))
+                    <li>
+                        <a href="#">
+                            <i class="fa {{ $menu->icon }}"></i>
+                            <span class="title">{{ $menu->title }}</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="sub-menu">
+                            @foreach($menu['children'] as $child)
+                                <li @if(isset(explode('/',Request::path())[1]) && explode('/',Request::path())[1] == strtolower($child->plural_name)) class="active active-sub" @endif>
+                                    <a href="{{ route(strtolower(config('admin.route').'.'.$child->plural_name).'.index') }}">
+                                        <i class="fa {{ $child->icon }}"></i>
+                                        <span class="title">
+                                            {{ $child->title  }}
+                                        </span>
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </li>
+                @endif
             @endif
         @endif
     @endforeach

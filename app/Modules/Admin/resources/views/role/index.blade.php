@@ -11,7 +11,7 @@
         <div class="box">
 
             <div class="box-header with-border">
-                <a href="{{ route(config('admin.route').'.roles.create') }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="fa fa-plus"></i> Add role</span></a>
+                <a href="{{ route(config('admin.route').'.roles.create') }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="fa fa-plus"></i> {{ trans('Admin::admin.add-new', ['item' => trans('Admin::models.' . $menuRoute->singular_name)]) }}</span></a>
             </div>
 
             <div class="box-body">
