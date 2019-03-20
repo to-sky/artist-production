@@ -25,7 +25,7 @@ class CreateClientsTable extends Migration {
 			$table->string('post_code')->nullable();
 			$table->string('city')->nullable();
 			$table->string('code')->nullable();
-			$table->float('comission')->nullable();
+			$table->float('commission')->nullable();
 			$table->text('comment', 65535)->nullable();
 			$table->string('type', 45)->nullable();
             $table->timestamps();

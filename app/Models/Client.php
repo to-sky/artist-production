@@ -13,6 +13,11 @@ class Client extends Model
 
     use SoftDeletes;
 
+    const TYPE_INDIVIDUAL = 0;
+    const TYPE_DISTRIBUTOR = 1;
+
+    const DEFAULT_COMMISSION = 10;
+
     /**
      * The attributes that should be mutated to dates.
      *
@@ -32,7 +37,8 @@ class Client extends Model
         'city',
         'country_id',
         'post_code',
-        'comission',
+        'commission',
+        'type',
         'code',
         'comment'
     ];
@@ -42,7 +48,7 @@ class Client extends Model
      *
      * @var array
      */
-    protected $appends = ['fullname'];
+    protected $appends = ['fullname', 'types'];
 
 
     public static function boot()
@@ -50,11 +56,6 @@ class Client extends Model
         parent::boot();
 
         Client::observe(new UserActionsObserver);
-    }
-
-    public function getFullnameAttribute()
-    {
-        return $this->first_name . ' ' . $this->last_name;
     }
 
     /**
@@ -71,6 +72,36 @@ class Client extends Model
     public function addresses()
     {
         return $this->hasMany('App\Models\Address');
+    }
+
+    public function getFullnameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function getTypesAttribute()
+    {
+        return static::getTypes();
+    }
+
+    public static function getTypes()
+    {
+        return [
+            static::TYPE_INDIVIDUAL => static::getTypeLabel(static::TYPE_INDIVIDUAL),
+            static::TYPE_DISTRIBUTOR => static::getTypeLabel(static::TYPE_DISTRIBUTOR)
+        ];
+    }
+
+    public static function getTypeLabel($type)
+    {
+        switch ($type) {
+            case static::TYPE_INDIVIDUAL:
+                return __('Individual');
+                break;
+            case static::TYPE_DISTRIBUTOR:
+                return __('Distributor');
+                break;
+        }
     }
 
 

@@ -27,37 +27,34 @@
                     <div class="form-group col-md-12">
                         {!! Form::label('first_name', __('First name')) !!}*
                         {!! Form::text('first_name', old('first_name'), array('class'=>'form-control')) !!}
-
                     </div>
                     <div class="form-group col-md-12">
                         {!! Form::label('last_name', __('Last name')) !!}*
                         {!! Form::text('last_name', old('last_name'), array('class'=>'form-control')) !!}
-
                     </div>
                     <div class="form-group col-md-12">
                         {!! Form::label('email', __('Email')) !!}*
                         {!! Form::text('email', old('email'), array('class'=>'form-control')) !!}
-
                     </div>
                     <div class="form-group col-md-12">
                         {!! Form::label('phone', __('Phone')) !!}
                         {!! Form::text('phone', old('phone'), array('class'=>'form-control')) !!}
-
                     </div>
                     <div class="form-group col-md-12">
                         {!! Form::label('commission', __('Commission')) !!}
-                        {!! Form::text('commission', old('commission', 0), array('class'=>'form-control')) !!}
-
+                        {!! Form::text('commission', old('commission', App\Models\Client::DEFAULT_COMMISSION), array('class'=>'form-control')) !!}
+                    </div>
+                    <div class="form-group col-md-12">
+                        {!! Form::label('type', __('Type')) !!}
+                        {!! Form::select('type', $types, old('type', App\Models\Client::TYPE_INDIVIDUAL), array('class'=>'form-control')) !!}
                     </div>
                     <div class="form-group col-md-12">
                         {!! Form::label('code', __('Code')) !!}
                         {!! Form::text('code', old('code'), array('class'=>'form-control')) !!}
-
                     </div>
                     <div class="form-group col-md-12">
                         {!! Form::label('$comment', __('Comment')) !!}
                         {!! Form::textarea('comment', old('comment'), array('class'=>'form-control')) !!}
-
                     </div>
                     <div class="form-group col-md-12">
                         <h4>{{ __('Address') }}</h4>

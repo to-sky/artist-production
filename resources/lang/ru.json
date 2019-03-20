@@ -80,5 +80,9 @@
     "Date": "Дата",
     "Time": "Время",
     "Active": "Активно",
-    "Select event date and time.": "Выберите дату и время мероприятия."
+    "Select event date and time.": "Выберите дату и время мероприятия.",
+    "Individual": "Физическое лицо",
+    "Legal entity": "Юридическое лицо",
+    "Distributor": "Реализатор",
+    "Corporate client": "Корпоративный клиент"
 }

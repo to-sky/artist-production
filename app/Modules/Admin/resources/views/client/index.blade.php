@@ -43,10 +43,10 @@
                             {!! Form::checkbox('del-'.$row->id,1,false,['class' => 'single','data-id'=> $row->id]) !!}
                         </td>
                         <td>{{ $row->fullname }}</td>
-                        <td>{{ $row->comission }}</td>
+                        <td>{{ $row->commission }}</td>
                         <td>{{ $row->email }}</td>
                         <td>{{ $row->phone }}</td>
-                        <td>{{ $row->type }}</td>
+                        <td>{{ App\Models\Client::getTypeLabel($row->type) }}</td>
                         <td>{{ $row->comment }}</td>
 
                         <td>
