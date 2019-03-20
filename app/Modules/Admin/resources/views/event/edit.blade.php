@@ -32,7 +32,7 @@
 
                 <div class="box-body row">
                     <div class="form-group col-md-12">
-                        {!! Form::label('name', __('Event')) !!}*
+                        {!! Form::label('name', __('Admin::models.Event')) !!}*
                         {!! Form::text('name', old('name', $event->name), array('class'=>'form-control')) !!}
                     </div>
                     <div class="form-group col-md-12">
@@ -41,15 +41,15 @@
                         <p class="help-block">{{ __('Select event date and time.') }}</p>
                     </div>
                     <div class="form-group col-md-12">
-                        {!! Form::label('city_id', __('City')) !!}*
+                        {!! Form::label('city_id', __('Admin::models.City')) !!}*
                         {!! Form::select('city_id', $cities, old('city_id', $event->hall->building->city->id), array('class'=>'form-control')) !!}
                     </div>
                     <div class="form-group col-md-12">
-                        {!! Form::label('building_id', __('Building')) !!}*
+                        {!! Form::label('building_id', __('Admin::models.Building')) !!}*
                         {!! Form::select('building_id', $buildings, old('building_id', $event->hall->building->id), array('class'=>'form-control')) !!}
                     </div>
                     <div class="form-group col-md-12">
-                        {!! Form::label('hall_id', __('Hall')) !!}*
+                        {!! Form::label('hall_id', __('Admin::models.Hall')) !!}*
                         {!! Form::select('hall_id', $halls, old('hall_id', $event->hall_id), array('class'=>'form-control')) !!}
                     </div>
                     <div class="checkbox col-md-12">

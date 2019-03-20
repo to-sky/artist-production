@@ -21,12 +21,12 @@
                         <th class="no-sort" width="5%" style="text-align: center">
                             {!! Form::checkbox('delete_all',1,false,['class' => 'mass']) !!}
                         </th>
-                        <th>{{ __('Event') }}</th>
+                        <th>{{ __('Admin::models.Event') }}</th>
                         <th>{{ __('Date') }}</th>
                         <th>{{ __('Time') }}</th>
-                        <th>{{ __('City') }}</th>
-                        <th>{{ __('Building') }}</th>
-                        <th>{{ __('Hall') }}</th>
+                        <th>{{ __('Admin::models.City') }}</th>
+                        <th>{{ __('Admin::models.Building') }}</th>
+                        <th>{{ __('Admin::models.Hall') }}</th>
                         <th>{{ __('Active') }}</th>
                         <th>{{ __('Actions') }}</th>
                     </tr>

@@ -48,6 +48,15 @@ class MenuTableSeeder extends Seeder
                 'position' => 8,
                 'roles' => 1
             ],
+            'event' => [
+                'singular_name' => 'client',
+                'plural_name' => 'clients',
+                'icon' => 'fa-calendar',
+                'title' => 'Clients',
+                'menu_type' => 1,
+                'position' => 0,
+                'roles' => 1
+            ],
         ];
 
         foreach ($menu as $entity => $data) {

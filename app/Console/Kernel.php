@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('kartina:parse-event-id')
+         $schedule->command('kartina:parse-events')
              ->daily();
     }
 
