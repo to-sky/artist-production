@@ -53,7 +53,7 @@
                         {!! Form::text('code', old('code'), array('class'=>'form-control')) !!}
                     </div>
                     <div class="form-group col-md-12">
-                        {!! Form::label('$comment', __('Comment')) !!}
+                        {!! Form::label('comment', __('Comment')) !!}
                         {!! Form::textarea('comment', old('comment'), array('class'=>'form-control')) !!}
                     </div>
                     <div class="form-group col-md-12">
