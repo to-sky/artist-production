@@ -107,5 +107,19 @@
     "Send letter with list of e-tickets": "Отправлять письмо сo списком электронных билетов",
     "Letter with list of e-tickets": "Письмо со списком электронных билетов",
     "Send letter with registration confirmation": "Отправлять письмо с подтверждением регистрации",
-    "Letter with registration confirmation": "Письмо с подтверждением регистрации"
+    "Letter with registration confirmation": "Письмо с подтверждением регистрации",
+    "Placeholders": "Заполнители",
+    ":placeholder - order number": ":placeholder - номер заказа",
+    ":placeholder - link to the website": ":placeholder - ссылка на сайт",
+    ":placeholder - list of ordered tickets": ":placeholder - список заказанных билетов",
+    ":placeholder - payment amount": ":placeholder - сумма к оплате",
+    ":placeholder - order currency": ":placeholder - валюта заказа",
+    ":placeholder - client name": ":placeholder - имя клиента",
+    ":placeholder - cash list": ":placeholder - список касс",
+    ":placeholder - message 'we will call you'": ":placeholder - сообщение 'вам перезвонят'",
+    ":placeholder - bank details": ":placeholder - банковские реквизиты",
+    ":placeholder - reserve expiration date": ":placeholder - дата истечения резерва",
+    ":placeholder - link to enter client profile": ":placeholder - ссылка на вход в профиль клиента",
+    ":placeholder - client login = Email": ":placeholder - логин клиента = E-Mail",
+    ":placeholder - client password": ":placeholder - пароль клиента"
 }

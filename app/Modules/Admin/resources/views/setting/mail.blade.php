@@ -71,11 +71,24 @@
                                 <li class="active"><a href="#ru-order-payment">RU</a></li>
                                 <li><a href="#de-order-payment">DE</a></li>
                                 <li><a href="#en-order-payment">EN</a></li>
+                                <li class="pull-right"><a href="#placeholders-order-payment">{{ __('Placeholders') }}</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="ru-order-payment">{!! Form::textarea('settings[mail_order_payment_ru]', old('mail_order_payment_ru', setting('mail_order_payment_ru', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_order_payment_ru')) !!}</div>
                                 <div class="tab-pane" id="de-order-payment">{!! Form::textarea('settings[mail_order_payment_de]', old('mail_order_payment_de', setting('mail_order_payment_de', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_order_payment_de')) !!}</div>
                                 <div class="tab-pane" id="en-order-payment">{!! Form::textarea('settings[mail_order_payment_en]', old('mail_order_payment_en', setting('mail_order_payment_en', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_order_payment_en')) !!}</div>
+                                <div class="tab-pane" id="placeholders-order-payment">
+                                    <hr style="margin: 0 0 20px 0">
+                                    <ul style="list-style-type: none">
+                                        <li>{{ __(':placeholder - order number', ['placeholder' => '@OrderId']) }}</li>
+                                        <li>{{ __(':placeholder - link to the website', ['placeholder' => '@SiteUrl']) }}</li>
+                                        <li>{{ __(':placeholder - list of ordered tickets', ['placeholder' => '@TicketsList']) }}</li>
+                                        <li>{{ __(':placeholder - payment amount', ['placeholder' => '@Amount']) }}</li>
+                                        <li>{{ __(':placeholder - order currency', ['placeholder' => '@Currency']) }}</li>
+                                        <li>{{ __(':placeholder - client name', ['placeholder' => '@ClientName']) }}</li>
+                                    </ul>
+                                    <hr style="margin: 20px 0 0 0">
+                                </div>
                             </div>
                         </div>
                         <div class="form-group col-md-12">
@@ -93,11 +106,29 @@
                                 <li class="active"><a href="#ru-clearance-reserve">RU</a></li>
                                 <li><a href="#de-clearance-reserve">DE</a></li>
                                 <li><a href="#en-clearance-reserve">EN</a></li>
+                                <li class="pull-right"><a href="#placeholders-clearance-reserve">{{ __('Placeholders') }}</a></li>
+
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="ru-clearance-reserve">{!! Form::textarea('settings[mail_clearance_reserve_ru]', old('mail_clearance_reserve_ru', setting('mail_clearance_reserve_ru', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_clearance_reserve_ru')) !!}</div>
                                 <div class="tab-pane" id="de-clearance-reserve">{!! Form::textarea('settings[mail_clearance_reserve_de]', old('mail_clearance_reserve_de', setting('mail_clearance_reserve_de', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_clearance_reserve_de')) !!}</div>
                                 <div class="tab-pane" id="en-clearance-reserve">{!! Form::textarea('settings[mail_clearance_reserve_en]', old('mail_clearance_reserve_en', setting('mail_clearance_reserve_en', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_clearance_reserve_en')) !!}</div>
+                                <div class="tab-pane" id="placeholders-clearance-reserve">
+                                    <hr style="margin: 0 0 20px 0">
+                                    <ul style="list-style-type: none">
+                                        <li>{{ __(':placeholder - reserve expiration date', ['placeholder' => '@ReserveExpirationDate']) }}</li>
+                                        <li>{{ __(':placeholder - order number', ['placeholder' => '@OrderId']) }}</li>
+                                        <li>{{ __(':placeholder - link to the website', ['placeholder' => '@SiteUrl']) }}</li>
+                                        <li>{{ __(':placeholder - list of ordered tickets', ['placeholder' => '@TicketsList']) }}</li>
+                                        <li>{{ __(':placeholder - payment amount', ['placeholder' => '@Amount']) }}</li>
+                                        <li>{{ __(':placeholder - order currency', ['placeholder' => '@Currency']) }}</li>
+                                        <li>{{ __(':placeholder - client name', ['placeholder' => '@ClientName']) }}</li>
+                                        <li>{{ __(':placeholder - cash list', ['placeholder' => '@TicketOfficesList']) }}</li>
+                                        <li>{{ __(':placeholder - message \'we will call you\'', ['placeholder' => '@WeWillCallYouMessage']) }}</li>
+                                        <li>{{ __(':placeholder - bank details', ['placeholder' => '@BankRequisites']) }}</li>
+                                    </ul>
+                                    <hr style="margin: 20px 0 0 0">
+                                </div>
                             </div>
                         </div>
                         <div class="form-group col-md-12">
@@ -115,11 +146,27 @@
                                 <li class="active"><a href="#ru-tickets-for-sale">RU</a></li>
                                 <li><a href="#de-tickets-for-sale">DE</a></li>
                                 <li><a href="#en-tickets-for-sale">EN</a></li>
+                                <li class="pull-right"><a href="#placeholders-tickets-for-sale">{{ __('Placeholders') }}</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="ru-tickets-for-sale">{!! Form::textarea('settings[mail_tickets_for_sale_ru]', old('mail_tickets_for_sale_ru', setting('mail_tickets_for_sale_ru', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_tickets_for_sale_ru')) !!}</div>
                                 <div class="tab-pane" id="de-tickets-for-sale">{!! Form::textarea('settings[mail_tickets_for_sale_de]', old('mail_tickets_for_sale_de', setting('mail_tickets_for_sale_de', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_tickets_for_sale_de')) !!}</div>
                                 <div class="tab-pane" id="en-tickets-for-sale">{!! Form::textarea('settings[mail_tickets_for_sale_en]', old('mail_tickets_for_sale_en', setting('mail_tickets_for_sale_en', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_tickets_for_sale_en')) !!}</div>
+                                <div class="tab-pane" id="placeholders-tickets-for-sale">
+                                    <hr style="margin: 0 0 20px 0">
+                                    <ul style="list-style-type: none">
+                                        <li>{{ __(':placeholder - order number', ['placeholder' => '@OrderId']) }}</li>
+                                        <li>{{ __(':placeholder - link to the website', ['placeholder' => '@SiteUrl']) }}</li>
+                                        <li>{{ __(':placeholder - list of ordered tickets', ['placeholder' => '@TicketsList']) }}</li>
+                                        <li>{{ __(':placeholder - payment amount', ['placeholder' => '@Amount']) }}</li>
+                                        <li>{{ __(':placeholder - order currency', ['placeholder' => '@Currency']) }}</li>
+                                        <li>{{ __(':placeholder - client name', ['placeholder' => '@ClientName']) }}</li>
+                                        <li>{{ __(':placeholder - cash list', ['placeholder' => '@TicketOfficesList']) }}</li>
+                                        <li>{{ __(':placeholder - message \'we will call you\'', ['placeholder' => '@WeWillCallYouMessage']) }}</li>
+                                        <li>{{ __(':placeholder - bank details', ['placeholder' => '@BankRequisites']) }}</li>
+                                    </ul>
+                                    <hr style="margin: 20px 0 0 0">
+                                </div>
                             </div>
                         </div>
                         <div class="form-group col-md-12">
@@ -128,11 +175,25 @@
                                 <li class="active"><a href="#ru-courier-delivery">RU</a></li>
                                 <li><a href="#de-courier-delivery">DE</a></li>
                                 <li><a href="#en-courier-delivery">EN</a></li>
+                                <li class="pull-right"><a href="#placeholders-courier-delivery">{{ __('Placeholders') }}</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="ru-courier-delivery">{!! Form::textarea('settings[mail_courier_delivery_ru]', old('mail_courier_delivery_ru', setting('mail_courier_delivery_ru', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_courier_delivery_ru')) !!}</div>
                                 <div class="tab-pane" id="de-courier-delivery">{!! Form::textarea('settings[mail_courier_delivery_de]', old('mail_courier_delivery_de', setting('mail_courier_delivery_de', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_courier_delivery_de')) !!}</div>
                                 <div class="tab-pane" id="en-courier-delivery">{!! Form::textarea('settings[mail_courier_delivery_en]', old('mail_courier_delivery_en', setting('mail_courier_delivery_en', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_courier_delivery_en')) !!}</div>
+                                <div class="tab-pane" id="placeholders-courier-delivery">
+                                    <hr style="margin: 0 0 20px 0">
+                                    <ul style="list-style-type: none">
+                                        <li>{{ __(':placeholder - order number', ['placeholder' => '@OrderId']) }}</li>
+                                        <li>{{ __(':placeholder - link to the website', ['placeholder' => '@SiteUrl']) }}</li>
+                                        <li>{{ __(':placeholder - list of ordered tickets', ['placeholder' => '@TicketsList']) }}</li>
+                                        <li>{{ __(':placeholder - payment amount', ['placeholder' => '@Amount']) }}</li>
+                                        <li>{{ __(':placeholder - order currency', ['placeholder' => '@Currency']) }}</li>
+                                        <li>{{ __(':placeholder - client name', ['placeholder' => '@ClientName']) }}</li>
+                                        <li>{{ __(':placeholder - cash list', ['placeholder' => '@TicketOfficesList']) }}</li>
+                                    </ul>
+                                    <hr style="margin: 20px 0 0 0">
+                                </div>
                             </div>
                         </div>
                         <div class="form-group col-md-12">
@@ -150,11 +211,25 @@
                                 <li class="active"><a href="#ru-e-ticket-list">RU</a></li>
                                 <li><a href="#de-e-ticket-list">DE</a></li>
                                 <li><a href="#en-e-ticket-list">EN</a></li>
+                                <li class="pull-right"><a href="#placeholders-e-ticket-list">{{ __('Placeholders') }}</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="ru-e-ticket-list">{!! Form::textarea('settings[mail_e-ticket_list_ru]', old('mail_e-ticket_list_ru', setting('mail_e-ticket_list_ru', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_e-ticket_list_ru')) !!}</div>
                                 <div class="tab-pane" id="de-e-ticket-list">{!! Form::textarea('settings[mail_e-ticket_list_de]', old('mail_e-ticket_list_de', setting('mail_e-ticket_list_de', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_e-ticket_list_de')) !!}</div>
                                 <div class="tab-pane" id="en-e-ticket-list">{!! Form::textarea('settings[mail_e-ticket_list_en]', old('mail_e-ticket_list_en', setting('mail_e-ticket_list_en', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_e-ticket_list_en')) !!}</div>
+                                <div class="tab-pane" id="placeholders-e-ticket-list">
+                                    <hr style="margin: 0 0 20px 0">
+                                    <ul style="list-style-type: none">
+                                        <li>{{ __(':placeholder - order number', ['placeholder' => '@OrderId']) }}</li>
+                                        <li>{{ __(':placeholder - link to the website', ['placeholder' => '@SiteUrl']) }}</li>
+                                        <li>{{ __(':placeholder - list of ordered tickets', ['placeholder' => '@TicketsList']) }}</li>
+                                        <li>{{ __(':placeholder - payment amount', ['placeholder' => '@Amount']) }}</li>
+                                        <li>{{ __(':placeholder - order currency', ['placeholder' => '@Currency']) }}</li>
+                                        <li>{{ __(':placeholder - client name', ['placeholder' => '@ClientName']) }}</li>
+                                        <li>{{ __(':placeholder - cash list', ['placeholder' => '@TicketOfficesList']) }}</li>
+                                    </ul>
+                                    <hr style="margin: 20px 0 0 0">
+                                </div>
                             </div>
                         </div>
                         <div class="form-group col-md-12">
@@ -172,11 +247,23 @@
                                 <li class="active"><a href="#ru-registration-confirmation">RU</a></li>
                                 <li><a href="#de-registration-confirmation">DE</a></li>
                                 <li><a href="#en-registration-confirmation">EN</a></li>
+                                <li class="pull-right"><a href="#placeholders-registration-confirmation">{{ __('Placeholders') }}</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="ru-registration-confirmation">{!! Form::textarea('settings[mail_registration_confirmation_ru]', old('mail_registration_confirmation_ru', setting('mail_registration_confirmation_ru', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_registration_confirmation_ru')) !!}</div>
                                 <div class="tab-pane" id="de-registration-confirmation">{!! Form::textarea('settings[mail_registration_confirmation_de]', old('mail_registration_confirmation_de', setting('mail_registration_confirmation_de', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_registration_confirmation_de')) !!}</div>
                                 <div class="tab-pane" id="en-registration-confirmation">{!! Form::textarea('settings[mail_registration_confirmation_en]', old('mail_registration_confirmation_en', setting('mail_registration_confirmation_en', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_registration_confirmation_en')) !!}</div>
+                                <div class="tab-pane" id="placeholders-registration-confirmation">
+                                    <hr style="margin: 0 0 20px 0">
+                                    <ul style="list-style-type: none">
+                                        <li>{{ __(':placeholder - client name', ['placeholder' => '@ClientName']) }}</li>
+                                        <li>{{ __(':placeholder - link to the website', ['placeholder' => '@SiteUrl']) }}</li>
+                                        <li>{{ __(':placeholder - link to enter client profile', ['placeholder' => '@UserProfileURL']) }}</li>
+                                        <li>{{ __(':placeholder - client login = Email', ['placeholder' => '@Login']) }}</li>
+                                        <li>{{ __(':placeholder - client password', ['placeholder' => '@Password']) }}</li>
+                                    </ul>
+                                    <hr style="margin: 20px 0 0 0">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -201,7 +288,6 @@
     @include('Admin::partials.form-scripts')
 
     <script>
-        console.log($('#settings[smtp_server]').length);
         $('.nav-tabs a, .nav-pills a').click(function (e) {
             e.preventDefault()
             $(this).tab('show')
