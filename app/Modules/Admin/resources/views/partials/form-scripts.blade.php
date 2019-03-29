@@ -67,9 +67,5 @@
             locale: '{{ app()->getLocale() }}'
         });
 
-//        $('.ckeditor').each(function () {
-//            CKEDITOR.replace($(this));
-//        })
-
     });
 </script>

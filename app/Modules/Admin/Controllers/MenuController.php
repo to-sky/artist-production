@@ -94,6 +94,7 @@ class MenuController extends AdminController
         }
 
         $menu = Menu::create($request->all());
+        $menu->roles()->sync($request->input('roles', []));
 
         // Shows a success message
         Alert::success(trans('Admin::admin.users-controller-successfully_created'))->flash();

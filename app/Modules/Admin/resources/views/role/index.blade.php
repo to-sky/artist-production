@@ -26,7 +26,7 @@
                     <tbody>
                         @foreach ($roles as $role)
                             <tr>
-                                <td>{{ $role->display_name }}</td>
+                                <td>{{ __($role->display_name) }}</td>
                                 <td>
                                     <a href="{{ route(config('admin.route').'.roles.edit', [$role->id]) }}" class="btn btn-xs btn-default"><i class="fa fa-edit"></i> {{ trans('Admin::admin.users-index-edit') }}</a>
                                     <a href="{{ route(config('admin.route').'.roles.destroy', [$role->id]) }}" class="btn btn-xs btn-default delete-button"><i class="fa fa-trash"></i> {{ trans('Admin::admin.users-index-delete') }}</a>

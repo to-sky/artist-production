@@ -42,7 +42,7 @@
                             <div class="checkbox">
                                 <label>
                                     {!! Form::checkbox('roles['.$role->id.']',$role->id,old('roles.'.$role->id, $menu->roles()->where('role_id', $role->id)->pluck('id')->first())) !!}
-                                    {!! $role->display_name !!}
+                                    {!! __($role->display_name) !!}
                                 </label>
                             </div>
                         @endforeach

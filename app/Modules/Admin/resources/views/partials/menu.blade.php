@@ -1,5 +1,5 @@
 <!-- sidebar menu: : style can be found in sidebar.less -->
-<ul class="sidebar-menu">
+<ul class="sidebar-menu tree" data-widget="tree" data-animation-speed="200">
     <li @if(Request::path() == 'dashboard') class="active" @endif>
         <a href="{{ url(config('admin.homeRoute')) }}">
             <i class="fa fa-dashboard"></i>
@@ -48,6 +48,23 @@
             <i class="fa fa-list"></i>
             <span class="title">{{ trans('Admin::admin.partials-sidebar-menu') }}</span>
         </a>
+    </li>
+    <li class="treeview @if(strpos(Request::path(), 'settings') !== false){{ 'active menu-open' }}@endif">
+        <a href="#">
+            <i class="fa fa-gear"></i>
+            <span>{{ trans('Admin::admin.Settings') }}</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li class="active">
+                <a href="{{ route(config('admin.route') . '.settings.mail') }}">
+                    <i class="fa fa-circle-o"></i>
+                    {{ trans('Admin::admin.Mail') }}
+                </a>
+            </li>
+        </ul>
     </li>
     {{--<li @if(Request::path() == config('admin.route').'/actions') class="active" @endif>--}}
     {{--<a href="{{ url(config('admin.route').'/actions') }}">--}}

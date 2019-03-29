@@ -66,6 +66,8 @@ return [
     'Clients' => 'Клиенты',
     'Events' => 'Мероприятия',
     'Menu' => 'Меню',
+    'Settings' => 'Настройки',
+    'Mail' => 'Почта',
 
     // actions
     'index' => 'Список',
@@ -74,6 +76,7 @@ return [
     'add-new' => 'Добавить :item',
     'edit-item' => 'Редактировать :item',
     'select-item' => 'Выберите :item',
+    'mail' => 'Почта',
 
     'back-to-all-entries' => 'Назад ко всем записям'
 

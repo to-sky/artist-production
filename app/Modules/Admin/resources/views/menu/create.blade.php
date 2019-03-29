@@ -51,7 +51,7 @@
                             <div class="checkbox">
                                 <label>
                                     {!! Form::checkbox('roles['.$role->id.']',$role->id,old('roles.'.$role->id)) !!}
-                                    {!! $role->display_name !!}
+                                    {!! __($role->display_name) !!}
                                 </label>
                             </div>
                         @endforeach
