@@ -67,5 +67,9 @@
             locale: '{{ app()->getLocale() }}'
         });
 
+        $('.ckeditor-classic').ckeditor({
+            language: '{{ app()->getLocale() }}'
+        });
+
     });
 </script>

@@ -121,5 +121,6 @@
     ":placeholder - reserve expiration date": ":placeholder - дата истечения резерва",
     ":placeholder - link to enter client profile": ":placeholder - ссылка на вход в профиль клиента",
     ":placeholder - client login = Email": ":placeholder - логин клиента = E-Mail",
-    ":placeholder - client password": ":placeholder - пароль клиента"
+    ":placeholder - client password": ":placeholder - пароль клиента",
+    "Copy": "Копировать"
 }

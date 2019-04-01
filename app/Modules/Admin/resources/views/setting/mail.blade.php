@@ -74,18 +74,48 @@
                                 <li class="pull-right"><a href="#placeholders-order-payment">{{ __('Placeholders') }}</a></li>
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane active" id="ru-order-payment">{!! Form::textarea('settings[mail_order_payment_ru]', old('mail_order_payment_ru', setting('mail_order_payment_ru', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_order_payment_ru')) !!}</div>
-                                <div class="tab-pane" id="de-order-payment">{!! Form::textarea('settings[mail_order_payment_de]', old('mail_order_payment_de', setting('mail_order_payment_de', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_order_payment_de')) !!}</div>
-                                <div class="tab-pane" id="en-order-payment">{!! Form::textarea('settings[mail_order_payment_en]', old('mail_order_payment_en', setting('mail_order_payment_en', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_order_payment_en')) !!}</div>
+                                <div class="tab-pane active" id="ru-order-payment">{!! Form::textarea('settings[mail_order_payment_ru]', old('mail_order_payment_ru', setting('mail_order_payment_ru', null)), array('class'=>'form-control ckeditor-classic', 'id' => 'mail_order_payment_ru')) !!}</div>
+                                <div class="tab-pane" id="de-order-payment">{!! Form::textarea('settings[mail_order_payment_de]', old('mail_order_payment_de', setting('mail_order_payment_de', null)), array('class'=>'form-control ckeditor-classic', 'id' => 'mail_order_payment_de')) !!}</div>
+                                <div class="tab-pane" id="en-order-payment">{!! Form::textarea('settings[mail_order_payment_en]', old('mail_order_payment_en', setting('mail_order_payment_en', null)), array('class'=>'form-control ckeditor-classic', 'id' => 'mail_order_payment_en')) !!}</div>
                                 <div class="tab-pane" id="placeholders-order-payment">
                                     <hr style="margin: 0 0 20px 0">
                                     <ul style="list-style-type: none">
-                                        <li>{{ __(':placeholder - order number', ['placeholder' => '@OrderId']) }}</li>
-                                        <li>{{ __(':placeholder - link to the website', ['placeholder' => '@SiteUrl']) }}</li>
-                                        <li>{{ __(':placeholder - list of ordered tickets', ['placeholder' => '@TicketsList']) }}</li>
-                                        <li>{{ __(':placeholder - payment amount', ['placeholder' => '@Amount']) }}</li>
-                                        <li>{{ __(':placeholder - order currency', ['placeholder' => '@Currency']) }}</li>
-                                        <li>{{ __(':placeholder - client name', ['placeholder' => '@ClientName']) }}</li>
+                                        <li>
+                                            <a href="" class="btn btn-default copy-placeholder" data-mail-placeholder="@OrderId" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - order number', ['placeholder' => '@OrderId']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@SiteUrl" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - link to the website', ['placeholder' => '@SiteUrl']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@TicketsList" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - list of ordered tickets', ['placeholder' => '@TicketsList']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@Amount" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - payment amount', ['placeholder' => '@Amount']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@Currency" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - order currency', ['placeholder' => '@Currency']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@ClientName" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - client name', ['placeholder' => '@ClientName']) }}
+                                        </li>
                                     </ul>
                                     <hr style="margin: 20px 0 0 0">
                                 </div>
@@ -110,22 +140,72 @@
 
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane active" id="ru-clearance-reserve">{!! Form::textarea('settings[mail_clearance_reserve_ru]', old('mail_clearance_reserve_ru', setting('mail_clearance_reserve_ru', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_clearance_reserve_ru')) !!}</div>
-                                <div class="tab-pane" id="de-clearance-reserve">{!! Form::textarea('settings[mail_clearance_reserve_de]', old('mail_clearance_reserve_de', setting('mail_clearance_reserve_de', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_clearance_reserve_de')) !!}</div>
-                                <div class="tab-pane" id="en-clearance-reserve">{!! Form::textarea('settings[mail_clearance_reserve_en]', old('mail_clearance_reserve_en', setting('mail_clearance_reserve_en', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_clearance_reserve_en')) !!}</div>
+                                <div class="tab-pane active" id="ru-clearance-reserve">{!! Form::textarea('settings[mail_clearance_reserve_ru]', old('mail_clearance_reserve_ru', setting('mail_clearance_reserve_ru', null)), array('class'=>'form-control ckeditor-classic', 'id' => 'mail_clearance_reserve_ru')) !!}</div>
+                                <div class="tab-pane" id="de-clearance-reserve">{!! Form::textarea('settings[mail_clearance_reserve_de]', old('mail_clearance_reserve_de', setting('mail_clearance_reserve_de', null)), array('class'=>'form-control ckeditor-classic', 'id' => 'mail_clearance_reserve_de')) !!}</div>
+                                <div class="tab-pane" id="en-clearance-reserve">{!! Form::textarea('settings[mail_clearance_reserve_en]', old('mail_clearance_reserve_en', setting('mail_clearance_reserve_en', null)), array('class'=>'form-control ckeditor-classic', 'id' => 'mail_clearance_reserve_en')) !!}</div>
                                 <div class="tab-pane" id="placeholders-clearance-reserve">
                                     <hr style="margin: 0 0 20px 0">
                                     <ul style="list-style-type: none">
-                                        <li>{{ __(':placeholder - reserve expiration date', ['placeholder' => '@ReserveExpirationDate']) }}</li>
-                                        <li>{{ __(':placeholder - order number', ['placeholder' => '@OrderId']) }}</li>
-                                        <li>{{ __(':placeholder - link to the website', ['placeholder' => '@SiteUrl']) }}</li>
-                                        <li>{{ __(':placeholder - list of ordered tickets', ['placeholder' => '@TicketsList']) }}</li>
-                                        <li>{{ __(':placeholder - payment amount', ['placeholder' => '@Amount']) }}</li>
-                                        <li>{{ __(':placeholder - order currency', ['placeholder' => '@Currency']) }}</li>
-                                        <li>{{ __(':placeholder - client name', ['placeholder' => '@ClientName']) }}</li>
-                                        <li>{{ __(':placeholder - cash list', ['placeholder' => '@TicketOfficesList']) }}</li>
-                                        <li>{{ __(':placeholder - message \'we will call you\'', ['placeholder' => '@WeWillCallYouMessage']) }}</li>
-                                        <li>{{ __(':placeholder - bank details', ['placeholder' => '@BankRequisites']) }}</li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@ReserveExpirationDate" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - reserve expiration date', ['placeholder' => '@ReserveExpirationDate']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@OrderId" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - order number', ['placeholder' => '@OrderId']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@SiteUrl" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - link to the website', ['placeholder' => '@SiteUrl']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@TicketsList" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - list of ordered tickets', ['placeholder' => '@TicketsList']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@Amount" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - payment amount', ['placeholder' => '@Amount']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@Currency" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - order currency', ['placeholder' => '@Currency']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@ClientName" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - client name', ['placeholder' => '@ClientName']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@TicketOfficesList" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - cash list', ['placeholder' => '@TicketOfficesList']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@WeWillCallYouMessage" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - message \'we will call you\'', ['placeholder' => '@WeWillCallYouMessage']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@BankRequisites" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - bank details', ['placeholder' => '@BankRequisites']) }}
+                                        </li>
                                     </ul>
                                     <hr style="margin: 20px 0 0 0">
                                 </div>
@@ -149,21 +229,66 @@
                                 <li class="pull-right"><a href="#placeholders-tickets-for-sale">{{ __('Placeholders') }}</a></li>
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane active" id="ru-tickets-for-sale">{!! Form::textarea('settings[mail_tickets_for_sale_ru]', old('mail_tickets_for_sale_ru', setting('mail_tickets_for_sale_ru', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_tickets_for_sale_ru')) !!}</div>
-                                <div class="tab-pane" id="de-tickets-for-sale">{!! Form::textarea('settings[mail_tickets_for_sale_de]', old('mail_tickets_for_sale_de', setting('mail_tickets_for_sale_de', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_tickets_for_sale_de')) !!}</div>
-                                <div class="tab-pane" id="en-tickets-for-sale">{!! Form::textarea('settings[mail_tickets_for_sale_en]', old('mail_tickets_for_sale_en', setting('mail_tickets_for_sale_en', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_tickets_for_sale_en')) !!}</div>
+                                <div class="tab-pane active" id="ru-tickets-for-sale">{!! Form::textarea('settings[mail_tickets_for_sale_ru]', old('mail_tickets_for_sale_ru', setting('mail_tickets_for_sale_ru', null)), array('class'=>'form-control ckeditor-classic', 'id' => 'mail_tickets_for_sale_ru')) !!}</div>
+                                <div class="tab-pane" id="de-tickets-for-sale">{!! Form::textarea('settings[mail_tickets_for_sale_de]', old('mail_tickets_for_sale_de', setting('mail_tickets_for_sale_de', null)), array('class'=>'form-control ckeditor-classic', 'id' => 'mail_tickets_for_sale_de')) !!}</div>
+                                <div class="tab-pane" id="en-tickets-for-sale">{!! Form::textarea('settings[mail_tickets_for_sale_en]', old('mail_tickets_for_sale_en', setting('mail_tickets_for_sale_en', null)), array('class'=>'form-control ckeditor-classic', 'id' => 'mail_tickets_for_sale_en')) !!}</div>
                                 <div class="tab-pane" id="placeholders-tickets-for-sale">
                                     <hr style="margin: 0 0 20px 0">
                                     <ul style="list-style-type: none">
-                                        <li>{{ __(':placeholder - order number', ['placeholder' => '@OrderId']) }}</li>
-                                        <li>{{ __(':placeholder - link to the website', ['placeholder' => '@SiteUrl']) }}</li>
-                                        <li>{{ __(':placeholder - list of ordered tickets', ['placeholder' => '@TicketsList']) }}</li>
-                                        <li>{{ __(':placeholder - payment amount', ['placeholder' => '@Amount']) }}</li>
-                                        <li>{{ __(':placeholder - order currency', ['placeholder' => '@Currency']) }}</li>
-                                        <li>{{ __(':placeholder - client name', ['placeholder' => '@ClientName']) }}</li>
-                                        <li>{{ __(':placeholder - cash list', ['placeholder' => '@TicketOfficesList']) }}</li>
-                                        <li>{{ __(':placeholder - message \'we will call you\'', ['placeholder' => '@WeWillCallYouMessage']) }}</li>
-                                        <li>{{ __(':placeholder - bank details', ['placeholder' => '@BankRequisites']) }}</li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@OrderId" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - order number', ['placeholder' => '@OrderId']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@SiteUrl" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - link to the website', ['placeholder' => '@SiteUrl']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@TicketsList" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - list of ordered tickets', ['placeholder' => '@TicketsList']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@Amount" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - payment amount', ['placeholder' => '@Amount']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@Currency" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - order currency', ['placeholder' => '@Currency']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@ClientName" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - client name', ['placeholder' => '@ClientName']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@TicketOfficesList" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - cash list', ['placeholder' => '@TicketOfficesList']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@WeWillCallYouMessage" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - message \'we will call you\'', ['placeholder' => '@WeWillCallYouMessage']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@BankRequisites" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - bank details', ['placeholder' => '@BankRequisites']) }}
+                                        </li>
                                     </ul>
                                     <hr style="margin: 20px 0 0 0">
                                 </div>
@@ -178,19 +303,54 @@
                                 <li class="pull-right"><a href="#placeholders-courier-delivery">{{ __('Placeholders') }}</a></li>
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane active" id="ru-courier-delivery">{!! Form::textarea('settings[mail_courier_delivery_ru]', old('mail_courier_delivery_ru', setting('mail_courier_delivery_ru', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_courier_delivery_ru')) !!}</div>
-                                <div class="tab-pane" id="de-courier-delivery">{!! Form::textarea('settings[mail_courier_delivery_de]', old('mail_courier_delivery_de', setting('mail_courier_delivery_de', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_courier_delivery_de')) !!}</div>
-                                <div class="tab-pane" id="en-courier-delivery">{!! Form::textarea('settings[mail_courier_delivery_en]', old('mail_courier_delivery_en', setting('mail_courier_delivery_en', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_courier_delivery_en')) !!}</div>
+                                <div class="tab-pane active" id="ru-courier-delivery">{!! Form::textarea('settings[mail_courier_delivery_ru]', old('mail_courier_delivery_ru', setting('mail_courier_delivery_ru', null)), array('class'=>'form-control ckeditor-classic', 'id' => 'mail_courier_delivery_ru')) !!}</div>
+                                <div class="tab-pane" id="de-courier-delivery">{!! Form::textarea('settings[mail_courier_delivery_de]', old('mail_courier_delivery_de', setting('mail_courier_delivery_de', null)), array('class'=>'form-control ckeditor-classic', 'id' => 'mail_courier_delivery_de')) !!}</div>
+                                <div class="tab-pane" id="en-courier-delivery">{!! Form::textarea('settings[mail_courier_delivery_en]', old('mail_courier_delivery_en', setting('mail_courier_delivery_en', null)), array('class'=>'form-control ckeditor-classic', 'id' => 'mail_courier_delivery_en')) !!}</div>
                                 <div class="tab-pane" id="placeholders-courier-delivery">
                                     <hr style="margin: 0 0 20px 0">
                                     <ul style="list-style-type: none">
-                                        <li>{{ __(':placeholder - order number', ['placeholder' => '@OrderId']) }}</li>
-                                        <li>{{ __(':placeholder - link to the website', ['placeholder' => '@SiteUrl']) }}</li>
-                                        <li>{{ __(':placeholder - list of ordered tickets', ['placeholder' => '@TicketsList']) }}</li>
-                                        <li>{{ __(':placeholder - payment amount', ['placeholder' => '@Amount']) }}</li>
-                                        <li>{{ __(':placeholder - order currency', ['placeholder' => '@Currency']) }}</li>
-                                        <li>{{ __(':placeholder - client name', ['placeholder' => '@ClientName']) }}</li>
-                                        <li>{{ __(':placeholder - cash list', ['placeholder' => '@TicketOfficesList']) }}</li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@OrderId" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - order number', ['placeholder' => '@OrderId']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@SiteUrl" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - link to the website', ['placeholder' => '@SiteUrl']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@TicketsList" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - list of ordered tickets', ['placeholder' => '@TicketsList']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@Amount" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - payment amount', ['placeholder' => '@Amount']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@Currency" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - order currency', ['placeholder' => '@Currency']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@ClientName" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - client name', ['placeholder' => '@ClientName']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@TicketOfficesList" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - cash list', ['placeholder' => '@TicketOfficesList']) }}
+                                        </li>
                                     </ul>
                                     <hr style="margin: 20px 0 0 0">
                                 </div>
@@ -214,19 +374,54 @@
                                 <li class="pull-right"><a href="#placeholders-e-ticket-list">{{ __('Placeholders') }}</a></li>
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane active" id="ru-e-ticket-list">{!! Form::textarea('settings[mail_e-ticket_list_ru]', old('mail_e-ticket_list_ru', setting('mail_e-ticket_list_ru', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_e-ticket_list_ru')) !!}</div>
-                                <div class="tab-pane" id="de-e-ticket-list">{!! Form::textarea('settings[mail_e-ticket_list_de]', old('mail_e-ticket_list_de', setting('mail_e-ticket_list_de', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_e-ticket_list_de')) !!}</div>
-                                <div class="tab-pane" id="en-e-ticket-list">{!! Form::textarea('settings[mail_e-ticket_list_en]', old('mail_e-ticket_list_en', setting('mail_e-ticket_list_en', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_e-ticket_list_en')) !!}</div>
+                                <div class="tab-pane active" id="ru-e-ticket-list">{!! Form::textarea('settings[mail_e-ticket_list_ru]', old('mail_e-ticket_list_ru', setting('mail_e-ticket_list_ru', null)), array('class'=>'form-control ckeditor-classic', 'id' => 'mail_e-ticket_list_ru')) !!}</div>
+                                <div class="tab-pane" id="de-e-ticket-list">{!! Form::textarea('settings[mail_e-ticket_list_de]', old('mail_e-ticket_list_de', setting('mail_e-ticket_list_de', null)), array('class'=>'form-control ckeditor-classic', 'id' => 'mail_e-ticket_list_de')) !!}</div>
+                                <div class="tab-pane" id="en-e-ticket-list">{!! Form::textarea('settings[mail_e-ticket_list_en]', old('mail_e-ticket_list_en', setting('mail_e-ticket_list_en', null)), array('class'=>'form-control ckeditor-classic', 'id' => 'mail_e-ticket_list_en')) !!}</div>
                                 <div class="tab-pane" id="placeholders-e-ticket-list">
                                     <hr style="margin: 0 0 20px 0">
                                     <ul style="list-style-type: none">
-                                        <li>{{ __(':placeholder - order number', ['placeholder' => '@OrderId']) }}</li>
-                                        <li>{{ __(':placeholder - link to the website', ['placeholder' => '@SiteUrl']) }}</li>
-                                        <li>{{ __(':placeholder - list of ordered tickets', ['placeholder' => '@TicketsList']) }}</li>
-                                        <li>{{ __(':placeholder - payment amount', ['placeholder' => '@Amount']) }}</li>
-                                        <li>{{ __(':placeholder - order currency', ['placeholder' => '@Currency']) }}</li>
-                                        <li>{{ __(':placeholder - client name', ['placeholder' => '@ClientName']) }}</li>
-                                        <li>{{ __(':placeholder - cash list', ['placeholder' => '@TicketOfficesList']) }}</li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@OrderId" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - order number', ['placeholder' => '@OrderId']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@SiteUrl" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - link to the website', ['placeholder' => '@SiteUrl']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@TicketsList" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - list of ordered tickets', ['placeholder' => '@TicketsList']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@Amount" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - payment amount', ['placeholder' => '@Amount']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@Currency" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - order currency', ['placeholder' => '@Currency']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@ClientName" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - client name', ['placeholder' => '@ClientName']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@TicketOfficesList" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - cash list', ['placeholder' => '@TicketOfficesList']) }}
+                                        </li>
                                     </ul>
                                     <hr style="margin: 20px 0 0 0">
                                 </div>
@@ -250,17 +445,42 @@
                                 <li class="pull-right"><a href="#placeholders-registration-confirmation">{{ __('Placeholders') }}</a></li>
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane active" id="ru-registration-confirmation">{!! Form::textarea('settings[mail_registration_confirmation_ru]', old('mail_registration_confirmation_ru', setting('mail_registration_confirmation_ru', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_registration_confirmation_ru')) !!}</div>
-                                <div class="tab-pane" id="de-registration-confirmation">{!! Form::textarea('settings[mail_registration_confirmation_de]', old('mail_registration_confirmation_de', setting('mail_registration_confirmation_de', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_registration_confirmation_de')) !!}</div>
-                                <div class="tab-pane" id="en-registration-confirmation">{!! Form::textarea('settings[mail_registration_confirmation_en]', old('mail_registration_confirmation_en', setting('mail_registration_confirmation_en', null)), array('class'=>'form-control ckeditor', 'id' => 'mail_registration_confirmation_en')) !!}</div>
+                                <div class="tab-pane active" id="ru-registration-confirmation">{!! Form::textarea('settings[mail_registration_confirmation_ru]', old('mail_registration_confirmation_ru', setting('mail_registration_confirmation_ru', null)), array('class'=>'form-control ckeditor-classic', 'id' => 'mail_registration_confirmation_ru')) !!}</div>
+                                <div class="tab-pane" id="de-registration-confirmation">{!! Form::textarea('settings[mail_registration_confirmation_de]', old('mail_registration_confirmation_de', setting('mail_registration_confirmation_de', null)), array('class'=>'form-control ckeditor-classic', 'id' => 'mail_registration_confirmation_de')) !!}</div>
+                                <div class="tab-pane" id="en-registration-confirmation">{!! Form::textarea('settings[mail_registration_confirmation_en]', old('mail_registration_confirmation_en', setting('mail_registration_confirmation_en', null)), array('class'=>'form-control ckeditor-classic', 'id' => 'mail_registration_confirmation_en')) !!}</div>
                                 <div class="tab-pane" id="placeholders-registration-confirmation">
                                     <hr style="margin: 0 0 20px 0">
                                     <ul style="list-style-type: none">
-                                        <li>{{ __(':placeholder - client name', ['placeholder' => '@ClientName']) }}</li>
-                                        <li>{{ __(':placeholder - link to the website', ['placeholder' => '@SiteUrl']) }}</li>
-                                        <li>{{ __(':placeholder - link to enter client profile', ['placeholder' => '@UserProfileURL']) }}</li>
-                                        <li>{{ __(':placeholder - client login = Email', ['placeholder' => '@Login']) }}</li>
-                                        <li>{{ __(':placeholder - client password', ['placeholder' => '@Password']) }}</li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@ClientName" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - client name', ['placeholder' => '@ClientName']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@SiteUrl" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - link to the website', ['placeholder' => '@SiteUrl']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@UserProfileURL" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - link to enter client profile', ['placeholder' => '@UserProfileURL']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@Login" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - client login = Email', ['placeholder' => '@Login']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@Password" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - client password', ['placeholder' => '@Password']) }}
+                                        </li>
                                     </ul>
                                     <hr style="margin: 20px 0 0 0">
                                 </div>
@@ -288,9 +508,15 @@
     @include('Admin::partials.form-scripts')
 
     <script>
-        $('.nav-tabs a, .nav-pills a').click(function (e) {
+        $('.nav-tabs a, .nav-pills a').click(function(e) {
             e.preventDefault()
             $(this).tab('show')
-        })
+        });
+
+        $('.copy-placeholder').click(function(e) {
+            e.preventDefault();
+            var placeholder = $(this).data('mail-placeholder');
+            copyToClipboard(placeholder);
+        });
     </script>
 @endsection
