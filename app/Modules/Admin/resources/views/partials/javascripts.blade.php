@@ -51,6 +51,22 @@
         e.preventDefault();
         var form = $(this).parents('form');
         form.submit();
-    })
+    });
 
+    var locale = '{{ app()->getLocale() }}';
+
+    $('.select2-box').select2({
+        language: locale,
+        width: 'resolve',
+        dropdownAutoWidth : true
+    });
+
+    $('.datepicker').datepicker({
+        format: "yyyy-mm-dd"
+    });
+
+    $('.datetimepicker').datetimepicker({
+        format: 'Y-MM-D HH:mm',
+        locale: locale
+    });
 </script>

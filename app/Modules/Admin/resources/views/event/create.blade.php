@@ -73,7 +73,6 @@
         var citySelect = $("#city_id");
         var buildingSelect = $("#building_id");
         var hallSelect = $("#hall_id");
-        var locale = '{{ app()->getLocale() }}';
 
         // Add select2 to select city
         citySelect.select2({

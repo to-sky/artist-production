@@ -6,4 +6,10 @@ return [
     'Event' => 'Мероприятие',
     'Building' => 'Место проведения',
     'Hall' => 'Зал',
+    'Shipping' => 'Доставка',
+    'shipping' => 'доставку',
+    'Shipping zone' => 'Зона доставки',
+    'shipping zones' => 'зоны доставки',
+    'Country' => 'Страна',
+    'Countries' => 'Страны'
 ];

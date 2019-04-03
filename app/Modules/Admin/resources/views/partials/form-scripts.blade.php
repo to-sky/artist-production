@@ -58,15 +58,6 @@
 
         @endif
 
-        $('.datepicker').datepicker({
-            format: "yyyy-mm-dd"
-        });
-
-        $('.datetimepicker').datetimepicker({
-            format: 'Y-MM-D HH:mm',
-            locale: '{{ app()->getLocale() }}'
-        });
-
 //        $('.ckeditor').each(function () {
 //            CKEDITOR.replace($(this));
 //        })

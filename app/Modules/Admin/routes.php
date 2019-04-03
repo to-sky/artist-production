@@ -33,10 +33,12 @@ Route::group([
 //    Route::resource('roles', 'RoleController');
     Route::get('home', 'DashboardController@index');
     Route::post('logout', 'Auth\LoginController@logout')->name('logout');
-    Route::get('admin/reviews/dinners', 'ReviewController@dinners');
     Route::post('addresses/manage', 'AddressController@manage')->name('addresses.manage');
     Route::delete('addresses/{id}', 'AddressController@destroy')->name('addresses.destroy');
     Route::get('dataTables/locale/{locale}', 'AdminController@dataTablesLocale')->name('dataTables.locale');
+
+    Route::patch('shippings/{shipping}', 'ShippingController@setDefaultShipping')->name('shippings.set-default');
+    Route::delete('shippings/shipping-zone/{shipping_zone}', 'ShippingController@deleteShippingZone')->name('shippings.delete-shipping-zone');
 
     Route::get('events/getBuildings', 'EventController@getBuildings')->name('events.getBuildings');
     Route::get('events/getHalls', 'EventController@getHalls')->name('events.getHalls');

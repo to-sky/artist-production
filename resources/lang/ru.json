@@ -21,10 +21,15 @@
     "Type": "Тип",
     "Export": "Экспорт",
     "Clients list": "Список клиентов",
-
+    "Shipping zones": "Зоны доставки",
+    "Shipping type": "Тип доставки",
+    "Default": "По умолчанию",
     "Actions": "Действия",
     "Date": "Дата",
     "Time": "Время",
     "Active": "Активно",
-    "Select event date and time.": "Выберите дату и время мероприятия."
+    "Select event date and time.": "Выберите дату и время мероприятия.",
+    "Title": "Название",
+    "Price": "Цена",
+    "Are you sure you want to delete shipping zone": "Вы действительно хотите удалить зону доставки"
 }

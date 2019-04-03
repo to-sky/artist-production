@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Country extends Model
 {
+    const WORLD = 0;
+
     /**
      * @var array
      */
@@ -19,5 +21,10 @@ class Country extends Model
     public function cities()
     {
         return $this->hasMany(City::class);
+    }
+
+    public function shipping_zones()
+    {
+        return $this->belongsToMany(ShippingZone::class);
     }
 }

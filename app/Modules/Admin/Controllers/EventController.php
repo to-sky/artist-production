@@ -3,10 +3,8 @@
 namespace App\Modules\Admin\Controllers;
 
 use App\Models\{Building, City, Hall, Event};
-use App\Modules\Admin\Requests\CreateEventRequest;
-use App\Modules\Admin\Requests\UpdateEventRequest;
+use App\Modules\Admin\Requests\EventRequest;
 use Illuminate\Http\Request;
-
 use Prologue\Alerts\Facades\Alert;
 
 class EventController extends AdminController {
@@ -18,9 +16,9 @@ class EventController extends AdminController {
 	 */
 	public function index()
     {
-        $events = Event::all();
-
-		return view('Admin::event.index', compact('events'));
+		return view('Admin::event.index', [
+		    'events' => Event::all()
+        ]);
 	}
 
 	/**
@@ -74,29 +72,28 @@ class EventController extends AdminController {
     /**
      * Store a newly created event in storage.
      *
-     * @param CreateEventRequest|Request $request
+     * @param EventRequest|Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-	public function store(CreateEventRequest $request)
+	public function store(EventRequest $request)
 	{
 		Event::create($request->all());
 
         Alert::success(trans('Admin::admin.controller-successfully_created', ['item' => trans('Admin::models.Event')]))->flash();
 
         $this->redirectService->setRedirect($request);
+
         return $this->redirectService->redirect($request);
 	}
 
-	/**
-	 * Show the form for editing the specified event.
-	 *
-	 * @param  int  $id
+    /**
+     * Show the form for editing the specified event.
+     *
+     * @param Event $event
      * @return \Illuminate\View\View
-	 */
-	public function edit($id)
+     */
+	public function edit(Event $event)
 	{
-		$event = Event::find($id);
-
 		$this->generateParams();
 
 		return view('Admin::event.edit', compact('event'));
@@ -104,32 +101,32 @@ class EventController extends AdminController {
 
     /**
      * Update the specified event in storage.
-     * @param UpdateEventRequest|Request $request
+     * @param Event $event
+     * @param EventRequest $request
      *
-     * @param  int $id
      * @return \Illuminate\Http\RedirectResponse
      */
-	public function update($id, UpdateEventRequest $request)
+	public function update(Event $event, EventRequest $request)
 	{
-		$event = Event::findOrFail($id);
-
 		$event->update($request->all());
 
         Alert::success(trans('Admin::admin.controller-successfully_updated', ['item' => trans('Admin::models.Event')]))->flash();
 
         $this->redirectService->setRedirect($request);
+
         return $this->redirectService->redirect($request);
 	}
 
     /**
      * Remove the specified event from storage.
      *
-     * @param  int $id
+     * @param Event $event
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
-	public function destroy($id)
+	public function destroy(Event $event)
 	{
-		Event::destroy($id);
+	    $event->delete();
 
 		return response()->json(null, 204);
 	}
