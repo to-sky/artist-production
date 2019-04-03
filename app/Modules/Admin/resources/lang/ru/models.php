@@ -11,5 +11,8 @@ return [
     'Shipping zone' => 'Зона доставки',
     'shipping zones' => 'зоны доставки',
     'Country' => 'Страна',
-    'Countries' => 'Страны'
+    'Countries' => 'Страны',
+    'role' => 'роль',
+    'user' => 'пользователя',
+    'menu' => 'меню'
 ];

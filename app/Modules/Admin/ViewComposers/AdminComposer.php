@@ -20,10 +20,10 @@ class AdminComposer
         $parts = explode('.', $route);
 
         if (isset($parts[1])) {
-            $menu = Menu::where('plural_name', $parts[1])
+            $menuRoute = Menu::where('plural_name', $parts[1])
                 ->first();
 
-            $view->with('menu', $menu);
+            $view->with('menuRoute', $menuRoute);
         }
 
         if (isset($parts[2])) {

@@ -12,6 +12,15 @@ class MenuTableSeeder extends Seeder
     public function run()
     {
         $menu = [
+            'setting' => [
+                'singular_name' => 'setting',
+                'plural_name' => 'settings',
+                'icon' => 'fa-gear',
+                'title' => 'Settings',
+                'menu_type' => 0,
+                'position' => 0,
+                'roles' => 1
+            ],
             'menu' => [
                 'singular_name' => 'menu',
                 'plural_name' => 'menu',

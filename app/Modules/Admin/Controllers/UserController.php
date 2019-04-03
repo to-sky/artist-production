@@ -5,17 +5,25 @@ namespace App\Modules\Admin\Controllers;
 use App\Models\Menu;
 use App\Models\Role;
 use App\Models\User;
-use App\Modules\Admin\Controllers\Traits\SaveActions;
+use App\Modules\Admin\Services\RedirectService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Modules\Controller;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Prologue\Alerts\Facades\Alert;
 
 class UserController extends AdminController
 {
+
+    public function __construct(RedirectService $redirectService)
+    {
+        $this->authorizeResource(User::class, 'user');
+
+        parent::__construct($redirectService);
+    }
 
     /**
      * Get a validator for an incoming registration request.
@@ -23,15 +31,19 @@ class UserController extends AdminController
      * @param  array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
+    protected function validator(array $data, $user = null)
     {
         return Validator::make($data, [
-            'first_name' => 'string|max:255',
+            'first_name' => 'nullable|string|max:255',
             'last_name' => 'string|max:255',
-            'birth_date' => 'nullable|date', // TODO: Define validation for birth_date from the future |before:2011-01-01',
-            'gender' => 'nullable|string|max:45',
-            'email' => 'sometimes|nullable|required|string|email|max:255|unique:users',
-            'password' => 'sometimes|nullable|string|required|min:6|confirmed',
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique('users')->ignore((isset($user->id) ? $user->id : null)),
+            ],
+            'password' => 'nullable|confirmed|string||min:6|',
         ]);
     }
 
@@ -41,6 +53,8 @@ class UserController extends AdminController
      */
     public function index()
     {
+        $this->authorize('index', User::class);
+
         $users = User::all();
 
         return view('Admin::user.index', compact('users'));
@@ -88,9 +102,8 @@ class UserController extends AdminController
      *
      * @return \Illuminate\View\View
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        $user  = User::findOrFail($id);
         $roles = Role::pluck('display_name', 'id');
         
         return view('Admin::user.edit', compact('user', 'roles'));
@@ -104,13 +117,14 @@ class UserController extends AdminController
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(User $user, Request $request)
     {
         $input = $request->all();
-        $this->validator($input)->validate();
+        $this->validator($input, $user)->validate();
 
-        $user = User::findOrFail($id);
-        $input['password'] = Hash::make($input['password']);
+        if (!empty($input['password'])) {
+             $user->password = Hash::make($input['password']);
+        }
         $role = Role::findOrFail($input['role_id']);
         $user->update($input);
         // Detaches old role and attaches the new one

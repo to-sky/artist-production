@@ -58,9 +58,10 @@
 
         @endif
 
-//        $('.ckeditor').each(function () {
-//            CKEDITOR.replace($(this));
-//        })
+
+        $('.ckeditor-classic').ckeditor({
+            language: '{{ app()->getLocale() }}'
+        });
 
     });
 </script>

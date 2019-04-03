@@ -7,8 +7,8 @@
         </span>
         <!-- logo for regular state and mobile devices -->
         <span class="logo-lg">
-            {{--<img width="25px" height="25px" src="{{ asset('images/logo.png') }}">--}}
-            <span>{!! 'Admin panel' !!}</span>
+            <img width="25px" height="25px" src="{{ asset('images/logo.png') }}">
+            <span>{!! 'Artist production' !!}</span>
         </span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->

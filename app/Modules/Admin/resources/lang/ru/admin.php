@@ -24,6 +24,8 @@ return [
     'users-create-email_placeholder' => 'Email',
     'users-create-password' => 'Пароль',
     'users-create-password_placeholder' => 'Пароль',
+    'users-edit-password_confirmation' => 'Подтверждение пароля',
+    'users-edit-password_confirmation_placeholder' => 'Подтверждение пароля',
     'users-create-role' => 'Роль',
     'users-create-btncreate' => 'Создать',
 
@@ -65,6 +67,9 @@ return [
     'Clients' => 'Клиенты',
     'Events' => 'Мероприятия',
     'Shippings' => 'Доставка',
+    'Menu' => 'Меню',
+    'Settings' => 'Настройки',
+    'Mail' => 'Почта',
 
     // actions
     'index' => 'Список',
@@ -74,6 +79,7 @@ return [
     'edit-item' => 'Редактировать :item',
     'select-item' => 'Выберите :item',
     'set-to-default' => 'По умолчанию',
+    'mail' => 'Почта',
 
     'back-to-all-entries' => 'Назад ко всем записям'
 

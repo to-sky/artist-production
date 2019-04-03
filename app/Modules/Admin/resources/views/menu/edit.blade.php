@@ -12,7 +12,7 @@
 
         <div class="col-md-8 col-md-offset-2">
 
-            <a href="{{ route(config('admin.route') . '.menu.index') }}"><i class="fa fa-angle-double-left"></i> Back to all <span>menu</span></a><br><br>
+            <a href="{{ route(config('admin.route') . '.menu.index') }}"><i class="fa fa-angle-double-left"></i> {{ trans('Admin::admin.back-to-all-entries') }}</a><br><br>
 
             @include('Admin::partials.errors')
 
@@ -20,7 +20,7 @@
             <div class="box">
 
                 <div class="box-header with-border">
-                    <h3 class="box-title">Edit</h3>
+                    <h3 class="box-title">{{ trans('Admin::admin.edit-item', ['item' => trans('Admin::models.' . $menuRoute->singular_name)]) }}</h3>
                 </div>
 
                 <div class="box-body row">
@@ -42,7 +42,7 @@
                             <div class="checkbox">
                                 <label>
                                     {!! Form::checkbox('roles['.$role->id.']',$role->id,old('roles.'.$role->id, $menu->roles()->where('role_id', $role->id)->pluck('id')->first())) !!}
-                                    {!! $role->display_name !!}
+                                    {!! __($role->display_name) !!}
                                 </label>
                             </div>
                         @endforeach

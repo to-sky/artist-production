@@ -14,18 +14,11 @@ class UsersRolesPermissionsTablesSeeder extends Seeder
      */
     public function run()
     {
-        $adminRole = new Role();
-        $adminRole->name         = Role::ADMIN;
-        $adminRole->display_name = 'User Administrator';
-        $adminRole->description  = 'User is allowed to manage and edit other users';
-        $adminRole->save();
+        $adminRole = Role::where('name', Role::ADMIN)->first();
 
-        $clientRole = new Role();
-        $clientRole->name         = Role::CLIENT;
-        $clientRole->display_name = 'Client';
-        $clientRole->description  = 'User that looks for dishes';
-        $clientRole->save();
+        $bookkeeperRole = Role::where('name', Role::BOOKKEEPER)->first();
 
+        $partnerRole = Role::where('name', Role::PARTNER)->first();
 
 
         $password = Hash::make('12345');
@@ -40,9 +33,15 @@ class UsersRolesPermissionsTablesSeeder extends Seeder
 
 
         for ($i = 0; $i < 5; $i++) {
-            $client = factory(User::class)->create();
+            $bookkeeper = factory(User::class)->create();
 
-            $client->attachRole($clientRole);
+            $bookkeeper->attachRole($bookkeeperRole);
+        }
+
+        for ($i = 0; $i < 5; $i++) {
+            $partner = factory(User::class)->create();
+
+            $partner->attachRole($partnerRole);
         }
     }
 }

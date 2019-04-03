@@ -42,6 +42,7 @@ Route::group([
 
     Route::get('events/getBuildings', 'EventController@getBuildings')->name('events.getBuildings');
     Route::get('events/getHalls', 'EventController@getHalls')->name('events.getHalls');
+
 });
 
 
@@ -76,6 +77,8 @@ if (Schema::hasTable('menus')) {
             }
 
             Route::get('clients/excel', 'ClientController@excel')->name('clients.excel');
+            Route::get('settings/mail', 'SettingController@mail')->name('settings.mail');
+            Route::post('settings/mail', 'SettingController@mailStore')->name('settings.mailStore');
         });
     }
 

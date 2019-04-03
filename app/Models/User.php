@@ -29,6 +29,9 @@ class User extends Authenticatable implements AuthenticatableContract
 
     const ENTITY_TYPE = 'users';
 
+    const NOT_ACTIVE = 0;
+    const ACTIVE = 1;
+
     function __construct(array $attributes = [])
     {
         $this->entity_type = static::ENTITY_TYPE;
@@ -38,7 +41,7 @@ class User extends Authenticatable implements AuthenticatableContract
     /**
      * @var array
      */
-    protected $fillable = ['first_name', 'last_name', 'email', 'active', 'password'];
+    protected $fillable = ['first_name', 'last_name', 'email', 'active'];
 
     protected $hidden = ['password', 'remember_token'];
 

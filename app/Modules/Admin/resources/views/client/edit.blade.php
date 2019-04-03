@@ -21,29 +21,26 @@
             <div class="box">
 
                 <div class="box-header with-border">
-                    <h3 class="box-title">{{ trans('Admin::admin.edit-item', ['item' => trans('Admin::models.' . $menu->singular_name)]) }}</h3>
+                    <h3 class="box-title">{{ trans('Admin::admin.edit-item', ['item' => trans('Admin::models.' . $menuRoute->singular_name)]) }}</h3>
                 </div>
 
                 <div class="box-body row">
                     <div class="form-group col-md-12">
-                        {!! Form::label('first_name', __('First name*')) !!}
+                        {!! Form::label('first_name', __('First name')) !!}*
                         {!! Form::text('first_name', old('first_name', $client->first_name), array('class'=>'form-control')) !!}
-
                     </div>
                     <div class="form-group col-md-12">
-                        {!! Form::label('last_name', __('Last name*')) !!}
+                        {!! Form::label('last_name', __('Last name')) !!}*
                         {!! Form::text('last_name', old('last_name', $client->last_name), array('class'=>'form-control')) !!}
-
                     </div>
                     <div class="form-group col-md-12">
-                        {!! Form::label('email', __('Email*')) !!}
+                        {!! Form::label('email', __('Email')) !!}*
                         {!! Form::text('email', old('email', $client->email), array('class'=>'form-control')) !!}
 
                     </div>
                     <div class="form-group col-md-12">
                         {!! Form::label('phone', __('Phone')) !!}
                         {!! Form::text('phone', old('phone', $client->phone), array('class'=>'form-control')) !!}
-
                     </div>
                     <div class="form-group col-md-12">
                         {!! Form::label('commission', __('Commission')) !!}
@@ -51,31 +48,30 @@
 
                     </div>
                     <div class="form-group col-md-12">
+                        {!! Form::label('type', __('Type')) !!}
+                        {!! Form::select('type', $types, old('type', $client->type), array('class'=>'form-control')) !!}
+                    </div>
+                    <div class="form-group col-md-12">
                         {!! Form::label('code', __('Code')) !!}
                         {!! Form::text('code', old('code', $client->code), array('class'=>'form-control')) !!}
-
                     </div>
                     <div class="form-group col-md-12">
                         {!! Form::label('comment', __('Comment')) !!}
                         {!! Form::textarea('comment', old('comment', $client->comment), array('class'=>'form-control')) !!}
-
                     </div>
                     <div class="form-group col-md-12">
                         <h4>{{ __('Address') }}</h4>
                         <div class="form-group">
                             {!! Form::label('street', __('Street')) !!}
                             {!! Form::text('street', old('street', $client->street), array('class'=>'form-control')) !!}
-
                         </div>
                         <div class="form-group">
                             {!! Form::label('house', __('House')) !!}
                             {!! Form::text('house', old('house', $client->house), array('class'=>'form-control')) !!}
-
                         </div>
                         <div class="form-group">
                             {!! Form::label('post_code', __('Post code')) !!}
                             {!! Form::text('post_code', old('post_code', $client->post_code), array('class'=>'form-control')) !!}
-
                         </div>
                         <div class="form-group">
                             {!! Form::label('city', __('City')) !!}
