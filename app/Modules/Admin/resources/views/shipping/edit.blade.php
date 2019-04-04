@@ -44,7 +44,7 @@
                             <tr>
                                 <td width="20%">{{ __('Title') }}</td>
                                 <td width="10%">{{ __('Price') }}</td>
-                                <td>{{ __('Admin::models.Countries') }}</td>
+                                <td>{{ __('Countries') }}</td>
                                 <td  width="5%">
                                     <button type="button" id="addRow" class="btn btn-success btn-xs center-block">
                                         <i class="fa fa-plus"></i>

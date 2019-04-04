@@ -38,7 +38,7 @@ Route::group([
     Route::get('dataTables/locale/{locale}', 'AdminController@dataTablesLocale')->name('dataTables.locale');
 
     Route::patch('shippings/{shipping}', 'ShippingController@setDefaultShipping')->name('shippings.set-default');
-    Route::delete('shippings/shipping-zone/{shipping_zone}', 'ShippingController@deleteShippingZone')->name('shippings.delete-shipping-zone');
+    Route::delete('shippings/shippingZone/{shipping_zone}', 'ShippingController@deleteShippingZone')->name('shippings.delete-shipping-zone');
 
     Route::get('events/getBuildings', 'EventController@getBuildings')->name('events.getBuildings');
     Route::get('events/getHalls', 'EventController@getHalls')->name('events.getHalls');

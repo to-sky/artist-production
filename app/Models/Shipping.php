@@ -12,7 +12,7 @@ class Shipping extends Model
 
     public function shipping_zones()
     {
-        return $this->hasMany(ShippingZone::class);
+        return $this->hasMany('App\Models\ShippingZone');
     }
 
     public function setDefault()

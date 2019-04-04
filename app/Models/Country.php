@@ -20,11 +20,11 @@ class Country extends Model
      */
     public function cities()
     {
-        return $this->hasMany(City::class);
+        return $this->hasMany('App\Models\City');
     }
 
     public function shipping_zones()
     {
-        return $this->belongsToMany(ShippingZone::class);
+        return $this->belongsToMany('App\Models\ShippingZone');
     }
 }

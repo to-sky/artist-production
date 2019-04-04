@@ -13,7 +13,7 @@ class Hall extends Model
      */
     public function building()
     {
-        return $this->belongsTo(Building::class);
+        return $this->belongsTo('App\Models\Building');
     }
 
     /**
@@ -21,7 +21,7 @@ class Hall extends Model
      */
     public function events()
     {
-        return $this->hasMany(Event::class);
+        return $this->hasMany('App\Models\Event');
     }
 
     /**
@@ -29,7 +29,7 @@ class Hall extends Model
      */
     public function zones()
     {
-        return $this->hasMany(Zone::class);
+        return $this->hasMany('App\Models\Zone');
     }
 
     /**
@@ -37,6 +37,6 @@ class Hall extends Model
      */
     public function places()
     {
-        return $this->hasMany(Place::class);
+        return $this->hasMany('App\Models\Place');
     }
 }

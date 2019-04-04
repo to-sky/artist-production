@@ -8,7 +8,8 @@
     <div class="box">
         <div class="box-header with-border">
             <a href="{{ route(config('admin.route').'.events.create') }}" class="btn btn-primary" data-style="zoom-in">
-                <span class="ladda-label"><i class="fa fa-plus"></i>
+                <span class="ladda-label">
+                    <i class="fa fa-plus"></i>
                     {{ trans('Admin::admin.add-new', ['item' => mb_strtolower(trans('Admin::models.' . ucfirst($menuRoute->singular_name)))]) }}
                 </span>
             </a>
@@ -18,16 +19,16 @@
             <table id="datatable" class="table table-bordered table-hover">
                 <thead>
                     <tr>
-                        <th class="no-sort" width="5%" style="text-align: center">
+                        <th class="no-sort text-center" width="5%">
                             {!! Form::checkbox('delete_all',1,false,['class' => 'mass']) !!}
                         </th>
-                        <th>{{ __('Admin::models.Event') }}</th>
+                        <th>{{ __('Event') }}</th>
                         <th>{{ __('Date') }}</th>
                         <th>{{ __('Time') }}</th>
-                        <th>{{ __('Admin::models.City') }}</th>
-                        <th>{{ __('Admin::models.Building') }}</th>
-                        <th>{{ __('Admin::models.Hall') }}</th>
-                        <th>{{ __('Active') }}</th>
+                        <th>{{ __('City') }}</th>
+                        <th>{{ __('Building') }}</th>
+                        <th>{{ __('Hall') }}</th>
+                        <th>{{ __('Actively') }}</th>
                         <th>{{ __('Actions') }}</th>
                     </tr>
                 </thead>
@@ -35,7 +36,7 @@
                 <tbody>
                 @foreach ($events as $row)
                     <tr>
-                        <td style="text-align: center">
+                        <td class="text-center">
                             {!! Form::checkbox('del-'.$row->id,1,false,['class' => 'single','data-id'=> $row->id]) !!}
                         </td>
                         <td>{{ $row->name }}</td>
@@ -46,8 +47,12 @@
                         <td>{{ $row->hall->name }}</td>
                         <td>{{ numberToString($row->is_active) }}</td>
                         <td>
-                            <a href="{{ route(config('admin.route').'.events.edit', [$row->id]) }}" class="btn btn-xs btn-default"><i class="fa fa-edit"></i> {{ trans('Admin::admin.users-index-edit') }}</a>
-                            <a href="{{ route(config('admin.route').'.events.destroy', [$row->id]) }}" class="btn btn-xs btn-default delete-button"><i class="fa fa-trash"></i> {{ trans('Admin::admin.users-index-delete') }}</a>
+                            <a href="{{ route(config('admin.route').'.events.edit', [$row->id]) }}" class="btn btn-xs btn-default">
+                                <i class="fa fa-edit"></i> {{ trans('Admin::admin.users-index-edit') }}
+                            </a>
+                            <a href="{{ route(config('admin.route').'.events.destroy', [$row->id]) }}" class="btn btn-xs btn-default delete-button">
+                                <i class="fa fa-trash"></i> {{ trans('Admin::admin.users-index-delete') }}
+                            </a>
                         </td>
                     </tr>
                 @endforeach

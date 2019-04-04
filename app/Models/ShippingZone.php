@@ -12,12 +12,12 @@ class ShippingZone extends Model
 
     public function shipping()
     {
-        return $this->belongsTo(Shipping::class);
+        return $this->belongsTo('App\Models\Shipping');
     }
 
     public function countries()
     {
-        return $this->belongsToMany(Country::class);
+        return $this->belongsToMany('App\Models\Country');
     }
 
     /**

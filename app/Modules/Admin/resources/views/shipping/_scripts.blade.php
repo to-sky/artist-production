@@ -1,12 +1,12 @@
 <script>
     // Add new shipping zone row
-    let elementCount = $('#shippingZoneTable tbody tr').length - 1;
+    var elementCount = $('#shippingZoneTable tbody tr').length - 1;
     $('#addRow').click(function () {
         elementCount++;
 
-        let shippingZoneRow = $('.shipping-zone-row');
-        let cloneRow = shippingZoneRow.first().clone();
-        let selectBox = cloneRow.find('select');
+        var shippingZoneRow = $('.shipping-zone-row');
+        var cloneRow = shippingZoneRow.first().clone();
+        var selectBox = cloneRow.find('select');
 
         setInputName(cloneRow);
 
@@ -25,8 +25,8 @@
             width: '100%',
             maximumSelectionSize: 1
         }).on('select2:select', function (e) {
-            let selected = $(this).val();
-            let allWorld = '{{ \App\Models\Country::WORLD }}';
+            var selected = $(this).val();
+            var allWorld = '{{ \App\Models\Country::WORLD }}';
 
             if(selected.includes(allWorld)) {
                 e.preventDefault();
@@ -40,8 +40,8 @@
         row.find('input, select').each(function(index, element) {
             $(element).prop('disabled', false);
 
-            let inputName = $(element).attr('name');
-            let name = 'shipping_zones['+ elementCount+']['+inputName+']';
+            var inputName = $(element).attr('name');
+            var name = 'shipping_zones['+ elementCount+']['+inputName+']';
 
             if ($(element).prop('multiple')) {
                 name += '[]';
@@ -52,12 +52,12 @@
     }
 
     // Modal for remove shipping zone
-    let modal = $('#deleteShippingZone');
+    var modal = $('#deleteShippingZone');
     modal.on('show.bs.modal', function (e) {
-        let target = $(e.relatedTarget);
-        let url = target.data('url');
-        let tableRow = target.closest('tr');
-        let shippingZoneName = tableRow.find('input[name*=name]').val();
+        var target = $(e.relatedTarget);
+        var url = target.data('url');
+        var tableRow = target.closest('tr');
+        var shippingZoneName = tableRow.find('input[name*=name]').val();
 
         $(this).find('#modalShippingZoneName').text(shippingZoneName);
 
@@ -74,7 +74,7 @@
     });
 
     // Remove shipping zone row
-    $('body').on('click', '.delete-row', function(e) {
+    $(document).on('click', '.delete-row', function() {
         $(this).closest('tr').remove();
     });
 </script>

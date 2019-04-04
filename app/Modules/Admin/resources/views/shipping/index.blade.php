@@ -8,7 +8,10 @@
     <div class="box">
         <div class="box-header with-border">
             <a href="{{ route(config('admin.route').'.shippings.create') }}" class="btn btn-primary" data-style="zoom-in">
-                <span class="ladda-label"><i class="fa fa-plus"></i> {{ trans('Admin::admin.add-new', ['item' => __('Admin::models.shipping')]) }}</span>
+                <span class="ladda-label">
+                    <i class="fa fa-plus"></i>
+                    {{ trans('Admin::admin.add-new', ['item' => __('Admin::models.shipping')]) }}
+                </span>
             </a>
         </div>
 
@@ -67,7 +70,8 @@
             <button class="btn btn-danger" id="delete">
                 <span>
                     <i class="fa fa-trash"></i>
-                    {{ trans('Admin::templates.templates-view_index-delete_checked') }}</span>
+                    {{ trans('Admin::templates.templates-view_index-delete_checked') }}
+                </span>
             </button>
             {!! Form::open(['route' => config('admin.route').'.shippings.massDelete', 'method' => 'post', 'id' => 'massDelete']) !!}
             <input type="hidden" id="send" name="toDelete">

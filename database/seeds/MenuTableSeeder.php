@@ -27,7 +27,7 @@ class MenuTableSeeder extends Seeder
                 'icon' => 'fa-list',
                 'title' => 'Menu',
                 'menu_type' => 0,
-                'position' => 1,
+                'position' => 5,
                 'roles' => 1
             ],
             'role' => [
@@ -36,7 +36,7 @@ class MenuTableSeeder extends Seeder
                 'icon' => 'fa-lock',
                 'title' => 'Roles',
                 'menu_type' => 1,
-                'position' => 2,
+                'position' => 4,
                 'roles' => 1
             ],
             'user' => [
@@ -54,16 +54,25 @@ class MenuTableSeeder extends Seeder
                 'icon' => 'fa-database',
                 'title' => 'Clients',
                 'menu_type' => 1,
-                'position' => 8,
+                'position' => 2,
                 'roles' => 1
             ],
             'event' => [
-                'singular_name' => 'client',
-                'plural_name' => 'clients',
+                'singular_name' => 'event',
+                'plural_name' => 'events',
                 'icon' => 'fa-calendar',
-                'title' => 'Clients',
+                'title' => 'Events',
                 'menu_type' => 1,
-                'position' => 0,
+                'position' => 1,
+                'roles' => 1
+            ],
+            'shipping' => [
+                'singular_name' => 'shipping',
+                'plural_name' => 'shippings',
+                'icon' => 'fa-truck',
+                'title' => 'Shippings',
+                'menu_type' => 1,
+                'position' => 6,
                 'roles' => 1
             ],
         ];

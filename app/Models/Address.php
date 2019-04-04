@@ -35,7 +35,7 @@ class Address extends Model
      */
     public function client()
     {
-        return $this->belongsTo('App\Client');
+        return $this->belongsTo('App\Models\Client');
     }
 
     /**
@@ -43,6 +43,6 @@ class Address extends Model
      */
     public function country()
     {
-        return $this->belongsTo('App\Country');
+        return $this->belongsTo('App\Models\Country');
     }
 }

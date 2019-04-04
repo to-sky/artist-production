@@ -128,7 +128,7 @@ class ShippingController extends AdminController
     }
 
     /**
-     * Delete shipping zones
+     * Remove shipping zones
      *
      * @param ShippingZone $shippingZone
      * @return \Illuminate\Http\JsonResponse
@@ -138,9 +138,7 @@ class ShippingController extends AdminController
     {
         $shippingZone->delete();
 
-        return response()->json([
-            'success' => 'Record deleted successfully!'
-        ]);
+        return response()->json(null, 204);
     }
 
     /**
