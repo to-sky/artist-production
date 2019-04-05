@@ -5,12 +5,10 @@
 @endsection
 
 @section('content')
-    @include('Admin::shipping._modal-delete-shipping-zone')
+    @include('Admin::shipping.partials._modal-delete-shipping-zone')
 
     <div class="row">
-
         <div class="col-md-8 col-md-offset-2">
-
             <a href="{{ route(config('admin.route').'.shippings.index') }}">
                 <i class="fa fa-angle-double-left"></i>
                 {{ trans('Admin::admin.back-to-all-entries') }}
@@ -54,7 +52,7 @@
                             </thead>
 
                             <tbody>
-                                @include('Admin::shipping._shipping-zone-table-row')
+                                @include('Admin::shipping.partials._shipping-zone-table-row')
 
                                 @foreach($shipping->shipping_zones as $shipping_zone)
                                     <tr class="shipping-zone-row">
@@ -62,16 +60,18 @@
                                             <input name="shipping_zones[{{ $loop->iteration }}][name]"
                                                    type="text"
                                                    class="form-control"
-                                                   value="{{ $shipping_zone->name }}">
+                                                   value="{{ $shipping_zone->name }}"
+                                                   required
+                                            >
                                         </td>
                                         <td>
                                             <input name="shipping_zones[{{ $loop->iteration }}][price]"
-                                                   type="number" min="0" class="form-control"
+                                                   type="number" min="0" class="form-control" required
                                                    value="{{ $shipping_zone->price }}">
                                         </td>
                                         <td>
                                             <select name="shipping_zones[{{ $loop->iteration }}][countries_id][]"
-                                                    class="form-control select2-box" multiple>
+                                                    class="form-control select2-box" multiple required>
                                                 @foreach($countries as  $id => $name)
                                                     <option value="{{ $id }}"
                                                             @if(in_array($id, $shipping_zone->getCountryIds()))
@@ -94,13 +94,13 @@
                                 @endforeach
                             </tbody>
                         </table>
-
                     </div>
-
                 </div>
 
                 <div class="box-footer">
                     @include('Admin::partials.save-buttons')
+
+                    {!! Form::hidden('id', $shipping->id) !!}
                 </div>
             </div>
             {!! Form::close() !!}
@@ -108,7 +108,11 @@
     </div>
 @endsection
 
+@section('after_styles')
+    @include('Admin::shipping.partials._styles')
+@endsection
+
 @section('after_scripts')
     @include('Admin::partials.form-scripts')
-    @include('Admin::shipping._scripts')
+    @include('Admin::shipping.partials._scripts')
 @endsection

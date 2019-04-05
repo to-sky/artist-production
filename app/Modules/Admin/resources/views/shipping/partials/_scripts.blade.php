@@ -17,11 +17,11 @@
         shippingZoneRow.last().after(cloneRow);
     });
 
-    setSelect2($('.select2-box'));
+    setSelect2('.select2-box');
 
     // Set select2
-    function setSelect2(el) {
-        el.select2({
+    function setSelect2(selector) {
+        $(selector).select2({
             width: '100%',
             maximumSelectionSize: 1
         }).on('select2:select', function (e) {
@@ -70,11 +70,29 @@
                     tableRow.remove();
                 }
             });
+
+            $(this).off('click');
         });
     });
 
     // Remove shipping zone row
     $(document).on('click', '.delete-row', function() {
         $(this).closest('tr').remove();
+    });
+
+    // Find empty inputs
+    function getEmptyInputs(selector) {
+        return $(selector).find('input:not(:hidden, .select2-search__field)').map(function(index, el) {
+            if (! $(el).val()) {
+                return $(el);
+            }
+        });
+    }
+
+    // Remove empty inputs
+    $('a[data-redirect]').click(function() {
+        getEmptyInputs('#shippingZoneTable').each(function(index, el) {
+            $(el).closest('tr').remove();
+        })
     });
 </script>

@@ -5,11 +5,8 @@
 @endsection
 
 @section('content')
-
     <div class="row">
-
         <div class="col-md-8 col-md-offset-2">
-
             <a href="{{ route(config('admin.route').'.events.index') }}">
                 <i class="fa fa-angle-double-left"></i>
                 {{ trans('Admin::admin.back-to-all-entries') }}
@@ -52,7 +49,7 @@
                     <div class="checkbox col-md-12">
                         <label>
                             <input type="hidden" name="is_active" value="0">
-                            <input type="checkbox" name="is_active"> {{ __('Actively') }}
+                            <input type="checkbox" name="is_active"> {{ __('Active') }}
                         </label>
                     </div>
                 </div>
@@ -68,56 +65,5 @@
 
 @section('after_scripts')
     @include('Admin::partials.form-scripts')
-
-    <script>
-        var citySelect = $("#city_id");
-        var buildingSelect = $("#building_id");
-        var hallSelect = $("#hall_id");
-
-        // Add select2 to select city
-        citySelect.select2({
-            language: locale,
-        }).on('select2:select', function () {
-            buildingSelect.val(null).trigger("change");
-            hallSelect.val(null).trigger("change");
-        });
-
-        // Add select2 with ajax, to select building
-        buildingSelect.select2({
-            language: locale,
-            ajax: {
-                url: '{!! route('events.getBuildings') !!}',
-                data: function () {
-                    return {
-                        city_id: citySelect.val()
-                    }
-                },
-                processResults: function (data) {
-                    return {
-                        results: data
-                    };
-                }
-            }
-        }).on('select2:select', function () {
-            hallSelect.val(null).trigger("change");
-        });
-
-        // Add select2 with ajax, to select hall
-        hallSelect.select2({
-            language: locale,
-            ajax: {
-                url: '{!! route('events.getHalls') !!}',
-                data: function () {
-                    return {
-                        building_id: buildingSelect.val()
-                    }
-                },
-                processResults: function (data) {
-                    return {
-                        results: data
-                    };
-                }
-            }
-        });
-    </script>
+    @include('Admin::event.partials._scripts')
 @endsection

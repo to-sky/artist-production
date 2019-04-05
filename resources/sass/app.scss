@@ -26,7 +26,8 @@
 }
 
 .select2-container--default .select2-selection--single,
+.select2-container--default .select2-selection--multiple,
 .select2-selection .select2-selection--single {
   padding-left: 0;
+  border-color: #d2d6de;
 }
-

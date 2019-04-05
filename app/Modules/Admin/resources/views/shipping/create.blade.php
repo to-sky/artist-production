@@ -6,9 +6,7 @@
 
 @section('content')
     <div class="row">
-
         <div class="col-md-8 col-md-offset-2">
-
             <a href="{{ route(config('admin.route').'.shippings.index') }}">
                 <i class="fa fa-angle-double-left"></i>
                 {{ trans('Admin::admin.back-to-all-entries') }}
@@ -52,7 +50,7 @@
                             </thead>
 
                             <tbody>
-                                @include('Admin::shipping._shipping-zone-table-row')
+                                @include('Admin::shipping.partials._shipping-zone-table-row')
                             </tbody>
                         </table>
 
@@ -67,7 +65,11 @@
     </div>
 @endsection
 
+@section('after_styles')
+    @include('Admin::shipping.partials._styles')
+@endsection
+
 @section('after_scripts')
     @include('Admin::partials.form-scripts')
-    @include('Admin::shipping._scripts')
+    @include('Admin::shipping.partials._scripts')
 @endsection

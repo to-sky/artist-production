@@ -28,7 +28,7 @@
                         <th>{{ __('City') }}</th>
                         <th>{{ __('Building') }}</th>
                         <th>{{ __('Hall') }}</th>
-                        <th>{{ __('Actively') }}</th>
+                        <th>{{ __('Active') }}</th>
                         <th>{{ __('Actions') }}</th>
                     </tr>
                 </thead>
@@ -62,7 +62,10 @@
 
         <div class="box-footer">
             <button class="btn btn-danger" id="delete">
-                <span><i class="fa fa-trash"></i> {{ trans('Admin::templates.templates-view_index-delete_checked') }}</span>
+                <span>
+                    <i class="fa fa-trash"></i>
+                    {{ trans('Admin::templates.templates-view_index-delete_checked') }}
+                </span>
             </button>
             {!! Form::open(['route' => config('admin.route').'.events.massDelete', 'method' => 'post', 'id' => 'massDelete']) !!}
                 <input type="hidden" id="send" name="toDelete">
