@@ -69,6 +69,8 @@ class ClientController extends AdminController {
 	{
 		$client = Client::create($request->all());
 
+		$request->merge(['id' => $client->id]);
+
 		$addresses = $request->get('Addresses');
 
 		if (empty($addresses)) {

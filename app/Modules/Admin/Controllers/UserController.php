@@ -44,7 +44,7 @@ class UserController extends AdminController
     {
         return Validator::make($data, [
             'first_name' => 'nullable|string|max:255',
-            'last_name' => 'string|max:255',
+            'last_name' => 'nullable|string|max:255',
             'email' => [
                 'required',
                 'string',
@@ -110,7 +110,7 @@ class UserController extends AdminController
     /**
      * Show a user edit page
      *
-     * @param $id
+     * @param $user
      *
      * @return \Illuminate\View\View
      */
@@ -124,9 +124,8 @@ class UserController extends AdminController
     /**
      * Update our user information
      *
+     * @param User $user
      * @param Request $request
-     * @param         $id
-     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(User $user, Request $request)
@@ -205,6 +204,7 @@ class UserController extends AdminController
      * Update user profile
      *
      * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function updateProfile(Request $request)
     {
@@ -217,6 +217,12 @@ class UserController extends AdminController
         return redirect()->back();
     }
 
+    /**
+     * Remove user avatar
+     *
+     * @param User $user
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function removeAvatar(User $user)
     {
         $avatar = $user->avatar;
