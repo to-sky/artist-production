@@ -55,7 +55,7 @@ class RedirectService
                 return redirect()->route(implode('.', $parts) . '.create');
                 break;
             case 'redirect_stay':
-                if ($action == 'update') {
+                if ($request->input('id', null)) {
                     return redirect()->route(implode('.', $parts) . '.edit', ['id' => $request->input('id')]);
                 } else {
                     return redirect()->route(implode('.', $parts) . '.create');

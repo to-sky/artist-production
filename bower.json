@@ -21,6 +21,7 @@
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",
     "select2": "^4.0.5",
     "jsrender": "^1.0.2",
-    "intl-tel-input": "^15.0.0"
+    "intl-tel-input": "^15.0.0",
+    "flag-icon-css": "^3.3.0"
   }
 }

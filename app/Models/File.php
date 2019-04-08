@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Helpers\FileHelper;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @property int $id
@@ -14,6 +15,9 @@ use App\Helpers\FileHelper;
  */
 class File extends Model
 {
+
+    const THUMBNAIL_WIDTH = 150;
+
     /**
      * @var array
      */
@@ -26,7 +30,7 @@ class File extends Model
      *
      * @var array
      */
-    protected $appends = ['file_url'];
+    protected $appends = ['file_url', 'thumb_url'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
@@ -42,7 +46,7 @@ class File extends Model
     }
 
     /**
-     * File storage path
+     * File url
      *
      * @return string
      */
@@ -50,8 +54,34 @@ class File extends Model
     {
         $entity = $this->entity()->withTrashed()->first();
 
-        if (!empty($entity)) {
-            return asset('storage/' . $entity->entity_type . '/' . $entity->id . '/' . $this->name);
+        if (!empty($entity) && !is_null($this->name)) {
+            $path = FileHelper::storagePath($entity) . $this->name;
+            if (Storage::exists($path)) {
+                return asset('storage/' . $entity->entity_type . '/' . $entity->id . '/' . $this->name);
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * File thumbnail url
+     *
+     * @return string
+     */
+    function getThumbUrlAttribute()
+    {
+        $entity = $this->entity()->withTrashed()->first();
+
+        if (!empty($entity) && !is_null($this->name)) {
+            $thumbPath = FileHelper::storageThumbPath($entity) . $this->name;
+            if (Storage::exists($thumbPath)) {
+                return asset('storage/' . $entity->entity_type . '/' . $entity->id . '/thumbnails/' . $this->name);
+            } else {
+                return null;
+            }
         } else {
             return null;
         }

@@ -42,7 +42,7 @@
         @endif
     @endforeach
 
-    @role(\App\Models\Role::ADMIN)
+    @role([\App\Models\Role::ADMIN,  \App\Models\Role::PARTNER])
     <li @if(Request::path() == config('admin.route').'/menu') class="active" @endif>
         <a href="{{ url(config('admin.route').'/menu') }}">
             <i class="fa fa-list"></i>

@@ -3,6 +3,7 @@
 namespace App\Modules\Admin\ViewComposers;
 
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use App\Models\Menu;
 
@@ -29,5 +30,8 @@ class AdminComposer
         if (isset($parts[2])) {
             $view->with('action', $parts[2]);
         }
+
+        $view->with('languages', config('admin.languages'));
+        $view->with('locale', App::getLocale());
     }
 }

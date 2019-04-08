@@ -15,7 +15,7 @@
 
             @include('Admin::partials.errors')
 
-            {!! Form::open(['route' => config('admin.route').'.users.store']) !!}
+            {!! Form::open(['route' => config('admin.route').'.users.store', 'enctype' => 'multipart/form-data']) !!}
             <div class="box">
 
                 <div class="box-header with-border">
@@ -23,6 +23,10 @@
                 </div>
 
                 <div class="box-body row">
+                    <div class="form-group col-md-12">
+                        {!! Form::label('avatar', __('Avatar')) !!}
+                        {!! Form::file('avatar') !!}
+                    </div>
                     <div class="form-group col-md-12">
                         {!! Form::label('first_name', __('First name')) !!}
                         {!! Form::text('first_name', old('first_name'), ['class'=>'form-control', 'placeholder'=> __('First name')]) !!}

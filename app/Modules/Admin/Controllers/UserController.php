@@ -6,6 +6,7 @@ use App\Models\Menu;
 use App\Models\Role;
 use App\Models\User;
 use App\Modules\Admin\Services\RedirectService;
+use App\Services\UploadService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -14,13 +15,21 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Prologue\Alerts\Facades\Alert;
+use App\Helpers\FileHelper;
 
 class UserController extends AdminController
 {
 
-    public function __construct(RedirectService $redirectService)
+    /**
+     * @var UploadService
+     */
+    protected $uploadService;
+
+    public function __construct(RedirectService $redirectService, UploadService $uploadService)
     {
         $this->authorizeResource(User::class, 'user');
+
+        $this->uploadService = $uploadService;
 
         parent::__construct($redirectService);
     }
@@ -35,7 +44,7 @@ class UserController extends AdminController
     {
         return Validator::make($data, [
             'first_name' => 'nullable|string|max:255',
-            'last_name' => 'string|max:255',
+            'last_name' => 'nullable|string|max:255',
             'email' => [
                 'required',
                 'string',
@@ -89,6 +98,9 @@ class UserController extends AdminController
         // Attaches role to user
         $user->attachRole($role);
 
+        // Manages avatar upload
+        $this->uploadService->uploadAvatar($request, $user);
+
         Alert::success(trans('Admin::admin.users-controller-successfully_created'))->flash();
 
         $this->redirectService->setRedirect($request);
@@ -98,7 +110,7 @@ class UserController extends AdminController
     /**
      * Show a user edit page
      *
-     * @param $id
+     * @param $user
      *
      * @return \Illuminate\View\View
      */
@@ -112,18 +124,39 @@ class UserController extends AdminController
     /**
      * Update our user information
      *
+     * @param User $user
      * @param Request $request
-     * @param         $id
-     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(User $user, Request $request)
     {
+        $this->updateUser($user, $request);
+
+        Alert::success(trans('Admin::admin.users-controller-successfully_updated'))->flash();
+
+        $this->redirectService->setRedirect($request);
+        return $this->redirectService->redirect($request);
+    }
+
+    /**
+     * Validate request and update user
+     *
+     * @param User $user
+     * @param Request $request
+     * @return User
+     */
+    public function updateUser(User $user, Request $request)
+    {
         $input = $request->all();
         $this->validator($input, $user)->validate();
 
+        // Manages avatar upload
+        $this->uploadService->uploadAvatar($request, $user);
+
         if (!empty($input['password'])) {
-             $user->password = Hash::make($input['password']);
+            $input['password'] = Hash::make($input['password']);
+        } else {
+            unset($input['password']);
         }
         $role = Role::findOrFail($input['role_id']);
         $user->update($input);
@@ -133,10 +166,7 @@ class UserController extends AdminController
             $user->attachRole($role);
         }
 
-        Alert::success(trans('Admin::admin.users-controller-successfully_updated'))->flash();
-
-        $this->redirectService->setRedirect($request);
-        return $this->redirectService->redirect($request);
+        return $user;
     }
 
     /**
@@ -154,5 +184,60 @@ class UserController extends AdminController
         return response()->json(null, 204);
 
 //        return redirect()->route('users.index')->withMessage(trans('Admin::admin.users-controller-successfully_deleted'));
+    }
+
+    /**
+     * Show user profile view
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function profile()
+    {
+        $user = Auth::user();
+
+        $roles = Role::pluck('display_name', 'id');
+
+        return view('Admin::user.profile', compact('user', 'roles'));
+    }
+
+    /**
+     * Update user profile
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updateProfile(Request $request)
+    {
+        $user = Auth::user();
+
+        $this->updateUser($user, $request);
+
+        Alert::success(__('Profile was successfully updated!'))->flash();
+
+        return redirect()->back();
+    }
+
+    /**
+     * Remove user avatar
+     *
+     * @param User $user
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function removeAvatar(User $user)
+    {
+        $avatar = $user->avatar;
+        if (!empty($avatar)) {
+            FileHelper::delete($user->avatar);
+            FileHelper::deleteThumb($user->avatar);
+            $avatar->name = null;
+            $avatar->mime = null;
+            $avatar->original_name = null;
+            $avatar->thumbnail = null;
+            $avatar->save();
+        } else {
+            return response()->json(['message' => __('Avatar not found')], 404);
+        }
+
+        return response()->json(null, 204);
     }
 }
