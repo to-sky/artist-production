@@ -41,7 +41,7 @@ class User extends Authenticatable implements AuthenticatableContract
     /**
      * @var array
      */
-    protected $fillable = ['first_name', 'last_name', 'email', 'active'];
+    protected $fillable = ['first_name', 'last_name', 'email', 'active', 'password'];
 
     protected $hidden = ['password', 'remember_token'];
 

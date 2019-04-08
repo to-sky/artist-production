@@ -21,6 +21,7 @@ Route::group([
     Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
     Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
     Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+    Route::get(config('admin.route').'/locale/{locale}', 'AdminController@setLocale')->name('admin.locale');
 });
 
 Route::group([
@@ -79,6 +80,9 @@ if (Schema::hasTable('menus')) {
             Route::get('clients/excel', 'ClientController@excel')->name('clients.excel');
             Route::get('settings/mail', 'SettingController@mail')->name('settings.mail');
             Route::post('settings/mail', 'SettingController@mailStore')->name('settings.mailStore');
+            Route::get('users/profile', 'UserController@profile')->name('users.profile');
+            Route::post('users/profile', 'UserController@updateProfile')->name('users.updateProfile');
+            Route::get('users/{user}/removeAvatar', 'UserController@removeAvatar')->name('users.removeAvatar');
         });
     }
 

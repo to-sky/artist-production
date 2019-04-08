@@ -50,7 +50,7 @@
     // Submits logout form
     $('#logout-button').click(function(e){
         e.preventDefault();
-        var form = $(this).parents('form');
+        var form = $('#logout-form');
         form.submit();
     });
 
@@ -64,6 +64,12 @@
 
     // Adds tooltips
     $('[data-toggle="tooltip"]').tooltip();
+
+    // Initializes tabs
+    $('.nav-tabs a, .nav-pills a').click(function(e) {
+        e.preventDefault()
+        $(this).tab('show')
+    });
 
     /**
      * Copies text to clipboard

@@ -80,6 +80,7 @@ return [
     'select-item' => 'Выберите :item',
     'set-to-default' => 'По умолчанию',
     'mail' => 'Почта',
+    'profile' => 'Профиль',
 
     'back-to-all-entries' => 'Назад ко всем записям'
 

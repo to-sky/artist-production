@@ -5,14 +5,14 @@
         <section class="sidebar">
             <div class="user-panel">
                 <div class="pull-left image">
-                    @if (!empty(Auth::user()->avatar->fileUrl))
-                        <img src="{{ Auth::user()->avatar->fileUrl }}" class="img-circle" alt="User Image">
+                    @if (!empty(Auth::user()->avatar->thumbUrl))
+                        <img src="{{ Auth::user()->avatar->thumbUrl }}" class="img-circle" alt="User Image">
                     @else
                         <img src="{{ asset('images/no-avatar.png') }}" class="img-circle" alt="User Image">
                     @endif
                 </div>
                 <div class="pull-left info">
-                    <p>{{ Auth::user()->fullname }}</p>
+                    <p><a href="{{ route(config('admin.route') . '.users.profile') }}">{{ Auth::user()->fullname }}</a></p>
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                 </div>
             </div>

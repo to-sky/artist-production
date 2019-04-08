@@ -92,6 +92,7 @@
     "Administrator": "Администратор",
     "Bookkeeper": "Бухгалтер",
     "Partner": "Партнер",
+    "Avatar": "Аватар",
     "SMTP server": "SMTP сервер",
     "SMTP port": "SMTP порт",
     "SMTP login": "SMTP логин",
@@ -131,5 +132,13 @@
     "Building": "Место проведения",
     "Hall": "Зал",
     "Shipping": "Доставка",
-    "Countries": "Страны"
+    "Countries": "Страны",
+    "Remove": "Удалить",
+    "User profile": "Профиль пользователя",
+    "My data": "Мои данные",
+    "My orders": "Мои заказы",
+    "Bonus program": "Бонусная программа",
+    "Are you sure you want to remove avatar?": "Вы уверены, что хотите удалить аватар?",
+    "Profile was successfully updated!": "Профайл был успешно обновлен!",
+    "Locale :locale not supported.": "Локаль :locale не поддерживается."
 }

@@ -15,7 +15,7 @@
 
             @include('Admin::partials.errors')
 
-            {!! Form::open(['route' => [config('admin.route').'.users.update', $user->id], 'method' => 'PATCH']) !!}
+            {!! Form::open(['route' => [config('admin.route').'.users.update', $user->id], 'method' => 'PATCH', 'enctype' => 'multipart/form-data']) !!}
             <div class="box">
 
                 <div class="box-header with-border">
@@ -23,34 +23,7 @@
                 </div>
 
                 <div class="box-body row">
-                    <div class="form-group col-md-12">
-                        {!! Form::label('first_name', __('First name')) !!}
-                        {!! Form::text('first_name', old('first_name', $user->first_name), ['class'=>'form-control', 'placeholder'=> __('First name')]) !!}
-                    </div>
-
-                    <div class="form-group col-md-12">
-                        {!! Form::label('last_name', __('Last name')) !!}
-                        {!! Form::text('last_name', old('last_name', $user->last_name), ['class'=>'form-control', 'placeholder'=> __('Last name')]) !!}
-                    </div>
-
-                    <div class="form-group col-md-12">
-                        {!! Form::label('email', __('Email')) !!}*
-                        {!! Form::email('email', old('email', $user->email), ['class'=>'form-control', 'placeholder'=> trans('Admin::admin.users-edit-email_placeholder')]) !!}
-                    </div>
-
-                    <div class="form-group col-md-12">
-                        {!! Form::label('password', __('Password')) !!}
-                        {!! Form::password('password', ['class'=>'form-control', 'placeholder'=> __('Password')]) !!}
-                    </div>
-                    <div class="form-group col-md-12">
-                        {!! Form::label('password_confirmation', __('Confirm Password')) !!}
-                        {!! Form::password('password_confirmation', ['class'=>'form-control', 'placeholder'=> __('Confirm Password')]) !!}
-                    </div>
-
-                    <div class="form-group col-md-12">
-                        {!! Form::label('role_id', trans('Admin::admin.users-edit-role')) !!}
-                        {!! Form::select('role_id', $roles, old('role_id', $user->roles()->pluck('id')->first()), ['class'=>'form-control']) !!}
-                    </div>
+                    @include('Admin::user.partials.fields')
                 </div>
 
                 <div class="box-footer">
@@ -69,6 +42,7 @@
 @section('after_scripts')
 
     @include('Admin::partials.form-scripts')
+    @include('Admin::user.partials.scripts')
 
 @endsection
 

@@ -26,6 +26,16 @@ return [
     'focusFirstField' => true,
     'skin' => 'skin-black-light',
     'registrationEnabled' => true,
-    'defaultRedirect' => 'redirect_back'
+    'defaultRedirect' => 'redirect_back',
+    'languages' => [
+        'ru' => [
+            'title' => 'Русский',
+            'flag' => 'ru'
+        ],
+        'en' => [
+            'title' => 'English',
+            'flag' => 'gb'
+        ]
+    ]
 
 ];

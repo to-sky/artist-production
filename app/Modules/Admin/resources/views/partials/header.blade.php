@@ -35,6 +35,7 @@
     <link rel="stylesheet" href="{{ asset('admin/css/admin.bold.css') }}">
     <link rel="stylesheet" href="{{ asset('/bower_components/select2/dist/css/select2.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bower_components/flag-icon-css/css/flag-icon.min.css') }}">
 
     @yield('after_styles')
 
