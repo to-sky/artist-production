@@ -58,6 +58,7 @@ return [
 
     // forms
     'cancel' => 'Отмена',
+    'delete' => 'Удалить',
 
     // menu
     'Dashboard' => 'Панель управления',
@@ -65,6 +66,7 @@ return [
     'Users' => 'Пользователи',
     'Clients' => 'Клиенты',
     'Events' => 'Мероприятия',
+    'Shippings' => 'Доставка',
     'Menu' => 'Меню',
     'Settings' => 'Настройки',
     'Mail' => 'Почта',
@@ -76,6 +78,7 @@ return [
     'add-new' => 'Добавить :item',
     'edit-item' => 'Редактировать :item',
     'select-item' => 'Выберите :item',
+    'set-to-default' => 'По умолчанию',
     'mail' => 'Почта',
 
     'back-to-all-entries' => 'Назад ко всем записям'

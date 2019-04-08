@@ -49,7 +49,7 @@ class Role extends EntrustRole
 
     public function menus()
     {
-        return $this->belongsToMany(Menu::class);
+        return $this->belongsToMany('App\Models\Menu');
     }
 
     public function canAccessMenu($menu)

@@ -894,12 +894,12 @@ body[class^='skin-purple'] .nav-stacked>li.active>a, .nav-stacked>li.active>a:ho
     padding: 0 5px;
     border-radius: 6px;
     line-height: 150%;
-    margin: 4px;        
+    margin: 4px;
     color: #fff !important;
 }
 .select2-selection__clear:hover {
     background: #333;
-    color: #ccc !important;    
+    color: #ccc !important;
 }
 
 #sortable > li {

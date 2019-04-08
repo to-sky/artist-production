@@ -40,7 +40,7 @@ class Menu extends Model
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class);
+        return $this->belongsToMany('App\Models\Role');
     }
 
     public function availableForRole($role)

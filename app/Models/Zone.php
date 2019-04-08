@@ -13,7 +13,7 @@ class Zone extends Model
      */
     public function hall()
     {
-        return $this->belongsTo(Hall::class);
+        return $this->belongsTo('App\Models\Hall');
     }
 
     /**
@@ -21,6 +21,6 @@ class Zone extends Model
      */
     public function places()
     {
-        return $this->hasMany(Place::class);
+        return $this->hasMany('App\Models\Place');
     }
 }

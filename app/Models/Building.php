@@ -13,7 +13,7 @@ class Building extends Model
      */
     public function city()
     {
-        return $this->belongsTo(City::class);
+        return $this->belongsTo('App\Models\City');
     }
 
     /**
@@ -21,6 +21,6 @@ class Building extends Model
      */
     public function halls()
     {
-        return $this->hasMany(Hall::class);
+        return $this->hasMany('App\Models\Hall');
     }
 }

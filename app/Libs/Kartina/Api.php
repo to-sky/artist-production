@@ -55,7 +55,10 @@ class Api extends Base
      */
     public function getAuth()
     {
-        $auth = $this->sendRequest($this->host.$this->urls[__FUNCTION__], ['__uid' => env('KARTINA_UID')]);
+        $auth = $this->sendRequest(
+            $this->host.$this->urls[__FUNCTION__],
+            ['__uid' => config('kartina.kartina_uid')]
+        );
 
         if (! isset($auth['__auth'])) {
             return null;

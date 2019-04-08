@@ -29,7 +29,7 @@ class File extends Model
     protected $appends = ['file_url'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function attach()
     {

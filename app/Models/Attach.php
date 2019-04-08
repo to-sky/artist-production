@@ -27,6 +27,6 @@ class Attach extends Model
      */
     public function file()
     {
-        return $this->belongsTo('App\File', 'files_id');
+        return $this->belongsTo('App\Models\File', 'files_id');
     }
 }

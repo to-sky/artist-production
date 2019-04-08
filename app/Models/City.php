@@ -18,7 +18,7 @@ class City extends Model
      */
     public function country()
     {
-        return $this->belongsTo(Country::class);
+        return $this->belongsTo('App\Models\Country');
     }
 
     /**
@@ -26,6 +26,6 @@ class City extends Model
      */
     public function buildings()
     {
-        return $this->hasMany(Building::class);
+        return $this->hasMany('App\Models\Building');
     }
 }
