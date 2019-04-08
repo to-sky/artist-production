@@ -3,8 +3,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <h4>
-                    {{ __("Are you sure you want to delete shipping zone") }}
-                    <span id="modalShippingZoneName" class="label label-default"></span>?
+                    {!! __('Are you sure you want to delete shipping zone :shipping_zone?', ['shipping_zone' => '<span id="modalShippingZoneName" class="label label-default"></span>']) !!}
                 </h4>
             </div>
             <div class="modal-footer">
