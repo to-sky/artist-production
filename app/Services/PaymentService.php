@@ -19,7 +19,7 @@ class PaymentService
         $paymentMethod = $this->getPaymentMethod($request->get('payment_method'));
 
         if ($paymentMethod) {
-            $paymentMethod->process($order);
+            return $paymentMethod->process($order);
         }
     }
 
