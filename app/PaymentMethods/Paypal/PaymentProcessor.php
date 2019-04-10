@@ -5,7 +5,7 @@ use PayPal\Api\Details;
 use PayPal\Api\Item;
 use PayPal\Api\ItemList;
 use PayPal\Api\Payer;
-use PayPal\Api\Payment as Pa;
+use PayPal\Api\Payment;
 use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
 
@@ -26,7 +26,7 @@ class PaymentProcessor
             $item->setName($ticket->place->number)
                 ->setCurrency('USD')
                 ->setQuantity(1)
-                ->setSku($ticket->place->id)// Similar to `item_number` in Classic API
+                ->setSku($ticket->place->id)
                 ->setPrice($ticket->place->price);
 
             $subTotal += $ticket->place->price;
@@ -34,17 +34,25 @@ class PaymentProcessor
             $items[] = $item;
         }
 
+        $shipping = $order->shipping->price;
+        $tax = 0;
+
+
         $itemList = new ItemList();
         $itemList->setItems($items);
 
         $details = new Details();
-        $details->setShipping(1.2)
-            ->setTax(1.3)
-            ->setSubtotal(17.50);
+        $details->setShipping($shipping)
+            ->setTax($tax)
+            ->setSubtotal($subTotal);
+
+        $total = $subTotal + $shipping + $tax;
+
+
 
         $amount = new Amount();
         $amount->setCurrency("USD")
-            ->setTotal(20)
+            ->setTotal($total)
             ->setDetails($details);
 
         $transaction = new Transaction();
@@ -75,10 +83,63 @@ class PaymentProcessor
 
         $approvalUrl = $payment->getApprovalLink();
 
-        ResultPrinter::printResult("Created Payment Using PayPal. Please visit the URL to Approve.", "Payment", "<a href='$approvalUrl' >$approvalUrl</a>", $request, $payment);
 
-        return $payment;
 
+        return $approvalUrl;
+
+    }
+
+    public function confirm(Request $request)
+    {
+
+        if ($request->get('success', false)) {
+            $paymentId = $request->get('paymentId');
+            $payment = Payment::get($paymentId, $apiContext);
+
+            $execution = new PaymentExecution();
+            $execution->setPayerId($request->get('PayerID', null));
+
+            $transaction = new Transaction();
+            $amount = new Amount();
+            $details = new Details();
+
+            $shipping = $order->shipping->price;
+            $tax = 0;
+
+            $details->setShipping($shipping)
+                ->setTax($tax)
+                ->setSubtotal(17.50);
+
+            $amount->setCurrency('USD');
+            $amount->setTotal(21);
+            $amount->setDetails($details);
+            $transaction->setAmount($amount);
+
+            $execution->addTransaction($transaction);
+
+            try {
+                $result = $payment->execute($execution, $apiContext);
+
+                ResultPrinter::printResult("Executed Payment", "Payment", $payment->getId(), $execution, $result);
+
+                try {
+                    $payment = Payment::get($paymentId, $apiContext);
+                } catch (Exception $ex) {
+                    ResultPrinter::printError("Get Payment", "Payment", null, null, $ex);
+                    exit(1);
+                }
+            } catch (Exception $ex) {
+                ResultPrinter::printError("Executed Payment", "Payment", null, null, $ex);
+                exit(1);
+            }
+
+            ResultPrinter::printResult("Get Payment", "Payment", $payment->getId(), null, $payment);
+
+            return $payment;
+        } else {
+            ResultPrinter::printResult("User Cancelled the Approval", null);
+            exit;
+        }
     }
 
 }
