@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Zone extends Model
 {
-    protected $fillable = ['name', 'hall_id', 'kartina_id'];
+    protected $fillable = ['name', 'hall_id', 'kartina_id', 'color'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

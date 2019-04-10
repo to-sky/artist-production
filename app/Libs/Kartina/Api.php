@@ -5,6 +5,7 @@ namespace App\Libs\Kartina;
 use App\Models\Building;
 use App\Models\City;
 use App\Models\Hall;
+use App\Models\Label;
 use App\Models\ParseEvent;
 use App\Models\Place;
 use App\Models\Zone;
@@ -225,7 +226,10 @@ class Api extends Base
 
         $hall = $this->storeHall($schema['name'], $schema['id']);
         $zones = $this->storeZones($schema['zones'], $hall->id);
+
         $places = $this->storePlaces($schema['places'], $hall->id);
+
+        $this->storeLabels($schema['labels'], $hall->id);
 
         Log::channel('parser')->info("Data from event $kartinaEventId get hall " . $schema['name'] .
             " with " . count($zones) . " zones and " . count($places) . " places ");
@@ -303,10 +307,14 @@ class Api extends Base
     public function storeZones($zones, $hallId)
     {
         return collect($zones)->map(function ($zone) use ($hallId) {
-            return Zone::firstOrCreate([
+            $params = [
                 'name' => $zone['name'],
                 'hall_id' => $hallId,
                 'kartina_id' => $zone['id']
+            ];
+
+            return Zone::firstOrCreate($params, $params + [
+                'color' => $zone['color']
             ]);
         });
     }
@@ -321,7 +329,6 @@ class Api extends Base
     public function storePlaces($places, $hallId)
     {
         return collect($places)->map(function ($place) use ($hallId) {
-            if ($place['template'] != 'scene') {
                 $zoneId = Zone::where('kartina_id', $place['zone'])->first()->id ?? null;
 
                 return Place::firstOrCreate([
@@ -330,9 +337,38 @@ class Api extends Base
                     'kartina_id' => $place['id'],
                     'text' => $place['text'],
                     'zone_id' => $zoneId,
-                    'hall_id' => $hallId
+                    'hall_id' => $hallId,
+                    'template' => $place['template'],
+                    'status' => $place['status'],
+                    'x' => $place['x'],
+                    'y' => $place['y'],
+                    'width' => $place['width'],
+                    'height' => $place['height'],
+                    'path' => $place['path'],
+                    'rotate' => $place['rotate'],
                 ]);
-            }
+        });
+    }
+
+    /**
+     * Store labels
+     *
+     * @param $labels
+     * @param $hallId
+     * @return \Illuminate\Support\Collection
+     */
+    public function storeLabels($labels, $hallId)
+    {
+        return collect($labels)->map(function ($label) use ($hallId) {
+            return Label::firstOrCreate([
+                'x' => $label['x'],
+                'y' => $label['y'],
+                'hall_id' => $hallId,
+                'is_bold' => $label['IsBold'],
+                'is_italic' => $label['IsItalic'],
+                'layer' => $label['zIndex'],
+                'rotation' => $label['rotation'],
+            ]);
         });
     }
 }
