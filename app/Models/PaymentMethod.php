@@ -13,10 +13,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class PaymentMethod extends Model
 {
-
-    const NOT_ACTIVE = 0;
-    const ACTIVE = 1;
-
     /**
      * @var array
      */
