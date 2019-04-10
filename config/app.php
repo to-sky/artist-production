@@ -172,6 +172,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Srmklive\PayPal\Providers\PayPalServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         Milon\Barcode\BarcodeServiceProvider::class,
 
@@ -239,6 +240,7 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Setting' => anlutro\LaravelSettings\Facade::class,
+        'PayPal' => Srmklive\PayPal\Facades\PayPal::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
         'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
