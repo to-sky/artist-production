@@ -11,7 +11,7 @@ use PayPal\Api\Transaction;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\Order;
 
-class PaymentProcessor
+class PaypalPaymentProcessor
 {
 
     protected $_apiContext;
@@ -30,28 +30,29 @@ class PaymentProcessor
     public function process(Order $order)
     {
         $payer = new Payer();
-        $payer->setPaymentMethod("paypal");
+        $payer->setPaymentMethod('paypal');
 
         $items = [];
 
-        $subTotal = 0;
+        $totalQuantity = 0;
 
         foreach ($order->tickets() as $ticket) {
 
             $item = new Item();
             $item->setName($ticket->place->number)
-                ->setCurrency('USD')
+                ->setCurrency(Order::CURRENCY)
                 ->setQuantity(1)
                 ->setSku($ticket->place->id)
                 ->setPrice($ticket->place->price);
 
-            $subTotal += $ticket->place->price;
+            $totalQuantity += 1;
 
             $items[] = $item;
         }
 
         $shipping = $order->shipping->price;
         $tax = 0;
+        $subTotal = $order->subTotal;
 
 
         $itemList = new ItemList();
@@ -67,14 +68,14 @@ class PaymentProcessor
 
 
         $amount = new Amount();
-        $amount->setCurrency("USD")
+        $amount->setCurrency(Order::CURRENCY)
             ->setTotal($total)
             ->setDetails($details);
 
         $transaction = new Transaction();
         $transaction->setAmount($amount)
             ->setItemList($itemList)
-            ->setDescription(__('Tickets for :event', ['event' => 'Some event']))
+            ->setDescription(trans_choice('Ticket for :event|Tickets for :event', $totalQuantity, ['event' => 'Some event']))
             ->setInvoiceNumber(uniqid());
 
 
@@ -91,7 +92,7 @@ class PaymentProcessor
         try {
             $payment->create($this->_apiContext);
         } catch (Exception $ex) {
-            Redirect::route('payment.warning');
+            Redirect::route('payment.error', ['order' => $order->id]);
         }
 
         $approvalUrl = $payment->getApprovalLink();
