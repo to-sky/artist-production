@@ -8,9 +8,25 @@ use PayPal\Api\Payer;
 use PayPal\Api\Payment;
 use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
+use Illuminate\Support\Facades\Redirect;
+use App\Models\Order;
 
 class PaymentProcessor
 {
+
+    protected $_apiContext;
+
+    public function __construct()
+    {
+        $this->_api_context = new ApiContext(
+            new OAuthTokenCredential(
+                config('paypal.client_id'),
+                config('paypal.secret')
+            )
+        );
+        $this->_apiContext->setConfig(config('paypal.settings'));
+    }
+
     public function process(Order $order)
     {
         $payer = new Payer();
@@ -58,13 +74,13 @@ class PaymentProcessor
         $transaction = new Transaction();
         $transaction->setAmount($amount)
             ->setItemList($itemList)
-            ->setDescription("Payment description")
+            ->setDescription(__('Tickets for :event', ['event' => 'Some event']))
             ->setInvoiceNumber(uniqid());
 
-        $baseUrl = getBaseUrl();
+
         $redirectUrls = new RedirectUrls();
-        $redirectUrls->setReturnUrl("$baseUrl/ExecutePayment.php?success=true")
-            ->setCancelUrl("$baseUrl/ExecutePayment.php?success=false");
+        $redirectUrls->setReturnUrl(route('payment.confirm', ['order' => $order->id]))
+            ->setCancelUrl(route('payment.cancel', ['order' => $order->id]));
 
         $payment = new Payment();
         $payment->setIntent("sale")
@@ -72,29 +88,26 @@ class PaymentProcessor
             ->setRedirectUrls($redirectUrls)
             ->setTransactions(array($transaction));
 
-        $request = clone $payment;
-
         try {
-            $payment->create($apiContext);
+            $payment->create($this->_apiContext);
         } catch (Exception $ex) {
-            ResultPrinter::printError("Created Payment Using PayPal. Please visit the URL to Approve.", "Payment", null, $request, $ex);
-            exit(1);
+            Redirect::route('payment.warning');
         }
 
         $approvalUrl = $payment->getApprovalLink();
 
 
 
-        return $approvalUrl;
+        Redirect::away($approvalUrl);
 
     }
 
-    public function confirm(Request $request)
+    public function confirm(Order $order, Request $request)
     {
 
         if ($request->get('success', false)) {
-            $paymentId = $request->get('paymentId');
-            $payment = Payment::get($paymentId, $apiContext);
+            $paymentId = $request->get('paymentId', null);
+            $payment = Payment::get($paymentId, $this->_apiContext);
 
             $execution = new PaymentExecution();
             $execution->setPayerId($request->get('PayerID', null));
@@ -105,40 +118,37 @@ class PaymentProcessor
 
             $shipping = $order->shipping->price;
             $tax = 0;
+            $subTotal = $order->subTotal;
 
             $details->setShipping($shipping)
                 ->setTax($tax)
-                ->setSubtotal(17.50);
+                ->setSubtotal($subTotal);
+
+            $total = $shipping + $tax + $subTotal;
 
             $amount->setCurrency('USD');
-            $amount->setTotal(21);
+            $amount->setTotal($total);
             $amount->setDetails($details);
             $transaction->setAmount($amount);
 
             $execution->addTransaction($transaction);
 
             try {
-                $result = $payment->execute($execution, $apiContext);
+                $result = $payment->execute($execution, $this->_apiContext);
 
-                ResultPrinter::printResult("Executed Payment", "Payment", $payment->getId(), $execution, $result);
+                if ($result->getState() == 'approved') {
+                    $order->update(['status' => Order::STATUS_CONFIRMED]);
 
-                try {
-                    $payment = Payment::get($paymentId, $apiContext);
-                } catch (Exception $ex) {
-                    ResultPrinter::printError("Get Payment", "Payment", null, null, $ex);
-                    exit(1);
+                    Redirect::route('payment.success', ['order' => $order->id]);
                 }
             } catch (Exception $ex) {
-                ResultPrinter::printError("Executed Payment", "Payment", null, null, $ex);
-                exit(1);
+                Redirect::route('payment.error', ['order' => $order->id]);
             }
 
-            ResultPrinter::printResult("Get Payment", "Payment", $payment->getId(), null, $payment);
-
-            return $payment;
         } else {
-            ResultPrinter::printResult("User Cancelled the Approval", null);
-            exit;
+            $order->update(['status' => Order::STATUS_CANCELED]);
+
+            Redirect::route('payment.cancel', ['order' => $order->id]);
         }
     }
 

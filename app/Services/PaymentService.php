@@ -23,6 +23,15 @@ class PaymentService
         }
     }
 
+    public function confirm($order, $request)
+    {
+        $paymentMethod = $this->getPaymentMethod($order->payment_method_id);
+
+        if ($paymentMethod) {
+            $paymentMethod->confirm($order, $request);
+        }
+    }
+
     public function getPaymentMethod($id)
     {
         $paymentMethod = PaymentMethod::findOrFail($id);
