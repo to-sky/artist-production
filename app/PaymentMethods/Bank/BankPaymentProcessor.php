@@ -8,15 +8,17 @@ use PayPal\Api\Payer;
 use PayPal\Api\Payment;
 use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
+use App\Models\Order;
+use Illuminate\Http\Request;
 
-class PaymentProcessor
+class BankPaymentProcessor extends AbstractPaymentProcessor
 {
     public function process(Order $order)
     {
 
     }
 
-    public function confirm(Request $request)
+    public function confirm(Order $order, Request $request)
     {
 
     }

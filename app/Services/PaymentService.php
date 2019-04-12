@@ -36,7 +36,7 @@ class PaymentService
     {
         $paymentMethod = PaymentMethod::findOrFail($id);
 
-        @$paymentMethodClass = '\\App\\PaymentMethods\\' . $paymentMethod->name . '\\Payment';
+        @$paymentMethodClass = '\\App\\PaymentMethods\\' . $paymentMethod->name . '\\' . $paymentMethod->name . 'PaymentProcessor';
         if (class_exists($paymentMethodClass)) {
             return new $paymentMethodClass;
         }
