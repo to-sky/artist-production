@@ -15,6 +15,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('payment/confirm/{order}', 'PaymentController@confirm')->name('payment.confirm');
+Route::get('payment/success/{order}', 'PaymentController@success')->name('payment.success');
+Route::get('payment/cancel/{order}', 'PaymentController@cancel')->name('payment.cancel');
+Route::get('payment/error/{order}', 'PaymentController@error')->name('payment.error');
+
 Route::group([
     'namespace' => '\App\Http\Controllers',
 ], function() {
