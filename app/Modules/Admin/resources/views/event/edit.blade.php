@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    @include('Admin::event.partials._modal-delete-confirm')
+    @include('Admin::partials.modal-delete-item-confirm')
 
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -95,19 +95,19 @@
         $('a[href="#'+ activeTab +'"]').tab('show');
 
         // Add price row
-        var amountRowsPrice = $('#pricesTable tbody tr:not(.hidden)').length;
+        var amountPrices = $('#pricesTable tbody tr:not(.hidden, .empty-row)').length;
         $('#addPrice').click(function () {
-            amountRowsPrice++;
+            amountPrices++;
 
-            cloneRow('.prices-row', amountRowsPrice).find('.colorpicker-block input').colorpicker();
+            cloneRow('.prices-row', amountPrices).find('.colorpicker-block input').colorpicker();
         });
 
         // Add price groups row
-        var amountRowsPriceGroup = $('#priceGroupTable tbody tr:not(.hidden)').length;
+        var amountPriceGroups = $('#priceGroupTable tbody tr:not(.hidden, .empty-row)').length;
         $('#addPriceGroup').click(function () {
-            amountRowsPriceGroup++;
+            amountPriceGroups++;
 
-            cloneRow('.price-groups-row', amountRowsPriceGroup);
+            cloneRow('.price-groups-row', amountPriceGroups);
         });
 
         // Add colorpicker
@@ -141,34 +141,5 @@
                 $(el).attr('name', inputNameArray.join(''));
             });
         }
-
-        // Modal for remove price/price-group
-        var modal = $('#deleteItem');
-        modal.on('show.bs.modal', function (e) {
-            var target = $(e.relatedTarget);
-            var url = target.data('url');
-            var tableRow = target.closest('tr');
-            var itemName = tableRow.find('input').first().val();
-
-            $(this).find('#modalItemName').text(itemName);
-
-            $('.delete-item').click(function() {
-                $.ajax({
-                    url: url,
-                    type: 'DELETE',
-                    success: function() {
-                        modal.modal('hide');
-                        tableRow.remove();
-                    }
-                });
-            });
-        }).on('hide.bs.modal', function () {
-            $('.delete-item').off('click');
-        });
-
-        // Remove price row
-        $(document).on('click', '.delete-row', function() {
-            $(this).closest('tr').remove();
-        });
     </script>
 @endsection

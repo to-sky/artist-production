@@ -143,9 +143,8 @@
     "Locale :locale not supported.": "Локаль :locale не поддерживается.",
     "Are you sure you want to delete :item?": "Вы уверены, что хотите удалить :item?",
     "Prices": "Расценки",
-    "Prices are not set": "Расценки не заданы",
     "Price groups": "Категории цен",
-    "Price groups are not set": "Категории цен не заданы",
+    ":item are not set": ":item не заданы",
     "Color": "Цвет",
     "Discount": "Скидка"
 }

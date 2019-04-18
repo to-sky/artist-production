@@ -31,6 +31,7 @@
   }
 }
 
+// Prices/Price groups
 #prices {
   .evo-cp-wrap {
     margin-left: 45px;
@@ -39,5 +40,18 @@
   .evo-pointer {
     height: 34px;
     width: 34px;
+  }
+}
+
+// Shipping/Shipping  zones
+#shippingZoneTable {
+  ~ .help-block {
+    display: none;
+  }
+}
+
+.form-group.has-error {
+  #shippingZoneTable .form-control {
+    border-color: #d2d6de;
   }
 }

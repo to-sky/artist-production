@@ -126,5 +126,34 @@
         locale: locale
     });
 
+    // Modal confirmation on delete item
+    var modal = $('#deleteItem');
+    modal.on('show.bs.modal', function (e) {
+        var target = $(e.relatedTarget);
+        var url = target.data('url');
+        var tableRow = target.closest('tr');
+        var itemName = tableRow.find('input').first().val();
+
+        $(this).find('#modalItemName').text(itemName);
+
+        $('.delete-item').click(function() {
+            $.ajax({
+                url: url,
+                type: 'DELETE',
+                success: function() {
+                    modal.modal('hide');
+                    tableRow.remove();
+                }
+            });
+        });
+    }).on('hide.bs.modal', function () {
+        $('.delete-item').off('click');
+    });
+
+    // Remove table row
+    $(document).on('click', '.delete-row', function() {
+        $(this).closest('tr').remove();
+    });
+
     $('input.colorpicker').colorpicker();
 </script>

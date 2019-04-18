@@ -27,7 +27,7 @@
                 <div class="box-body row">
                     <div class="form-group col-md-12">
                         {!! Form::label('name', __('Shipping type')) !!}*
-                        {!! Form::text('name', old('name'), array('class'=>'form-control')) !!}
+                        {!! Form::text('name', old('name'), array('class'=>'form-control', 'required')) !!}
                     </div>
 
                     <div class="form-group col-md-12">
@@ -51,6 +51,7 @@
 
                             <tbody>
                                 @include('Admin::shipping.partials._shipping-zone-table-row')
+                                @include('Admin::partials.empty-table-row', ['itemName' => 'Shipping zones', 'colspan' => 4])
                             </tbody>
                         </table>
 
@@ -63,10 +64,6 @@
             {!! Form::close() !!}
         </div>
     </div>
-@endsection
-
-@section('after_styles')
-    @include('Admin::shipping.partials._styles')
 @endsection
 
 @section('after_scripts')

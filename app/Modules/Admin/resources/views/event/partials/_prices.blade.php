@@ -19,10 +19,12 @@
             <tbody>
                 <tr class="hidden prices-row">
                     <td>
-                        <input type="number" name="prices-[price]" class="form-control" min="0" max="100" disabled>
+                        <input type="number" name="prices-[price]" class="form-control"
+                               min="0" max="100" disabled required>
                     </td>
                     <td class="colorpicker-block">
-                        <input type="hidden" name="prices-[color]" class="form-control" value="#ffffff" disabled>
+                        <input type="hidden" name="prices-[color]" class="form-control"
+                               value="#ffffff" disabled>
                     </td>
                     <td class="text-center">
                         <button type="button" class="btn btn-danger btn-xs delete-row">
@@ -34,10 +36,12 @@
                 @forelse($event->prices as $price)
                     <tr class="prices-row">
                         <td>
-                            <input type="number" name="prices[{{ $loop->iteration }}][price]" class="form-control" min="0" max="100" value="{{ $price->price }}">
+                            <input type="number" name="prices[{{ $loop->iteration }}][price]"
+                                   class="form-control" min="0" max="100" value="{{ $price->price }}" required>
                         </td>
                         <td class="colorpicker-block">
-                            <input type="hidden" name="prices[{{ $loop->iteration }}][color]" class="form-control" value="{{ $price->color }}">
+                            <input type="hidden" name="prices[{{ $loop->iteration }}][color]"
+                                   class="form-control" value="{{ $price->color }}">
                         </td>
                         <td class="text-center">
                             <input type="hidden" name="prices[{{ $loop->iteration }}][id]" value="{{ $price->id }}">
@@ -51,11 +55,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr class="empty-row">
-                        <td colspan="3">
-                            <p class="text-center">{{ __('Prices are not set') }}</p>
-                        </td>
-                    </tr>
+                    @include('Admin::partials.empty-table-row', ['itemName' => 'Prices'])
                 @endforelse
             </tbody>
         </table>
@@ -77,10 +77,11 @@
             <tbody>
                 <tr class="hidden price-groups-row">
                     <td>
-                        <input type="text" name="priceGroups-[name]" class="form-control" disabled>
+                        <input type="text" name="priceGroups-[name]" class="form-control" disabled required>
                     </td>
                     <td>
-                        <input type="number" name="priceGroups-[discount]" class="form-control" min="0" max="100" disabled>
+                        <input type="number" name="priceGroups-[discount]"
+                               class="form-control" min="0" max="100" disabled required>
                     </td>
                     <td class="text-center">
                         <button type="button" class="btn btn-danger btn-xs delete-row">
@@ -92,10 +93,17 @@
                 @forelse($event->priceGroups as $priceGroup)
                     <tr class="price-groups-row">
                         <td>
-                            <input type="text" name="priceGroups[{{ $loop->iteration }}][name]" class="form-control" value="{{ $priceGroup->name }}">
+                            <input type="text" name="priceGroups[{{ $loop->iteration }}][name]"
+                                   class="form-control"
+                                   value="{{ $priceGroup->name }}"
+                                   required>
                         </td>
                         <td>
-                            <input type="number" name="priceGroups[{{ $loop->iteration }}][discount]" class="form-control" min="0" max="100" value="{{ $priceGroup->discount }}">
+                            <input type="number" name="priceGroups[{{ $loop->iteration }}][discount]"
+                                   class="form-control"
+                                   min="0" max="100"
+                                   value="{{ $priceGroup->discount }}"
+                                   required>
                         </td>
                         <td class="text-center">
                             <input type="hidden" name="priceGroups[{{ $loop->iteration }}][id]" value="{{ $priceGroup->id }}">
@@ -109,14 +117,11 @@
                         </td>
                     </tr>
                 @empty
-                    <tr class="empty-row">
-                        <td colspan="3">
-                            <p class="text-center">{{ __('Price groups are not set') }}</p>
-                        </td>
-                    </tr>
+                    @include('Admin::partials.empty-table-row', ['itemName' => 'Price groups'])
                 @endforelse
             </tbody>
         </table>
     </div>
+    <br>
 </div>
 

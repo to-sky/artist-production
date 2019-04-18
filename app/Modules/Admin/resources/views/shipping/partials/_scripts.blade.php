@@ -1,12 +1,14 @@
 <script>
-    // Add new shipping zone row
-    var elementCount = $('#shippingZoneTable tbody tr').length - 1;
+    // Add new shipping zone
+    var amountShippingZones = $('#shippingZoneTable tbody tr:not(.hidden, .empty-row)').length;
     $('#addRow').click(function () {
-        elementCount++;
+        amountShippingZones++;
 
-        var shippingZoneRow = $('.shipping-zone-row');
-        var cloneRow = shippingZoneRow.first().clone();
+        var currentRow = $('.shipping-zone-row');
+        var cloneRow = currentRow.first().clone();
         var selectBox = cloneRow.find('select');
+
+        currentRow.parent('tbody').find('tr.empty-row').remove();
 
         setInputName(cloneRow);
 
@@ -14,7 +16,7 @@
 
         setSelect2(selectBox);
 
-        shippingZoneRow.last().after(cloneRow);
+        currentRow.last().after(cloneRow);
     });
 
     setSelect2('.select2-box');
@@ -41,7 +43,7 @@
             $(element).prop('disabled', false);
 
             var inputName = $(element).attr('name');
-            var name = 'shipping_zones['+ elementCount+']['+inputName+']';
+            var name = 'shippingZones['+ amountShippingZones+']['+inputName+']';
 
             if ($(element).prop('multiple')) {
                 name += '[]';
@@ -50,35 +52,6 @@
             $(element).attr('name', name);
         });
     }
-
-    // Modal for remove shipping zone
-    var modal = $('#deleteShippingZone');
-    modal.on('show.bs.modal', function (e) {
-        var target = $(e.relatedTarget);
-        var url = target.data('url');
-        var tableRow = target.closest('tr');
-        var shippingZoneName = tableRow.find('input[name*=name]').val();
-
-        $(this).find('#modalShippingZoneName').text(shippingZoneName);
-
-        $('.delete-shipping-zone').click(function() {
-            $.ajax({
-                url: url,
-                type: 'DELETE',
-                success: function() {
-                    modal.modal('hide');
-                    tableRow.remove();
-                }
-            });
-        });
-    }).on('hide.bs.modal', function () {
-        $('.delete-shipping-zone').off('click');
-    });
-
-    // Remove shipping zone row
-    $(document).on('click', '.delete-row', function() {
-        $(this).closest('tr').remove();
-    });
 
     // Find empty inputs
     function getEmptyInputs(selector) {
