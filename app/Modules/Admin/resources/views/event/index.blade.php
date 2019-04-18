@@ -47,8 +47,11 @@
                         <td>{{ $row->hall->name }}</td>
                         <td>{{ numberToString($row->is_active) }}</td>
                         <td>
-                            <a href="{{ route(config('admin.route').'.events.edit', [$row->id]) }}" class="btn btn-xs btn-default">
+                            <a href="{{ route(config('admin.route').'.events.edit', [$row->id]) }}#event" class="btn btn-xs btn-default">
                                 <i class="fa fa-edit"></i> {{ trans('Admin::admin.users-index-edit') }}
+                            </a>
+                            <a href="{{ route(config('admin.route').'.events.edit', [$row->id]) }}#prices" class="btn btn-xs btn-default">
+                                <i class="fa fa-magic"></i> Расценки
                             </a>
                             <a href="{{ route(config('admin.route').'.events.destroy', [$row->id]) }}" class="btn btn-xs btn-default delete-button">
                                 <i class="fa fa-trash"></i> {{ trans('Admin::admin.users-index-delete') }}

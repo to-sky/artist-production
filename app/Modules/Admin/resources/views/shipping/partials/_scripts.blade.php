@@ -70,9 +70,9 @@
                     tableRow.remove();
                 }
             });
-
-            $(this).off('click');
         });
+    }).on('hide.bs.modal', function () {
+        $('.delete-shipping-zone').off('click');
     });
 
     // Remove shipping zone row

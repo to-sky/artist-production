@@ -5,6 +5,8 @@
 @endsection
 
 @section('content')
+    @include('Admin::event.partials._modal-delete-confirm')
+
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <a href="{{ route(config('admin.route').'.events.index') }}">
@@ -13,54 +15,68 @@
             </a>
             <br><br>
 
-            @include('Admin::partials.errors')
+            <ul class="nav nav-tabs" role="tablist" id="eventTabs">
+                <li role="presentation">
+                    <a href="#event" aria-controls="event" role="tab" data-toggle="tab">{{ __('Event') }}</a>
+                </li>
+                <li role="presentation">
+                    <a href="#prices" aria-controls="prices" role="tab" data-toggle="tab">{{ __('Prices') }}</a>
+                </li>
+            </ul>
 
             {!! Form::model($event, array('method' => 'PATCH', 'route' => array(config('admin.route').'.events.update', $event->id))) !!}
+            {!! Form::hidden('id', $event->id) !!}
 
-            <div class="box">
+            <div class="tab-content">
+                @include('Admin::partials.errors')
 
-                <div class="box-header with-border">
-                    <h3 class="box-title">
-                        {{ trans('Admin::admin.edit-item', ['item' => mb_strtolower(trans('Admin::models.' . ucfirst($menuRoute->singular_name)))]) }}
-                    </h3>
-                </div>
+                    <div role="tabpanel" class="tab-pane" id="event">
+                        <div class="box">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">
+                                    {{ trans('Admin::admin.edit-item', ['item' => mb_strtolower(trans('Admin::models.' . ucfirst($menuRoute->singular_name)))]) }}
+                                </h3>
+                            </div>
 
-                <div class="box-body row">
-                    <div class="form-group col-md-12">
-                        {!! Form::label('name', __('Event')) !!}*
-                        {!! Form::text('name', old('name', $event->name), array('class'=>'form-control')) !!}
+                            <div class="box-body row">
+                                <div class="form-group col-md-12">
+                                    {!! Form::label('name', __('Event')) !!}*
+                                    {!! Form::text('name', old('name', $event->name), array('class'=>'form-control')) !!}
+                                </div>
+                                <div class="form-group col-md-12">
+                                    {!! Form::label('date', __('Date')) !!}*
+                                    {!! Form::text('date', old('date', $event->date), array('class'=>'form-control datetimepicker')) !!}
+                                    <p class="help-block">{{ __('Select event date and time.') }}</p>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    {!! Form::label('city_id', __('City')) !!}*
+                                    {!! Form::select('city_id', $cities, old('city_id', $event->hall->building->city->id), array('class'=>'form-control')) !!}
+                                </div>
+                                <div class="form-group col-md-12">
+                                    {!! Form::label('building_id', __('Building')) !!}*
+                                    {!! Form::select('building_id', $buildings, old('building_id', $event->hall->building->id), array('class'=>'form-control')) !!}
+                                </div>
+                                <div class="form-group col-md-12">
+                                    {!! Form::label('hall_id', __('Hall')) !!}*
+                                    {!! Form::select('hall_id', $halls, old('hall_id', $event->hall_id), array('class'=>'form-control')) !!}
+                                </div>
+                                <div class="checkbox col-md-12">
+                                    <label>
+                                        <input type="hidden" name="is_active" value="0">
+                                        <input type="checkbox" name="is_active" {{ $event->is_active ? "checked" : "" }}> {{ __('Active') }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group col-md-12">
-                        {!! Form::label('date', __('Date')) !!}*
-                        {!! Form::text('date', old('date', $event->date), array('class'=>'form-control datetimepicker')) !!}
-                        <p class="help-block">{{ __('Select event date and time.') }}</p>
-                    </div>
-                    <div class="form-group col-md-12">
-                        {!! Form::label('city_id', __('City')) !!}*
-                        {!! Form::select('city_id', $cities, old('city_id', $event->hall->building->city->id), array('class'=>'form-control')) !!}
-                    </div>
-                    <div class="form-group col-md-12">
-                        {!! Form::label('building_id', __('Building')) !!}*
-                        {!! Form::select('building_id', $buildings, old('building_id', $event->hall->building->id), array('class'=>'form-control')) !!}
-                    </div>
-                    <div class="form-group col-md-12">
-                        {!! Form::label('hall_id', __('Hall')) !!}*
-                        {!! Form::select('hall_id', $halls, old('hall_id', $event->hall_id), array('class'=>'form-control')) !!}
-                    </div>
-                    <div class="checkbox col-md-12">
-                        <label>
-                            <input type="hidden" name="is_active" value="0">
-                            <input type="checkbox" name="is_active" {{ $event->is_active ? "checked" : "" }}> {{ __('Active') }}
-                        </label>
-                    </div>
-                </div>
 
-                <div class="box-footer">
-                    @include('Admin::partials.save-buttons')
+                    <div role="tabpanel" class="tab-pane" id="prices">
+                        @include('Admin::event.partials._prices')
+                    </div>
 
-                    {!! Form::hidden('id', $event->id) !!}
-                </div>
+                @include('Admin::partials.save-buttons')
             </div>
+
             {!! Form::close() !!}
         </div>
     </div>
@@ -69,4 +85,90 @@
 @section('after_scripts')
     @include('Admin::partials.form-scripts')
     @include('Admin::event.partials._scripts')
+
+    <script>
+        // Set active tab
+        var url = window.location.href;
+        var tabName = url.indexOf("#") + 1;
+        var activeTab = tabName ? url.substring(tabName) : 'event';
+        $("#" + activeTab).addClass("active");
+        $('a[href="#'+ activeTab +'"]').tab('show');
+
+        // Add price row
+        var amountRowsPrice = $('#pricesTable tbody tr:not(.hidden)').length;
+        $('#addPrice').click(function () {
+            amountRowsPrice++;
+
+            cloneRow('.prices-row', amountRowsPrice).find('.colorpicker-block input').colorpicker();
+        });
+
+        // Add price groups row
+        var amountRowsPriceGroup = $('#priceGroupTable tbody tr:not(.hidden)').length;
+        $('#addPriceGroup').click(function () {
+            amountRowsPriceGroup++;
+
+            cloneRow('.price-groups-row', amountRowsPriceGroup);
+        });
+
+        // Add colorpicker
+        $('tr:not(.hidden) .colorpicker-block input').colorpicker();
+
+        // Clone table row
+        function cloneRow(el, position) {
+            var currentRow = $(el);
+            var cloneRow = currentRow.first().clone();
+
+            currentRow.parent('tbody').find('tr.empty-row').remove();
+
+            setInputName(cloneRow, position);
+
+            cloneRow.removeClass('hidden');
+
+            currentRow.last().after(cloneRow);
+
+            return cloneRow
+        }
+
+        // Set input name
+        function setInputName(row, position) {
+            row.find('input').each(function(i, el) {
+                $(el).prop('disabled', false);
+
+                var inputName = $(el).attr('name');
+                var inputNameArray = inputName.split('-');
+                inputNameArray.splice(1, 0,'[' + position + ']');
+
+                $(el).attr('name', inputNameArray.join(''));
+            });
+        }
+
+        // Modal for remove price/price-group
+        var modal = $('#deleteItem');
+        modal.on('show.bs.modal', function (e) {
+            var target = $(e.relatedTarget);
+            var url = target.data('url');
+            var tableRow = target.closest('tr');
+            var itemName = tableRow.find('input').first().val();
+
+            $(this).find('#modalItemName').text(itemName);
+
+            $('.delete-item').click(function() {
+                $.ajax({
+                    url: url,
+                    type: 'DELETE',
+                    success: function() {
+                        modal.modal('hide');
+                        tableRow.remove();
+                    }
+                });
+            });
+        }).on('hide.bs.modal', function () {
+            $('.delete-item').off('click');
+        });
+
+        // Remove price row
+        $(document).on('click', '.delete-row', function() {
+            $(this).closest('tr').remove();
+        });
+    </script>
 @endsection

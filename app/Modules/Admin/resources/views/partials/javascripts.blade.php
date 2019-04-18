@@ -23,6 +23,7 @@
 <script src="{{ asset('/bower_components/select2/dist/js/select2.full.js') }}"></script>
 <script src="{{ asset('/bower_components/select2/dist/js/i18n/de.js') }}"></script>
 <script src="{{ asset('/bower_components/select2/dist/js/i18n/ru.js') }}"></script>
+<script src="{{ asset('/bower_components/evol-colorpicker/js/evol-colorpicker.js') }}"></script>
 
 <!-- page script -->
 <script type="text/javascript">
@@ -124,4 +125,6 @@
         format: 'Y-MM-D HH:mm',
         locale: locale
     });
+
+    $('input.colorpicker').colorpicker();
 </script>

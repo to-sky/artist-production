@@ -15,7 +15,6 @@ class UpdatePlacesTableAddPositionColumns extends Migration
     {
         Schema::table('places', function (Blueprint $table) {
             $table->string('template');
-            $table->integer('status');
             $table->float('x');
             $table->float('y');
             $table->float('width');
@@ -35,7 +34,7 @@ class UpdatePlacesTableAddPositionColumns extends Migration
     public function down()
     {
         Schema::table('places', function (Blueprint $table) {
-            $table->dropColumn(['template', 'status', 'x', 'y', 'width', 'height', 'path', 'rotate']);
+            $table->dropColumn(['template', 'x', 'y', 'width', 'height', 'path', 'rotate']);
             $table->string('row')->nullable(false)->change();
             $table->string('num')->nullable(false)->change();
         });

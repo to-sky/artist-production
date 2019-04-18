@@ -34,6 +34,16 @@ class Event extends Model
         return $this->belongsTo('App\Models\Hall');
     }
 
+    public function prices()
+    {
+        return $this->hasMany('App\Models\Price');
+    }
+
+    public function priceGroups()
+    {
+        return $this->hasMany('App\Models\PriceGroup');
+    }
+
     /**
      * Set attribute to datetime format
      * @param $input

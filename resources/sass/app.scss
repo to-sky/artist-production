@@ -14,20 +14,30 @@
 }
 
 // Select2
-.select2-container--default .select2-selection--multiple .select2-selection__choice {
-  color: #333;
-}
-.select2-container .select2-selection--single {
-  height: 34px;
+.select2-container--default {
+  .select2-selection--single,
+  .select2-selection--multiple {
+    height: 34px;
+    padding-left: 0;
+    border-color: #d2d6de;
+    .select2-selection__arrow {
+      height: 30px;
+    }
+  }
+  .select2-selection--multiple {
+    .select2-selection__choice {
+      color: #333;
+    }
+  }
 }
 
-.select2-container--default .select2-selection--single .select2-selection__arrow {
-  height: 30px;
-}
+#prices {
+  .evo-cp-wrap {
+    margin-left: 45px;
+  }
 
-.select2-container--default .select2-selection--single,
-.select2-container--default .select2-selection--multiple,
-.select2-selection .select2-selection--single {
-  padding-left: 0;
-  border-color: #d2d6de;
+  .evo-pointer {
+    height: 34px;
+    width: 34px;
+  }
 }

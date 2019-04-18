@@ -6,6 +6,7 @@
     // Add select2 to select city
     citySelect.select2({
         language: locale,
+        width: '100%',
     }).on('select2:select', function () {
         buildingSelect.val(null).trigger("change");
         hallSelect.val(null).trigger("change");
@@ -14,6 +15,7 @@
     // Add select2 with ajax, to select building
     buildingSelect.select2({
         language: locale,
+        width: '100%',
         ajax: {
             url: '{!! route('events.getBuildings') !!}',
             data: function () {
@@ -34,6 +36,7 @@
     // Add select2 with ajax, to select hall
     hallSelect.select2({
         language: locale,
+        width: '100%',
         ajax: {
             url: '{!! route('events.getHalls') !!}',
             data: function () {
