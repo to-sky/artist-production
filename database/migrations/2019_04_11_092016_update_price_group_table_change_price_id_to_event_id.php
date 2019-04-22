@@ -32,7 +32,15 @@ class UpdatePriceGroupTableChangePriceIdToEventId extends Migration
     public function down()
     {
         Schema::table('price_groups', function (Blueprint $table) {
-            $table->unsignedInteger('price_id');
+            Schema::disableForeignKeyConstraints();
+            $table->dropForeign(['event_id']);
+            $table->dropColumn(['event_id']);
+            Schema::enableForeignKeyConstraints();
+
+            if (! Schema::hasColumn('price_groups', 'price_id')) {
+                $table->unsignedInteger('price_id');
+            }
+
             $table->foreign('price_id')->references('id')->on('prices')->onDelete('cascade');
         });
     }

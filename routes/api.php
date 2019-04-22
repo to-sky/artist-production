@@ -16,7 +16,7 @@ Route::group([
     'module'=>'Api',
     'namespace' => 'Api\Controllers'
 ], function() {
-    Route::get('halls', 'HallController@index');
+    Route::get('events/{event}', 'EventController@show');
 });
 
 

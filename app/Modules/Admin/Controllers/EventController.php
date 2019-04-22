@@ -95,8 +95,8 @@ class EventController extends AdminController {
      * @return \Illuminate\View\View
      */
 	public function edit(Event $event)
-	{
-		$this->generateParams();
+    {
+        $this->generateParams();
 
 		return view('Admin::event.edit', compact('event'));
 	}

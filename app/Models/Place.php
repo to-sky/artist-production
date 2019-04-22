@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Place extends Model
 {
     protected $fillable = [
-        'row', 'num', 'text', 'zone_id', 'hall_id', 'kartina_id', 'template', 'status', 'x', 'y', 'width','height',
-        'path', 'rotate'
+        'row', 'num', 'text', 'zone_id', 'hall_id', 'kartina_id', 'template',
+        'x', 'y', 'width','height', 'path', 'rotate'
     ];
 
     /**

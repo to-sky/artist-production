@@ -229,10 +229,10 @@ class Api extends Base
 
         $places = $this->storePlaces($schema['places'], $hall->id);
 
-        $this->storeLabels($schema['labels'], $hall->id);
+        $labels = $this->storeLabels($schema['labels'], $hall->id);
 
-        Log::channel('parser')->info("Data from event $kartinaEventId get hall " . $schema['name'] .
-            " with " . count($zones) . " zones and " . count($places) . " places ");
+        Log::channel('parser')->info("Data from event $kartinaEventId get hall '$schema[name]' with "
+            . count($zones) ." zones, ". count($labels) ." labels and ". count($places) ." places");
 
         ParseEvent::parsed($kartinaEventId);
 
@@ -339,7 +339,6 @@ class Api extends Base
                     'zone_id' => $zoneId,
                     'hall_id' => $hallId,
                     'template' => $place['template'],
-                    'status' => $place['status'],
                     'x' => $place['x'],
                     'y' => $place['y'],
                     'width' => $place['width'],
