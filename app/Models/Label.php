@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Label extends Model
 {
     protected $fillable = [
-        'x', 'y', 'is_bold', 'is_italic', 'layer', 'rotation', 'hall_id'
+        'x', 'y', 'text', 'is_bold', 'is_italic', 'layer', 'rotation', 'hall_id'
     ];
 
     public function hall()

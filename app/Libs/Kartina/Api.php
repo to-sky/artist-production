@@ -364,6 +364,7 @@ class Api extends Base
                 'y' => $label['y'],
                 'hall_id' => $hallId,
                 'is_bold' => $label['IsBold'],
+                'text' => $label['text'],
                 'is_italic' => $label['IsItalic'],
                 'layer' => $label['zIndex'],
                 'rotation' => $label['rotation'],
