@@ -17,7 +17,7 @@ class EventController extends ApiController
         $hall = $event->hall()->get(['id', 'name'])->toArray();
 
         $labels = $event->hall->labels()->get([
-            'id', 'hall_id', 'x', 'y', 'is_bold', 'is_italic', 'layer', 'rotation'
+            'id', 'hall_id', 'x', 'y', 'text', 'is_bold', 'is_italic', 'layer', 'rotation'
         ])->toArray();
 
         $zones = $event->hall->zones()->get(['id', 'hall_id', 'name', 'color'])->toArray();
