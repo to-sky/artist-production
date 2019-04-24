@@ -16,6 +16,7 @@ Route::get('/', function () {
 });
 
 Route::get('payment/checkout', 'PaymentController@checkout')->name('payment.checkout');
+Route::post('payment/processCheckout', 'PaymentController@processCheckout')->name('payment.processCheckout');
 Route::get('payment/confirm/{order}', 'PaymentController@confirm')->name('payment.confirm');
 Route::get('payment/success/{order}', 'PaymentController@success')->name('payment.success');
 Route::get('payment/cancel/{order}', 'PaymentController@cancel')->name('payment.cancel');

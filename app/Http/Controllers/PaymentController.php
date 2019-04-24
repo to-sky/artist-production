@@ -25,7 +25,7 @@ class PaymentController
 
     public function processCheckout(Request $request)
     {
-        $this->paymentService->process($request);
+        $this->paymentService->checkout($request);
     }
 
     public function confirm(Order $order, Request $request)
