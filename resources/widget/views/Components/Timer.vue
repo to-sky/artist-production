@@ -10,7 +10,6 @@
 
 <script>
 import moment from "moment";
-import { TOKEN_LIFECYCLE, DANGER_COLOR } from "../../global.config";
 
 export default {
   props: ["endTime"],
@@ -20,7 +19,7 @@ export default {
     minutes: "",
     seconds: "",
     message: "",
-    DANGER_COLOR: DANGER_COLOR
+    DANGER_COLOR: '#f00'
   }),
 
   mounted() {
@@ -34,7 +33,7 @@ export default {
     spreadOutTime(date) {
       let momentFormat = "DD-MM-YYYY HH:mm:ss";
       let maxDate = moment(date, momentFormat)
-        .add(TOKEN_LIFECYCLE, "m")
+        .add(30, "m")
         .format(momentFormat);
       this.minutes = moment(maxDate, momentFormat).diff(moment(), "minutes");
       if (this.minutes < 0)

@@ -13,6 +13,7 @@
   <link href="{{ url('/widget/css/app.css') }}" rel="stylesheet">
   <script>
     var id = '{{ $id }}';
+    var mode = '{{ $mode }}';
   </script>
 </head>
 <body>

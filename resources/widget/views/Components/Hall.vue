@@ -1,10 +1,26 @@
 <template>
   <div class="hall">
-    <zone-description></zone-description>
-    <hall-map :zones="zones" :token="token" :event="event" :selected="selected" @updatePlace="flushPlace($event)"></hall-map>
-    <checkout v-bind:endTokenTime="endTokenTime"
-              v-bind:token="token">
-    </checkout>
+    <zone-description :event="event"></zone-description>
+    <hall-map
+        :event="event"
+        :selected="selected"
+        @updatePlace="flushPlace($event)"
+        @updateZone="flushZone($event)"
+        @hallMapLoaded="$emit('hallMapLoaded')"
+    ></hall-map>
+    <checkout
+        v-show="showCheckout"
+        :event="event"
+        :selected="selected"
+        :time="timeLimit"
+        @deleteReserve="flushPlace($event)"
+        @closeCheck="showCheckout = false"
+        @sendCheckout="sendCheckout"
+    ></checkout>
+    <place-popup
+        v-show="showPlace"
+        @sendFanZone="countZone($event)"
+    ></place-popup>
     <div
       class="current-zone__buy-tickets"
       v-html="buttonBuyTickets"
@@ -17,44 +33,43 @@
 import hallMap from "./Map/HallMap.vue";
 import zoneDescription from "./ZoneDescription.vue";
 import checkout from "./Checkout.vue";
+import placePopup from './PlacePopup.vue';
+import moment from 'moment';
 
 export default {
-  props: ["zones", "event", "token", "endTokenTime"],
+  props: ["event"],
 
   components: {
     hallMap,
     zoneDescription,
-    checkout
+    checkout,
+    placePopup
   },
 
   data() {
-    let self = this;
-
     return {
-      selected: []
+      selected: [],
+      selectedZone: null,
+      showCheckout: false,
+      showPlace: false,
+      timeLimit: moment().format("DD-MM-YYYY HH:mm:ss")
     };
   },
 
   mounted() {
-    this.$nextTick(() => {
-      this.selected = this.selectedPlaces;
-    });
   },
 
   computed: {
-    selectedPlaces() {
-      return this.$store.getters.getSelectedItems;
-    },
     buttonBuyTickets() {
-      if (!this.selectedPlaces.length) return "";
-      return this.computedButtonHtml(this.selectedPlaces);
+      if (!this.selected.length) return "";
+      return this.computedButtonHtml(this.selected);
     }
   },
 
   methods: {
     openCheckoutPopup() {
       this.$modal.show("checkout-zone");
-      this.$store.commit("setCheckoutPopup", true);
+      this.showCheckout = true;
     },
 
     flushPlace(place) {
@@ -71,20 +86,66 @@ export default {
       }
     },
 
+    flushZone(place) {
+      let toDel = false;
+      this.selected.forEach((e, i) =>  {
+        if (e.id === place.id) {
+          toDel = true;
+          this.selected.splice(i, 1);
+        }
+      });
+
+      if (!toDel) {
+        this.selectedZone = place;
+        this.$modal.show("place-zone");
+        this.showPlace = true;
+      }
+    },
+
+    countZone(count) {
+      this.selectedZone.count = count;
+      this.selected.push(this.selectedZone);
+      this.showPlace = false;
+    },
+
+    hasParent(t, className) {
+      while (t && t !== document) {
+        if (t.classList.contains(className)) return true;
+
+        t = t.parentNode;
+      }
+
+      return false;
+    },
+
     computedButtonHtml(places) {
       let finalPrice = 0;
-      places.forEach(price => {
-        finalPrice += parseFloat(price.price[0].value);
+      let length = 0;
+      places.forEach(p => {
+        let count = parseInt(p.count) || 1;
+
+        length += count;
+        finalPrice += parseFloat(p.price) * count;
       });
+
+      console.log(length);
 
       return (
         "<div class='current-zone__buy-tickets_size'>" +
-        this.$tc("buyButton.ticket", places.length, {
-          count: places.length,
+        this.$tc("buyButton.ticket", length, {
+          count: length,
           price: finalPrice.toFixed(2)
         }) +
         "</div>"
       );
+    },
+
+    sendCheckout(num) {
+      this.showCheckout = false;
+
+      // @todo: finish checkout code
+
+      this.selected = [];
     }
   }
 };

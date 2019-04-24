@@ -1,15 +1,15 @@
 <template>
   <div class="header-event">
-    <img class="header-event__image" :src="eventImg" alt="event image" />
+    <!--<img class="header-event__image" :src="eventImg" alt="event image" />-->
     <div class="header-event__description">
-      <h2 class="header-event__title">{{ eventName }}</h2>
+      <h2 class="header-event__title">{{ event.raw('event.name') }}</h2>
       <a
-        :href="'https://maps.google.com/?q=' + getHallAddress"
+        :href="'https://maps.google.com/?q=' + event.raw('hall.building.address')"
         class="header-event__link-google"
         target="_blank"
       >
         <div class="header-event__marker-icon"></div>
-        <p class="header-event__text">{{ hallName }}, {{ cityName }}</p>
+        <p class="header-event__text">{{ event.raw('hall.name') }}, {{ event.raw('hall.building.city.name') }}</p>
       </a>
     </div>
     <div class="header-event__date" v-if="!isMobile">
@@ -97,6 +97,7 @@
 import moment from "moment";
 
 export default {
+  props: ['event'],
   data: () => ({
     showLanguages: false
   }),
@@ -133,7 +134,7 @@ export default {
       return this.$store.getters.getGlobalLocale;
     },
     endDate() {
-      return this.$store.getters.getEndDate;
+      return this.event.raw('event.date.date');
     },
     outputEndDate() {
       return moment(new Date(this.endDate)).format("DD MM YYYY");
@@ -160,7 +161,7 @@ export default {
       return moment(new Date(this.endDate)).format("YYYY");
     },
     endTime() {
-      return this.$store.getters.getEndTime;
+      return Date.parse(this.event.raw('event.date.date'));
     },
     endHour() {
       return moment(new Date(this.endTime)).format("HH:mm");

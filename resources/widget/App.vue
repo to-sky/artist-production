@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view />
+    <home v-if="modeView" @hallMapLoaded="hidePreloader"></home>
+    <setup v-if="modeSetup" @hallMapLoaded="hidePreloader"></setup>
+
     <div id="preloader" class="preloader" :class="{
         'preloader-disable': preloaderHidden
     }">
@@ -10,21 +12,32 @@
 </template>
 
 <script>
+  import Home from './views/Home.vue';
+  import Setup from './views/Setup.vue';
+
   export default {
+    components: {
+      Home,
+      Setup
+    },
     data() {
       return {
-        zoom: 1,
-        preloaderHidden: false
+        preloaderHidden: false,
+        id: id,
+        mode: mode
       };
-    },
-    beforeMount() {
-      this.$router.app.$on('hallMapLoaded', () => {
-        this.hidePreloader();
-      })
     },
     methods: {
       hidePreloader() {
         this.preloaderHidden = true;
+      }
+    },
+    computed: {
+      modeView() {
+        return this.mode === 'view';
+      },
+      modeSetup() {
+        return this.mode === 'setup';
       }
     }
   };

@@ -16,89 +16,14 @@
               @svgpanzoom="setMap"
           >
 
-            <svg width="100%" height="100%" :viewBox="getViewbox">
-              <g v-for="zone in zones" :transform="getTranslate(zone.area)">
-                <g
-                    v-for="place in zone.places"
-                    :class="{
-                      active: !place.disable
-                    }"
-                    @click.stop="update($event, place)"
-                    @mouseover="showPopup($event, place)"
-                    @mouseout="hidePopup"
-                >
-                  <g v-if="place.template === 'circle'">
-                    <circle
-                        :cx="place.x"
-                        :cy="place.y"
-                        :r="place.disable ? getR/3 : getR"
-                        :fill="placeSelected(place) ? '#13ff00' : place.color"
-                        :stroke="placeSelected(place) ? '#444' : ''"
-                        stroke-width=".3"
-                    ></circle>
-                    <text
-                        v-if="!place.disable"
-                        :dx="place.x"
-                        :dy="place.y + getR/2"
-                        :fill="placeSelected(place) ? '#13ff00' :'#fff'"
-                        text-anchor="middle"
-                        :style="{
-                          fontSize: getR + 'px',
-                        }"
-                    >
-                      {{ place.text }}
-                    </text>
-                  </g>
-
-                  <g v-if="['rectangle', 'fanzone'].includes(place.template)">
-                    <rect
-                        :x="place.x - place.width/2"
-                        :y="place.y - place.width/2"
-                        :width="place.width || zone.area.width"
-                        :height="place.height || zone.area.height"
-                        :fill="place.color"
-                    ></rect>
-                  </g>
-                </g>
-              </g>
-
-              <g>
-                <rect
-                    v-if="scene"
-                    :x="scene.x - scene.width/2"
-                    :y="scene.y - scene.height/2"
-                    :width="scene.width"
-                    :height="scene.height"
-                    fill="#ccc"
-                ></rect>
-                <text
-                    :dx="scene.x"
-                    :dy="parseFloat(scene.y) + scene.height/4"
-                    fill="#fff"
-                    text-anchor="middle"
-                    :style="{
-                    fontSize: scene.height/2
-                  }"
-                >
-                  {{ $t('hall.scene') }}
-                </text>
-              </g>
-
-              <g v-show="rows.length && zoom > 2">
-                <text
-                    v-for="row in rows"
-                    :dx="row.x"
-                    :dy="row.y + getR/2"
-                    fill="#000"
-                    text-anchor="middle"
-                    :style="{
-                      fontSize: getR + 'px',
-                    }"
-                >
-                  {{ row.text }}
-                </text>
-              </g>
-            </svg>
+            <hall-svg
+                :event="event"
+                :selected="selected"
+                @clickPlace="update"
+                @clickFanZone="updateZone"
+                @overPlace="showPopup"
+                @outPlace="hidePopup"
+            ></hall-svg>
           </svg-pan-zoom>
 
           <hall-map-popup
@@ -135,19 +60,14 @@
 <script>
   import SvgPanZoom from 'vue-svg-pan-zoom';
   import HallMapPopup from './HallMapPopup.vue';
+  import HallSvg from './HallSvg.vue';
   import Hammer from 'hammerjs';
-  import groupBy from "lodash/groupBy";
-  import orderBy from "lodash/orderBy";
 
   export default {
-    components: { SvgPanZoom, HallMapPopup },
-    props: ["zones", "token", "event", "selected"],
+    components: { SvgPanZoom, HallMapPopup, HallSvg },
+    props: ["event", "selected"],
     data() {
       return {
-        viewport: {
-          viewbox: [0, 0, 0, 0],
-          width: 0
-        },
         loaded: false,
         map: null,
         baseR: 4,
@@ -170,49 +90,12 @@
       };
     },
     beforeMount() {
-      let minx, maxx, miny, maxy, undefined;
 
-      this.zones.forEach(zone => {
-        let areax = zone.area.left;
-        let areay = zone.area.top;
-
-        zone.places.forEach(place => {
-          if (['rectangle', 'fanzone'].includes(place.template)) {
-            if (minx === undefined) minx = place.x;
-            if (miny === undefined) miny = place.y;
-            if (maxx === undefined) maxx = place.x + parseFloat(place.width);
-            if (maxy === undefined) maxy = place.y + parseFloat(place.height);
-
-            minx = Math.min(minx, place.x);
-            miny = Math.min(miny, place.y);
-            maxx = Math.max(maxx, place.x + parseFloat(place.width));
-            maxy = Math.max(maxy, place.y + parseFloat(place.height));
-          } else {
-            if (minx === undefined) minx = areax + place.x;
-            if (maxx === undefined) maxx = areax + place.x;
-            if (miny === undefined) miny = areay + place.y;
-            if (maxy === undefined) maxy = areay + place.y;
-
-            if (minx > areax + place.x) minx = areax + place.x;
-            if (maxx < areax + place.x) maxx = areax + place.x;
-            if (miny > areay + place.y) miny = areay + place.y;
-            if (maxy < areay + place.y) maxy = areay + place.y;
-          }
-        });
-      });
-
-      this.viewport.viewbox = [minx - 4, miny - 4, maxx + 8, maxy + 8];
-
-      let s = this.composeScene();
-      this.computeRowNumbers();
-
-      this.viewport.viewbox[1] = parseFloat(s.y) - s.height/2 - 4;
-      this.viewport.width = maxx - minx + 12;
     },
     mounted() {
       this.loaded = true;
       window.addEventListener('mouseup', () => {this.grabbing = false});
-      this.$router.app.$emit('hallMapLoaded');
+      this.$emit('hallMapLoaded');
 
       this.$nextTick(() => {
         this.map.center();
@@ -220,22 +103,13 @@
     },
     computed: {
       containerHeight() {
-        return this.$store.getters.getZoneContainer.height / 1.5 + "px";
-      },
-      getViewbox() {
-        return this.viewport.viewbox.join(' ');
+        return "500px";
       },
       getR() {
         return this.baseR;
-      },
-      _scene() {
-        return this.$store.getters.getScene;
       }
     },
     methods: {
-      getTranslate(area) {
-        return "translate(" + area.left + "," + area.top + ")";
-      },
       setMap(map) {
         this.map = map;
         this.zoom = map.getZoom();
@@ -250,6 +124,12 @@
 
         this.animateCheckout(e, place);
         this.$emit('updatePlace', place);
+      },
+      updateZone(e, place) {
+        if (place.disable) return;
+
+        this.animateCheckout(e, place);
+        this.$emit('updateZone', place);
       },
       animateCheckout(e, place) {
         if (this.placeSelected(place)) return;
@@ -304,94 +184,23 @@
         }
       },
       updateBaseR() {
-        clearTimeout(this.baseRTimer);
-
-        this.baseRTimer = setTimeout(() => {
-          let width = this.$refs.mapViewport.offsetWidth ;
-          let ratio = this.viewport.width/width;
-
-          let r = 16 * ratio / this.zoom;
-
-          if (r > this.maxR) r = this.maxR;
-          if (r < this.minR) r = this.minR;
-
-          this.baseR = r;
-        }, 500);
-      },
-      composeScene() {
-        let s = this._scene;
-
-        if (s && s.length) {
-          this.scene = s[0];
-        } else {
-          let vb = this.viewport.viewbox;
-
-          let w = (vb[2] - vb[0])/2;
-          let h = 150;
-
-          this.scene = {
-            x: w + vb[0],
-            y: vb[1] - h,
-            width: w,
-            height: h
-          };
-        }
-
-        return this.scene;
-      },
-      computeRowNumbers() {
-        let d = 100;
-
-        this.zones.forEach((zone) => {
-          let rows = groupBy(zone.places, 'row');
-
-          for(let r in rows) {
-            let row = rows[r];
-            let zx = zone.area.left;
-            let zy = zone.area.top;
-
-            row = orderBy(row, 'x');
-            row = orderBy(row, 'y');
-
-            if (row.length >= 2) {
-              let sdx = row[1].x - row[0].x;
-              let sdy = row[1].y - row[0].y;
-
-              this.rows.push({
-                x: row[0].x + zx - sdx*2/3,
-                y: row[0].y + zy - sdy*2/3,
-                text: r
-              });
-
-              let edx = row[row.length - 1].x - row[row.length - 2].x;
-              let edy = row[row.length - 1].y - row[row.length - 2].y;
-
-              this.rows.push({
-                x: row[row.length - 1].x + zx + sdx*2/3,
-                y: row[row.length - 1].y + zy + sdy*2/3,
-                text: r
-              });
-
-              let spd = Math.sqrt(Math.pow(sdx, 2) + Math.pow(sdy, 2));
-              let epd = Math.sqrt(Math.pow(edx, 2) + Math.pow(edy, 2));
-
-              d = Math.min(d, spd, epd);
-            }
-          }
-        });
-
-        this.placeDelta = d/2 - .5;
-
-        if (this.maxR > this.placeDelta) {
-          this.maxR = this.placeDelta;
-          this.minR = this.placeDelta*2/3;
-        }
+        // clearTimeout(this.baseRTimer);
+        //
+        // this.baseRTimer = setTimeout(() => {
+        //   let width = this.$refs.mapViewport.offsetWidth ;
+        //   let ratio = this.viewport.width/width;
+        //
+        //   let r = 16 * ratio / this.zoom;
+        //
+        //   if (r > this.maxR) r = this.maxR;
+        //   if (r < this.minR) r = this.minR;
+        //
+        //   this.baseR = r;
+        // }, 500);
       },
       showPopup(e, place) {
         if (place.disable) return;
         clearTimeout(this.popupTimer);
-
-        console.log(e);
 
         this.popupTimer = setTimeout(() => {
           this.popupTop = e.offsetY;

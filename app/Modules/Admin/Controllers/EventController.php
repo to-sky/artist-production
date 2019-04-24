@@ -209,6 +209,17 @@ class EventController extends AdminController {
     }
 
     /**
+     * Display widget to assign prices to places of event
+     *
+     * @param Event $event
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function hallPlaces(Event $event)
+    {
+        return view('Admin::event.hallPlaces', compact('event'));
+    }
+
+    /**
      * Share the same variables for different views
      */
     public function generateParams()

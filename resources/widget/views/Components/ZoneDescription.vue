@@ -4,7 +4,7 @@
       <div class="description-container">
         <div
           class="description__circle"
-          v-bind:style="{ backgroundColor: DISABLE_ELEMENT_COLOR }"
+          :style="{ backgroundColor: '#aaa' }"
         ></div>
         <div
           class="description__text"
@@ -14,7 +14,7 @@
       <div class="description-container">
         <div
           class="description__circle"
-          v-bind:style="{ backgroundColor: DANGER_COLOR }"
+          :style="{ backgroundColor: '#f00' }"
         ></div>
         <div
           class="description__text"
@@ -25,7 +25,7 @@
 
     <div
       class="container"
-      v-bind:class="{ 'container-small-length': colorsLength }"
+      :class="{ 'container-small-length': colorsLength }"
     >
       <h3
         class="zone-description__title"
@@ -40,8 +40,8 @@
         :navigationPrevLabel="'‹'"
         class="checkboxes-home-list"
       >
-        <slide v-for="(param, index) in params" :key="index">
-          <checkbox v-bind:param="param" v-bind:index="index"> </checkbox>
+        <slide v-for="(param, index) in event.prices" :key="index">
+          <checkbox :param="param" :index="index"> </checkbox>
         </slide>
       </carousel>
     </div>
@@ -50,17 +50,15 @@
 
 <script>
 import checkbox from "./Checkbox.vue";
-import {
-  DISABLE_ELEMENT_COLOR,
-  DANGER_COLOR,
-  ACTIVE_COLOR
-} from "../../global.config.js";
 
 export default {
+  props: ['event'],
+
+  components: {
+    checkbox
+  },
+
   data: () => ({
-    DISABLE_ELEMENT_COLOR: DISABLE_ELEMENT_COLOR,
-    DANGER_COLOR: DANGER_COLOR,
-    ACTIVE_COLOR: ACTIVE_COLOR,
     colorsLength: false,
     options: {
       navigationEnabled: true,
@@ -76,10 +74,6 @@ export default {
 
   mounted() {
     if (this.params.length <= 4) this.colorsLength = true;
-  },
-
-  components: {
-    checkbox
   }
 };
 </script>

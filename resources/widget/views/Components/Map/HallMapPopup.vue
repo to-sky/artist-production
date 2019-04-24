@@ -18,7 +18,7 @@
           {{ $t('place.num') }} {{ place.num }}
         </div>
         <div>
-          {{ $t('place.price') }} {{ place.price[0].value }}
+          <!--{{ $t('place.price') }} {{ place.price[0].value }}-->
         </div>
       </div>
     </div>
