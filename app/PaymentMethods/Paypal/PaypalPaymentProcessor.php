@@ -1,5 +1,7 @@
 <?php
 
+namespace App\PaymentMethods\Paypal;
+
 use PayPal\Api\Amount;
 use PayPal\Api\Details;
 use PayPal\Api\Item;
@@ -8,6 +10,8 @@ use PayPal\Api\Payer;
 use PayPal\Api\Payment;
 use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
+use PayPal\Rest\ApiContext;
+use PayPal\Auth\OAuthTokenCredential;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\Order;
 

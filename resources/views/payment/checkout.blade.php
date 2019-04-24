@@ -58,6 +58,12 @@
                     </tr>
                 </tfoot>
             </table>
+
+            {!! Form::open(array('route' => 'payment.processCheckout')) !!}
+                <button type="submit" class="btn btn-success">
+                    <span class="fa fa-money" role="presentation" aria-hidden="true"></span> <span>{{ __('Checkout') }}</span>
+                </button>
+            {!! Form::close() !!}
         </div>
 
     </div>
