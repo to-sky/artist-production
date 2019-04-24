@@ -172,6 +172,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Srmklive\PayPal\Providers\PayPalServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -238,6 +239,7 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'Setting' => anlutro\LaravelSettings\Facade::class,
         'PayPal' => Srmklive\PayPal\Facades\PayPal::class,
+        'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 

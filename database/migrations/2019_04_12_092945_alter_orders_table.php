@@ -15,7 +15,7 @@ class AlterOrdersTable extends Migration
     public function up()
     {
         Schema::table('orders', function(Blueprint $table) {
-            $table->integer('shipping_id');
+            $table->unsignedInteger('shipping_id')->nullable();
             $table->tinyInteger('shipping_status')->default(Shipping::STATUS_IN_PROCESSING);
             $table->tinyInteger('shipping_type')->default(Shipping::TYPE_DELIVERY);
             $table->string('shipping_comment')->nullable();
@@ -24,7 +24,8 @@ class AlterOrdersTable extends Migration
             $table->foreign('shipping_id')
                 ->references('id')
                 ->on('shippings')
-                ->onDelete('set null');
+                ->onDelete('set null')
+                ->onUpdate('cascade');
         });
     }
 
@@ -36,7 +37,12 @@ class AlterOrdersTable extends Migration
     public function down()
     {
         Schema::table('orders', function(Blueprint $table) {
-            $table->dropColumn('shipping_id');
+//            $table->dropForeign('');
+//            $table->dropColumn('shipping_id');
+//            $table->dropColumn('shipping_status');
+//            $table->dropColumn('shipping_type');
+//            $table->dropColumn('shipping_comment');
+//            $table->dropColumn('status_comment');
         });
     }
 }

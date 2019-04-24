@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Services\PaymentService;
 use Illuminate\Http\Request;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 class PaymentController
 {
@@ -18,6 +19,11 @@ class PaymentController
     }
 
     public function checkout(Request $request)
+    {
+        return view('payment.checkout');
+    }
+
+    public function processCheckout(Request $request)
     {
         $this->paymentService->process($request);
     }
