@@ -1,10 +1,19 @@
-@include('partials.header')
+@include('Admin::partials.header')
 @include('partials.topbar')
 
-<!-- Content -->
-<main class="ap_content">
-    @yield('content')
-</main>
+<!-- Content Wrapper -->
+<div class="content-wrapper">
 
+    <!-- Page Header -->
+@yield('page-header')
 
-@include('partials.footer')
+<!-- Main content -->
+    <section class="content">
+        @yield('content')
+    </section>
+    <!-- /.content -->
+
+</div>
+<!-- /.content-wrapper -->
+
+@include('Admin::partials.footer')

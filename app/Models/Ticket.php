@@ -4,9 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Gloudemans\Shoppingcart\Contracts\Buyable;
 use Keygen\Keygen;
 
-class Ticket extends Model
+class Ticket extends Model implements Buyable
 {
     use SoftDeletes;
 
@@ -50,6 +51,21 @@ class Ticket extends Model
     public function scopeAvailable($query)
     {
         return $query->where('status', self::AVAILABLE);
+    }
+
+    public function getBuyableIdentifier($options = null)
+    {
+        return $this->id;
+    }
+
+    public function getBuyableDescription($options = null)
+    {
+        return $this->name;
+    }
+
+    public function getBuyablePrice($options = null)
+    {
+        return $this->price;
     }
 
     /**
