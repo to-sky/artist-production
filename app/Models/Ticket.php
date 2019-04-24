@@ -5,8 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Keygen\Keygen;
+use Gloudemans\Shoppingcart\Contracts\Buyable;
 
-class Ticket extends Model
+class Ticket extends Model implements Buyable
 {
     use SoftDeletes;
 
@@ -77,5 +78,20 @@ class Ticket extends Model
         $this->setRawAttributes([
             'barcode' => $barcode,
         ]);
+    }
+
+    public function getBuyableIdentifier($options = null)
+    {
+        return $this->id;
+    }
+
+    public function getBuyableDescription($options = null)
+    {
+        return $this->name;
+    }
+
+    public function getBuyablePrice($options = null)
+    {
+        return $this->price;
     }
 }
