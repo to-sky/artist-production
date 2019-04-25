@@ -26,4 +26,9 @@ class Place extends Model
     {
         return $this->belongsTo('App\Models\Hall');
     }
+
+    public function tickets()
+    {
+        return $this->hasMany('App\Models\Ticket');
+    }
 }

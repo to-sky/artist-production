@@ -12,4 +12,9 @@ class Price extends Model
     {
         return $this->belongsTo('App\Models\Event');
     }
+
+    public function ticket()
+    {
+        return $this->hasMany('App\Models\Ticket');
+    }
 }

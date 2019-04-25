@@ -47,6 +47,10 @@ Route::group([
         Route::delete('prices/{price}', 'EventController@deletePrice')->name('events.deletePrice');
         Route::delete('priceGroups/{price_group}', 'EventController@deletePriceGroup')->name('events.deletePriceGroup');
     });
+
+    Route::prefix('tickets')->group(function () {
+       Route::get('print/{ticket}', 'TicketController@print')->name('tickets.print');
+    });
 });
 
 

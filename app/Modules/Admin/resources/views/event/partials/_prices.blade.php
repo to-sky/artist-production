@@ -45,13 +45,17 @@
                         </td>
                         <td class="text-center">
                             <input type="hidden" name="prices[{{ $loop->iteration }}][id]" value="{{ $price->id }}">
-                            <button class="btn btn-danger btn-xs"
-                                    type="button"
-                                    data-toggle="modal"
-                                    data-target="#deleteItem"
-                                    data-url="{{ route('events.deletePrice', ['id' => $price->id]) }}">
-                                <i class="fa fa-minus"></i>
-                            </button>
+                            @if($price->ticket->isEmpty())
+                                <button class="btn btn-danger btn-xs"
+                                        type="button"
+                                        data-toggle="modal"
+                                        data-target="#deleteItem"
+                                        data-url="{{ route('events.deletePrice', ['id' => $price->id]) }}">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            @else
+                                <button type="button" class="btn btn-xs btn-danger disabled" data-toggle="tooltip" title="{{ __('Cannot be delete. Only edit') }}"><i class="fa fa-minus"></i></button>
+                            @endif
                         </td>
                     </tr>
                 @empty

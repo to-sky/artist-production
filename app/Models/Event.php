@@ -44,6 +44,11 @@ class Event extends Model
         return $this->hasMany('App\Models\PriceGroup');
     }
 
+    public function tickets()
+    {
+        return $this->hasMany('App\Models\Ticket');
+    }
+
     /**
      * Set attribute to datetime format
      * @param $input

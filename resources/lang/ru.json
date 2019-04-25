@@ -146,5 +146,6 @@
     "Price groups": "Категории цен",
     ":item are not set": ":item не заданы",
     "Color": "Цвет",
-    "Discount": "Скидка"
+    "Discount": "Скидка",
+    "Cannot be delete. Only edit": "Удаление невозможно. Только редактирование"
 }

@@ -22,6 +22,7 @@
     "select2": "^4.0.5",
     "jsrender": "^1.0.2",
     "intl-tel-input": "^15.0.0",
-    "flag-icon-css": "^3.3.0"
+    "flag-icon-css": "^3.3.0",
+    "evol-colorpicker": "^3.3.2"
   }
 }
