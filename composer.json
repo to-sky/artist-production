@@ -20,7 +20,8 @@
         "laravelcollective/html": "^5.4.0",
         "maatwebsite/excel": "^3.1",
         "prologue/alerts": "^0.4.3",
-        "symfony/dom-crawler": "^4.2"
+        "symfony/dom-crawler": "^4.2",
+        "simplesoftwareio/simple-qrcode": "~2"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
