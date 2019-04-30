@@ -17,6 +17,9 @@ Route::group([
     'namespace' => 'Api\Controllers'
 ], function() {
     Route::get('events/{event}', 'EventController@show');
+    Route::get('events/{event}/setup',  'EventController@hallPrices');
+
+    Route::post('tickets', 'EventController@updateTicket');
 });
 
 

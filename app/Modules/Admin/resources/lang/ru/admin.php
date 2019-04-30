@@ -53,6 +53,9 @@ return [
     'controller-successfully_updated' => ':item успешно отредактирован!',
     'controller-successfully_deleted' => ':item успешно удален!',
 
+    // events-index
+    'events-index-place-binding' => 'Связать места',
+
     // errors
     'please-fix' => 'Пожалуйста исправьте следующие ошибки:',
 

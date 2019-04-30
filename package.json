@@ -21,6 +21,20 @@
         "sass": "^1.15.2",
         "sass-loader": "^7.1.0",
         "vue": "^2.5.17",
-        "vue-template-compiler": "^2.6.2"
+        "vue-template-compiler": "^2.6.2",
+        "hammerjs": "^2.0.8",
+        "jsonp": "^0.2.1",
+        "moment": "^2.22.2",
+        "normalize.css": "^8.0.0",
+        "vue-carousel": "^0.16.0-rc2",
+        "vue-i18n": "^8.2.1",
+        "vue-js-modal": "^1.3.26",
+        "vue-router": "^3.0.1",
+        "vue-svg-pan-zoom": "^0.1.0",
+        "vue-sweetalert2": "^1.5.11",
+        "vuex": "^3.0.1",
+        "xml-js": "^1.6.8",
+        "stylus": "^0.54.5",
+        "stylus-loader": "^3.0.2"
     }
 }

@@ -53,6 +53,9 @@
                             <a href="{{ route(config('admin.route').'.events.edit', [$event->id]) }}#prices" class="btn btn-xs btn-default">
                                 <i class="fa fa-magic"></i> Расценки
                             </a>
+                            <a href="{{ route(config('admin.route').'.events.hallPlaces', [$event->id]) }}" class="btn btn-xs btn-default">
+                                <i class="fa fa-list"></i> {{ trans('Admin::admin.events-index-place-binding') }}
+                            </a>
                             <a href="{{ route(config('admin.route').'.events.destroy', [$event->id]) }}" class="btn btn-xs btn-default delete-button">
                                 <i class="fa fa-trash"></i> {{ trans('Admin::admin.users-index-delete') }}
                             </a>

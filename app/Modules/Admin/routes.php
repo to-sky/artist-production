@@ -44,6 +44,7 @@ Route::group([
     Route::prefix('events')->group(function () {
         Route::get('getBuildings', 'EventController@getBuildings')->name('events.getBuildings');
         Route::get('getHalls', 'EventController@getHalls')->name('events.getHalls');
+        Route::get('hallPlaces/{event}', 'EventController@hallPlaces')->name(config('admin.route').'.events.hallPlaces');
         Route::delete('prices/{price}', 'EventController@deletePrice')->name('events.deletePrice');
         Route::delete('priceGroups/{price_group}', 'EventController@deletePriceGroup')->name('events.deletePriceGroup');
     });
