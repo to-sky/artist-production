@@ -18,7 +18,8 @@
         @sendCheckout="sendCheckout"
     ></checkout>
     <place-popup
-        v-show="showPlace"
+        v-if="showPlace"
+        :max="selectedZone.limit"
         @sendFanZone="countZone($event)"
     ></place-popup>
     <div

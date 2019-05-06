@@ -348,7 +348,10 @@
     font-size: 12px;
   }
   .hall-map.grabbing {
-    cursor: grabbing;
+    cursor: grabbing !important;
+  }
+  .hall-map.grabbing * {
+    cursor: grabbing !important;
   }
 
   g.active {

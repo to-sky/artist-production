@@ -70,8 +70,10 @@ class HallEvent {
       let limit = 0;
       let price = 0;
       p.tickets.forEach(t => {
-        if (!t.status) disabled = false;
-        limit = t.amount_printed;
+        if (!t.status) {
+          disabled = false;
+          limit++;
+        }
 
         this._rawData.prices.forEach(pr => {
           if (t.price_id === pr.id) {

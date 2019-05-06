@@ -20,7 +20,8 @@
         </carousel>
 
         <section ref="mapViewport" @mousedown="grabbing = true" class="hall-map" :class="{
-          grabbing: grabbing
+          grabbing: grabbing,
+          updating: updating
         }">
             <svg-pan-zoom
                 style="width: 100%; height: 100%;"
@@ -75,7 +76,12 @@
         event: null,
         grabbing: false,
         svgPanZoom: null,
-        showPlace: false
+        showPlace: false,
+        updating: false,
+        keyboard: {
+          ctrl: false,
+          shift: false
+        }
       };
     },
     mounted() {
@@ -88,16 +94,59 @@
 
       window.addEventListener('mouseup', () => {this.grabbing = false});
       this.$emit('hallMapLoaded');
+
+      window.addEventListener('keydown', e => this.keyboardHandler(e));
+      window.addEventListener('keyup', e => this.keyboardHandler(e));
     },
     methods: {
       isPriceChecked(price) {
         return this.selectedPrice && (price.id === this.selectedPrice.id);
       },
       applyPrice($e, place) {
-        if (!this.selectedPrice) return;
+        if (!this.selectedPrice || this.updating || this.grabbing) return;
 
-        place.color = this.selectedPrice.color;
-        this.EventService.updateTicket(window.id, place, this.selectedPrice).then(r => console.log(r));
+        this.updating = true;
+        if (this.keyboard.shift) {
+          place = this.getRowPlaces(place.row, place.zone_id);
+          place.forEach(p => {
+            p.color = this.selectedPrice.color;
+          });
+        }
+
+        if (this.keyboard.ctrl) {
+          place = this.getZonePlaces(place.zone_id);
+          place.forEach(p => {
+            p.color = this.selectedPrice.color;
+          });
+        }
+
+        if (place.id) place.color = this.selectedPrice.color;
+        this.EventService.updateTicket(window.id, place, this.selectedPrice)
+          .then(r => {
+            this.updating = false;
+          })
+          .catch(e => {
+            this.updating = false;
+          })
+        ;
+      },
+      getZonePlaces(zoneId) {
+        let places = [];
+
+        this.event.places.circle.forEach(p => {
+          if (p.zone_id === zoneId) places.push(p);
+        });
+
+        return places;
+      },
+      getRowPlaces(row, zoneId) {
+        let places = [];
+
+        this.event.places.circle.forEach(p => {
+          if (p.row === row && p.zone_id === zoneId) places.push(p);
+        });
+
+        return places;
       },
       applyZonePrice($e, place) {
         if (!this.selectedPrice) return;
@@ -113,11 +162,30 @@
       },
       registerSVG(svg) {
         this.svgPanZoom = svg;
+      },
+      keyboardHandler(e) {
+        this.keyboard = {
+          ctrl: e.ctrlKey,
+          shift: e.shiftKey
+        }
       }
     }
   }
 </script>
 
 <style>
-
+    .updating {
+        position: relative;
+    }
+    .updating:after{
+        display: block;
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: rgba(255,255,255,.5);
+        cursor: not-allowed;
+    }
 </style>
