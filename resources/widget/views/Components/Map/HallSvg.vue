@@ -1,5 +1,5 @@
 <template>
-    <svg width="100%" height="100%" :viewBox="event.viewBoxString">
+    <svg width="100%" height="100%">
         <g
             v-for="place in event.places.circle"
             @click.prevent="$emit('clickPlace', $event, place)"
@@ -9,7 +9,7 @@
             <circle
                     :cx="place.x"
                     :cy="place.y"
-                    :r="place.disabled ? getR/3 : getR"
+                    :r="place.disabled ? place.width/6 : place.width/2"
                     :fill="placeSelected(place) ? '#13ff00' : place.color"
                     :stroke="placeSelected(place) ? '#444' : ''"
                     stroke-width=".3"
@@ -17,11 +17,11 @@
             <text
                     v-if="!place.disabled"
                     :dx="place.x"
-                    :dy="place.y + getR/2"
+                    :dy="place.y + place.width/6"
                     :fill="placeSelected(place) ? '#13ff00' :'#fff'"
                     text-anchor="middle"
                     :style="{
-                      fontSize: getR + 'px',
+                      fontSize: parseInt(place.width/2) + 'px',
                     }"
             >
                 {{ place.text }}
@@ -86,11 +86,6 @@
   export default {
     props: ['event', 'selected'],
     name: "HallSvg",
-    computed: {
-      getR() {
-        return 15;
-      }
-    },
     methods: {
       placeSelected(place) {
         let s = false;

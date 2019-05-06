@@ -162,6 +162,10 @@
       },
       registerSVG(svg) {
         this.svgPanZoom = svg;
+
+        this.$nextTick(() => {
+          this.svgPanZoom.fit().zoomOut();
+        });
       },
       keyboardHandler(e) {
         this.keyboard = {

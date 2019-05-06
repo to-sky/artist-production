@@ -114,6 +114,10 @@
         this.map = map;
         this.zoom = map.getZoom();
         this.updateBaseR();
+
+        this.$nextTick(() => {
+          this.map.fit().zoomOut();
+        });
       },
       setZoom(zoom) {
         this.zoom = zoom;
