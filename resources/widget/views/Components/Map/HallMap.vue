@@ -114,6 +114,10 @@
         this.map = map;
         this.zoom = map.getZoom();
         this.updateBaseR();
+
+        this.$nextTick(() => {
+          this.map.fit().zoomOut();
+        });
       },
       setZoom(zoom) {
         this.zoom = zoom;
@@ -348,7 +352,10 @@
     font-size: 12px;
   }
   .hall-map.grabbing {
-    cursor: grabbing;
+    cursor: grabbing !important;
+  }
+  .hall-map.grabbing * {
+    cursor: grabbing !important;
   }
 
   g.active {

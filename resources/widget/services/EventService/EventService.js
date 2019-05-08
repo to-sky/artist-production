@@ -9,7 +9,7 @@ class EventService {
         .then(r => {
           resolve(new HallEvent(r.data));
         })
-        .catch(e => reject)
+        .catch(e => reject(e))
       ;
     });
   }
@@ -20,21 +20,31 @@ class EventService {
         .then(r => {
           resolve(new HallSetup(r.data));
         })
-        .catch(e => reject)
+        .catch(e => reject(e))
       ;
     });
   }
 
-  static updateTicket(event_id, place, price, amount_printed) {
+  static updateTicket(event_id, place, price, count) {
+    let placeIds = [];
+
+    if (place.id) {
+      placeIds = place.id;
+    } else {
+      place.forEach(p => {
+        placeIds.push(p.id);
+      });
+    }
+
     return new Promise((resolve, reject) => {
       axios.post(`/api/tickets`, {
         event_id: event_id,
-        place_id: place.id,
+        place_id: placeIds,
         price_id: price.id,
-        amount_printed: amount_printed || 1
+        count: count || 1
       })
-        .then(r => resolve)
-        .catch(e => reject)
+        .then(r => resolve(r))
+        .catch(e => reject(e))
       ;
     });
   }

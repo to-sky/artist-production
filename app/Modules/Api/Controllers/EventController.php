@@ -72,7 +72,18 @@ class EventController extends ApiController
     public function hallPrices(Event $event)
     {
         $places = $event->hall->places()->get([
-            'id', 'hall_id', 'text', 'template', 'x', 'y', 'width', 'height', 'path', 'rotate'
+            'id',
+            'hall_id',
+            'text',
+            'template',
+            'x',
+            'y',
+            'width',
+            'height',
+            'path',
+            'rotate',
+            'zone_id',
+            'row'
         ])->toArray();
 
         $prices = $event->prices()->get(['id', 'price', 'color'])->toArray();
@@ -88,16 +99,83 @@ class EventController extends ApiController
             'event_id',
             'place_id',
             'price_id',
-            'amount_printed',
         ]);
 
-        $ticket = Ticket
+        $count = $request->get('count') ?: 1;
+
+        if ($count > 1) {
+            $tickets = $this->updateFanZone($data, $count);
+
+            return response()->json(compact('tickets'));
+        }
+
+        if (is_array($data['place_id'])) {
+            $tickets = [];
+            foreach ($data['place_id'] as $pid) {
+                $ticket = $this->updatePlace([
+                    'event_id' => $data['event_id'],
+                    'place_id' => $pid,
+                    'price_id' => $data['price_id'],
+                ]);
+
+                $tickets[] = $ticket;
+            }
+
+            return response()->json(compact('tickets'));
+        }
+
+        $ticket = $this->updatePlace($data);
+
+        return response()->json(compact('ticket'));
+    }
+
+    protected function updatePlace($data)
+    {
+        $ticket = Ticket::updateOrCreate(
+            [
+                'event_id' => $data['event_id'],
+                'place_id' => $data['place_id'],
+            ],
+            $data
+        );
+
+        return $ticket;
+    }
+
+    protected function updateFanZone($data, $count)
+    {
+        /** @var Ticket[] $tickets */
+        $tickets = Ticket
             ::withTrashed()
             ->whereEventId($data['event_id'])
             ->wherePlaceId($data['place_id'])
-            ->firstOrCreate($data)
+            ->get()
         ;
 
-        dd($ticket);
+        $ceil = max($tickets->count(), $count);
+
+        $result = [];
+        for ($i = 0; $i < $ceil; $i++) {
+            if (isset($tickets[$i])) {
+                $ticket = $tickets[$i];
+            } else {
+                $ticket = new Ticket();
+            }
+
+            if ($i > $count - 1) {
+                $ticket->delete();
+            } else {
+                if ($ticket->trashed()) {
+                    $ticket->restore();
+                }
+
+                $ticket->fill($data);
+                $ticket->save();
+
+                $result[] = $ticket;
+            }
+        }
+
+        return $result;
     }
 }

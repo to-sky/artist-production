@@ -11,14 +11,14 @@
   >
     <div class="popup-content-wrapper">
       <div v-if="place" class="popup-content">
-        <div>
+        <div v-if="place.row">
           {{ $t('place.row') }} {{ place.row }}
         </div>
-        <div>
+        <div v-if="place.num">
           {{ $t('place.num') }} {{ place.num }}
         </div>
         <div>
-          <!--{{ $t('place.price') }} {{ place.price[0].value }}-->
+          {{ $t('place.price') }} {{ place.price }}
         </div>
       </div>
     </div>
