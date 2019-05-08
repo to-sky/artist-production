@@ -61,3 +61,34 @@
   width: 100%;
   min-height: 500px;
 }
+
+
+// Image uploader
+.image-preview {
+  width: 100%;
+  height: 252px;
+  background: url('/images/no-image.jpg') center center no-repeat;
+  background-size: cover;
+  border: 1px solid rgba(0,0,0,.1);
+  border-bottom: none;
+}
+
+.btn.btn-file-upload {
+  border: 1px solid rgba(0,0,0,.1);
+  border-radius: 0;
+  transition: .3s;
+}
+
+.btn.btn-file-upload:hover {
+  background: #efefef;
+}
+
+.btn.btn-file-upload input[type="file"] {
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.free-pass-container {
+  margin-top: 14px;
+}

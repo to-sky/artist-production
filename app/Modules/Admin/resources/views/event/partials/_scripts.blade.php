@@ -51,4 +51,43 @@
             }
         }
     });
+
+    // Image upload
+    $('.upload-file').change(function () {
+        var uploadFile = $(this);
+
+        var files = !!this.files ? this.files : [];
+
+        // imagePreview file selected, or no FileReader support
+        if (!files.length || !window.FileReader) return;
+
+        // only image file
+        if (/^image/.test( files[0].type)) {
+            var reader = new FileReader();
+
+            // read the local file
+            reader.readAsDataURL(files[0]);
+
+            // set image data as background of div
+            reader.onloadend = function() {
+                uploadFile.closest(".thumbnail-container")
+                    .find('.image-preview').css("background-image", "url("+this.result+")");
+            }
+        }
+    });
+
+
+    var fileUpload = $('.btn-file-upload :file');
+
+    fileUpload.change(function(e) {
+        $(this).trigger('fileselect', [e.target.files[0].name]);
+    });
+
+    fileUpload.on('fileselect', function(event, label) {
+        var input = $(this).parents('.input-group').find(':text');
+
+        if( input.length ) {
+            input.val(label);
+        }
+    });
 </script>

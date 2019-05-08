@@ -147,5 +147,9 @@
     ":item are not set": ":item не заданы",
     "Color": "Цвет",
     "Discount": "Скидка",
-    "Cannot be delete. Only edit": "Удаление невозможно. Только редактирование"
+    "Cannot be delete. Only edit": "Удаление невозможно. Только редактирование",
+    "Thumbnail": "Миниатюра",
+    "Select thumbnail": "Выберите миниатюру",
+    "Select logo": "Выберите логотип",
+    "Free pass": "Бесплатный проезд"
 }

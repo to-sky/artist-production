@@ -143,6 +143,10 @@
                 background: url("{{ asset('images/cream_pixels.png') }}");
             }
 
+            .barcode {
+                -webkit-transform: rotateX(45deg);
+            }
+
             .event-name {
                 padding: 0;
                 margin: 0;
@@ -224,24 +228,24 @@
                         </td>
                         <td>
                             <div class="text-m logo-text">
-                                <p><span>A</span>rtist</p>
-                                <p><span>P</span>roduction</p>
+                                <!--TODO: add free pass logo image-->
                             </div>
                         </td>
                         <td class="text-right">
-                            <p style="margin-top: -37px;">
-                                <b >601162374</b>
+                            <p style="margin-top: -50px;">
+                                <b>601162374</b>
+                                <span>34556567</span>
                             </p>
                         </td>
                         <td width="55" class="text-center">
                             <div class="qr-block text-right">
-                                <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(500)->generate($ticket->id))!!} ">
+                                <img src="{{ asset('images/barcode.jpg') }}" class="barcode">
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="3">
-                            <h1 class="event-name">Фестиваль Авторадио в Германии</h1>
+                        <td colspan="2" style="padding-bottom: 10px">
+                            <h1 class="event-name">Фестиваль Авторадио в Германии4 nen nene</h1>
                             <p class="text-italic">{{ cyr2lat('Фестиваль Авторадио в Германии') }}</p>
                         </td>
                         <td class="text-right text-m">
@@ -250,8 +254,9 @@
                         </td>
                     </tr>
 
+
                     <tr>
-                        <td colspan="2">
+                        <td>
                             <p><b>Stadthalle Braunschweig</b></p>
                             <p>Leonhardplatz 1, 38102 Braunschweig</p>
                         </td>
@@ -274,7 +279,7 @@
             <div class="lb">
                 <p>Линия сгиба 1 / Faltmarke 1</p>
             </div>
-            <br><br><br>
+            <br><br>
 
             <div class="rules clearfix">
                 <div class="width-50 float-left">
@@ -370,7 +375,7 @@
 
         <footer class="clearfix">
             <div class="qr-block width-50 float-left">
-                <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(500)->generate(1556532983))!!} ">
+                <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(500)->generate($ticket->id))!!} ">
             </div>
             <div class="float-left">
                 <p class="h3">&euro; 129,00</p>

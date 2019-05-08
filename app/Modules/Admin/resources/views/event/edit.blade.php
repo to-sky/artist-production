@@ -24,7 +24,7 @@
                 </li>
             </ul>
 
-            {!! Form::model($event, array('method' => 'PATCH', 'route' => array(config('admin.route').'.events.update', $event->id))) !!}
+            {!! Form::model($event, array('method' => 'PATCH', 'route' => array(config('admin.route').'.events.update', $event->id, 'file' => true))) !!}
             {!! Form::hidden('id', $event->id) !!}
 
             <div class="tab-content">
@@ -39,32 +39,55 @@
                             </div>
 
                             <div class="box-body row">
-                                <div class="form-group col-md-12">
-                                    {!! Form::label('name', __('Event')) !!}*
-                                    {!! Form::text('name', old('name', $event->name), array('class'=>'form-control')) !!}
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        {!! Form::label('name', __('Event')) !!}*
+                                        {!! Form::text('name', old('name', $event->name), array('class'=>'form-control')) !!}
+                                    </div>
+                                    <div class="form-group">
+                                        {!! Form::label('date', __('Date')) !!}*
+                                        {!! Form::text('date', old('date', $event->date), array('class'=>'form-control datetimepicker')) !!}
+                                        <p class="help-block">{{ __('Select event date and time.') }}</p>
+                                    </div>
+                                    <div class="form-group">
+                                        {!! Form::label('city_id', __('City')) !!}*
+                                        {!! Form::select('city_id', $cities, old('city_id', $event->hall->building->city->id), array('class'=>'form-control')) !!}
+                                    </div>
+                                    <div class="form-group">
+                                        {!! Form::label('building_id', __('Building')) !!}*
+                                        {!! Form::select('building_id', $buildings, old('building_id', $event->hall->building->id), array('class'=>'form-control')) !!}
+                                    </div>
+                                    <div class="form-group">
+                                        {!! Form::label('hall_id', __('Hall')) !!}*
+                                        {!! Form::select('hall_id', $halls, old('hall_id', $event->hall_id), array('class'=>'form-control')) !!}
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="hidden" name="is_active" value="0">
+                                            <input type="checkbox" name="is_active" {{ $event->is_active ? "checked" : "" }}> {{ __('Active') }}
+                                        </label>
+                                    </div>
                                 </div>
-                                <div class="form-group col-md-12">
-                                    {!! Form::label('date', __('Date')) !!}*
-                                    {!! Form::text('date', old('date', $event->date), array('class'=>'form-control datetimepicker')) !!}
-                                    <p class="help-block">{{ __('Select event date and time.') }}</p>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    {!! Form::label('city_id', __('City')) !!}*
-                                    {!! Form::select('city_id', $cities, old('city_id', $event->hall->building->city->id), array('class'=>'form-control')) !!}
-                                </div>
-                                <div class="form-group col-md-12">
-                                    {!! Form::label('building_id', __('Building')) !!}*
-                                    {!! Form::select('building_id', $buildings, old('building_id', $event->hall->building->id), array('class'=>'form-control')) !!}
-                                </div>
-                                <div class="form-group col-md-12">
-                                    {!! Form::label('hall_id', __('Hall')) !!}*
-                                    {!! Form::select('hall_id', $halls, old('hall_id', $event->hall_id), array('class'=>'form-control')) !!}
-                                </div>
-                                <div class="checkbox col-md-12">
-                                    <label>
-                                        <input type="hidden" name="is_active" value="0">
-                                        <input type="checkbox" name="is_active" {{ $event->is_active ? "checked" : "" }}> {{ __('Active') }}
-                                    </label>
+                                <div class="col-md-3">
+                                    <div class="thumbnail-container">
+                                        <label>{{ __('Thumbnail') }}</label>
+                                        <div class="image-preview"></div>
+                                        <label class="btn btn-file-upload">
+                                            {{ __('Select thumbnail') }} <input type="file" class="upload-file" name="thumbnail">
+                                        </label>
+                                    </div>
+
+                                    <div class="free-pass-container">
+                                        <label>{{ __('Free pass') }}</label>
+                                        <div class="input-group">
+                                            <span class="input-group-btn">
+                                                <span class="btn btn-file btn-file-upload">
+                                                    {{ __('Select logo') }} <input type="file" name="free_pass_logo">
+                                                </span>
+                                            </span>
+                                            <input type="text" class="form-control" readonly>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

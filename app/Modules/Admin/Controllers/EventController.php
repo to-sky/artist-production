@@ -7,9 +7,10 @@ use App\Modules\Admin\Requests\EventRequest;
 use Illuminate\Http\Request;
 use Prologue\Alerts\Facades\Alert;
 
-class EventController extends AdminController {
+class EventController extends AdminController
+{
 
-	/**
+    /**
 	 * Display a listing of events
 	 *
      * @return \Illuminate\View\View
@@ -83,9 +84,9 @@ class EventController extends AdminController {
 
 		Alert::success(trans('Admin::admin.controller-successfully_created', ['item' => trans('Admin::models.Event')]))->flash();
 
-        $this->redirectService->setRedirect($request);
+//        $this->redirectService->setRedirect($request);
 
-        return $this->redirectService->redirect($request);
+//        return $this->redirectService->redirect($request);
 	}
 
     /**

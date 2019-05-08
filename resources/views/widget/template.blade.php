@@ -10,7 +10,6 @@
   <style type="text/css">
     .preloader{opacity:1;height:100%;display:block;position:fixed;left:0;top:0;z-index:2000;width:100%;background:url(http://files.mimoymima.com/images/loading.gif) center center no-repeat #333}.preloader-disable{-webkit-animation:hidePreloader 350ms ease-in-out both;animation:hidePreloader 350ms ease-in-out both}.preloader__text{position:absolute;font-family:'GothamProMedium',Arial,Tahoma,Verdana,sans-serif;color:#fff;font-size:40px;width:100%;text-align:center;margin:0;top:calc(50% + 66px)}@-webkit-keyframes hidePreloader{from{opacity:1}to{opacity:0;z-index:-1}}@keyframes hidePreloader{from{opacity:1}to{opacity:0;z-index:-1}}
   </style>
-  <link href="{{ url('/widget/css/app.css') }}" rel="stylesheet">
   <script>
     var id = '{{ $id }}';
     var mode = '{{ $mode }}';
