@@ -94,8 +94,31 @@ return [
     'please-fix' => 'Please fix the following errors:',
 
     // forms
-    'cancel' => 'Cancel'
+    'cancel' => 'Cancel',
+    'delete' => 'Delete',
 
+    // menu
+    'Dashboard' => 'Dashboard',
+    'Roles' => 'Roles',
+    'Users' => 'Users',
+    'Clients' => 'Clients',
+    'Events' => 'Events',
+    'Shippings' => 'Shippings',
+    'Menu' => 'Menu',
+    'Settings' => 'Settings',
+    'Mail' => 'Mail',
 
+    // actions
+    'index' => 'List',
+    'create' => 'Create',
+    'edit' => 'Edit',
+    'add-new' => 'Add :item',
+    'edit-item' => 'Edit :item',
+    'select-item' => 'Select :item',
+    'set-to-default' => 'Default',
+    'mail' => 'Mail',
+    'profile' => 'Profile',
+
+    'back-to-all-entries' => 'Back to All Entries'
 ];
 
