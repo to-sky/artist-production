@@ -49,9 +49,6 @@ class PaymentService
 
         $billingAddress = BillingAddress::create($address);
 
-        var_dump(array_merge($data, $request->all()), $shippingAddress, $billingAddress);
-        die;
-
         foreach (Cart::content() as $ticket) {
             $ticket->model->update(['order_id' => $order->id]);
         }
