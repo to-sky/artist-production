@@ -59,7 +59,6 @@
                 <div class="ap_section__heading">
                     <h2 class="ap_section__title">{{ __('Contact information') }}</h2>
                 </div>
-                {{--<h1>{{ __('Customer') }}</h1>--}}
                 <div class="ap_form">
                     <div class="ap_form__group">
                         {!! Form::label('first_name', __('First name'), array('class'=>'ap_form__label')) !!}
@@ -122,13 +121,13 @@
                 <div class="no-border">
                     <h3 class="ap_form__radio-title">{{ __('Delivery method') }}</h3>
                     <div class="ap_form__group">
-                        {!! Form::radio('shipping_type', \App\Models\Shipping::TYPE_EMAIL, true, array('class' => 'ap_form__radio-input')) !!}
-                        <label for="shippingMethodField1" class="ap_form__radio-label">{{ __('E-ticket') }}</label>
+                        {!! Form::radio('shipping_type', \App\Models\Shipping::TYPE_EMAIL, true, array('class' => 'ap_form__radio-input', 'id' => 'shipping_type_email')) !!}
+                        <label for="shipping_type_email" class="ap_form__radio-label">{{ __('E-ticket') }}</label>
                     </div>
                     @foreach($shippings as $shipping)
                         <div class="ap_form__group">
-                            {!! Form::radio('shipping_type', \App\Models\Shipping::TYPE_DELIVERY, true, array('class' => 'ap_form__radio-input')) !!}
-                            <label for="shippingMethodField2" class="ap_form__radio-label">{{ __($shipping->name) }}</label>
+                            {!! Form::radio('shipping_type', \App\Models\Shipping::TYPE_DELIVERY, true, array('class' => 'ap_form__radio-input', 'id' => 'shipping_type_delivery')) !!}
+                            <label for="shipping_type_delivery" class="ap_form__radio-label">{{ __($shipping->name) }}</label>
                         </div>
                     @endforeach
                     <div class="ap_form__group">
@@ -140,9 +139,12 @@
                 <div>
                     <h3 class="ap_form__radio-title">{{ __('Payment method') }}</h3>
                     @foreach($paymentMethods as $paymentMethod)
+                        @php
+                            $id = 'payment_method_' . $paymentMethod->name;
+                        @endphp
                         <div class="ap_form__group">
-                            {!! Form::radio('payment_method_id', $paymentMethod->id, true, array('class' => 'ap_form__radio-input')) !!}
-                            <label for="paymentMethodField1" class="ap_form__radio-label">{{ $paymentMethod->name }}</label>
+                            {!! Form::radio('payment_method_id', $paymentMethod->id, true, array('class' => 'ap_form__radio-input', 'id' => $id)) !!}
+                            <label for="{{ $id }}" class="ap_form__radio-label">{{ $paymentMethod->name }}</label>
                         </div>
                     @endforeach
                 </div>
@@ -191,25 +193,25 @@
             }
         });
 
-        var orderSeconds = 1800;
-        var cartCount = {{ Cart::count() }};
+        var orderSeconds = 1800,
+            cartCount = {{ Cart::count() }},
+            initialTimestamp = getCookie('initialTimestamp'),
+            date = new Date;
 
-        var cookieOrderSeconds = getCookie('orderSeconds');
-        if (!cookieOrderSeconds) {
-            console.log(cookieOrderSeconds);
-            setCookie('orderSeconds', orderSeconds, {expires: 3600});
+        if (!initialTimestamp) {
+            setCookie('initialTimestamp', date.getTime(), {expires: 3600});
         }
 
         if (cartCount) {
             var orderTimerId = setInterval(orderTimer, 1000);
         } else {
-            deleteCookie('orderSeconds');
+            deleteCookie('initialTimestamp');
         }
 
         function orderTimer(){
-            cookieOrderSeconds = getCookie('orderSeconds');
-            console.log(cookieOrderSeconds);
-            if (!cookieOrderSeconds) {
+            initialTimestamp = getCookie('initialTimestamp');
+
+            if (!initialTimestamp) {
                 clearInterval(orderTimerId);
                 $.ajax({
                     url: '{{ route('cart.destroy') }}',
@@ -223,14 +225,16 @@
                 return;
 
             }
-            orderSeconds = cookieOrderSeconds - 1;
-            setCookie('orderSeconds', orderSeconds, {expires: 3600});
-            var hours   = Math.floor(orderSeconds / 3600);
-            var minutes = Math.floor((orderSeconds - (hours * 3600)) / 60);
-            var seconds = orderSeconds - (hours * 3600) - (minutes * 60);
+            var date = new Date,
+                currentTimestamp = date.getTime(),
+                secondsPassed = Math.floor((currentTimestamp - initialTimestamp)/1000),
+                secondsLeft = orderSeconds - secondsPassed,
+                hours   = Math.floor(secondsLeft / 3600),
+                minutes = Math.floor((secondsLeft - (hours * 3600)) / 60),
+                seconds = secondsLeft - (hours * 3600) - (minutes * 60);
 
             if (minutes == 0 && seconds == 0) {
-                deleteCookie('orderSeconds');
+                deleteCookie('initialTimestamp');
             }
 
             if (minutes < 10) {
