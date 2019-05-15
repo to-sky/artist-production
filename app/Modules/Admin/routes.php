@@ -87,7 +87,9 @@ if (Schema::hasTable('menus')) {
 
             Route::get('clients/excel', 'ClientController@excel')->name('clients.excel');
             Route::get('settings/mail', 'SettingController@mail')->name('settings.mail');
+            Route::get('settings/checkout', 'SettingController@checkout')->name('settings.checkout');
             Route::post('settings/mail', 'SettingController@mailStore')->name('settings.mailStore');
+            Route::post('settings/checkout', 'SettingController@checkoutStore')->name('settings.checkoutStore');
             Route::get('users/profile', 'UserController@profile')->name('users.profile');
             Route::post('users/profile', 'UserController@updateProfile')->name('users.updateProfile');
             Route::get('users/{user}/removeAvatar', 'UserController@removeAvatar')->name('users.removeAvatar');

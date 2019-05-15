@@ -18,12 +18,19 @@ class CreateTicketsTable extends Migration
             $table->string('name');
             $table->float('price');
             $table->unsignedInteger('order_id')->nullable();
+            $table->unsignedInteger('event_id');
             $table->timestamps();
 
             $table->foreign('order_id')
                 ->references('id')
                 ->on('orders')
                 ->onDelete('set null')
+                ->onUpdate('cascade');
+
+            $table->foreign('event_id')
+                ->references('id')
+                ->on('events')
+                ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
     }

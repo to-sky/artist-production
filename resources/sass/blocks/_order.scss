@@ -1,0 +1,62 @@
+.ap_order {
+  max-width: 900px;
+  margin: 40px auto;
+  background-color: #fff;
+}
+
+.ap_headline {
+  display: flex;
+  align-items: center;
+  font-family: $fontSB;
+  padding: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.ap_headline-text {
+  margin-left: 20px;
+}
+
+.ap_order__info {
+  display: flex;
+  padding: 26px 33px 40px 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+
+  p {
+    margin-bottom: 20px;
+    line-height: 1.44;
+  }
+}
+
+.ap_order__col1 {
+  flex: 0 0 25.5%;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.ap_order__col2 {
+  flex: 0 0 25%;
+}
+
+.ap_order__col3 {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.ap_order__actions {
+  display: flex;
+}
+
+.ap_order__action {
+  display: block;
+  flex-grow: 1;
+  padding: 10px 20px;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.06);
+  border: 0;
+  font-size: 18px;
+  font-family: $fontSB;
+  color: rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+
+  &:not(:last-child) {
+    margin-right: 20px;
+  }
+}

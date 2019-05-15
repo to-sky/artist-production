@@ -109,6 +109,7 @@ return [
     'Menu' => 'Меню',
     'Settings' => 'Настройки',
     'Mail' => 'Почта',
+    'Checkout' => 'Заказы',
 
     // actions
     'index' => 'Список',

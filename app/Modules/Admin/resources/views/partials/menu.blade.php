@@ -64,6 +64,12 @@
                     {{ trans('Admin::admin.Mail') }}
                 </a>
             </li>
+            <li>
+                <a href="{{ route(config('admin.route') . '.settings.checkout') }}">
+                    <i class="fa fa-circle-o"></i>
+                    {{ trans('Admin::admin.Checkout') }}
+                </a>
+            </li>
         </ul>
     </li>
     {{--<li @if(Request::path() == config('admin.route').'/actions') class="active" @endif>--}}

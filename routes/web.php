@@ -23,6 +23,7 @@ Route::get('payment/cancel/{order}', 'PaymentController@cancel')->name('payment.
 Route::get('payment/error/{order}', 'PaymentController@error')->name('payment.error');
 Route::get('cart/add/{ticket}', 'CartController@add')->name('cart.add');
 Route::get('cart/remove/{id}', 'CartController@remove')->name('cart.remove');
+Route::get('cart/destroy', 'CartController@destroy')->name('cart.destroy');
 
 Route::group([
     'namespace' => '\App\Http\Controllers',

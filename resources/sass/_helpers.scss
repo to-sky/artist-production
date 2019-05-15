@@ -1,0 +1,28 @@
+.no-border {
+  border: 0 !important;
+}
+
+.white-bg {
+  background-color: white !important;
+}
+
+.ap_success {
+  color: #0EB500 !important;
+}
+
+.btn-print {
+  position: relative;
+  padding-left: 48px !important;
+
+  &::before {
+    position: absolute;
+    content: '\f02f';
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: 900;
+    font-size: 22px;
+    font-family: "Font Awesome 5 Free";
+    color: #9393A0;
+  }
+}
