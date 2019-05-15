@@ -53,6 +53,29 @@ class Ticket extends Model implements Buyable
         return $query->where('status', self::AVAILABLE);
     }
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['address'];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function order()
+    {
+        return $this->belongsTo('App\Models\Order');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function event()
+    {
+        return $this->belongsTo('App\Models\Event');
+    }
+
     public function getBuyableIdentifier($options = null)
     {
         return $this->id;
@@ -60,12 +83,24 @@ class Ticket extends Model implements Buyable
 
     public function getBuyableDescription($options = null)
     {
-        return $this->name;
+        return $this->event->name;
     }
 
     public function getBuyablePrice($options = null)
     {
         return $this->price;
+    }
+
+    /**
+     *  User avatar
+     *
+     * @return mixed
+     */
+    public function getAddressAttribute()
+    {
+        return $this->event->hall->name . ', '
+            . $this->event->hall->building->address . ', '
+            . $this->event->hall->building->city->name;
     }
 
     /**

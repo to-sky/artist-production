@@ -73,6 +73,14 @@ class Event extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tickets()
+    {
+        return $this->hasMany('App\Models\Ticket');
+    }
+
+    /**
      * Set attribute to datetime format
      * @param $input
      */

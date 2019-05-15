@@ -23,5 +23,12 @@ class CartController
     public function remove($id)
     {
         Cart::remove($id);
+
+        return back();
+    }
+
+    public function destroy()
+    {
+        Cart::destroy();
     }
 }

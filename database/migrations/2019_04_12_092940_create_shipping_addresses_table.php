@@ -13,14 +13,6 @@ class CreateShippingAddressesTable extends Migration
      */
     public function up()
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->dropColumn('id');
-        });
-
-        Schema::table('orders', function (Blueprint $table) {
-            $table->unsignedInteger('id', true);
-        });
-
         Schema::create('shipping_addresses', function (Blueprint $table) {
             $table->increments('id');
             $table->string('first_name');
@@ -50,13 +42,5 @@ class CreateShippingAddressesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('shipping_addresses');
-
-        Schema::table('orders', function (Blueprint $table) {
-            $table->dropColumn('id');
-        });
-
-        Schema::table('orders', function (Blueprint $table) {
-            $table->integer('id', true);
-        });
     }
 }
