@@ -14,6 +14,7 @@
 
   & > * {
     width: 50%;
+    padding-right: 100px;
   }
 
   & > *:first-child {
@@ -63,7 +64,8 @@
 }
 
 .ap_form__checkbox-label {
-  display: block;
+  display: flex;
+  justify-content: space-between;
   position: relative;
   padding-left: 26px;
   cursor: pointer;
@@ -87,6 +89,10 @@
     font-family: "Font Awesome 5 Free";
     color: rgba(0, 0, 0, 0.6);
   }
+
+  strong {
+    font-family: $fontSB;
+  }
 }
 
 .ap_form__checkbox-input:checked + .ap_form__checkbox-label::after {
@@ -97,10 +103,17 @@
   margin-left: 22px;
   margin-bottom: 15px;
   font-family: $fontSB;
+
+  .ap_form--2-cols & {
+    margin-left: 0;
+  }
 }
 
 .ap_form__radio-label {
   position: relative;
+  display: inline-flex;
+  justify-content: space-between;
+  width: 100%;
   padding-left: 28px;
   cursor: pointer;
 
@@ -123,6 +136,10 @@
     height: 6px;
     border-radius: 50%;
     border: 5px solid #333333;
+  }
+
+  strong {
+    font-family: $fontSB;
   }
 }
 
