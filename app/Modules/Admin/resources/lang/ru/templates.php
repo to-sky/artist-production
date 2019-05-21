@@ -40,10 +40,14 @@ return [
   'templates-view_index-confirm_deletion2' => 'Действительно хотите удалить?',  
   'templates-view_index-no_entries_found' => 'Ничего не найдено.',
   'templates-view_index-are_you_sure' => 'Уверены?',
+  'templates-view_index-item_deleted' => 'Элемент был удален.',
+  'templates-view_index-item_deleted_title' => 'Элемент удален',
+  'templates-view_index-item_deleted_error' => 'Возникла ошибка. Элемент мог быть не удален.',
+  'templates-view_index-item_deleted_error_title' => 'Элемент не удален',
 
-    // save buttons
-    'save-and-stay' => 'Сохранить и остаться',
-    'save-and-new' => 'Сохранить и новый',
-    'save-and-back' => 'Сохранить и назад'
+  // save buttons
+  'save-and-stay' => 'Сохранить и остаться',
+  'save-and-new' => 'Сохранить и новый',
+  'save-and-back' => 'Сохранить и назад'
 
 ];

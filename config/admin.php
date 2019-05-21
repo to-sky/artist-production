@@ -28,6 +28,10 @@ return [
     'registrationEnabled' => true,
     'defaultRedirect' => 'redirect_back',
     'languages' => [
+        'de' => [
+            'title' => 'Deutsch',
+            'flag' => 'de',
+        ],
         'ru' => [
             'title' => 'Русский',
             'flag' => 'ru'
@@ -35,7 +39,7 @@ return [
         'en' => [
             'title' => 'English',
             'flag' => 'gb'
-        ]
+        ],
     ]
 
 ];
