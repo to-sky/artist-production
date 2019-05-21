@@ -69,4 +69,6 @@ return [
   'menus-index-click_save_positions' => 'Changes will be saved when you click Save positions',
   'menus-index-save_positions' => 'Save positions',
 
+  'menu-no-parent' => '-- No parent --'
+
 ];
