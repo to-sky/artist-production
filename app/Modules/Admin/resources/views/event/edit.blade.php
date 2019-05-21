@@ -68,12 +68,14 @@
                                         </label>
                                     </div>
                                 </div>
+
                                 <div class="col-md-3">
                                     <div class="thumbnail-container">
                                         <label>{{ __('Thumbnail') }}</label>
-                                        <div class="image-preview"></div>
+                                        <div class="image-preview"
+                                             style="background-image: url('{{ $event->event_image->file_url ?? asset('images/no-image.jpg') }}');"></div>
                                         <label class="btn btn-file-upload">
-                                            {{ __('Select thumbnail') }} <input type="file" class="upload-file" name="thumbnail">
+                                            {{ __('Select thumbnail') }} <input type="file" class="upload-file" name="event_image">
                                         </label>
                                     </div>
 
@@ -85,7 +87,8 @@
                                                     {{ __('Select logo') }} <input type="file" name="free_pass_logo">
                                                 </span>
                                             </span>
-                                            <input type="text" class="form-control" readonly>
+                                            <input type="text" class="form-control" readonly
+                                                   value="{{ $event->free_pass_logo->original_name ?? '' }}">
                                         </div>
                                     </div>
                                 </div>

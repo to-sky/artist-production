@@ -2,15 +2,26 @@
 
 namespace App\Models;
 
+use App\Traits\FilesMorphTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Modules\Admin\Observers\UserActionsObserver;
 use Carbon\Carbon;
 
-
 class Event extends Model
 {
+    use FilesMorphTrait;
+
     const ACTIVE = 1;
     const NOT_ACTIVE = 0;
+
+    const ENTITY_TYPE = 'events';
+
+    function __construct(array $attributes = [])
+    {
+        $this->entity_type = static::ENTITY_TYPE;
+
+        parent::__construct($attributes);
+    }
 
     protected $fillable = [
           'name',
@@ -19,11 +30,38 @@ class Event extends Model
           'hall_id'
     ];
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['event_image', 'free_pass_logo'];
+
     public static function boot()
     {
         parent::boot();
 
         Event::observe(new UserActionsObserver);
+    }
+
+    /**
+     *  Event image
+     *
+     * @return mixed
+     */
+    public function getEventImageAttribute()
+    {
+        return $this->files()->first();
+    }
+
+    /**
+     *  Event free pass logo image
+     *
+     * @return mixed
+     */
+    public function getFreePassLogoAttribute()
+    {
+        return $this->files()->first();
     }
 
     /**

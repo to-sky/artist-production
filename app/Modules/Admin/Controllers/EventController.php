@@ -4,11 +4,21 @@ namespace App\Modules\Admin\Controllers;
 
 use App\Models\{Building, City, Hall, Event, Price, PriceGroup};
 use App\Modules\Admin\Requests\EventRequest;
+use App\Modules\Admin\Services\RedirectService;
+use App\Services\UploadService;
 use Illuminate\Http\Request;
 use Prologue\Alerts\Facades\Alert;
 
 class EventController extends AdminController
 {
+    protected $uploadService;
+
+    public function __construct(RedirectService $redirectService, UploadService $uploadService)
+    {
+        $this->uploadService = $uploadService;
+
+        parent::__construct($redirectService);
+    }
 
     /**
 	 * Display a listing of events
@@ -80,13 +90,17 @@ class EventController extends AdminController
 	{
 		$event = Event::create($request->all());
 
+        $this->uploadService->upload($request, $event, null, 'event_image');
+
+        $this->uploadService->upload($request, $event, null, 'free_pass_logo');
+
         $request->merge(['id' => $event->id]);
 
 		Alert::success(trans('Admin::admin.controller-successfully_created', ['item' => trans('Admin::models.Event')]))->flash();
 
-//        $this->redirectService->setRedirect($request);
+        $this->redirectService->setRedirect($request);
 
-//        return $this->redirectService->redirect($request);
+        return $this->redirectService->redirect($request);
 	}
 
     /**

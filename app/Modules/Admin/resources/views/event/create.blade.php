@@ -60,7 +60,7 @@
                             <label>{{ __('Thumbnail') }}</label>
                             <div class="image-preview"></div>
                             <label class="btn btn-file-upload">
-                                {{ __('Select thumbnail') }} <input type="file" class="upload-file" name="thumbnail">
+                                {{ __('Select thumbnail') }} <input type="file" class="upload-file" name="event_image">
                             </label>
                         </div>
 
