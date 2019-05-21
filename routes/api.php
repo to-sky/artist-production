@@ -19,7 +19,7 @@ Route::group([
     Route::get('events/{event}', 'EventController@show');
     Route::get('events/{event}/setup',  'EventController@hallPrices');
 
-    Route::post('tickets', 'EventController@updateTicket');
+    Route::post('tickets', 'TicketController@updateTicket');
 });
 
 

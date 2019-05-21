@@ -4,7 +4,6 @@ namespace App\Modules\Api\Controllers;
 
 use App\Models\Event;
 use App\Models\Ticket;
-use Illuminate\Http\Request;
 
 class EventController extends ApiController
 {
@@ -91,42 +90,6 @@ class EventController extends ApiController
         $tickets = $event->tickets;
 
         return response()->json(compact('places', 'prices', 'tickets'));
-    }
-
-    public function updateTicket(Request $request)
-    {
-        $data = $request->all([
-            'event_id',
-            'place_id',
-            'price_id',
-        ]);
-
-        $count = $request->get('count') ?: 1;
-
-        if ($count > 1) {
-            $tickets = $this->updateFanZone($data, $count);
-
-            return response()->json(compact('tickets'));
-        }
-
-        if (is_array($data['place_id'])) {
-            $tickets = [];
-            foreach ($data['place_id'] as $pid) {
-                $ticket = $this->updatePlace([
-                    'event_id' => $data['event_id'],
-                    'place_id' => $pid,
-                    'price_id' => $data['price_id'],
-                ]);
-
-                $tickets[] = $ticket;
-            }
-
-            return response()->json(compact('tickets'));
-        }
-
-        $ticket = $this->updatePlace($data);
-
-        return response()->json(compact('ticket'));
     }
 
     protected function updatePlace($data)
