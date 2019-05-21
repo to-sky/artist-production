@@ -1,5 +1,5 @@
 @extends('Admin::layouts.master')
-Changed
+
 @section('page-header')
 
     @include('Admin::partials.page-header')

@@ -122,17 +122,26 @@
                     <h3 class="ap_form__radio-title">{{ __('Delivery method') }}</h3>
                     <div class="ap_form__group">
                         {!! Form::radio('shipping_type', \App\Models\Shipping::TYPE_EMAIL, true, array('class' => 'ap_form__radio-input', 'id' => 'shipping_type_email')) !!}
-                        <label for="shipping_type_email" class="ap_form__radio-label">{{ __('E-ticket') }}</label>
+                        <label for="shipping_type_email" class="ap_form__radio-label">
+                            <span>{{ __('E-ticket') }}</span>
+                            <strong>0 {{ \App\Models\Order::CURRENCY }}</strong>
+                        </label>
                     </div>
                     @foreach($shippings as $shipping)
                         <div class="ap_form__group">
                             {!! Form::radio('shipping_type', \App\Models\Shipping::TYPE_DELIVERY, true, array('class' => 'ap_form__radio-input', 'id' => 'shipping_type_delivery')) !!}
-                            <label for="shipping_type_delivery" class="ap_form__radio-label">{{ __($shipping->name) }}</label>
+                            <label for="shipping_type_delivery" class="ap_form__radio-label">
+                                <span>{{ __($shipping->name) }}</span>
+                                <strong>{{ $shipping->price . ' ' . \App\Models\Order::CURRENCY}}</strong>
+                            </label>
                         </div>
                     @endforeach
-                    <div class="ap_form__group">
+                    <div class="ap_form__group spaced-left">
                         {!! Form::checkbox('courier', 1, false, array('class' => 'ap_form__checkbox-input', 'id' => 'courier')) !!}
-                        <label for="courier" class="ap_form__checkbox-label">{{ __('Courier') }}</label>
+                        <label for="courier" class="ap_form__checkbox-label">
+                            <span>{{ __('Courier') }}</span>
+                            <strong>{{ setting('checkout_courier_price') . ' ' . \App\Models\Order::CURRENCY }}</strong>
+                        </label>
                         {!! Form::hidden('courier','') !!}
                     </div>
                 </div>
@@ -154,7 +163,7 @@
         <!-- Approvement -->
         <section class="ap_section">
             <div class="ap_section__heading">
-                <h2 class="ap_section__title">Подтверждение</h2>
+                <h2 class="ap_section__title">{{ __('Confirmation') }}</h2>
             </div>
             <div class="approvement">
                 <p class="approvement__price">Сумма заказа: <b>{{ Cart::total() }} EUR</b></p>
@@ -247,12 +256,5 @@
             $('#counter').html(minutes + ':' + seconds);
         }
 
-//        $(document).on('change', '#shippings', function(event){
-//            var shipping_id = $(this).val();
-//            var shipping_zone_id = $('#shipping-zones-' + shipping_id).find('select').val();
-//            $('input[name="shipping_zone_id"]').val(shipping_zone_id);
-//            $('.shipping-zones').hide();
-//            $('#shipping-zones-' + shipping_id).show();
-//        });
     </script>
 @endsection
