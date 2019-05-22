@@ -2,15 +2,26 @@
 
 namespace App\Models;
 
+use App\Traits\FilesMorphTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Modules\Admin\Observers\UserActionsObserver;
 use Carbon\Carbon;
 
-
 class Event extends Model
 {
+    use FilesMorphTrait;
+
     const ACTIVE = 1;
     const NOT_ACTIVE = 0;
+
+    const ENTITY_TYPE = 'events';
+
+    function __construct(array $attributes = [])
+    {
+        $this->entity_type = static::ENTITY_TYPE;
+
+        parent::__construct($attributes);
+    }
 
     protected $fillable = [
           'name',
@@ -18,6 +29,13 @@ class Event extends Model
           'is_active',
           'hall_id'
     ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['event_image', 'free_pass_logo'];
 
     public static function boot()
     {
@@ -27,11 +45,46 @@ class Event extends Model
     }
 
     /**
+     *  Event image
+     *
+     * @return mixed
+     */
+    public function getEventImageAttribute()
+    {
+        return $this->files()->first();
+    }
+
+    /**
+     *  Event free pass logo image
+     *
+     * @return mixed
+     */
+    public function getFreePassLogoAttribute()
+    {
+        return $this->files()->first();
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function hall()
     {
         return $this->belongsTo('App\Models\Hall');
+    }
+
+    public function prices()
+    {
+        return $this->hasMany('App\Models\Price');
+    }
+
+    public function priceGroups()
+    {
+        return $this->hasMany('App\Models\PriceGroup');
+    }
+
+    public function tickets()
+    {
+        return $this->hasMany('App\Models\Ticket');
     }
 
     /**

@@ -2,14 +2,25 @@
 
 namespace App\Modules\Admin\Controllers;
 
-use App\Models\{Building, City, Hall, Event};
+use App\Models\{Building, City, Hall, Event, Price, PriceGroup};
 use App\Modules\Admin\Requests\EventRequest;
+use App\Modules\Admin\Services\RedirectService;
+use App\Services\UploadService;
 use Illuminate\Http\Request;
 use Prologue\Alerts\Facades\Alert;
 
-class EventController extends AdminController {
+class EventController extends AdminController
+{
+    protected $uploadService;
 
-	/**
+    public function __construct(RedirectService $redirectService, UploadService $uploadService)
+    {
+        $this->uploadService = $uploadService;
+
+        parent::__construct($redirectService);
+    }
+
+    /**
 	 * Display a listing of events
 	 *
      * @return \Illuminate\View\View
@@ -77,9 +88,15 @@ class EventController extends AdminController {
      */
 	public function store(EventRequest $request)
 	{
-		Event::create($request->all());
+		$event = Event::create($request->all());
 
-        Alert::success(trans('Admin::admin.controller-successfully_created', ['item' => trans('Admin::models.Event')]))->flash();
+        $this->uploadService->upload($request, $event, null, 'event_image');
+
+        $this->uploadService->upload($request, $event, null, 'free_pass_logo');
+
+        $request->merge(['id' => $event->id]);
+
+		Alert::success(trans('Admin::admin.controller-successfully_created', ['item' => trans('Admin::models.Event')]))->flash();
 
         $this->redirectService->setRedirect($request);
 
@@ -93,8 +110,8 @@ class EventController extends AdminController {
      * @return \Illuminate\View\View
      */
 	public function edit(Event $event)
-	{
-		$this->generateParams();
+    {
+        $this->generateParams();
 
 		return view('Admin::event.edit', compact('event'));
 	}
@@ -110,12 +127,41 @@ class EventController extends AdminController {
 	{
 		$event->update($request->all());
 
+		if ($request->prices) {
+            $this->createOrUpdatePrices($event, 'prices');
+        }
+
+		if ($request->priceGroups) {
+            $this->createOrUpdatePrices($event, 'priceGroups');
+        }
+
         Alert::success(trans('Admin::admin.controller-successfully_updated', ['item' => trans('Admin::models.Event')]))->flash();
 
         $this->redirectService->setRedirect($request);
 
         return $this->redirectService->redirect($request);
 	}
+
+    /**
+     * Create or update prices/price groups
+     *
+     * @param Event $event
+     * @param $relation
+     * @return \Illuminate\Support\Collection
+     */
+    public function createOrUpdatePrices(Event $event, $relation)
+    {
+        return collect(request()->$relation)->map(function ($item) use ($event, $relation) {
+            if (! isset($item['id'])) {
+                return $event->$relation()->create($item);
+            }
+
+            $model = $event->$relation()->find($item['id']);
+            $model->update($item);
+
+            return $model;
+        });
+    }
 
     /**
      * Remove the specified event from storage.
@@ -130,6 +176,34 @@ class EventController extends AdminController {
 
 		return response()->json(null, 204);
 	}
+
+    /**
+     * Remove price
+     *
+     * @param Price $price
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function deletePrice(Price $price)
+    {
+        $price->delete();
+
+        return response()->json(null, 204);
+    }
+
+    /**
+     * Remove price group
+     *
+     * @param PriceGroup $priceGroup
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function deletePriceGroup(PriceGroup $priceGroup)
+    {
+        $priceGroup->delete();
+
+        return response()->json(null, 204);
+    }
 
     /**
      * Mass delete function from index page
@@ -149,6 +223,16 @@ class EventController extends AdminController {
         return redirect()->route(config('admin.route').'.events.index');
     }
 
+    /**
+     * Display widget to assign prices to places of event
+     *
+     * @param Event $event
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function hallPlaces(Event $event)
+    {
+        return view('Admin::event.hallPlaces', compact('event'));
+    }
 
     /**
      * Share the same variables for different views

@@ -172,7 +172,7 @@ class UploadService
                     mkdir($destination, 0755, true);
                 }
 
-                $destination .=  $avatar->name;
+                $destination .= $avatar->name;
 
                 $this->fit($uploadedFile, $destination, File::THUMBNAIL_WIDTH);
             }

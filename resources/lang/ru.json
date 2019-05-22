@@ -140,5 +140,16 @@
     "Bonus program": "Бонусная программа",
     "Are you sure you want to remove avatar?": "Вы уверены, что хотите удалить аватар?",
     "Profile was successfully updated!": "Профайл был успешно обновлен!",
-    "Locale :locale not supported.": "Локаль :locale не поддерживается."
+    "Locale :locale not supported.": "Локаль :locale не поддерживается.",
+    "Are you sure you want to delete :item?": "Вы уверены, что хотите удалить :item?",
+    "Prices": "Расценки",
+    "Price groups": "Категории цен",
+    ":item are not set": ":item не заданы",
+    "Color": "Цвет",
+    "Discount": "Скидка",
+    "Cannot be delete. Only edit": "Удаление невозможно. Только редактирование",
+    "Thumbnail": "Миниатюра",
+    "Select thumbnail": "Выберите миниатюру",
+    "Select logo": "Выберите логотип",
+    "Free pass": "Бесплатный проезд"
 }

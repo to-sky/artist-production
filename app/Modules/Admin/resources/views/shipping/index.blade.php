@@ -16,7 +16,7 @@
         </div>
 
         <div class="box-body">
-            <table  class="table table-bordered table-hover table-datatable">
+            <table id="datatable" class="table table-bordered table-hover">
                 <thead>
                 <tr>
                     <th class="no-sort text-center" width="5%">
@@ -37,7 +37,7 @@
                         </td>
                         <td>{{ $shipping->name }}</td>
                         <td>
-                            @foreach($shipping->shipping_zones as $shippingZone)
+                            @foreach($shipping->shippingZones as $shippingZone)
                                 <span class="label label-default">{{ $shippingZone->name }}</span>
                             @endforeach
                         </td>

@@ -34,23 +34,29 @@
                 </thead>
 
                 <tbody>
-                @foreach ($events as $row)
+                @foreach($events as $event)
                     <tr>
                         <td class="text-center">
-                            {!! Form::checkbox('del-'.$row->id,1,false,['class' => 'single','data-id'=> $row->id]) !!}
+                            {!! Form::checkbox('del-'.$event->id,1,false,['class' => 'single','data-id'=> $event->id]) !!}
                         </td>
-                        <td>{{ $row->name }}</td>
-                        <td>{{ $row->date->toFormattedDateString() }}</td>
-                        <td>{{ $row->date->format('H:i') }}</td>
-                        <td>{{ $row->hall->building->city->name }}</td>
-                        <td>{{ $row->hall->building->name }}</td>
-                        <td>{{ $row->hall->name }}</td>
-                        <td>{{ numberToString($row->is_active) }}</td>
+                        <td>{{ $event->name }}</td>
+                        <td>{{ $event->date->toFormattedDateString() }}</td>
+                        <td>{{ $event->date->format('H:i') }}</td>
+                        <td>{{ $event->hall->building->city->name }}</td>
+                        <td>{{ $event->hall->building->name }}</td>
+                        <td>{{ $event->hall->name }}</td>
+                        <td>{{ numberToString($event->is_active) }}</td>
                         <td>
-                            <a href="{{ route(config('admin.route').'.events.edit', [$row->id]) }}" class="btn btn-xs btn-default">
+                            <a href="{{ route(config('admin.route').'.events.edit', [$event->id]) }}#event" class="btn btn-xs btn-default">
                                 <i class="fa fa-edit"></i> {{ trans('Admin::admin.users-index-edit') }}
                             </a>
-                            <a href="{{ route(config('admin.route').'.events.destroy', [$row->id]) }}" class="btn btn-xs btn-default delete-button">
+                            <a href="{{ route(config('admin.route').'.events.edit', [$event->id]) }}#prices" class="btn btn-xs btn-default">
+                                <i class="fa fa-magic"></i> Расценки
+                            </a>
+                            <a href="{{ route(config('admin.route').'.events.hallPlaces', [$event->id]) }}" class="btn btn-xs btn-default">
+                                <i class="fa fa-list"></i> {{ trans('Admin::admin.events-index-place-binding') }}
+                            </a>
+                            <a href="{{ route(config('admin.route').'.events.destroy', [$event->id]) }}" class="btn btn-xs btn-default delete-button">
                                 <i class="fa fa-trash"></i> {{ trans('Admin::admin.users-index-delete') }}
                             </a>
                         </td>

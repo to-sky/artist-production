@@ -14,3 +14,12 @@ const mix = require('laravel-mix');
 mix.js('resources/js/app.js', 'public/js')
    .sass('resources/sass/app.scss', 'public/css')
    .copyDirectory('resources/images', 'public/images');
+
+
+/*
+ |--------------------------------------------------------------------------
+ | Hall Widget Asset Management
+ |--------------------------------------------------------------------------
+ */
+
+mix.js('resources/widget/main.js', 'public/widget/js/app.js');

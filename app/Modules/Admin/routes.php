@@ -41,9 +41,17 @@ Route::group([
     Route::patch('shippings/{shipping}', 'ShippingController@setDefaultShipping')->name('shippings.set-default');
     Route::delete('shippings/shippingZone/{shipping_zone}', 'ShippingController@deleteShippingZone')->name('shippings.delete-shipping-zone');
 
-    Route::get('events/getBuildings', 'EventController@getBuildings')->name('events.getBuildings');
-    Route::get('events/getHalls', 'EventController@getHalls')->name('events.getHalls');
+    Route::prefix('events')->group(function () {
+        Route::get('getBuildings', 'EventController@getBuildings')->name('events.getBuildings');
+        Route::get('getHalls', 'EventController@getHalls')->name('events.getHalls');
+        Route::get('hallPlaces/{event}', 'EventController@hallPlaces')->name(config('admin.route').'.events.hallPlaces');
+        Route::delete('prices/{price}', 'EventController@deletePrice')->name('events.deletePrice');
+        Route::delete('priceGroups/{price_group}', 'EventController@deletePriceGroup')->name('events.deletePriceGroup');
+    });
 
+    Route::prefix('tickets')->group(function () {
+       Route::get('print/{ticket}', 'TicketController@print')->name('tickets.print');
+    });
 });
 
 

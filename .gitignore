@@ -6,6 +6,7 @@
 /public/bower_components
 /public/images
 /public/admin
+/public/widget
 /storage/*.key
 /vendor
 .env

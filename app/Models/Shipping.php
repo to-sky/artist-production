@@ -10,7 +10,7 @@ class Shipping extends Model
         'name', 'is_default'
     ];
 
-    public function shipping_zones()
+    public function shippingZones()
     {
         return $this->hasMany('App\Models\ShippingZone');
     }

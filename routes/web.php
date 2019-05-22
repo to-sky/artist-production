@@ -14,3 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::group([
+    'namespace' => '\App\Http\Controllers',
+], function() {
+    Route::get('hall/{id}/{mode?}', 'WidgetController@index')->name('hallWidget');
+});

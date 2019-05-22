@@ -55,6 +55,9 @@ return [
     'controller-successfully_updated' => ':item успешно отредактирован!',
     'controller-successfully_deleted' => ':item успешно удален!',
 
+    // events-index
+    'events-index-place-binding' => 'Связать места',
+
     // roles-index
     'roles-index-add_new'                   => 'Добавить',
     'roles-index-roles_list'                => 'Список ролей',
