@@ -54,14 +54,6 @@ class Event extends Model
         return $this->hasMany('App\Models\PriceGroup');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function tickets()
-    {
-        return $this->hasMany('App\Models\Ticket');
-    }
-
     public function eventImage()
     {
         return $this->belongsTo('App\Models\File', 'event_image_id');

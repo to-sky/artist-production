@@ -33,11 +33,6 @@ class Ticket extends Model implements Buyable
         return $this->belongsTo('App\Models\User');
     }
 
-    public function event()
-    {
-        return $this->belongsTo('App\Models\Event');
-    }
-
     public function place()
     {
         return $this->belongsTo('App\Models\Place');
@@ -88,7 +83,7 @@ class Ticket extends Model implements Buyable
 
     public function getBuyablePrice($options = null)
     {
-        return $this->price;
+        return $this->price()->value('price');
     }
 
     /**
