@@ -29,8 +29,7 @@
             <div class="ap_section__content ap_tickets">
                 @foreach (Cart::content() as $item)
                     @php
-                        //var_dump($item);
-                        //die;
+                        //dd($item);
                     @endphp
                     <article class="ap_ticket">
                         <a href="" class="ap_ticket__image" style="background-image: url({{ asset('images/kir-core.jpg') }});"></a>
@@ -41,7 +40,13 @@
                             <p class="ap_ticket__detail"><i class="fas fa-calendar-alt"></i> {{ __($item->model->event->date->format('l')) }}</p>
                             <p class="ap_ticket__detail"><i class="fas fa-clock"></i> {{ $item->model->event->date->format('H:i') }}</p>
                             <p class="ap_ticket__detail"><i class="fas fa-map-marked-alt"></i> {{ $item->model->address }}</p>
-                            <p class="ap_ticket__detail"><i class="fas fa-map-marker-alt"></i> Block D: Reihe 5, Platz 9</p>
+                            <p class="ap_ticket__detail">
+                                <i class="fas fa-map-marker-alt"></i>
+                                @php $place = $item->model->place; @endphp
+                                Block {{ $place->zone->name ?? '-' }}:
+                                Reihe {{ $place->row ?? '-' }},
+                                Platz {{ $place->num ?? '-' }}
+                            </p>
                         </div>
                         <a href="{{ route('cart.remove', ['id' => $item->rowId]) }}" class="ap_ticket__remove"></a>
                     </article>
