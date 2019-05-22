@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 Route::group([
     'module'=>'Api',
-    'namespace' => 'Api\Controllers'
+    'namespace' => '\App\Modules\Api\Controllers'
 ], function() {
     Route::get('events/{event}', 'EventController@show');
     Route::get('events/{event}/setup',  'EventController@hallPrices');

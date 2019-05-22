@@ -82,11 +82,6 @@ class Event extends Model
         return $this->hasMany('App\Models\PriceGroup');
     }
 
-    public function tickets()
-    {
-        return $this->hasMany('App\Models\Ticket');
-    }
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

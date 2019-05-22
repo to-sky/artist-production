@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTicketsTable extends Migration
+class AlterTicketsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,16 @@ class CreateTicketsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tickets', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->float('price');
+        Schema::table('tickets', function (Blueprint $table) {
             $table->unsignedInteger('order_id')->nullable();
-            $table->unsignedInteger('event_id');
-            $table->timestamps();
 
             $table->foreign('order_id')
                 ->references('id')
                 ->on('orders')
                 ->onDelete('set null')
                 ->onUpdate('cascade');
+
+            $table->dropForeign('tickets_event_id_foreign');
 
             $table->foreign('event_id')
                 ->references('id')
@@ -42,6 +39,16 @@ class CreateTicketsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tickets');
+        Schema::table('tickets', function (Blueprint $table) {
+            $table->dropForeign('tickets_event_id_foreign');
+
+            $table->foreign('event_id')
+                ->references('id')
+                ->on('events');
+
+            $table->dropForeign('tickets_order_id_foreign');
+
+            $table->dropColumn('order_id');
+        });
     }
 }
