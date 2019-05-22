@@ -14,7 +14,7 @@ class UpdateTicketsTableAddBarcode extends Migration
     public function up()
     {
         Schema::table('tickets', function (Blueprint $table) {
-            $table->string('barcode');
+            $table->string('barcode')->nullable();
         });
     }
 
