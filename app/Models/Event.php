@@ -27,15 +27,10 @@ class Event extends Model
           'name',
           'date',
           'is_active',
-          'hall_id'
+          'hall_id',
+          'event_image_id',
+          'free_pass_logo_id'
     ];
-
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
-    protected $appends = ['event_image', 'free_pass_logo'];
 
     public static function boot()
     {
@@ -44,29 +39,6 @@ class Event extends Model
         Event::observe(new UserActionsObserver);
     }
 
-    /**
-     *  Event image
-     *
-     * @return mixed
-     */
-    public function getEventImageAttribute()
-    {
-        return $this->files()->first();
-    }
-
-    /**
-     *  Event free pass logo image
-     *
-     * @return mixed
-     */
-    public function getFreePassLogoAttribute()
-    {
-        return $this->files()->first();
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function hall()
     {
         return $this->belongsTo('App\Models\Hall');
@@ -88,6 +60,16 @@ class Event extends Model
     public function tickets()
     {
         return $this->hasMany('App\Models\Ticket');
+    }
+
+    public function eventImage()
+    {
+        return $this->belongsTo('App\Models\File', 'event_image_id');
+    }
+
+    public function freePassLogo()
+    {
+        return $this->belongsTo('App\Models\File', 'free_pass_logo_id');
     }
 
     /**

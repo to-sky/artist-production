@@ -42,6 +42,8 @@ Route::group([
     Route::delete('shippings/shippingZone/{shipping_zone}', 'ShippingController@deleteShippingZone')->name('shippings.delete-shipping-zone');
 
     Route::prefix('events')->group(function () {
+        Route::delete('{event}/deleteEventImage', 'EventController@deleteEventImage')->name('events.deleteEventImage');
+        Route::delete('{event}/deleteFreePassLogo', 'EventController@deleteFreePassLogo')->name('events.deleteFreePassLogo');
         Route::get('getBuildings', 'EventController@getBuildings')->name('events.getBuildings');
         Route::get('getHalls', 'EventController@getHalls')->name('events.getHalls');
         Route::get('hallPlaces/{event}', 'EventController@hallPlaces')->name(config('admin.route').'.events.hallPlaces');

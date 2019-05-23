@@ -24,7 +24,7 @@
                 </li>
             </ul>
 
-            {!! Form::model($event, array('method' => 'PATCH', 'route' => array(config('admin.route').'.events.update', $event->id, 'file' => true))) !!}
+            {!! Form::model($event, array('method' => 'PATCH', 'route' => array(config('admin.route').'.events.update', $event->id), 'files' => true)) !!}
             {!! Form::hidden('id', $event->id) !!}
 
             <div class="tab-content">
@@ -39,7 +39,7 @@
                             </div>
 
                             <div class="box-body row">
-                                <div class="col-md-9">
+                                <div class="col-md-8">
                                     <div class="form-group">
                                         {!! Form::label('name', __('Event')) !!}*
                                         {!! Form::text('name', old('name', $event->name), array('class'=>'form-control')) !!}
@@ -69,26 +69,58 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="thumbnail-container">
                                         <label>{{ __('Thumbnail') }}</label>
                                         <div class="image-preview"
-                                             style="background-image: url('{{ $event->event_image->file_url ?? asset('images/no-image.jpg') }}');"></div>
-                                        <label class="btn btn-file-upload">
-                                            {{ __('Select thumbnail') }} <input type="file" class="upload-file" name="event_image">
-                                        </label>
+                                             style="background-image: url('{{ $event->eventImage->file_url ?? asset('images/no-image.jpg') }}');">
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label class="col-md-10 btn btn-file-upload @empty($event->eventImage) w100 @endempty">
+                                                    {{ __('Select thumbnail') }} <input type="file" class="upload-file" name="event_image">
+                                                </label>
+
+                                                @isset($event->eventImage)
+                                                    <button class="col-md-2 btn btn-file-upload bl-none"
+                                                            type="button"
+                                                            data-toggle="modal"
+                                                            data-target="#deleteItem"
+                                                            data-url="{{ route('events.deleteEventImage', ['id' => $event->id]) }}"
+                                                            data-reload="true">
+                                                        <i class="fa fa-trash text-danger"></i>
+                                                    </button>
+                                                @endisset
+                                            </div>
+                                        </div>
+
                                     </div>
 
                                     <div class="free-pass-container">
                                         <label>{{ __('Free pass') }}</label>
-                                        <div class="input-group">
-                                            <span class="input-group-btn">
-                                                <span class="btn btn-file btn-file-upload">
+                                        <div class="row">
+                                            <div id="freePass" class="col-md-12">
+                                                <label class="col-md-6 btn btn-file-upload br-none">
                                                     {{ __('Select logo') }} <input type="file" name="free_pass_logo">
-                                                </span>
-                                            </span>
-                                            <input type="text" class="form-control" readonly
-                                                   value="{{ $event->free_pass_logo->original_name ?? '' }}">
+                                                </label>
+
+                                                <label class="free-pass-input @if(empty($event->freePassLogo)) col-md-6 @else col-md-4 @endif">
+                                                    <input type="text" class="form-control" readonly
+                                                           value="{{ $event->freePassLogo->original_name ?? '' }}">
+                                                </label>
+
+                                                @isset($event->freePassLogo)
+                                                    <button class="col-md-2 btn btn-file-upload bl-none"
+                                                            type="button"
+                                                            data-toggle="modal"
+                                                            data-target="#deleteItem"
+                                                            data-url="{{ route('events.deleteFreePassLogo', ['id' => $event->id]) }}"
+                                                            data-reload="true">
+                                                        <i class="fa fa-trash text-danger"></i>
+                                                    </button>
+                                                @endisset
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -130,6 +130,7 @@
     var modal = $('#deleteItem');
     modal.on('show.bs.modal', function (e) {
         var target = $(e.relatedTarget);
+        var reload = target.data('reload');
         var url = target.data('url');
         var tableRow = target.closest('tr');
         var itemName = tableRow.find('input').first().val();
@@ -143,6 +144,10 @@
                 success: function() {
                     modal.modal('hide');
                     tableRow.remove();
+
+                    if (reload) {
+                        location.reload();
+                    }
                 }
             });
         });

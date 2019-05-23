@@ -101,9 +101,13 @@ class UploadService
         $uploadedFiles = $request->file($field);
         $files = [];
 
+        if (is_null($uploadedFiles)) {
+            return $files;
+        }
+
         if (is_array($uploadedFiles)) {
             foreach ($uploadedFiles as $uploadedFile) {
-                $files[] = $this->store($uploadedFiles, $entity, $file);
+                $files[] = $this->store($uploadedFile, $entity, $file);
             }
         } else {
             $files[] = $this->store($uploadedFiles, $entity, $file);
@@ -120,8 +124,10 @@ class UploadService
      * @param null $file
      * @return File|null
      */
-    public function store($uploadedFile, $entity, $file = null) {
+    public function store($uploadedFile, $entity, $file = null)
+    {
         $path = FileHelper::storagePath($entity);
+
         // Stores file to disk
         $uploadedFile->store($path);
         // Saves file to database
