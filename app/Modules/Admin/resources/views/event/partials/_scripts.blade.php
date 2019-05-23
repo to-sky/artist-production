@@ -84,7 +84,7 @@
     });
 
     fileUpload.on('fileselect', function(event, label) {
-        var input = $(this).parents('.input-group').find(':text');
+        var input = $(this).parents('#freePass').find(':text');
 
         if( input.length ) {
             input.val(label);
