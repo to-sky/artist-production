@@ -61,6 +61,34 @@
                                         {!! Form::label('hall_id', __('Hall')) !!}*
                                         {!! Form::select('hall_id', $halls, old('hall_id', $event->hall_id), array('class'=>'form-control')) !!}
                                     </div>
+                                    <div class="form-group">
+                                        <div class="free-pass-container">
+                                            <label>{{ __('Free pass') }}</label>
+                                            <div class="row">
+                                                <div id="freePass" class="col-md-12">
+                                                    <label class="col-md-3 btn btn-file-upload br-none">
+                                                        {{ __('Select logo') }} <input type="file" name="free_pass_logo">
+                                                    </label>
+
+                                                    <label class="free-pass-input @if(empty($event->freePassLogo)) col-md-9 @else col-md-8 @endif">
+                                                        <input type="text" class="form-control" readonly
+                                                               value="{{ $event->freePassLogo->original_name ?? '' }}">
+                                                    </label>
+
+                                                    @isset($event->freePassLogo)
+                                                        <button class="col-md-1 btn btn-file-upload bl-none"
+                                                                type="button"
+                                                                data-toggle="modal"
+                                                                data-target="#deleteItem"
+                                                                data-url="{{ route('events.deleteFreePassLogo', ['id' => $event->id]) }}"
+                                                                data-reload="true">
+                                                            <i class="fa fa-trash text-danger"></i>
+                                                        </button>
+                                                    @endisset
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="checkbox">
                                         <label>
                                             <input type="hidden" name="is_active" value="0">
@@ -88,34 +116,6 @@
                                                             data-toggle="modal"
                                                             data-target="#deleteItem"
                                                             data-url="{{ route('events.deleteEventImage', ['id' => $event->id]) }}"
-                                                            data-reload="true">
-                                                        <i class="fa fa-trash text-danger"></i>
-                                                    </button>
-                                                @endisset
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="free-pass-container">
-                                        <label>{{ __('Free pass') }}</label>
-                                        <div class="row">
-                                            <div id="freePass" class="col-md-12">
-                                                <label class="col-md-6 btn btn-file-upload br-none">
-                                                    {{ __('Select logo') }} <input type="file" name="free_pass_logo">
-                                                </label>
-
-                                                <label class="free-pass-input @if(empty($event->freePassLogo)) col-md-6 @else col-md-4 @endif">
-                                                    <input type="text" class="form-control" readonly
-                                                           value="{{ $event->freePassLogo->original_name ?? '' }}">
-                                                </label>
-
-                                                @isset($event->freePassLogo)
-                                                    <button class="col-md-2 btn btn-file-upload bl-none"
-                                                            type="button"
-                                                            data-toggle="modal"
-                                                            data-target="#deleteItem"
-                                                            data-url="{{ route('events.deleteFreePassLogo', ['id' => $event->id]) }}"
                                                             data-reload="true">
                                                         <i class="fa fa-trash text-danger"></i>
                                                     </button>

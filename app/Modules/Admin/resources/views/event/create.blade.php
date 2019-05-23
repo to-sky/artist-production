@@ -47,6 +47,19 @@
                             {!! Form::label('hall_id', __('Hall')) !!}*
                             {!! Form::select('hall_id', $halls, old('hall_id'), array('class'=>'form-control')) !!}
                         </div>
+                        <div class="form-group">
+                            <div class="free-pass-container">
+                                <label>{{ __('Free pass') }}</label>
+                                <div id="freePass" class="input-group">
+                                <span class="input-group-btn">
+                                    <span class="btn btn-file btn-file-upload">
+                                        {{ __('Select logo') }} <input type="file" name="free_pass_logo">
+                                    </span>
+                                </span>
+                                    <input type="text" class="form-control" readonly>
+                                </div>
+                            </div>
+                        </div>
                         <div class="checkbox">
                             <label>
                                 <input type="hidden" name="is_active" value="0">
@@ -62,18 +75,6 @@
                             <label class="btn btn-file-upload w100">
                                 {{ __('Select thumbnail') }} <input type="file" class="upload-file" name="event_image">
                             </label>
-                        </div>
-
-                        <div class="free-pass-container">
-                            <label>{{ __('Free pass') }}</label>
-                            <div id="freePass" class="input-group">
-                                <span class="input-group-btn">
-                                    <span class="btn btn-file btn-file-upload">
-                                        {{ __('Select logo') }} <input type="file" name="free_pass_logo">
-                                    </span>
-                                </span>
-                                <input type="text" class="form-control" readonly>
-                            </div>
                         </div>
                     </div>
                 </div>
