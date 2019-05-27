@@ -52,6 +52,9 @@ class Ticket extends Model
         return $query->where('status', self::AVAILABLE);
     }
 
+    /**
+     * Generate unique barcode
+     */
     public function generateUniqueBarcode()
     {
         if (isset(self::$barcodes)) {
