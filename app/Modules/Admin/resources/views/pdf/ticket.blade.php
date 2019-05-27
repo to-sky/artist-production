@@ -313,7 +313,7 @@
             </p>
             <ul>
                 <li>С покупкой данного билета Вы принимаете наши общие
-                    коммерческие условия ({{ config('APP_URL') }}/datenschutz).
+                    коммерческие условия ({{ config('app.url') }}/datenschutz).
                 </li>
                 <li>Пожалуйста, проверьте правильность всех данных на
                     билете, во избежание ошибок.
@@ -348,7 +348,7 @@
                 <b>Желаем Вам приятно провести время!</b>
             </p>
             <p>
-                <b>{{ ucfirst(config('APP_DOMAIN')) }}</b>
+                <b>{{ ucfirst(config('app.domain')) }}</b>
             </p>
         </div>
         <div class="width-50 float-left">
@@ -357,7 +357,7 @@
             </p>
             <ul>
                 <li>Mit dem Erwerb dieses Tickets akzeptieren Sie unsere AGB,
-                    die Sie unter ({{ config('APP_URL') }}/datenschutz) finden.
+                    die Sie unter ({{ config('app.url') }}/datenschutz) finden.
                 </li>
                 <li>Bitte überprüfen Sie alle Angaben auf Ihren Tickets, um
                     Fehler zu vermeiden.
@@ -389,7 +389,7 @@
                 <b>Wir wünschen Ihnen viel Spaß bei Ihrem Event!</b>
             </p>
             <p>
-                <b>{{ ucfirst(config('APP_DOMAIN')) }}</b>
+                <b>{{ ucfirst(config('app.domain')) }}</b>
             </p>
         </div>
     </div>
