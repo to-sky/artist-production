@@ -24,14 +24,6 @@ class TicketController extends ApiController
             'price_id',
         ]);
 
-        $barcode = Keygen::numeric(12)->generate();
-
-        if (Ticket::where('barcode', $barcode)->first()){
-            $this->updateTicket($request);
-        }
-
-        $data += compact('barcode');
-
         $count = $request->get('count') ?: 1;
 
         if ($count > 1) {

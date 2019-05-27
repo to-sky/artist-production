@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Gloudemans\Shoppingcart\Contracts\Buyable;
+use Keygen\Keygen;
 
-class Ticket extends Model implements Buyable
+class Ticket extends Model
 {
     use SoftDeletes;
 
@@ -14,12 +14,27 @@ class Ticket extends Model implements Buyable
     const RESERVED = 1;
     const SOLD = 2;
 
-    protected $fillable = ['barcode', 'amount_printed', 'price', 'status', 'user_id', 'event_id', 'place_id', 'price_id', 'order_id'];
+    public static $barcodes;
 
+    protected $fillable = ['barcode', 'amount_printed', 'price', 'status', 'user_id', 'event_id', 'place_id', 'price_id'];
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        if (! $this->barcodes){
+            $this->generateUniqueBarcode();
+        }
+    }
 
     public function user()
     {
         return $this->belongsTo('App\Models\User');
+    }
+
+    public function event()
+    {
+        return $this->belongsTo('App\Models\Event');
     }
 
     public function place()
@@ -37,53 +52,16 @@ class Ticket extends Model implements Buyable
         return $query->where('status', self::AVAILABLE);
     }
 
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
-    protected $appends = ['address'];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function order()
+    public function generateUniqueBarcode()
     {
-        return $this->belongsTo('App\Models\Order');
-    }
+        if (isset(self::$barcodes)) {
+            self::$barcodes = Ticket::withTrashed()->pluck('id', 'barcode');
+        }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function event()
-    {
-        return $this->belongsTo('App\Models\Event');
-    }
+        do {
+            $barcode = Keygen::numeric(12)->generate();
+        } while (isset(self::$barcodes[$barcode]));
 
-    public function getBuyableIdentifier($options = null)
-    {
-        return $this->id;
-    }
-
-    public function getBuyableDescription($options = null)
-    {
-        return $this->event->name;
-    }
-
-    public function getBuyablePrice($options = null)
-    {
-        return $this->price()->value('price');
-    }
-
-    /**
-     *  User avatar
-     *
-     * @return mixed
-     */
-    public function getAddressAttribute()
-    {
-        return $this->event->hall->name . ', '
-            . $this->event->hall->building->address . ', '
-            . $this->event->hall->building->city->name;
+        $this->barcode = $barcode;
     }
 }
