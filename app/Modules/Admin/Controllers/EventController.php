@@ -2,6 +2,7 @@
 
 namespace App\Modules\Admin\Controllers;
 
+use App\Helpers\FileHelper;
 use App\Models\{Building, City, Hall, Event, Price, PriceGroup};
 use App\Modules\Admin\Requests\EventRequest;
 use App\Modules\Admin\Services\RedirectService;
@@ -90,9 +91,12 @@ class EventController extends AdminController
 	{
 		$event = Event::create($request->all());
 
-        $this->uploadService->upload($request, $event, null, 'event_image');
+        $eventImage = $this->uploadService->upload($request, $event, null, 'event_image');
+        $freePassLogo = $this->uploadService->upload($request, $event, null, 'free_pass_logo');
 
-        $this->uploadService->upload($request, $event, null, 'free_pass_logo');
+        $event->eventImage()->associate(array_shift($eventImage));
+        $event->freePassLogo()->associate(array_shift($freePassLogo));
+        $event->save();
 
         $request->merge(['id' => $event->id]);
 
@@ -125,7 +129,15 @@ class EventController extends AdminController
      */
 	public function update(Event $event, EventRequest $request)
 	{
-		$event->update($request->all());
+        if ($request->file('event_image')) {
+            $this->updateImage($event, 'eventImage', 'event_image');
+        }
+
+        if ($request->file('free_pass_logo')) {
+            $this->updateImage($event, 'freePassLogo', 'free_pass_logo');
+        }
+
+        $event->update($request->all());
 
 		if ($request->prices) {
             $this->createOrUpdatePrices($event, 'prices');
@@ -203,6 +215,68 @@ class EventController extends AdminController
         $priceGroup->delete();
 
         return response()->json(null, 204);
+    }
+
+    /**
+     * Remove event image
+     *
+     * @param Event $event
+     * @return \Illuminate\Http\JsonResponse
+     */
+    function deleteEventImage(Event $event)
+    {
+        $this->deleteImage($event, 'eventImage');
+
+        return response()->json(null, 204);
+    }
+
+    /**
+     * Remove free pass logo
+     *
+     * @param Event $event
+     * @return \Illuminate\Http\JsonResponse
+     */
+    function deleteFreePassLogo(Event $event)
+    {
+        $this->deleteImage($event, 'freePassLogo');
+
+        return response()->json(null, 204);
+    }
+
+    /**
+     * Delete old image and upload new image
+     *
+     * @param Event $event
+     * @param $relation
+     * @param $field
+     * @return Event
+     */
+    public function updateImage(Event $event, $relation, $field)
+    {
+        if ($image = $event->$relation) {
+            $this->deleteImage($event, $relation);
+        }
+
+        $uploadedImage = $this->uploadService->upload(request(), $event, null, $field);
+
+        $event->$relation()->associate(array_shift($uploadedImage));
+
+        return $event;
+    }
+
+    /**
+     * Delete image
+     *
+     * @param Event $event
+     * @param $relation
+     * @return bool|null
+     */
+    public function deleteImage(Event $event, $relation)
+    {
+        FileHelper::delete($event->$relation);
+        FileHelper::deleteThumb($event->$relation);
+
+        return $event->$relation->delete();
     }
 
     /**

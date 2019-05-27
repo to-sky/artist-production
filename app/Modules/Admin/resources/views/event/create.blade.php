@@ -25,7 +25,7 @@
                 </div>
 
                 <div class="box-body row">
-                    <div class="col-md-9">
+                    <div class="col-md-8">
                         <div class="form-group">
                             {!! Form::label('name', __('Event')) !!}*
                             {!! Form::text('name', old('name'), array('class'=>'form-control')) !!}
@@ -47,6 +47,19 @@
                             {!! Form::label('hall_id', __('Hall')) !!}*
                             {!! Form::select('hall_id', $halls, old('hall_id'), array('class'=>'form-control')) !!}
                         </div>
+                        <div class="form-group">
+                            <div class="free-pass-container">
+                                <label>{{ __('Free pass') }}</label>
+                                <div id="freePass" class="input-group">
+                                <span class="input-group-btn">
+                                    <span class="btn btn-file btn-file-upload">
+                                        {{ __('Select logo') }} <input type="file" name="free_pass_logo">
+                                    </span>
+                                </span>
+                                    <input type="text" class="form-control" readonly>
+                                </div>
+                            </div>
+                        </div>
                         <div class="checkbox">
                             <label>
                                 <input type="hidden" name="is_active" value="0">
@@ -55,25 +68,13 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="thumbnail-container">
                             <label>{{ __('Thumbnail') }}</label>
                             <div class="image-preview"></div>
-                            <label class="btn btn-file-upload">
+                            <label class="btn btn-file-upload w100">
                                 {{ __('Select thumbnail') }} <input type="file" class="upload-file" name="event_image">
                             </label>
-                        </div>
-
-                        <div class="free-pass-container">
-                            <label>{{ __('Free pass') }}</label>
-                            <div class="input-group">
-                                <span class="input-group-btn">
-                                    <span class="btn btn-file btn-file-upload">
-                                        {{ __('Select logo') }} <input type="file" name="free_pass_logo">
-                                    </span>
-                                </span>
-                                <input type="text" class="form-control" readonly>
-                            </div>
                         </div>
                     </div>
                 </div>
