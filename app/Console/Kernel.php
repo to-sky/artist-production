@@ -26,6 +26,9 @@ class Kernel extends ConsoleKernel
     {
          $schedule->command('kartina:parse-events')
              ->daily();
+
+         $schedule->command('artist:free_reservations')
+             ->everyMinute();
     }
 
     /**

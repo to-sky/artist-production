@@ -23,18 +23,38 @@ export default {
 
   data() {
     return {
-      EventService,
       event: null,
       interval: "",
-      ts: 1
+      ts: 1,
+      deltaTimer: null
     };
   },
 
   mounted: function() {
-    this.EventService.load(window.id)
-      .then(hallEvent => this.event = hallEvent)
-      .catch(e => console.log)
+    EventService.load(window.id)
+      .then(hallEvent => {
+        this.event = hallEvent;
+
+        setTimeout(() => this.setDeltaInterval(), 5000);
+      })
+      .catch(e => console.log(e))
     ;
+
+
+  },
+
+  methods: {
+    setDeltaInterval() {
+      this.deltaTimer = setInterval(() => {
+        EventService.loadDelta(window.id)
+          .then(tickets => this.event.patch(tickets))
+          .catch(e => console.log(e))
+        ;
+      }, 5000);
+    },
+    cleatDeltaInterval() {
+      clearInterval(this.deltaTimer);
+    }
   }
 };
 </script>

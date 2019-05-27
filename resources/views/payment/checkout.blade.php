@@ -32,10 +32,15 @@
                         //dd($item);
                     @endphp
                     <article class="ap_ticket">
-                        <a href="" class="ap_ticket__image" style="background-image: url({{ asset('images/kir-core.jpg') }});"></a>
+                        <a href="" class="ap_ticket__image" style="background-image: url({{ $item->model->event->eventImage->file_url ?? asset('images/no-image.jpg') }});"></a>
                         <div class="ap_ticket__info">
                             <h3 class="ap_ticket__title">{{ $item->name }}</h3>
-                            <p class="ap_ticket__price">{{ $item->price }} EUR</p>
+                            <p class="ap_ticket__price">
+                                {{ $item->price }} EUR
+                                @if($item->model->priceGroup)
+                                    ({{ $item->model->priceGroup->name }})
+                                @endif
+                            </p>
                             <p class="ap_ticket__detail"><i class="fas fa-calendar-alt"></i> {{ $item->model->event->date->format('d.m.Y') }}</p>
                             <p class="ap_ticket__detail"><i class="fas fa-calendar-alt"></i> {{ __($item->model->event->date->format('l')) }}</p>
                             <p class="ap_ticket__detail"><i class="fas fa-clock"></i> {{ $item->model->event->date->format('H:i') }}</p>
@@ -48,12 +53,12 @@
                                 Platz {{ $place->num ?? '-' }}
                             </p>
                         </div>
-                        <a href="{{ route('cart.remove', ['id' => $item->rowId]) }}" class="ap_ticket__remove"></a>
+                        <a href="{{ route('cart.remove', ['place' => $item->model->id]) }}" class="ap_ticket__remove"></a>
                     </article>
                 @endforeach
                 <div class="ap_tickets__footer">
                     <p class="ap_tickets__footer-text">Сумма заказа: <b>{{ Cart::subtotal() }} EUR</b></p>
-                    <button class="ap_tickets__footer-text">Удалить все билеты</button>
+                    <a href="{{ route('cart.destroy') }}" class="ap_tickets__footer-text">Удалить все билеты</a>
                 </div>
             </div>
         </section>

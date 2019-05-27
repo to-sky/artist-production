@@ -43,6 +43,11 @@ class Ticket extends Model implements Buyable
         return $this->belongsTo('App\Models\Price');
     }
 
+    public function priceGroup()
+    {
+        return $this->belongsTo('App\Models\PriceGroup');
+    }
+
     public function scopeAvailable($query)
     {
         return $query->where('status', self::AVAILABLE);
@@ -83,7 +88,9 @@ class Ticket extends Model implements Buyable
 
     public function getBuyablePrice($options = null)
     {
-        return $this->price()->value('price');
+        $discount = $this->priceGroup()->value('discount') ?: 0;
+
+        return (100 - $discount) * $this->price()->value('price') / 100;
     }
 
     /**

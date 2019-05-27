@@ -9,8 +9,15 @@
         return matches ? decodeURIComponent(matches[1]) : undefined;
     }
 
+    function getCookieOptions() {
+      return {
+        expires: 0,
+        path: '/'
+      };
+    }
+
     function setCookie(name, value, options) {
-        options = options || {};
+        options = Object.assign(getCookieOptions(), options);
 
         var expires = options.expires;
 

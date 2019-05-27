@@ -2,12 +2,20 @@
 
 namespace App\Modules\Api\Controllers;
 
-use App\Models\Ticket;
+use App\Models\Place;
+use App\Services\TicketService;
 use Illuminate\Http\Request;
 use Keygen\Keygen;
 
 class TicketController extends ApiController
 {
+    protected $ticketService;
+
+    public function __construct(TicketService $ticketService)
+    {
+        $this->ticketService = $ticketService;
+    }
+
     /**
      * Updates ticket - price binding for place tickets
      *
@@ -18,102 +26,47 @@ class TicketController extends ApiController
      */
     public function updateTicket(Request $request)
     {
-        $data = $request->all([
-            'event_id',
-            'place_id',
-            'price_id',
-        ]);
+        $tickets = $this->ticketService->manage($request);
 
-        $count = $request->get('count') ?: 1;
-
-        if ($count > 1) {
-            $tickets = $this->updateFanZone($data, $count);
-
-            return response()->json(compact('tickets'));
-        }
-
-        if (is_array($data['place_id'])) {
-            $tickets = [];
-            foreach ($data['place_id'] as $pid) {
-                $ticket = $this->updatePlace([
-                    'event_id' => $data['event_id'],
-                    'place_id' => $pid,
-                    'price_id' => $data['price_id'],
-                ]);
-
-                $tickets[] = $ticket;
-            }
-
-            return response()->json(compact('tickets'));
-        }
-
-        $ticket = $this->updatePlace($data);
-
-        return response()->json(compact('ticket'));
+        return response()->json(compact('tickets'));
     }
 
     /**
-     * Update price binding for sitting place
+     * Reserve tickets by ticket id
      *
-     * @param $data
-     * @return mixed
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    protected function updatePlace($data)
+    public function reserve(Request $request)
     {
-        $ticket = Ticket::updateOrCreate(
-            [
-                'event_id' => $data['event_id'],
-                'place_id' => $data['place_id'],
-            ],
-            $data
-        );
+        $tickets = $this->ticketService->reserve($request);
 
-        return $ticket;
+        return response()->json(compact('tickets'));
     }
 
     /**
-     * Update price binding for standing place
+     * Free tickets reserved for place
      *
-     * @param $data
-     * @param $count
-     * @return array
-     *
-     * @throws \Exception
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    protected function updateFanZone($data, $count)
+    public function free(Request $request)
     {
-        /** @var Ticket[] $tickets */
-        $tickets = Ticket
-            ::withTrashed()
-            ->whereEventId($data['event_id'])
-            ->wherePlaceId($data['place_id'])
-            ->get()
-        ;
+        $tickets = $this->ticketService->free($request);
 
-        $ceil = max($tickets->count(), $count);
+        return response()->json(compact('tickets'));
+    }
 
-        $result = [];
-        for ($i = 0; $i < $ceil; $i++) {
-            if (isset($tickets[$i])) {
-                $ticket = $tickets[$i];
-            } else {
-                $ticket = new Ticket();
-            }
+    /**
+     * Free tickets by ticket id
+     *
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function freeById($id)
+    {
+        $tickets = $this->ticketService->freeById($id);
 
-            if ($i > $count - 1) {
-                $ticket->delete();
-            } else {
-                if ($ticket->trashed()) {
-                    $ticket->restore();
-                }
-
-                $ticket->fill($data);
-                $ticket->save();
-
-                $result[] = $ticket;
-            }
-        }
-
-        return $result;
+        return response()->json(compact('tickets'));
     }
 }

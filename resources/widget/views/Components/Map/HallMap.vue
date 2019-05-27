@@ -18,7 +18,6 @@
 
             <hall-svg
                 :event="event"
-                :selected="selected"
                 @clickPlace="update"
                 @clickFanZone="updateZone"
                 @overPlace="showPopup"
@@ -65,7 +64,7 @@
 
   export default {
     components: { SvgPanZoom, HallMapPopup, HallSvg },
-    props: ["event", "selected"],
+    props: ["event"],
     data() {
       return {
         loaded: false,
@@ -274,12 +273,7 @@
         window.requestAnimationFrame(step);
       },
       placeSelected(place) {
-        let isSelected = false;
-        this.selected.forEach((e) => {
-          if (e.id === place.id) isSelected = true;
-        });
-
-        return isSelected;
+        return this.event.cart.isReserved(place);
       },
       getMobileEventsListener() {
         return {

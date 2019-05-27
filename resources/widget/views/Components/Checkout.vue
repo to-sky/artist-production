@@ -19,7 +19,9 @@
       </div>
       <div class="checkout-container">
         <timer v-if="time"
-               :endTime="time">
+               :time="time"
+               @timeout=""
+        >
         </timer>
         <div class="checkout-description">
           <div class="checkout-subblock">
@@ -38,7 +40,7 @@
       <div>
         <div
           class="checkout-container"
-          v-for="(place, index) in selected"
+          v-for="(place, index) in event.cart.reservationsList"
           v-bind:key="index"
         >
           <div class="checkout-ticket-block">
@@ -55,12 +57,12 @@
               v-html="$t('hall.fanzone')"
             ></p>
             <p class="checkout-ticket-block__text">
-              {{ $t('checkout.price', { price: parseInt(place.price) }) }}
-              <span v-if="parseInt(place.count)"> X{{ place.count }}</span>
+              {{ $t('checkout.price', { price: parseFloat(place.discount_price).toFixed(2) }) }}
+              <span v-if="place.discount">({{ place.discount }})</span>
             </p>
             <span
               class="checkout-ticket__basket-delete"
-              @click="deleteFromBasket(place)"
+              @click="deleteFromBasket(place.ticket_id)"
             ></span>
           </div>
         </div>
@@ -75,7 +77,7 @@
       </div>
     </div>
 
-    <div class="checkout__button" v-html="$t('checkout.confirm')" @click.prevent="$emit('sendCheckout')"></div>
+    <div v-if="!isTimedOut" class="checkout__button" v-html="$t('checkout.confirm')" @click.prevent="$emit('sendCheckout')"></div>
   </modal>
 </template>
 
@@ -84,14 +86,18 @@ import moment from "moment";
 import timer from "./Timer.vue";
 
 export default {
-  props: ['event', 'selected', 'showPopup', 'time'],
-  data: () => ({
-    modalWidth: "60%",
-    modalHeight: "60%"
-  }),
+  props: ['event', 'showPopup', 'time'],
+
   components: {
     timer
   },
+
+  data: () => ({
+    modalWidth: "60%",
+    modalHeight: "60%",
+    isTimedOut: false
+  }),
+
   computed: {
     endDate() {
       return moment(new Date(this.event.raw('event.date.date'))).format(
@@ -111,21 +117,16 @@ export default {
       return this.event.raw('hall.building.city.name');
     },
     totalPrice() {
-      let price = 0;
-      if (!this.selected.length) return price;
-      for (let i = 0; i < this.selected.length; i++) {
-        let count = parseInt(this.selected[i].count) || 1;
-
-        price += parseInt(this.selected[i].price) * count;
-      }
-
-      return price;
+      return this.event.cart.total();
     }
   },
 
   methods: {
     deleteFromBasket(place) {
-      this.$emit('deleteReserve', place);
+      this.$emit('deleteReserveById', place);
+    },
+    getSelectedPlaces() {
+      return this.event.getSelectedPlaces();
     }
   },
 
@@ -137,6 +138,12 @@ export default {
     ) {
       this.modalWidth = "80%";
       this.modalHeight = "80%";
+    }
+  },
+
+  watch: {
+    'event.cart.reservationsList': function (n) {
+      if (!n || !n.length) this.$modal.hide('checkout-zone');
     }
   }
 };

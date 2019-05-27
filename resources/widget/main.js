@@ -5,6 +5,11 @@ import VModal from "vue-js-modal";
 import VueI18n from "vue-i18n";
 import VueCarousel from "vue-carousel";
 import VueSweetAlert from "vue-sweetalert2";
+import axios from 'axios';
+
+Object.assign(axios.defaults, {
+  withCredentials: true
+});
 
 Vue.config.productionTip = false;
 Vue.use(VModal);
@@ -40,6 +45,9 @@ const messages = {
       row: "Row: ",
       num: "Num: ",
       price: "Price: "
+    },
+    priceGroup: {
+      standard: 'Standard'
     }
   },
   de: {
@@ -70,6 +78,9 @@ const messages = {
       row: "Reihe: ",
       num: "Anzahl: ",
       price: "Preis: "
+    },
+    priceGroup: {
+      standard: 'Standard'
     }
   },
   ru: {
@@ -99,6 +110,9 @@ const messages = {
       row: "Ряд: ",
       num: "Место: ",
       price: "Цена: "
+    },
+    priceGroup: {
+      standard: 'Стандартный'
     }
   }
 };

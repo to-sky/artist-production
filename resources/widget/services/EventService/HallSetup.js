@@ -1,6 +1,6 @@
-import HallEvent from "./HallEvent";
+import BaseEvent from "./BaseEvent";
 
-class HallSetup extends HallEvent {
+class HallSetup extends BaseEvent {
   _processPlaces() {
     this.places = {
       circle: [],

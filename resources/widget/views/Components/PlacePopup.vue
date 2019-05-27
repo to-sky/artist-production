@@ -3,58 +3,96 @@
             name="place-zone"
             :adaptive="true"
             :width="'300px'"
-            :height="'100px'"
+            :height="'auto'"
             class="checkout"
     >
+        <div v-if="event.hasManyPriceGroups()">
+          <h3 class="price-header">Select ticket type</h3>
+
+          <price-group-list
+              :groups="event.priceGroups"
+              :highlight="true"
+              @selectGroup="selectGroup"
+          ></price-group-list>
+        </div>
+
+        <h3 class="price-header">Enter number of tickets</h3>
+
         <input
             class="form-control"
             type="number"
             min="1"
-            placeholder="Enter number of tickets"
             :max="inputMax"
             v-model="count"
             @input="checkMax"
         >
 
-        <div class="checkout__button" v-html="$t('checkout.confirm')" @click.prevent="$emit('sendFanZone', count)"></div>
+        <button :disabled="!canReserve" class="checkout__button" v-html="$t('checkout.confirm')" @click.prevent="$emit('reserveFanZone', count)"></button>
     </modal>
 </template>
 
 <script>
+  import PriceGroupList from './PriceGroupList.vue';
+
   export default {
     name: "PlacePopup",
+
+    components: {
+      PriceGroupList
+    },
 
     props: {
       max: {
         type: Number,
         default: 0
+      },
+      event: {
+        type: Object,
+        default: null
       }
     },
 
     data() {
       return {
-        count: 1
+        count: 1,
+        priceGroup: null
       };
     },
 
     methods: {
       checkMax($e) {
         if (this.max && this.count > this.max) this.count = this.max;
+      },
+      selectGroup(g) {
+        this.$emit('selectGroup', g);
       }
     },
 
     computed: {
       inputMax() {
         return this.max || '';
+      },
+      canReserve() {
+        return this.count >= 1 && this.count <= this.max;
       }
     }
   }
 </script>
 
-<style scoped>
-    .form-control {
-        padding: 10px 15px;
-        font-size: 18px;
-        line-height: 1.1;
-    }
+<style>
+  h3.price-header {
+    margin: 10px auto;
+    text-align: center;
+  }
+
+  .form-control {
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    line-height: 1.1;
+  }
+
+  .checkout .price-groups-list {
+    margin-bottom: 10px;
+  }
 </style>

@@ -57,6 +57,7 @@
   import SvgPanZoom from 'vue-svg-pan-zoom';
   import HallSvg from './Components/Map/HallSvg.vue';
   import EventService from '../services/EventService/EventService';
+  import TicketService from '../services/TicketService/TicketService';
   import checkbox from "./Components/Checkbox.vue";
   import placePopup from './Components/PlacePopup.vue';
 
@@ -70,7 +71,6 @@
     name: "Setup",
     data() {
       return {
-        EventService,
         selectedPrice: null,
         selectedZone: null,
         event: null,
@@ -85,7 +85,7 @@
       };
     },
     mounted() {
-      this.EventService.loadSetup(window.id)
+      EventService.loadSetup(window.id)
         .then(capsule => {
           this.event = capsule;
         })
@@ -121,7 +121,7 @@
         }
 
         if (place.id) place.color = this.selectedPrice.color;
-        this.EventService.updateTicket(window.id, place, this.selectedPrice)
+        TicketService.manage(window.id, place, this.selectedPrice)
           .then(r => {
             this.updating = false;
           })
