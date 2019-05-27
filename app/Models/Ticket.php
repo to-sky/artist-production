@@ -22,8 +22,10 @@ class Ticket extends Model
     {
         parent::__construct($attributes);
 
-        if (! $this->barcodes){
-            $this->generateUniqueBarcode();
+        if (! $this->barcode){
+            $code = $this->generateUniqueBarcode();
+
+            self::$barcodes[$code] = 1;
         }
     }
 
@@ -54,10 +56,12 @@ class Ticket extends Model
 
     /**
      * Generate unique barcode
+     *
+     * @return int
      */
     public function generateUniqueBarcode()
     {
-        if (isset(self::$barcodes)) {
+        if (! count(self::$barcodes)) {
             self::$barcodes = Ticket::withTrashed()->pluck('id', 'barcode');
         }
 
@@ -66,5 +70,7 @@ class Ticket extends Model
         } while (isset(self::$barcodes[$barcode]));
 
         $this->barcode = $barcode;
+
+        return $barcode;
     }
 }
