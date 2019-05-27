@@ -14,7 +14,7 @@ class UpdateTicketsTableAddUniqueBarcode extends Migration
     public function up()
     {
         Schema::table('tickets', function (Blueprint $table) {
-            $table->bigInteger('barcode')->unique()->change();
+            $table->string('barcode')->unique()->change();
         });
     }
 
@@ -26,6 +26,7 @@ class UpdateTicketsTableAddUniqueBarcode extends Migration
     public function down()
     {
         Schema::table('tickets', function (Blueprint $table) {
+            $table->dropUnique(['barcode']);
             $table->string('barcode')->nullable()->change();
         });
     }
