@@ -14,7 +14,7 @@ class Ticket extends Model
     const RESERVED = 1;
     const SOLD = 2;
 
-    public static $barcodes;
+    protected static $barcodes;
 
     protected $fillable = ['barcode', 'amount_printed', 'price', 'status', 'user_id', 'event_id', 'place_id', 'price_id'];
 
