@@ -4,6 +4,7 @@ namespace App\Modules\Api\Controllers;
 
 use App\Models\Ticket;
 use Illuminate\Http\Request;
+use Keygen\Keygen;
 
 class TicketController extends ApiController
 {
@@ -22,6 +23,14 @@ class TicketController extends ApiController
             'place_id',
             'price_id',
         ]);
+
+        $barcode = Keygen::numeric(12)->generate();
+
+        if (Ticket::where('barcode', $barcode)->first()){
+            $this->updateTicket($request);
+        }
+
+        $data += compact('barcode');
 
         $count = $request->get('count') ?: 1;
 
