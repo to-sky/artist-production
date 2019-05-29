@@ -4,6 +4,7 @@ namespace App\Modules\Api\Controllers;
 
 use App\Models\Ticket;
 use Illuminate\Http\Request;
+use Keygen\Keygen;
 
 class TicketController extends ApiController
 {

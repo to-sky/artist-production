@@ -52,7 +52,9 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'https://artist-production.de'),
+
+    'domain' => env('APP_DOMAIN', 'artist-production.de'),
 
     'asset_url' => env('ASSET_URL', null),
 
@@ -171,6 +173,7 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        Milon\Barcode\BarcodeServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -237,6 +240,8 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'Setting' => anlutro\LaravelSettings\Facade::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
+        'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
     ],
 
 ];
