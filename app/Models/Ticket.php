@@ -14,19 +14,17 @@ class Ticket extends Model
     const RESERVED = 1;
     const SOLD = 2;
 
-    protected static $barcodes;
+    protected static $barcodes = [];
 
     protected $fillable = ['barcode', 'amount_printed', 'price', 'status', 'user_id', 'event_id', 'place_id', 'price_id'];
 
     public function __construct(array $attributes = [])
     {
-        parent::__construct($attributes);
-
         if (! $this->barcode){
-            $code = $this->generateUniqueBarcode();
-
-            self::$barcodes[$code] = 1;
+            $this->generateUniqueBarcode();
         }
+
+        parent::__construct($attributes);
     }
 
     public function user()
@@ -56,21 +54,28 @@ class Ticket extends Model
 
     /**
      * Generate unique barcode
-     *
-     * @return int
      */
     public function generateUniqueBarcode()
     {
         if (! count(self::$barcodes)) {
-            self::$barcodes = Ticket::withTrashed()->pluck('id', 'barcode');
+            self::$barcodes = \DB::table('tickets')
+                ->whereNotNull('barcode')
+                ->groupBy('barcode')
+                ->pluck('barcode')
+                ->toArray()
+            ;
+
+            self::$barcodes = array_flip(self::$barcodes);
         }
 
         do {
             $barcode = Keygen::numeric(12)->generate();
         } while (isset(self::$barcodes[$barcode]));
 
-        $this->barcode = $barcode;
+        self::$barcodes[$barcode] = 1;
 
-        return $barcode;
+        $this->setRawAttributes([
+            'barcode' => $barcode,
+        ]);
     }
 }
