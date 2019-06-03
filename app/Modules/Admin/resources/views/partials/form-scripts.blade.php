@@ -23,7 +23,11 @@
 
         // Place the focus on the first element in the form
         @if(config('admin.focusFirstField'))
-            var focusField = $('form').find('input, textarea, select').not('[type="hidden"]').eq(0),
+            var focusField = $('form').find('input, textarea, select').not('[type="hidden"]').eq(0);
+                if (! focusField.lenght) {
+                    return false;
+                }
+
                 fieldOffset = focusField.offset().top,
                 scrollTolerance = $(window).height() / 2;
 

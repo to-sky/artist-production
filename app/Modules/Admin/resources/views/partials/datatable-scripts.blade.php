@@ -1,7 +1,5 @@
 <script>
-
     jQuery(document).ready(function($) {
-
         var table = $('#datatable').DataTable({
             order: [],
             columnDefs: [
@@ -13,9 +11,7 @@
             language: {
                 url: '{{ route('dataTables.locale', ['locale' => App::getLocale()]) }}'
             }
-        });
-
-        $('#datatable').on('click', '.delete-button', function(e){
+        }).on('click', '.delete-button', function(e){
             e.preventDefault();
             var $this = $(this),
                 url = $(this).attr('href');

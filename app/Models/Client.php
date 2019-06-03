@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Client extends Model
 {
-
     use SoftDeletes;
 
     const TYPE_INDIVIDUAL = 0;
@@ -80,6 +79,11 @@ class Client extends Model
         return $this->belongsTo('App\Models\User');
     }
 
+    public function invoice()
+    {
+        return $this->hasMany('App\Models\Invoice');
+    }
+
     public function getFullnameAttribute()
     {
         return $this->first_name . ' ' . $this->last_name;
@@ -109,6 +113,4 @@ class Client extends Model
                 break;
         }
     }
-
-
 }

@@ -27,7 +27,10 @@ class Order extends Model
     /**
      * @var array
      */
-    protected $fillable = ['user_id', 'status', 'expired_at', 'tax', 'discount', 'final_price', 'paid_bonuses', 'paid_cash', 'payment_type', 'delivery_type', 'delivery_status', 'comment', 'paid_at'];
+    protected $fillable = [
+        'user_id', 'status', 'expired_at', 'tax', 'discount', 'final_price', 'paid_bonuses',
+        'paid_cash', 'payment_type', 'delivery_type', 'delivery_status', 'comment', 'paid_at'
+    ];
 
     /**
      * The accessors to append to the model's array form.
@@ -58,6 +61,11 @@ class Order extends Model
     public function tickets()
     {
         return $this->hasMany('App\Models\Ticket');
+    }
+
+    public function invoice()
+    {
+        return $this->hasMany('App\Models\Invoice');
     }
 
     /**

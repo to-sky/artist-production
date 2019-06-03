@@ -54,6 +54,10 @@ Route::group([
     Route::prefix('tickets')->group(function () {
        Route::get('print/{ticket}', 'TicketController@print')->name('tickets.print');
     });
+
+    Route::prefix('orders')->group(function () {
+        Route::get('order/{order}', 'TicketController@print')->name('tickets.print');
+    });
 });
 
 

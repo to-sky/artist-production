@@ -1,115 +1,139 @@
 @extends('Admin::layouts.master')
 
 @section('page-header')
-
     @include('Admin::partials.page-header')
-
 @endsection
 
 @section('content')
-
-    <div class="row">
-
-        <div class="col-md-8 col-md-offset-2">
-
-            <a href="{{ route(config('admin.route').'.orders.index') }}"><i class="fa fa-angle-double-left"></i> {{ trans('Admin::admin.back-to-all-entries') }}</span></a><br><br>
-
-            @include('Admin::partials.errors')
-
-            {!! Form::open(array('route' => config('admin.route').'.orders.store')) !!}
-            <div class="box">
-
-                <div class="box-header with-border">
-                    <h3 class="box-title">{{ trans('Admin::admin.add-new', ['item' => trans('Admin::models.' . $menuRoute->singular_name)]) }}</h3>
+    <!-- Clients modal -->
+    <div class="modal fade" id="clientsModal" tabindex="-1" role="dialog" aria-labelledby="clientsModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="clientsModalLabel">Клиенты</h4>
                 </div>
+                <div class="modal-body">
+                    <table id="datatable" class="table table-bordered table-hover table-selected">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>id</th>
+                                <th>Имя</th>
+                                <th>Коммисия</th>
+                                <th>Email</th>
+                                <th>Телефон</th>
+                                <th>Тип</th>
+                            </tr>
+                        </thead>
 
-                <div class="box-body row">
-                    <div class="form-group col-md-12">
-    {!! Form::label('status', 'Status') !!}
-    @foreach (array_combine(explode(',', trim('0,1,2')), explode(',', trim('Pending,Confirmed,Canceled'))) as $value => $title)
-        @php $checked = false @endphp
-        @if ($value == $order->status)
-            @php $checked = true @endphp
-        @endif
-        <div class="radio">
-            <label>
-                {!! Form::radio('status', $value, $checked) !!}
-                {{ $title }}
-            </label>
-        </div>
-    @endforeach
-    
-</div><div class="form-group col-md-12">
-    {!! Form::label('subtotal', 'Subtotal') !!}
-    {!! Form::text('subtotal', old('subtotal'), array('class'=>'form-control')) !!}
-    
-</div><div class="form-group col-md-12">
-    {!! Form::label('$comment', 'Comment') !!}
-    {!! Form::textarea('comment', old('comment'), array('class'=>'form-control ckeditor')) !!}
-    
-</div><div class="form-group col-md-12">
-    {!! Form::label('shipping_status', 'Shipping status') !!}
-    @foreach (array_combine(explode(',', trim('0,1,2,3')), explode(',', trim('In processing,Dispatched,Delivered,Returned'))) as $value => $title)
-        @php $checked = false @endphp
-        @if ($value == $order->shipping_status)
-            @php $checked = true @endphp
-        @endif
-        <div class="radio">
-            <label>
-                {!! Form::radio('shipping_status', $value, $checked) !!}
-                {{ $title }}
-            </label>
-        </div>
-    @endforeach
-    
-</div><div class="form-group col-md-12">
-    {!! Form::label('shipping_type', 'Shipping type') !!}
-    @foreach (array_combine(explode(',', trim('0,1')), explode(',', trim('Shipping,Email'))) as $value => $title)
-        @php $checked = false @endphp
-        @if ($value == $order->shipping_type)
-            @php $checked = true @endphp
-        @endif
-        <div class="radio">
-            <label>
-                {!! Form::radio('shipping_type', $value, $checked) !!}
-                {{ $title }}
-            </label>
-        </div>
-    @endforeach
-    
-</div><div class="form-group col-md-12">
-    {!! Form::label('$shipping_comment', 'Shipping comment') !!}
-    {!! Form::textarea('shipping_comment', old('shipping_comment'), array('class'=>'form-control ckeditor')) !!}
-    
-</div><div class="form-group col-md-12">
-    {!! Form::label('shipping_price', 'Shipping price') !!}
-    {!! Form::text('shipping_price', old('shipping_price'), array('class'=>'form-control')) !!}
-    
-</div><div class="form-group col-md-12">
-    {!! Form::label('paid_at', 'Paid at') !!}
-    {!! Form::text('$paid_at', old('paid_at'), array('class'=>'form-control datetimepicker')) !!}
-    
-</div>
+                        <tbody>
+                        @foreach($clients as $client)
+                            <tr>
+                                <td>
+                                    <input type="radio" name="client" value="{{ $client->id }}">
+                                </td>
+                                <td>{{ $client->id }}</td>
+                                <td data-type="name">{{ $client->full_name }}</td>
+                                <td>{{ $client->commission }}%</td>
+                                <td data-type="email">{{ $client->email }}</td>
+                                <td  data-type="phone">{{ $client->phone }}</td>
+                                <td>{{ $client->getTypeLabel($client->type) }}</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
                 </div>
-
-                <div class="box-footer">
-
-                    @include('Admin::partials.save-buttons')
-
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                    <button type="button" id="getClient" class="btn btn-primary">Выбрать</button>
                 </div>
-
             </div>
-
-            {!! Form::close() !!}
-
         </div>
-
     </div>
 
+    <!-- Widget modal -->
+    <div class="widget-wrapper">
+        <div class="widget-content">
+            {{-- widget content here --}}
+        </div>
+    </div>
+
+    <div class="row">
+            <div class="col-md-6">
+                @include('Admin::order.partials._events_filter')
+            </div>
+
+            <div class="col-md-6">
+                <div class="box">
+                    <div id="clientData" class="box-header with-border">
+                        <small>Клиент не выбран</small>
+                    </div>
+
+                    <div class="box-body">
+                        <button type="button"
+                                class="btn btn-xs btn-default"
+                                data-toggle="modal"
+                                data-target="#clientsModal">
+                            Выберите клиента
+                        </button>
+                    </div>
+                </div>
+
+                <div class="box">
+                    <div class="box-body">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td>Билет</td>
+                                <td>Цена</td>
+                                <td>Скидка</td>
+                                <td>Бонус</td>
+                                <td>Касс. сбор</td>
+                                <td>К оплате</td>
+                                <td>Удалить</td>
+                            </tr>
+                            <tr>
+                                <td colspan="7" class="text-center">
+                                    <small>Билеты не выбраны</small>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#sale" aria-controls="sale" role="tab" data-toggle="tab">{{ __('Sale') }}</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#realization" aria-controls="realization" role="tab" data-toggle="tab">{{ __('Under realization') }}</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#reserve" aria-controls="reserve" role="tab" data-toggle="tab">{{ __('In reserve') }}</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    @include('Admin::partials.errors')
+
+                    <div role="tabpanel" class="tab-pane active" id="sale">
+                        @include('Admin::order.partials._sale')
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="realization">
+                        @include('Admin::order.partials._realization')
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="reserve">
+                        @include('Admin::order.partials._reserve')
+                    </div>
+                </div>
+            </div>
+    </div>
 @endsection
 
 @section('after_scripts')
-
     @include('Admin::partials.form-scripts')
-
+    @include('Admin::partials.datatable-scripts')
+    @include('Admin::order.partials._scripts')
 @endsection

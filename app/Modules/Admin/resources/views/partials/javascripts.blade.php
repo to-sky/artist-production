@@ -24,6 +24,7 @@
 <script src="{{ asset('/bower_components/select2/dist/js/i18n/de.js') }}"></script>
 <script src="{{ asset('/bower_components/select2/dist/js/i18n/ru.js') }}"></script>
 <script src="{{ asset('/bower_components/evol-colorpicker/js/evol-colorpicker.js') }}"></script>
+<script src="{{ asset('/bower_components/daterangepicker/daterangepicker.js') }}"></script>
 
 <!-- page script -->
 <script type="text/javascript">
@@ -56,6 +57,8 @@
     });
 
     var locale = '{{ app()->getLocale() }}';
+
+    moment.locale(locale);
 
     $('.select2-box').select2({
         language: locale,

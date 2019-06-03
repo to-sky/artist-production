@@ -110,6 +110,7 @@ return [
     'Settings' => 'Настройки',
     'Mail' => 'Почта',
     'Checkout' => 'Заказы',
+    'Orders' => 'Заказы',
 
     // actions
     'index' => 'Список',

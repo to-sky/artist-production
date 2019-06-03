@@ -76,7 +76,5 @@
 @endsection
 
 @section('after_scripts')
-
     @include('Admin::partials.datatable-scripts')
-
 @endsection

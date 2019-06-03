@@ -2,6 +2,8 @@
 
 namespace App\Modules\Admin\Controllers;
 
+use App\Models\Client;
+use App\Models\Event;
 use App\Modules\Admin\Controllers\AdminController;
 use Redirect;
 use Schema;
@@ -18,15 +20,13 @@ class OrderController extends AdminController {
 	/**
 	 * Display a listing of orders
 	 *
-     * @param Request $request
-     *
      * @return \Illuminate\View\View
 	 */
-	public function index(Request $request)
+	public function index()
     {
-        $orders = Order::all();
-
-		return view('Admin::order.index', compact('orders'));
+		return view('Admin::order.index', [
+		    'orders' => Order::all()
+        ]);
 	}
 
 	/**
@@ -36,7 +36,10 @@ class OrderController extends AdminController {
 	 */
 	public function create()
 	{
-	    return view('Admin::order.create');
+	    return view('Admin::order.create', [
+	        'events' => Event::all(),
+            'clients' => Client::all()
+        ]);
 	}
 
 	/**
@@ -47,7 +50,6 @@ class OrderController extends AdminController {
 	 */
 	public function store(CreateOrderRequest $request)
 	{
-	    
 		Order::create($request->all());
 
         Alert::success(trans('Admin::admin.controller-successfully_created', ['item' => trans('Admin::models.OrderController')]))->flash();
@@ -55,6 +57,11 @@ class OrderController extends AdminController {
         $this->redirectService->setRedirect($request);
         return $this->redirectService->redirect($request);
 	}
+
+    public function search()
+    {
+        return Event::all();
+    }
 
 	/**
 	 * Show the form for editing the specified order.
@@ -65,8 +72,7 @@ class OrderController extends AdminController {
 	public function edit($id)
 	{
 		$order = Order::find($id);
-	    
-	    
+
 		return view('Admin::order.edit', compact('order'));
 	}
 
@@ -80,8 +86,6 @@ class OrderController extends AdminController {
 	public function update($id, UpdateOrderRequest $request)
 	{
 		$order = Order::findOrFail($id);
-
-        
 
 		$order->update($request->all());
 

@@ -20,7 +20,7 @@
                 <tr class="hidden prices-row">
                     <td>
                         <input type="number" name="prices-[price]" class="form-control"
-                               min="0" max="100" disabled required>
+                               min="0" disabled required>
                     </td>
                     <td class="colorpicker-block">
                         <input type="hidden" name="prices-[color]" class="form-control"
@@ -37,7 +37,7 @@
                     <tr class="prices-row">
                         <td>
                             <input type="number" name="prices[{{ $loop->iteration }}][price]"
-                                   class="form-control" min="0" max="100" value="{{ $price->price }}" required>
+                                   class="form-control" min="0" value="{{ $price->price }}" required>
                         </td>
                         <td class="colorpicker-block">
                             <input type="hidden" name="prices[{{ $loop->iteration }}][color]"

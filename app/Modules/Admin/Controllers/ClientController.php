@@ -56,7 +56,7 @@ class ClientController extends AdminController {
         $countryCodes = Country::pluck('code')->toArray();
 	    $addresses = [];
         $types = Client::getTypes();
-	    
+
 	    return view('Admin::client.create', compact('countries', 'countryCodes', 'addresses', 'types'));
 	}
 
@@ -111,7 +111,7 @@ class ClientController extends AdminController {
         $addresses = $client->addresses->toArray();
         $countryCodes = Country::pluck('code')->toArray();
         $types = Client::getTypes();
-	    
+
 		return view('Admin::client.edit', compact('client', 'countries', 'countryCodes', 'addresses', 'types'));
 	}
 
