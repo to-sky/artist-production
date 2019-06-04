@@ -125,5 +125,21 @@ const i18n = new VueI18n({
 new Vue({
   store,
   i18n,
-  render: h => h(App)
+  render: h => h(App),
+  data: {
+    locales: ['de', 'en', 'ru'],
+    defaultLocale: 'de',
+    currentLocale: 'de'
+  },
+  methods: {
+    changeLanguage(hash) {
+      let locale = hash.replace('#', '');
+      this.currentLocale = this.locales.includes(locale)
+        ? locale
+        : this.currentLocale || this.defaultLocale
+      ;
+
+      this.$i18n.locale = this.currentLocale;
+    }
+  }
 }).$mount("#app");

@@ -6,7 +6,7 @@
             :height="'auto'"
             class="checkout"
     >
-        <div v-if="event.hasManyPriceGroups()">
+        <div v-if="hasGroups">
           <h3 class="price-header">Select ticket type</h3>
 
           <price-group-list
@@ -27,7 +27,7 @@
             @input="checkMax"
         >
 
-        <button :disabled="!canReserve" class="checkout__button" v-html="$t('checkout.confirm')" @click.prevent="$emit('reserveFanZone', count)"></button>
+        <button :disabled="!canReserve" class="checkout__button" v-html="$t('checkout.confirm')" @click.prevent="$emit('updateTicketsCount', count)"></button>
     </modal>
 </template>
 
@@ -44,11 +44,15 @@
     props: {
       max: {
         type: Number,
-        default: 0
+        default: 10000
       },
       event: {
         type: Object,
         default: null
+      },
+      hasGroups: {
+        type: Boolean,
+        default: false
       }
     },
 

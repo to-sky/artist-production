@@ -1,6 +1,6 @@
 <template>
   <div class="header-event">
-    <!--<img class="header-event__image" :src="eventImg" alt="event image" />-->
+    <img class="header-event__image" :src="event.raw('event.event_image.file_url')" :alt="event.raw('event.name')">
     <div class="header-event__description">
       <h2 class="header-event__title">{{ event.raw('event.name') }}</h2>
       <a
@@ -38,15 +38,15 @@
       <div class="select-language-change" v-show="showLanguages">
         <div
           class="select-language__language select-language-change__en"
-          @click="changeLanguage"
+          @click="changeLanguage('#en')"
         ></div>
         <div
           class="select-language__language select-language-change__de"
-          @click="changeLanguage"
+          @click="changeLanguage('#de')"
         ></div>
         <div
           class="select-language__language select-language-change__ru"
-          @click="changeLanguage"
+          @click="changeLanguage('#ru')"
         ></div>
       </div>
     </div>
@@ -75,15 +75,15 @@
             <div class="select-language-change" v-show="showLanguages">
               <div
                 class="select-language__language select-language-change__en"
-                @click="changeLanguage"
+                @click="changeLanguage('#en')"
               ></div>
               <div
                 class="select-language__language select-language-change__de"
-                @click="changeLanguage"
+                @click="changeLanguage('#de')"
               ></div>
               <div
                 class="select-language__language select-language-change__ru"
-                @click="changeLanguage"
+                @click="changeLanguage('#ru')"
               ></div>
             </div>
           </div>
@@ -98,25 +98,20 @@ import moment from "moment";
 
 export default {
   props: ['event'],
+
   data: () => ({
-    showLanguages: false
+    showLanguages: false,
+    locales: ['de', 'en', 'ru']
   }),
+
   methods: {
-    changeLanguage(event) {
-      event.stopPropagation();
-      let classList = event.target.classList;
-      classList.forEach(className => {
-        if (className.match(/select-language-change__/gm)) {
-          this.$i18n.locale = className.replace("select-language-change__", "");
-          this.$store.commit(
-            "setGlobalLocale",
-            className.replace("select-language-change__", "")
-          );
-          this.showLanguages = false;
-        }
-      });
+    changeLanguage(hash) {
+      this.$root.changeLanguage(hash);
+
+      this.showLanguages = false;
     }
   },
+
   computed: {
     isMobile() {
       if (
@@ -131,7 +126,7 @@ export default {
       return encodeURI(this.$store.getters.getBuildingAddress);
     },
     getLangName() {
-      return this.$store.getters.getGlobalLocale;
+      return this.$i18n.locale;
     },
     endDate() {
       return this.event.raw('event.date.date');

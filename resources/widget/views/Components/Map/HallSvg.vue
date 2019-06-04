@@ -88,7 +88,7 @@
     name: "HallSvg",
     methods: {
       placeSelected(place) {
-        return this.event.cart.isReserved(place);
+        return this.event.cart && this.event.cart.isReserved(place);
       }
     }
   }

@@ -18,8 +18,9 @@
         v-if="selectedZone"
         :max="selectedZone.limit"
         :event="event"
+        :has-groups="event.hasManyPriceGroups()"
         @selectGroup="setZoneGroup($event)"
-        @reserveFanZone="reserveFanZone($event)"
+        @updateTicketsCount="reserveFanZone($event)"
     ></place-popup>
     <price-group-popup
         :priceGroups="event.priceGroups"

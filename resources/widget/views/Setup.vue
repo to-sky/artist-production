@@ -48,7 +48,7 @@
 
         <place-popup
             v-show="showPlace"
-            @sendFanZone="updateCount($event)"
+            @updateTicketsCount="updateCount($event)"
         ></place-popup>
     </section>
 </template>
@@ -157,7 +157,7 @@
       },
       updateCount(count) {
         this.selectedZone.color = this.selectedPrice.color;
-        this.EventService.updateTicket(window.id, this.selectedZone, this.selectedPrice, count);
+        TicketService.manage(window.id, this.selectedZone, this.selectedPrice, count);
         this.showPlace = false;
       },
       registerSVG(svg) {

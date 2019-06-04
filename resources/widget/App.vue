@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" ref="app">
     <home v-if="modeView" @hallMapLoaded="hidePreloader"></home>
     <setup v-if="modeSetup" @hallMapLoaded="hidePreloader"></setup>
 
@@ -20,6 +20,7 @@
       Home,
       Setup
     },
+
     data() {
       return {
         preloaderHidden: false,
@@ -27,11 +28,21 @@
         mode: mode
       };
     },
+
+    mounted() {
+      this.$root.changeLanguage(location.hash);
+
+      window.onhashchange = (function (e) {
+        this.$root.changeLanguage(location.hash);
+      }).bind(this);
+    },
+
     methods: {
       hidePreloader() {
         this.preloaderHidden = true;
       }
     },
+
     computed: {
       modeView() {
         return this.mode === 'view';
