@@ -46,4 +46,33 @@ class SettingController extends AdminController
 
         return redirect()->route(config('admin.route') . '.settings.mail');
     }
+
+    /**
+     * Shows mail settings form
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function checkout()
+    {
+        return view('Admin::setting.checkout');
+    }
+
+    /**
+     * Stores mail settings
+     *
+     * @param SettingsMailRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function checkoutStore(SettingsMailRequest $request)
+    {
+        $settings = $request->input('settings');
+
+        foreach ($settings as $setting => $value) {
+            setting([$setting => $value]);
+        }
+
+        setting()->save();
+
+        return redirect()->route(config('admin.route') . '.settings.checkout');
+    }
 }

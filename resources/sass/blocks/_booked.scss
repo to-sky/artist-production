@@ -1,0 +1,86 @@
+.ap_booked {
+  padding: 26px 24px 20px 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.ap_booked__title {
+  margin-bottom: 20px;
+  font-family: $fontSB;
+}
+
+.ap_booked__table {
+  width: 100%;
+
+  tr:not(:first-child):not(:last-child) {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  }
+
+  th {
+    font-size: 14px;
+    font-family: $fontSB;
+    text-align: left;
+    color: rgba(0, 0, 0, 0.4);
+    white-space: nowrap;
+    padding-right: 20px;
+  }
+
+  th:last-child {
+    text-align: right;
+    padding-right: 0;
+  }
+
+  td {
+    font-size: 14px;
+    line-height: 1.7;
+    padding-right: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  td:first-child {
+    width: 150px;
+  }
+
+  td:last-child {
+    text-align: right;
+    padding-right: 0;
+  }
+}
+
+.ap_summary {
+  display: flex;
+  padding: 30px 20px 40px;
+
+  p {
+    margin-bottom: 16px;
+  }
+}
+
+.ap_booked__col1 {
+  flex: 0 0 26.7%;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.ap_booked__col2 {
+  flex: 0 0 25.5%;
+}
+
+.ap_booked__col3 {
+  flex: 0 0 26.7%;
+  color: rgba(0, 0, 0, 0.4);
+  font-family: $fontSB;
+}
+
+.ap_booked__col4 {
+  font-family: $fontSB;
+}
+
+.ap_booked__more {
+  border: 0;
+  border-radius: 4px;
+  background-color: #FFEB3B;
+  font-size: 18px;
+  font-family: $fontSB;
+  padding: 10px 20px;
+  cursor: pointer;
+}

@@ -52,6 +52,11 @@ class User extends Authenticatable implements AuthenticatableContract
      */
     protected $appends = ['avatar', 'fullname', 'role'];
 
+    public function client()
+    {
+        return $this->hasOne('App\Models\Client');
+    }
+
     public function tickets()
     {
         return $this->hasMany('App\Models\Ticket');

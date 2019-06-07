@@ -40,7 +40,8 @@ class Client extends Model
         'commission',
         'type',
         'code',
-        'comment'
+        'comment',
+        'user_id'
     ];
 
     /**
@@ -72,6 +73,11 @@ class Client extends Model
     public function addresses()
     {
         return $this->hasMany('App\Models\Address');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
     }
 
     public function getFullnameAttribute()

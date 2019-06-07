@@ -224,6 +224,8 @@ class Api extends Base
     {
         $schema = $this->getHallSchema($kartinaEventId);
 
+        log_var($schema, 'schema');
+
         $hall = $this->storeHall($schema['name'], $schema['id']);
         $zones = $this->storeZones($schema['zones'], $hall->id);
 

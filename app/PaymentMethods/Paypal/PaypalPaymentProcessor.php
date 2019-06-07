@@ -14,6 +14,7 @@ use PayPal\Rest\ApiContext;
 use PayPal\Auth\OAuthTokenCredential;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\Order;
+use Exception;
 
 class PaypalPaymentProcessor
 {
@@ -28,7 +29,7 @@ class PaypalPaymentProcessor
                 config('paypal.secret')
             )
         );
-        $this->_apiContext->setConfig(config('paypal.settings'));
+//        $this->_apiContext->setConfig(config('paypal.settings'));
     }
 
     public function process(Order $order)
@@ -38,25 +39,21 @@ class PaypalPaymentProcessor
 
         $items = [];
 
-        $totalQuantity = 0;
-
-        foreach ($order->tickets() as $ticket) {
+        foreach ($order->tickets as $ticket) {
 
             $item = new Item();
-            $item->setName($ticket->place->number)
+            $item->setName($ticket->name)
                 ->setCurrency(Order::CURRENCY)
                 ->setQuantity(1)
-                ->setSku($ticket->place->id)
-                ->setPrice($ticket->place->price);
-
-            $totalQuantity += 1;
+                ->setSku($ticket->id)
+                ->setPrice($ticket->price);
 
             $items[] = $item;
         }
 
         $shipping = $order->shipping->price;
-        $tax = 0;
-        $subTotal = $order->subTotal;
+        $tax = $order->tax;
+        $subtotal = $order->subtotal;
 
 
         $itemList = new ItemList();
@@ -65,11 +62,9 @@ class PaypalPaymentProcessor
         $details = new Details();
         $details->setShipping($shipping)
             ->setTax($tax)
-            ->setSubtotal($subTotal);
+            ->setSubtotal($subtotal);
 
-        $total = $subTotal + $shipping + $tax;
-
-
+        $total = $order->total;
 
         $amount = new Amount();
         $amount->setCurrency(Order::CURRENCY)
@@ -79,7 +74,7 @@ class PaypalPaymentProcessor
         $transaction = new Transaction();
         $transaction->setAmount($amount)
             ->setItemList($itemList)
-            ->setDescription(trans_choice('Ticket for :event|Tickets for :event', $totalQuantity, ['event' => 'Some event']))
+            ->setDescription(trans_choice('Ticket for :event|Tickets for :event', $order->tickets->count(), ['event' => 'Some event']))
             ->setInvoiceNumber(uniqid());
 
 
@@ -96,7 +91,7 @@ class PaypalPaymentProcessor
         try {
             $payment->create($this->_apiContext);
         } catch (Exception $ex) {
-            Redirect::route('payment.error', ['order' => $order->id]);
+            return Redirect::route('payment.error', ['order' => $order->id])->withErrors(['message' => $ex->getMessage()]);
         }
 
         $approvalUrl = $payment->getApprovalLink();
@@ -122,16 +117,16 @@ class PaypalPaymentProcessor
             $details = new Details();
 
             $shipping = $order->shipping->price;
-            $tax = 0;
-            $subTotal = $order->subTotal;
+            $tax = $order->tax;
+            $subtotal = $order->subtotal;
 
             $details->setShipping($shipping)
                 ->setTax($tax)
-                ->setSubtotal($subTotal);
+                ->setSubtotal($subtotal);
 
-            $total = $shipping + $tax + $subTotal;
+            $total = $order->total;
 
-            $amount->setCurrency('USD');
+            $amount->setCurrency(Order::CURRENCY);
             $amount->setTotal($total);
             $amount->setDetails($details);
             $transaction->setAmount($amount);
@@ -147,7 +142,7 @@ class PaypalPaymentProcessor
                     Redirect::route('payment.success', ['order' => $order->id]);
                 }
             } catch (Exception $ex) {
-                Redirect::route('payment.error', ['order' => $order->id]);
+                Redirect::route('payment.error', ['order' => $order->id])->withErrors(['message' => $ex->getMessage()]);
             }
 
         } else {

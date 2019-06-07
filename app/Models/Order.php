@@ -3,9 +3,20 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
+
+    use SoftDeletes;
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
 
     const STATUS_PENDING = 0;
     const STATUS_CONFIRMED = 1;
@@ -23,7 +34,7 @@ class Order extends Model
      *
      * @var array
      */
-    protected $appends = ['subTotal'];
+//    protected $appends = ['subTotal'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -42,16 +53,52 @@ class Order extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tickets()
+    {
+        return $this->hasMany('App\Models\Ticket');
+    }
+
+    /**
      * Order subTotal attribute
      */
-    public function getSubTotalAttribute()
+//    public function getSubTotalAttribute()
+//    {
+//        $subTotal = 0;
+//
+//        foreach ($this->tickets() as $ticket) {
+//            $subTotal += $ticket->price;
+//        }
+//
+//        return $subTotal;
+//    }
+
+    /**
+     * Set attribute to datetime format
+     * @param $input
+     */
+    public function setPaidAtAttribute($input)
     {
-        $subTotal = 0;
-
-        foreach ($this->tickets() as $ticket) {
-            $subTotal += $ticket->price;
+        if(!is_null($input)) {
+            $this->attributes['paid_at'] = Carbon::createFromFormat(config('admin.date_format') . ' ' . config('admin.time_format'), $input)->format('Y-m-d H:i:s');
+        }else{
+            $this->attributes['paid_at'] = '';
         }
+    }
 
-        return $subTotal;
+    /**
+     * Get attribute from datetime format
+     * @param $input
+     *
+     * @return string
+     */
+    public function getPaidAtAttribute($input)
+    {
+        if(!is_null($input)) {
+            return Carbon::createFromFormat('Y-m-d H:i:s', $input)->format(config('admin.date_format') . ' ' .config('admin.time_format'));
+        }else{
+            return '';
+        }
     }
 }

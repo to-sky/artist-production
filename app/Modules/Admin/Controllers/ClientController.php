@@ -6,6 +6,7 @@ use App\Models\Address;
 use App\Models\Country;
 use App\Modules\Admin\Controllers\AdminController;
 use App\Modules\Admin\Services\RedirectService;
+use Illuminate\Support\Facades\Auth;
 use Redirect;
 use Schema;
 use App\Models\Client;
@@ -67,6 +68,7 @@ class ClientController extends AdminController {
      */
 	public function store(CreateClientRequest $request)
 	{
+		$request->merge(['user_id' => Auth::id()]);
 		$client = Client::create($request->all());
 
 		$request->merge(['id' => $client->id]);

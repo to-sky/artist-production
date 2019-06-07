@@ -94,4 +94,16 @@ class Ticket extends Model implements Buyable
     {
         return $this->price;
     }
+
+    /**
+     *  User avatar
+     *
+     * @return mixed
+     */
+    public function getAddressAttribute()
+    {
+        return $this->event->hall->name . ', '
+            . $this->event->hall->building->address . ', '
+            . $this->event->hall->building->city->name;
+    }
 }

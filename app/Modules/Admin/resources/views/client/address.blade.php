@@ -33,7 +33,7 @@
                     <td width="7%">{!! Form::text('Addresses[' . $i . '][apartment]', $address['apartment'], array('class' => 'form-control apartment')) !!}</td>
                     <td width="12%">{!! Form::text('Addresses[' . $i . '][post_code]', $address['post_code'], array('class' => 'form-control post-code')) !!}</td>
                     <td width="12%">{!! Form::text('Addresses[' . $i . '][city]', $address['city'], array('class' => 'form-control city')) !!}</td>
-                    <td width="13%">{!! Form::select('Addresses[' . $i . '][country_id]', $countries, $address['country_id'], array('class' => 'form-control country')) !!}</td>
+                    <td width="13%">{!! Form::select('Addresses[' . $i . 'country_id', $countries, $address['country_id'], array('class' => 'form-control country')) !!}</td>
                     <td width="3%">
                         <button type="button" id="remove-address" class="btn btn-xs btn-danger">
                             <span class="glyphicon glyphicon-minus"></span>
@@ -68,7 +68,7 @@
         <td width="7%">{!! Form::text('Addresses[{^{:i}}][apartment]', '{^{:apartment}}', array('class' => 'form-control apartment')) !!}</td>
         <td width="12%">{!! Form::text('Addresses[{^{:i}}][post_code]', '{^{:post_code}}', array('class' => 'form-control post-code')) !!}</td>
         <td width="12%">{!! Form::text('Addresses[{^{:i}}][city]', '{^{:city}}', array('class' => 'form-control city')) !!}</td>
-        <td width="13%">{!! Form::select('Addresses[{^{:i}}][country_id]', $countries, '{^{:country_id}}', array('class' => 'form-control country')) !!}</td>
+        <td width="13%">{!! Form::select('country_id', $countries, 'country_id', array('class' => 'form-control country')) !!}</td>
         <td width="3%">
             <button type="button" id="remove-address" class="btn btn-xs btn-danger">
                 <span class="glyphicon glyphicon-minus"></span>

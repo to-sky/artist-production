@@ -1,0 +1,35 @@
+.ap_footer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 33px 60px 40px;
+  background: #F0F0F0;
+  font-size: 16px;
+  margin-top: auto;
+}
+
+.ap_footer__logo {
+  margin-right: auto;
+}
+
+.ap-footer__logo-image {
+  width: 35px;
+}
+
+.ap-footer__copy {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.ap_footer__block {
+  display: inline-flex;
+  flex-direction: column;
+  margin-left: 35px;
+}
+
+.ap_footer__text:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.ap_footer__image:not(:last-child) {
+  margin-bottom: 10px;
+}
