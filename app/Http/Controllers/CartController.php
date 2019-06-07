@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Place;
 use App\Services\TicketService;
 use App\Models\Ticket;
+use Illuminate\Http\Request;
 
 class CartController
 {
@@ -23,10 +24,13 @@ class CartController
         return back();
     }
 
-    public function destroy()
+    public function destroy(Request $request)
     {
         $this->ticketService->emptyCart();
 
-        return back();
+        return $request->wantsJson()
+            ? response()->json([], 204)
+            : back()
+        ;
     }
 }

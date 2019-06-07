@@ -55,7 +55,7 @@ class EventController extends ApiController
 
         $priceGroups = $event->priceGroups()->get(['id', 'name','discount']);
 
-        $selectedTickets = $ticketService->getCartTickets();
+        $selectedTickets = $ticketService->getCartTickets($event->id);
 
         return response()->json(compact(
             'event',

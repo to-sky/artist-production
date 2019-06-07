@@ -11,10 +11,13 @@ use App\Models\Shipping;
 use App\Models\ShippingZone;
 use App\Models\Ticket;
 use App\Services\PaymentService;
+use App\Services\ShippingService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProcessCheckoutRequest;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
 
 class PaymentController
 {
@@ -30,16 +33,26 @@ class PaymentController
         $shippings = Shipping::all();
         $paymentMethods = PaymentMethod::where('active', PaymentMethod::ACTIVE)->get();
 
-        $shippingZone = ShippingZone::first();
-
         $countries = Country::pluck('name', 'id')->toArray();
 
-        return view('payment.checkout', compact('shippings', 'paymentMethods', 'shippingZone', 'countries'));
+        return view('payment.checkout', compact(
+            'shippings',
+            'paymentMethods',
+            'countries'
+        ));
     }
 
-    public function processCheckout(ProcessCheckoutRequest $request)
+    public function processCheckout(ProcessCheckoutRequest $request, UserService $userService)
     {
-        return $this->paymentService->checkout($request);
+        if (!Auth::check()) {
+            $user = $userService->createFromCheckoutRequest($request);
+        }
+
+        dd($request->all());
+
+        $this->paymentService->checkout($request);
+
+        return redirect()->route('payment.succes');
     }
 
     public function confirm(Order $order, Request $request)
@@ -60,5 +73,12 @@ class PaymentController
     public function error(Order $order, Request $request)
     {
         return view('payment.error', compact('order'));
+    }
+
+    public function shippingOptions(ShippingService $shippingService, Country $country)
+    {
+        $options = $shippingService->getShippingOptionsForCountry($country);
+
+        return view('payment.partials.shipping_options', compact('options'));
     }
 }

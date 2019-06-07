@@ -41,6 +41,12 @@
   }
 }
 
+.ap_form__group--shipping {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 20px;
+}
+
 .ap_form__label {
   display: block;
   color: rgba(0, 0, 0, 0.4);
@@ -48,10 +54,15 @@
   cursor: pointer;
 }
 
+.ap_form__price {
+  color: rgba(0, 0, 0, 0.8);
+}
+
 .ap_form__input {
   width: 100%;
   height: 47px;
   line-height: 47px;
+  background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 4px;
   padding: 0 10px;

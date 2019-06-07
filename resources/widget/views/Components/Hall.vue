@@ -68,7 +68,7 @@ export default {
   },
 
   mounted() {
-    CookieService.set('initialTimestamp', this.timestamp);
+    CookieService.set('orderSeconds', this.timestamp);
   },
 
   computed: {

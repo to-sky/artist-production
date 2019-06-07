@@ -142,9 +142,15 @@
     "Profile was successfully updated!": "Профайл был успешно обновлен!",
     "Locale :locale not supported.": "Локаль :locale не поддерживается.",
     "Chosen tickets <b>:quantity</b>": "Выбранные билеты <b>:quantity</b>",
+    "Time left to place an order": "Время на оформление заказа",
+    "Total": "Сумма заказа",
+    "Remove all tickets": "Удалить все билеты",
+    "Deliver to different address": "Доставить на другой адрес",
     "Contact information": "Контактные данные",
     "Delivery and payment": "Доставка и оплата",
     "Confirmation": "Подтверждение",
+    "Checkout": "Оплатить",
+    "Back": "Назад",
     "Payment method": "Способ оплаты",
     "Delivery method": "Способ доставки",
     "E-ticket": "Электронный билет",
@@ -160,5 +166,6 @@
     "Thumbnail": "Миниатюра",
     "Select thumbnail": "Выберите миниатюру",
     "Select logo": "Выберите логотип",
-    "Free pass": "Бесплатный проезд"
+    "Free pass": "Бесплатный проезд",
+    "Details of your new account": "Детали вашего нового аккаунта"
 }

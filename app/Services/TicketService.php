@@ -253,13 +253,17 @@ class TicketService
     }
 
     /**
-     * Empty cart
+     * Empty cart. Only for event with eventId if set.
+     *
+     * @param int|null $eventId
      */
-    public function emptyCart()
+    public function emptyCart($eventId = null)
     {
         foreach (Cart::content() as $id => $reserved) {
             Cart::remove($id);
-            $this->freeTicket($reserved->model);
+
+            if (empty($eventId) || $eventId == $reserved->model->event_id)
+                $this->freeTicket($reserved->model);
         }
     }
 
@@ -295,15 +299,18 @@ class TicketService
     }
 
     /**
-     * Get tickets currently into cart
+     * Get tickets currently into cart. Only for event with eventId if set.
+     *
+     * @param int|null $eventId
      *
      * @return \Illuminate\Support\Collection
      */
-    public function getCartTickets()
+    public function getCartTickets($eventId = null)
     {
         $tickets = collect();
         foreach (Cart::content() as $id => $item) {
-            $tickets->push($item->model);
+            if (empty($eventId) || $eventId == $item->model->event_id)
+                $tickets->push($item->model);
         }
 
         return $tickets;

@@ -141,6 +141,14 @@
   "Are you sure you want to remove avatar?": "Möchtest du den avatar wirklich entfernen?",
   "Profile was successfully updated!": "Profil wurde erfolgreich aktualisiert!",
   "Locale :locale not supported.": "Gebietsschema :locale wird nicht unterstützt.",
+  "Chosen tickets <b>:quantity</b>": "Ausgewählte Tickets <b>:quantity</b>",
+  "Time left to place an order": "Zeit, um eine Bestellung aufzugeben",
+  "Total": "Bestellmenge",
+  "Remove all tickets": "Entfernen Sie alle Tickets",
+  "Deliver to different address": "An andere Adresse liefern",
+  "Confirmation": "Bestätigung",
+  "Checkout": "Auschecken",
+  "Back": "Zurück",
   "Are you sure you want to delete :item?": "Sind sie sicher, dass sie löschen möchten :item?",
   "Prices": "Preise",
   "Price groups": "Preisgruppen",
@@ -151,5 +159,6 @@
   "Thumbnail": "Miniaturansicht",
   "Select thumbnail": "Miniaturansicht auswählen",
   "Select logo": "Logo auswählen",
-  "Free pass": "Freikarte"
+  "Free pass": "Freikarte",
+  "Details of your new account": "Angaben zu Ihrem neuen Konto"
 }
