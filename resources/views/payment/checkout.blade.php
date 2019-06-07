@@ -300,7 +300,9 @@
                         'class' => 'ap_form__checkbox-input',
                         'id' => 'confirmation',
                     )) !!}
-                    <label for="confirmation" class="ap_form__checkbox-label">Я прочитал и согласен с Условиями (AGB), Условиями  возврата (Widerrufsbelehrung) и Политикой конфедициальности (Datenschutzerklärung).</label>
+                    <label for="confirmation" class="ap_form__checkbox-label">
+                        {!! __('I have read and agree to the Terms and Conditions (AGB), the Terms of Return (Widerrufsbelehrung) and the Privacy Policy (Datenschutzerklärung).') !!}
+                    </label>
                     @if ($errors->has('confirmation'))
                         <div class="error">{{ $errors->first('confirmation') }}</div>
                     @endif

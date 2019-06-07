@@ -143,6 +143,10 @@
   "Locale :locale not supported.": "Gebietsschema :locale wird nicht unterstützt.",
   "Chosen tickets <b>:quantity</b>": "Ausgewählte Tickets <b>:quantity</b>",
   "Time left to place an order": "Zeit, um eine Bestellung aufzugeben",
+  "Contact information": "Kontaktinformation",
+  "Delivery and payment": "Lieferung und Zahlung",
+  "Delivery method": "Zustellungsmethode",
+  "Payment method": "Zahlungsmethode",
   "Total": "Bestellmenge",
   "Remove all tickets": "Entfernen Sie alle Tickets",
   "Deliver to different address": "An andere Adresse liefern",
@@ -160,5 +164,7 @@
   "Select thumbnail": "Miniaturansicht auswählen",
   "Select logo": "Logo auswählen",
   "Free pass": "Freikarte",
-  "Details of your new account": "Angaben zu Ihrem neuen Konto"
+  "Details of your new account": "Angaben zu Ihrem neuen Konto",
+  "I have read and agree to the Terms and Conditions (AGB), the Terms of Return (Widerrufsbelehrung) and the Privacy Policy (Datenschutzerklärung).":
+    "Ich habe die AGB, die Widerrufsbelehrung und die Datenschutzerklärung gelesen und bin damit einverstanden."
 }
