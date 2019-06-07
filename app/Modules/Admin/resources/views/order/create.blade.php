@@ -128,6 +128,10 @@
                         @include('Admin::order.partials._reserve')
                     </div>
                 </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-info" onclick="print()">Печать билета</button>
+                </div>
             </div>
     </div>
 @endsection
@@ -136,4 +140,52 @@
     @include('Admin::partials.form-scripts')
     @include('Admin::partials.datatable-scripts')
     @include('Admin::order.partials._scripts')
+
+
+    <script src="{{ asset('js/rsvp-3.1.0.min.js') }}"></script>
+    <script src="{{ asset('js/sha-256.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qz-tray@2.0.9-1/qz-tray.min.js"></script>
+
+    <script>
+        var printerName = "ZTC-GK420d";
+
+        qz.websocket.connect().then(function() {
+            console.log("Connected!");
+
+            qz.printers.find(printerName).then(function(found) {
+                console.log("Printer: " + found);
+            });
+        });
+
+        function print(){
+            $.get({
+                url: '{{ route('tickets.zebraPrint') }}',
+                success: function(html) {
+                    var config = qz.configs.create(printerName, {
+                        orientation: 'landscape',
+                        rotation: 180,
+                        margins: {
+                            top: 1.3,
+                            left: 1
+                        },
+
+                        size: {
+                            // width: 5,
+                            // width: 8,
+                        },
+                    });
+
+                    var data = [{
+                        type: 'html',
+                        format: 'plain',
+                        data: html
+                    }];
+
+                    qz.print(config, data).catch(function(e) { console.error(e); });
+
+                    // console.log('Printing...');
+                }
+            });
+        }
+    </script>
 @endsection

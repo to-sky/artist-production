@@ -14,4 +14,11 @@ class TicketController extends AdminController
 
         return $pdf->stream($filename.'.pdf', 'UTF-8');
     }
+
+    public function zebraPrint()
+    {
+        $ticket = Ticket::all()->first();
+
+        return view('Admin::pdf.zebra_ticket', compact('ticket'));
+    }
 }

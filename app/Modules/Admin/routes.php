@@ -53,6 +53,7 @@ Route::group([
 
     Route::prefix('tickets')->group(function () {
        Route::get('print/{ticket}', 'TicketController@print')->name('tickets.print');
+       Route::get('zebraPrint', 'TicketController@zebraPrint')->name('tickets.zebraPrint');
     });
 
     Route::prefix('orders')->group(function () {
