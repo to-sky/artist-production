@@ -6,9 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Invoice extends Model
 {
-
-
-
     protected $fillable = ['comment', 'client_id', 'is_generated', 'order_id'];
 
     /**
