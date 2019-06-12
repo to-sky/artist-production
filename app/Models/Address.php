@@ -16,8 +16,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $post_code
  * @property string $city
  * @property boolean $default
- * @property Client $client
+ * @property User $user
  * @property Country $country
+ * @property string $full
  */
 class Address extends Model
 {
@@ -33,9 +34,9 @@ class Address extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function client()
+    public function user()
     {
-        return $this->belongsTo('App\Models\Client');
+        return $this->belongsTo('App\Models\User');
     }
 
     /**
@@ -44,5 +45,25 @@ class Address extends Model
     public function country()
     {
         return $this->belongsTo('App\Models\Country');
+    }
+
+    /**
+     * Return full address
+     *
+     * @return string
+     */
+    public function getFullAttribute()
+    {
+        $parts = [];
+        $parts[] = "{$this->first_name} {$this->last_name}";
+        $parts[] = $this->country->name;
+        $parts[] = $this->city;
+        $building[] = $this->street;
+        if ($this->house) $building[] = $this->house;
+        if ($this->apartment) $building[] = __('Ap. :apartment', ['apartment' => $this->apartment]);
+        $parts[] = join(' ', $building);
+        $parts[] = $this->post_code;
+
+        return join(', ', $parts);
     }
 }

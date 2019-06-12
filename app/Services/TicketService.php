@@ -4,6 +4,7 @@ namespace App\Services;
 
 
 use App\Models\Event;
+use App\Models\Order;
 use App\Models\Place;
 use App\Models\Ticket;
 use Carbon\Carbon;
@@ -159,6 +160,38 @@ class TicketService
             $ticket->$k = $v;
         }
 
+        $ticket->save();
+    }
+
+    /**
+     * Attach tickets from cart to $order
+     *
+     * @param Order $order
+     * @return array
+     */
+    public function attachCartToOrder(Order $order)
+    {
+        $attachedTickets = [];
+        foreach (Cart::content() as $id => $reserved) {
+            $ticket = $reserved->model;
+
+            $this->attachTicketToOrder($order, $ticket);
+            Cart::remove($id);
+            $attachedTickets[] = $ticket;
+        }
+
+        return $attachedTickets;
+    }
+
+    /**
+     * Attach $ticket to $order
+     *
+     * @param Order $order
+     * @param Ticket $ticket
+     */
+    public function attachTicketToOrder(Order $order, Ticket $ticket)
+    {
+        $ticket->order()->associate($order);
         $ticket->save();
     }
 

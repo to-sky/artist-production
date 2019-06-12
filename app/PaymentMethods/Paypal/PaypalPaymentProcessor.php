@@ -2,12 +2,15 @@
 
 namespace App\PaymentMethods\Paypal;
 
+use App\PaymentMethods\AbstractPaymentProcessor;
+use Illuminate\Http\Request;
 use PayPal\Api\Amount;
 use PayPal\Api\Details;
 use PayPal\Api\Item;
 use PayPal\Api\ItemList;
 use PayPal\Api\Payer;
 use PayPal\Api\Payment;
+use PayPal\Api\PaymentExecution;
 use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
 use PayPal\Rest\ApiContext;
@@ -16,7 +19,7 @@ use Illuminate\Support\Facades\Redirect;
 use App\Models\Order;
 use Exception;
 
-class PaypalPaymentProcessor
+class PaypalPaymentProcessor extends AbstractPaymentProcessor
 {
 
     protected $_apiContext;
@@ -51,7 +54,7 @@ class PaypalPaymentProcessor
             $items[] = $item;
         }
 
-        $shipping = $order->shipping->price;
+        $shipping = $order->shipping_price;
         $tax = $order->tax;
         $subtotal = $order->subtotal;
 
@@ -116,7 +119,7 @@ class PaypalPaymentProcessor
             $amount = new Amount();
             $details = new Details();
 
-            $shipping = $order->shipping->price;
+            $shipping = $order->shipping_price;
             $tax = $order->tax;
             $subtotal = $order->subtotal;
 

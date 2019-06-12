@@ -43,9 +43,9 @@
                         <p class="ap_ticket__detail">
                             <i class="fas fa-map-marker-alt"></i>
                             @php $place = $item->model->place; @endphp
-                            Block {{ $place->zone->name ?? '-' }}:
-                            Reihe {{ $place->row ?? '-' }},
-                            Platz {{ $place->num ?? '-' }}
+                            {!! __('Block') !!} {{ $place->zone->name ?? '-' }}:
+                            {!! __('Row') !!} {{ $place->row ?? '-' }},
+                            {!! __('Seat') !!} {{ $place->num ?? '-' }}
                         </p>
                     </div>
                     {!! Form::open(['route' => ['cart.remove', 'id' => $item->model->id]]) !!}
@@ -64,98 +64,29 @@
 
     {!! Form::open(array('route' => 'payment.processCheckout')) !!}
 
-        <!-- Client Details -->
-        <section class="ap_section ap_section--2-cols">
-            <div class="ap_section__content">
+        @if(auth()->check())
+            <!-- Client Addresses -->
+            <section class="ap_section">
                 <div class="ap_section__heading">
-                    <h2 class="ap_section__title">{{ __('Contact information') }}</h2>
+                    <h2 class="ap_section__title">{{ __('Another addresses') }}</h2>
                 </div>
                 <div class="ap_form">
-                    <div class="ap_form__group">
-                        {!! Form::label('first_name', __('First name'), array('class'=>'ap_form__label')) !!}
-                        {!! Form::text('user[first_name]', old('user[first_name]'), array('class'=>'ap_form__input')) !!}
-                        @if ($errors->has('user.first_name'))
-                            <div class="error">{{ $errors->first('user.first_name') }}</div>
-                        @endif
-                    </div>
-                    <div class="ap_form__group">
-                        {!! Form::label('last_name', __('Last name'), array('class'=>'ap_form__label')) !!}
-                        {!! Form::text('user[last_name]', old('user[last_name]'), array('class'=>'ap_form__input')) !!}
-                        @if ($errors->has('user.last_name'))
-                            <div class="error">{{ $errors->first('user.last_name') }}</div>
-                        @endif
-                    </div>
-                    <div class="ap_form__group">
-                        {!! Form::label('email', __('Email'), array('class'=>'ap_form__label')) !!}
-                        {!! Form::text('user[email]', old('user[email]'), array('class'=>'ap_form__input')) !!}
-                        @if ($errors->has('user.email'))
-                            <div class="error">{{ $errors->first('user.email') }}</div>
-                        @endif
-                    </div>
-                    <div class="ap_form__group">
-                        {!! Form::label('email_confirm', __('Email Confirm'), array('class'=>'ap_form__label')) !!}
-                        {!! Form::text('user[email_confirm]', old('user[email_confirm]'), array('class'=>'ap_form__input')) !!}
-                        @if ($errors->has('user.email_confirm'))
-                            <div class="error">{{ $errors->first('user.email_confirm') }}</div>
-                        @endif
-                    </div>
-                    <div class="ap_form__group">
-                        {!! Form::label('phone', __('Phone'), array('class'=>'ap_form__label')) !!}
-                        {!! Form::text('user[phone]', old('user[phone]'), array('class'=>'ap_form__input')) !!}
-                        @if ($errors->has('user.phone'))
-                            <div class="error">{{ $errors->first('user.phone') }}</div>
-                        @endif
-                    </div>
-                </div>
-            </div>
+                    <h3 class="ap_form__radio-title">{{ __('Add address') }}</h3>
 
-            <div class="ap_section__content">
-                <div class="ap_section__heading">
-                    <h2 class="ap_section__title">{{ __('Address') }}</h2>
-                </div>
-                <div class="ap_form">
-                    <div class="ap_form__group">
-                        {!! Form::label('street', __('Street'), array('class'=>'ap_form__label')) !!}
-                        {!! Form::text('billing_address[street]', old('billing_address[street]'), array('class'=>'ap_form__input')) !!}
-                        @if ($errors->has('billing_address.street'))
-                            <div class="error">{{ $errors->first('billing_address.street') }}</div>
-                        @endif
-                    </div>
-                    <div class="ap_form__group">
-                        {!! Form::label('house', __('House'), array('class'=>'ap_form__label')) !!}
-                        {!! Form::text('billing_address[house]', old('billing_address[house]'), array('class'=>'ap_form__input')) !!}
-                        @if ($errors->has('billing_address.house'))
-                            <div class="error">{{ $errors->first('billing_address.house') }}</div>
-                        @endif
-                    </div>
-                    <div class="ap_form__group">
-                        {!! Form::label('apartment', __('Apartment'), array('class'=>'ap_form__label')) !!}
-                        {!! Form::text('billing_address[apartment]', old('billing_address[apartment]'), array('class'=>'ap_form__input')) !!}
-                        @if ($errors->has('billing_address.apartment'))
-                            <div class="error">{{ $errors->first('billing_address.apartment') }}</div>
-                        @endif
-                    </div>
-                    <div class="ap_form__group">
-                        {!! Form::label('post_code', __('Post code'), array('class'=>'ap_form__label')) !!}
-                        {!! Form::text('billing_address[post_code]', old('billing_address[post_code]'), array('class'=>'ap_form__input')) !!}
-                        @if ($errors->has('billing_address.post_code'))
-                            <div class="error">{{ $errors->first('billing_address.post_code') }}</div>
-                        @endif
-                    </div>
-                    <div class="ap_form__group">
-                        {!! Form::label('city', __('City'), array('class'=>'ap_form__label')) !!}
-                        {!! Form::text('billing_address[city]', old('billing_address[city]'), array('class'=>'ap_form__input')) !!}
-                        @if ($errors->has('billing_address.city'))
-                            <div class="error">{{ $errors->first('billing_address.city') }}</div>
-                        @endif
-                    </div>
-                    <div class="ap_form__group">
-                        {!! Form::label('country_id', __('Country'), array('class'=>'ap_form__label')) !!}
-                        {!! Form::select('billing_address[country_id]', $countries, old('country_id'), array('class' => 'ap_form__input shipping_switch i_country')) !!}
-                        @if ($errors->has('billing_address.country_id'))
-                            <div class="error">{{ $errors->first('billing_address.country_id') }}</div>
-                        @endif
-                    </div>
+                    @foreach($addresses as $address)
+                        <div class="ap_form__group">
+                            <input
+                                    id="adr_{{ $address->id }}"
+                                    name="address_id"
+                                    type="radio"
+                                    class="ap_form__radio-input"
+                                    @if($loop->first) checked="checked" @endif
+                                    value="{{ $address->id }}"
+                            >
+                            <label for="adr_{{ $address->id }}" class="ap_form__radio-label">{{ $address->full }}</label>
+                        </div>
+                    @endforeach
+
                     <div class="ap_form__group">
                         <input
                                 id="other_address_switch"
@@ -169,8 +100,116 @@
                         </label>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        @else
+            <!-- Client Details -->
+            <section class="ap_section ap_section--2-cols">
+                <div class="ap_section__content">
+                    <div class="ap_section__heading">
+                        <h2 class="ap_section__title">{{ __('Contact information') }}</h2>
+                    </div>
+                    <div class="ap_form">
+                        <div class="ap_form__group">
+                            {!! Form::label('first_name', __('First name'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::text('user[first_name]', old('user[first_name]'), array('class'=>'ap_form__input')) !!}
+                            @if ($errors->has('user.first_name'))
+                                <div class="ap_form__error">{{ $errors->first('user.first_name') }}</div>
+                            @endif
+                        </div>
+                        <div class="ap_form__group">
+                            {!! Form::label('last_name', __('Last name'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::text('user[last_name]', old('user[last_name]'), array('class'=>'ap_form__input')) !!}
+                            @if ($errors->has('user.last_name'))
+                                <div class="ap_form__error">{{ $errors->first('user.last_name') }}</div>
+                            @endif
+                        </div>
+                        <div class="ap_form__group">
+                            {!! Form::label('email', __('Email'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::text('user[email]', old('user[email]'), array('class'=>'ap_form__input')) !!}
+                            @if ($errors->has('user.email'))
+                                <div class="ap_form__error">{{ $errors->first('user.email') }}</div>
+                            @endif
+                        </div>
+                        <div class="ap_form__group">
+                            {!! Form::label('email_confirm', __('Email Confirm'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::text('user[email_confirm]', old('user[email_confirm]'), array('class'=>'ap_form__input')) !!}
+                            @if ($errors->has('user.email_confirm'))
+                                <div class="ap_form__error">{{ $errors->first('user.email_confirm') }}</div>
+                            @endif
+                        </div>
+                        <div class="ap_form__group">
+                            {!! Form::label('phone', __('Phone'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::text('user[phone]', old('user[phone]'), array('class'=>'ap_form__input')) !!}
+                            @if ($errors->has('user.phone'))
+                                <div class="ap_form__error">{{ $errors->first('user.phone') }}</div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ap_section__content">
+                    <div class="ap_section__heading">
+                        <h2 class="ap_section__title">{{ __('Address') }}</h2>
+                    </div>
+                    <div class="ap_form">
+                        <div class="ap_form__group">
+                            {!! Form::label('street', __('Street'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::text('billing_address[street]', old('billing_address[street]'), array('class'=>'ap_form__input')) !!}
+                            @if ($errors->has('billing_address.street'))
+                                <div class="ap_form__error">{{ $errors->first('billing_address.street') }}</div>
+                            @endif
+                        </div>
+                        <div class="ap_form__group">
+                            {!! Form::label('house', __('House'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::text('billing_address[house]', old('billing_address[house]'), array('class'=>'ap_form__input')) !!}
+                            @if ($errors->has('billing_address.house'))
+                                <div class="ap_form__error">{{ $errors->first('billing_address.house') }}</div>
+                            @endif
+                        </div>
+                        <div class="ap_form__group">
+                            {!! Form::label('apartment', __('Apartment'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::text('billing_address[apartment]', old('billing_address[apartment]'), array('class'=>'ap_form__input')) !!}
+                            @if ($errors->has('billing_address.apartment'))
+                                <div class="ap_form__error">{{ $errors->first('billing_address.apartment') }}</div>
+                            @endif
+                        </div>
+                        <div class="ap_form__group">
+                            {!! Form::label('post_code', __('Post code'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::text('billing_address[post_code]', old('billing_address[post_code]'), array('class'=>'ap_form__input')) !!}
+                            @if ($errors->has('billing_address.post_code'))
+                                <div class="ap_form__error">{{ $errors->first('billing_address.post_code') }}</div>
+                            @endif
+                        </div>
+                        <div class="ap_form__group">
+                            {!! Form::label('city', __('City'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::text('billing_address[city]', old('billing_address[city]'), array('class'=>'ap_form__input')) !!}
+                            @if ($errors->has('billing_address.city'))
+                                <div class="ap_form__error">{{ $errors->first('billing_address.city') }}</div>
+                            @endif
+                        </div>
+                        <div class="ap_form__group">
+                            {!! Form::label('country_id', __('Country'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::select('billing_address[country_id]', $countries, old('country_id'), array('class' => 'ap_form__input shipping_switch i_country')) !!}
+                            @if ($errors->has('billing_address.country_id'))
+                                <div class="ap_form__error">{{ $errors->first('billing_address.country_id') }}</div>
+                            @endif
+                        </div>
+                        <div class="ap_form__group">
+                            <input
+                                    id="other_address_switch"
+                                    name="other_address_check"
+                                    type="checkbox"
+                                    class="ap_form__checkbox-input shipping_switch"
+                                    value="1"
+                                    @if(old('other_address_check')) checked="checked" @endif>
+                            <label for="other_address_switch" class="ap_form__checkbox-label">
+                                {{ __('Deliver to different address') }}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        @endif
 
         <!-- Other Address Section -->
         <section class="ap_section other_address">
@@ -185,30 +224,28 @@
                             {!! Form::label(null, __('First name'), array('class'=>'ap_form__label')) !!}
                             {!! Form::text('other_address[first_name]', old('other_address[first_name]'), array('class'=>'ap_form__input')) !!}
                             @if ($errors->has('other_address.first_name'))
-                                <div class="error">{{ $errors->first('other_address.first_name') }}</div>
+                                <div class="ap_form__error">{{ $errors->first('other_address.first_name') }}</div>
                             @endif
                         </div>
                         <div class="ap_form__group">
                             {!! Form::label('street', __('Street'), array('class'=>'ap_form__label')) !!}
                             {!! Form::text('other_address[street]', old('other_address[street]'), array('class'=>'ap_form__input')) !!}
                             @if ($errors->has('other_address.street'))
-                                <div class="error">{{ $errors->first('other_address.street') }}</div>
+                                <div class="ap_form__error">{{ $errors->first('other_address.street') }}</div>
                             @endif
                         </div>
                         <div class="ap_form__group">
                             {!! Form::label('apartment', __('Apartment'), array('class'=>'ap_form__label')) !!}
                             {!! Form::text('other_address[apartment]', old('other_address[apartment]'), array('class'=>'ap_form__input')) !!}
                             @if ($errors->has('other_address.apartment'))
-                                <div class="error">{{ $errors->first('other_address.apartment') }}</div>
+                                <div class="ap_form__error">{{ $errors->first('other_address.apartment') }}</div>
                             @endif
                         </div>
                         <div class="ap_form__group">
-                            {!! Form::label('country_id', __('Country'), array('class'=>'ap_form__label')) !!}
-                            {!! Form::select('other_address[country_id]', $countries, old('other_address[country_id]'), array(
-                                'class' => 'ap_form__input shipping_switch i_other_country',
-                            )) !!}
-                            @if ($errors->has('other_address.country_id'))
-                                <div class="error">{{ $errors->first('other_address.country_id') }}</div>
+                            {!! Form::label('city', __('City'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::text('other_address[city]', old('other_address[city]'), array('class'=>'ap_form__input')) !!}
+                            @if ($errors->has('other_address.city'))
+                                <div class="ap_form__error">{{ $errors->first('other_address.city') }}</div>
                             @endif
                         </div>
                     </div>
@@ -220,28 +257,30 @@
                             {!! Form::label(null, __('Last name'), array('class'=>'ap_form__label')) !!}
                             {!! Form::text('other_address[last_name]', old('other_address[last_name]'), array('class'=>'ap_form__input')) !!}
                             @if ($errors->has('other_address.last_name'))
-                                <div class="error">{{ $errors->first('other_address.last_name') }}</div>
+                                <div class="ap_form__error">{{ $errors->first('other_address.last_name') }}</div>
                             @endif
                         </div>
                         <div class="ap_form__group">
                             {!! Form::label('house', __('House'), array('class'=>'ap_form__label')) !!}
                             {!! Form::text('other_address[house]', old('other_address[house]'), array('class'=>'ap_form__input')) !!}
                             @if ($errors->has('other_address.house'))
-                                <div class="error">{{ $errors->first('other_address.house') }}</div>
+                                <div class="ap_form__error">{{ $errors->first('other_address.house') }}</div>
                             @endif
                         </div>
                         <div class="ap_form__group">
                             {!! Form::label('post_code', __('Post code'), array('class'=>'ap_form__label')) !!}
                             {!! Form::text('other_address[post_code]', old('other_address[post_code]'), array('class'=>'ap_form__input')) !!}
                             @if ($errors->has('other_address.post_code'))
-                                <div class="error">{{ $errors->first('other_address.post_code') }}</div>
+                                <div class="ap_form__error">{{ $errors->first('other_address.post_code') }}</div>
                             @endif
                         </div>
                         <div class="ap_form__group">
-                            {!! Form::label('city', __('City'), array('class'=>'ap_form__label')) !!}
-                            {!! Form::text('other_address[city]', old('other_address[city]'), array('class'=>'ap_form__input')) !!}
-                            @if ($errors->has('other_address.city'))
-                                <div class="error">{{ $errors->first('other_address.city') }}</div>
+                            {!! Form::label('country_id', __('Country'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::select('other_address[country_id]', $countries, old('other_address[country_id]'), array(
+                                'class' => 'ap_form__input shipping_switch i_other_country',
+                            )) !!}
+                            @if ($errors->has('other_address.country_id'))
+                                <div class="ap_form__error">{{ $errors->first('other_address.country_id') }}</div>
                             @endif
                         </div>
                     </div>
@@ -258,7 +297,7 @@
                 <div class="no-border">
                     <h3 class="ap_form__radio-title">{{ __('Delivery method') }}</h3>
                     <div class="ap_form__group ap_form__group--shipping">
-                        {!! Form::radio('shipping_type', '', true, [
+                        {!! Form::radio('shipping_zone_id', '', true, [
                             'class' => 'ap_form__radio-input',
                             'id' => 'ship_type_mail',
                         ]) !!}
@@ -267,7 +306,7 @@
                     </div>
                     <div class="shippings_list"></div>
                     @if ($errors->has('shipping_type'))
-                        <div class="error">{{ $errors->first('shipping_type') }}</div>
+                        <div class="ap_form__error">{{ $errors->first('shipping_type') }}</div>
                     @endif
                 </div>
                 <div>
@@ -282,7 +321,7 @@
                         </div>
                     @endforeach
                     @if ($errors->has('payment_method_id'))
-                        <div class="error">{{ $errors->first('payment_method_id') }}</div>
+                        <div class="ap_form__error">{{ $errors->first('payment_method_id') }}</div>
                     @endif
                 </div>
             </div>
@@ -304,7 +343,7 @@
                         {!! __('I have read and agree to the Terms and Conditions (AGB), the Terms of Return (Widerrufsbelehrung) and the Privacy Policy (Datenschutzerklärung).') !!}
                     </label>
                     @if ($errors->has('confirmation'))
-                        <div class="error">{{ $errors->first('confirmation') }}</div>
+                        <div class="ap_form__error">{{ $errors->first('confirmation') }}</div>
                     @endif
                 </div>
                 <button class="approvement__btn">{{ __('Checkout') }}</button>

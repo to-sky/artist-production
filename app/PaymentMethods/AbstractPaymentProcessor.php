@@ -1,5 +1,6 @@
 <?php
 
+namespace App\PaymentMethods;
 
 use App\Models\Order;
 use Illuminate\Http\Request;

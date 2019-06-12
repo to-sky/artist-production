@@ -60,6 +60,11 @@ class Order extends Model
         return $this->hasMany('App\Models\Ticket');
     }
 
+    public function shippingZone()
+    {
+        return $this->belongsTo('App\Models\ShippingZone');
+    }
+
     /**
      * Order subTotal attribute
      */

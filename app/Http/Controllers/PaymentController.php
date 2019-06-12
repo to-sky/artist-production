@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Address;
 use App\Models\Country;
 use App\Models\Order;
 use App\Models\PaymentMethod;
@@ -28,32 +29,67 @@ class PaymentController
         $this->paymentService = $paymentService;
     }
 
+    /**
+     * Order confirmation page
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function checkout(Request $request)
     {
         $shippings = Shipping::all();
         $paymentMethods = PaymentMethod::where('active', PaymentMethod::ACTIVE)->get();
 
         $countries = Country::pluck('name', 'id')->toArray();
+        $addresses = Address::whereUserId(Auth::id())->get();
 
         return view('payment.checkout', compact(
             'shippings',
             'paymentMethods',
-            'countries'
+            'countries',
+            'addresses'
         ));
     }
 
+    /**
+     * Process order confirmation page
+     *
+     * @param ProcessCheckoutRequest $request
+     * @param UserService $userService
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function processCheckout(ProcessCheckoutRequest $request, UserService $userService)
     {
         if (!Auth::check()) {
             $user = $userService->createFromCheckoutRequest($request);
+
+            $address = $userService->addUserAddress(
+                $userService->extractAddressFromPaymentRequest($request),
+                $user
+            );
+        } else {
+            $user = Auth::user();
+            $address = Address::find($request->get('address_id'));
         }
 
-        dd($request->all());
+        $additionalAddress = null;
+        if ($request->get('other_address_check')) {
+            $additionalAddress = $userService->addUserAddress(
+                $userService->extractAdditionalAddressFromPaymentRequest($request),
+                $user
+            );
+        }
 
-        $this->paymentService->checkout($request);
+        $responce = $this->paymentService->checkout(
+            $request,
+            $user,
+            $address,
+            $additionalAddress
+        );
 
-        return redirect()->route('payment.succes');
+        return $responce;
     }
+
 
     public function confirm(Order $order, Request $request)
     {
@@ -75,6 +111,13 @@ class PaymentController
         return view('payment.error', compact('order'));
     }
 
+    /**
+     * Partial for shipping options radio list
+     *
+     * @param ShippingService $shippingService
+     * @param Country $country
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function shippingOptions(ShippingService $shippingService, Country $country)
     {
         $options = $shippingService->getShippingOptionsForCountry($country);
