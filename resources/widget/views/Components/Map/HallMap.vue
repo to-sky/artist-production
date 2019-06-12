@@ -1,59 +1,53 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <section ref="mapViewport" @mousedown="grabbing = true" class="hall-map" :class="{
-          grabbing: grabbing
-        }">
-          <svg-pan-zoom
-              v-if="loaded"
-              style="width: 100%; height: 100%;"
-              :contain="true"
-              :onZoom="setZoom"
-              :customEventsHandler="getMobileEventsListener()"
-              minZoom=".8"
-              maxZoom="5"
-              @svgpanzoom="setMap"
-          >
+  <section ref="mapViewport" @mousedown="grabbing = true" class="hall-map" :class="{
+    grabbing: grabbing
+  }">
+    <svg-pan-zoom
+        v-if="loaded"
+        style="width: 100%; height: 100%;"
+        :contain="true"
+        :onZoom="setZoom"
+        :customEventsHandler="getMobileEventsListener()"
+        minZoom=".8"
+        maxZoom="5"
+        @svgpanzoom="setMap"
+    >
 
-            <hall-svg
-                :event="event"
-                @clickPlace="update"
-                @clickFanZone="updateZone"
-                @overPlace="showPopup"
-                @outPlace="hidePopup"
-            ></hall-svg>
-          </svg-pan-zoom>
+      <hall-svg
+          :event="event"
+          @clickPlace="update"
+          @clickFanZone="updateZone"
+          @overPlace="showPopup"
+          @outPlace="hidePopup"
+      ></hall-svg>
+    </svg-pan-zoom>
 
-          <hall-map-popup
-              ref="placePopup"
-              :place="popupPlace"
-              :top="popupTop"
-              :left="popupLeft"
-              :visible="popupVisible"
-              @popupDisplayed="makePan(calculatePan($event))"
-          />
+    <hall-map-popup
+        ref="placePopup"
+        :place="popupPlace"
+        :top="popupTop"
+        :left="popupLeft"
+        :visible="popupVisible"
+        @popupDisplayed="makePan(calculatePan($event))"
+    />
 
-          <section class="controls">
-            <a href="#" class="zoom-in" @click.prevent="map.zoomIn()">+</a>
-            <a href="#" class="zoom-out" @click.prevent="map.zoomOut()">-</a>
-          </section>
+    <section class="controls">
+      <a href="#" class="zoom-in" @click.prevent="map.zoomIn()">+</a>
+      <a href="#" class="zoom-out" @click.prevent="map.zoomOut()">-</a>
+    </section>
 
-          <section ref="animationContainer" class="animation">
-            <div v-for="point in animated" class="dot"
-                 :style="{
+    <section ref="animationContainer" class="animation">
+      <div v-for="point in animated" class="dot"
+           :style="{
                    width:  point.radius + 'px',
                    height: point.radius + 'px',
                    backgroundColor: point.color,
                    top: point.top + 'px',
                    left: point.left + 'px'
                  }"
-            ></div>
-          </section>
-        </section>
-      </div>
-    </div>
-  </div>
+      ></div>
+    </section>
+  </section>
 </template>
 
 <script>
@@ -337,13 +331,20 @@
   }
 
   .hall-map {
-    position: relative;
-    border: solid 1px #000;
-    height: 85vh;
+    position: absolute;
+    top: 80px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-top: solid 1px #aaa;
     overflow: hidden;
     cursor: grab;
     font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
     font-size: 12px;
+  }
+  .setup .hall-map{
+    top: 50px;
+    border: solid 1px #aaa;
   }
   .hall-map.grabbing {
     cursor: grabbing !important;

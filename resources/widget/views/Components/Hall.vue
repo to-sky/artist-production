@@ -27,7 +27,7 @@
         @selectGroup="bindGroupPlace($event)"
     ></price-group-popup>
     <div
-      v-if="event.cart.hasItems()"
+      v-if="event.cart.hasItems() && !hideCheckoutButton"
       class="current-zone__buy-tickets"
       v-html="buttonBuyTickets"
       @click="openCheckoutPopup"
@@ -43,6 +43,7 @@ import placePopup from './PlacePopup.vue';
 import priceGroupPopup from './PriceGroupPopup.vue';
 import moment from 'moment';
 import CookieService from '../../services/CookieService/CookieService';
+import UrlService from '../../services/UrlService/UrlService';
 
 export default {
   props: ["event"],
@@ -63,7 +64,8 @@ export default {
       selectedZone: null,
       selectedPriceGroup: null,
       time: time.format("DD-MM-YYYY HH:mm:ss"),
-      timestamp: +time
+      timestamp: +time,
+      hideCheckoutButton: UrlService.get('no_checkout', false, d => this.hideCheckoutButton = d)
     };
   },
 

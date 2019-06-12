@@ -178,9 +178,6 @@
 </script>
 
 <style>
-    .updating {
-        position: relative;
-    }
     .updating:after{
         display: block;
         content: '';

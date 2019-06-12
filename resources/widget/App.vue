@@ -29,14 +29,6 @@
       };
     },
 
-    mounted() {
-      this.$root.changeLanguage(location.hash);
-
-      window.onhashchange = (function (e) {
-        this.$root.changeLanguage(location.hash);
-      }).bind(this);
-    },
-
     methods: {
       hidePreloader() {
         this.preloaderHidden = true;

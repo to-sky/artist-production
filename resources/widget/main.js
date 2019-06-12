@@ -6,6 +6,7 @@ import VueI18n from "vue-i18n";
 import VueCarousel from "vue-carousel";
 import VueSweetAlert from "vue-sweetalert2";
 import axios from 'axios';
+import UrlService from './services/UrlService/UrlService';
 
 Object.assign(axios.defaults, {
   withCredentials: true
@@ -126,20 +127,35 @@ new Vue({
   store,
   i18n,
   render: h => h(App),
-  data: {
-    locales: ['de', 'en', 'ru'],
-    defaultLocale: 'de',
-    currentLocale: 'de'
+
+  data() {
+    return {
+      locales: ['de', 'en', 'ru'],
+      defaultLocale: 'de',
+      currentLocale: UrlService.get('lang', 'de', l => {
+        this.currentLocale = l;
+      })
+    };
   },
+
+  mounted() {
+    this.changeLanguage(this.currentLocale);
+  },
+
   methods: {
-    changeLanguage(hash) {
-      let locale = hash.replace('#', '');
+    changeLanguage(locale) {
       this.currentLocale = this.locales.includes(locale)
         ? locale
         : this.currentLocale || this.defaultLocale
       ;
 
       this.$i18n.locale = this.currentLocale;
+    }
+  },
+
+  watch: {
+    currentLocale(n, o) {
+      this.changeLanguage(n);
     }
   }
 }).$mount("#app");

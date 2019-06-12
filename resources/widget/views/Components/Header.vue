@@ -38,15 +38,15 @@
       <div class="select-language-change" v-show="showLanguages">
         <div
           class="select-language__language select-language-change__en"
-          @click="changeLanguage('#en')"
+          @click="changeLanguage('en')"
         ></div>
         <div
           class="select-language__language select-language-change__de"
-          @click="changeLanguage('#de')"
+          @click="changeLanguage('de')"
         ></div>
         <div
           class="select-language__language select-language-change__ru"
-          @click="changeLanguage('#ru')"
+          @click="changeLanguage('ru')"
         ></div>
       </div>
     </div>
@@ -75,15 +75,15 @@
             <div class="select-language-change" v-show="showLanguages">
               <div
                 class="select-language__language select-language-change__en"
-                @click="changeLanguage('#en')"
+                @click="changeLanguage('en')"
               ></div>
               <div
                 class="select-language__language select-language-change__de"
-                @click="changeLanguage('#de')"
+                @click="changeLanguage('de')"
               ></div>
               <div
                 class="select-language__language select-language-change__ru"
-                @click="changeLanguage('#ru')"
+                @click="changeLanguage('ru')"
               ></div>
             </div>
           </div>
@@ -105,9 +105,8 @@ export default {
   }),
 
   methods: {
-    changeLanguage(hash) {
-      this.$root.changeLanguage(hash);
-
+    changeLanguage(locale) {
+      this.$root.currentLocale = locale;
       this.showLanguages = false;
     }
   },
