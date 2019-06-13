@@ -4,8 +4,10 @@ namespace App\Services;
 
 
 use App\Http\Requests\ProcessCheckoutRequest;
+use App\Http\Requests\ProfileRequest;
 use App\Mail\AccountDetails;
 use App\Models\Address;
+use App\Models\Profile;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -31,12 +33,30 @@ class UserService
         ]));
 
         $role = Role::whereName(Role::CLIENT)->first();
-
         $user->roles()->attach($role);
+
+        /** @var Profile $profile */
+        $profile = Profile::create(array_merge($data['user'], [
+            'user_id' => $user->id,
+        ]));
 
         if($authenticate) auth()->loginUsingId($user->id);
 
         Mail::to($user->email)->send(new AccountDetails($user, $password));
+
+        return $user;
+    }
+
+    public function updateFromProfileRequest(ProfileRequest $request, User $user)
+    {
+        $data = $request->only('profile');
+
+        $user->fill($data['profile']);
+        $user->save();
+
+        $profile = $user->profile;
+        $profile->fill($data['profile']);
+        $profile->save();
 
         return $user;
     }

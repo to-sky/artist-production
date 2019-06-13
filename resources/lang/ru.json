@@ -156,6 +156,8 @@
     "This email already registered": "Email уже зарегестрирован",
     "Emails don't match": "Введенные Email'ы не совпадают",
     "Value must be an integer": "Значение должно быть целым числом",
+    "Wrong post code format": "Неверный формат почтового кода",
+    "Wrong apartment format": "Неверный формат квартиры",
     "Add address": "Добавить адрес",
     "Total": "Сумма заказа",
     "Remove all tickets": "Удалить все билеты",
@@ -183,5 +185,9 @@
     "Free pass": "Бесплатный проезд",
     "Details of your new account": "Детали вашего нового аккаунта",
     "I have read and agree to the Terms and Conditions (AGB), the Terms of Return (Widerrufsbelehrung) and the Privacy Policy (Datenschutzerklärung).":
-      "Я прочитал и согласен с Условиями (AGB), Условиями возврата (Widerrufsbelehrung) и Политикой конфедициальности (Datenschutzerklärung)."
+      "Я прочитал и согласен с Условиями (AGB), Условиями возврата (Widerrufsbelehrung) и Политикой конфедициальности (Datenschutzerklärung).",
+    "Go to personal account": "Войти в личный кабинет",
+    "Profile": "Профиль",
+    "My Orders": "Мои Заказы",
+    "Addresses": "Адреса"
 }

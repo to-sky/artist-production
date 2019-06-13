@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\Client;
+use App\Models\Profile;
 use App\Models\User;
 use App\Policies\ClientPolicy;
 use App\Policies\UserPolicy;
@@ -17,7 +17,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        Client::class => ClientPolicy::class,
+        Profile::class => ClientPolicy::class,
         User::class => UserPolicy::class
     ];
 

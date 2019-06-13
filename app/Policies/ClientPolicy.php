@@ -4,7 +4,7 @@ namespace App\Policies;
 
 use App\Models\Role;
 use App\Models\User;
-use App\Models\Client;
+use App\Models\Profile;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ClientPolicy
@@ -29,7 +29,7 @@ class ClientPolicy
      * @param  \App\Client  $client
      * @return mixed
      */
-    public function view(User $user, Client $client)
+    public function view(User $user, Profile $client)
     {
         return true;
     }
@@ -52,7 +52,7 @@ class ClientPolicy
      * @param  \App\Client  $client
      * @return mixed
      */
-    public function update(User $user, Client $client)
+    public function update(User $user, Profile $client)
     {
         return true;
     }
@@ -64,7 +64,7 @@ class ClientPolicy
      * @param  \App\Client  $client
      * @return mixed
      */
-    public function delete(User $user, Client $client)
+    public function delete(User $user, Profile $client)
     {
         //
     }
@@ -76,7 +76,7 @@ class ClientPolicy
      * @param  \App\Client  $client
      * @return mixed
      */
-    public function restore(User $user, Client $client)
+    public function restore(User $user, Profile $client)
     {
         //
     }
@@ -88,7 +88,7 @@ class ClientPolicy
      * @param  \App\Client  $client
      * @return mixed
      */
-    public function forceDelete(User $user, Client $client)
+    public function forceDelete(User $user, Profile $client)
     {
         //
     }

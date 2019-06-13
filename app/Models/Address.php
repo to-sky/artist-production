@@ -19,6 +19,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property User $user
  * @property Country $country
  * @property string $full
+ * @property string $full_name
+ * @property string $building_address
  */
 class Address extends Model
 {
@@ -48,6 +50,24 @@ class Address extends Model
     }
 
     /**
+     * Full name accessor
+     *
+     * @return string
+     */
+    public function getFullNameAttribute()
+    {
+        return "{$this->first_name} {$this->last_name}";
+    }
+
+    public function getBuildingNameAttribute()
+    {
+        $building[] = $this->street;
+        if ($this->house) $building[] = $this->house;
+        if ($this->apartment) $building[] = __('Ap. :apartment', ['apartment' => $this->apartment]);
+        return join(' ', $building);
+    }
+
+    /**
      * Return full address
      *
      * @return string
@@ -55,13 +75,10 @@ class Address extends Model
     public function getFullAttribute()
     {
         $parts = [];
-        $parts[] = "{$this->first_name} {$this->last_name}";
+        $parts[] = $this->full_name;
         $parts[] = $this->country->name;
         $parts[] = $this->city;
-        $building[] = $this->street;
-        if ($this->house) $building[] = $this->house;
-        if ($this->apartment) $building[] = __('Ap. :apartment', ['apartment' => $this->apartment]);
-        $parts[] = join(' ', $building);
+        $parts[] = $this->building_address;
         $parts[] = $this->post_code;
 
         return join(', ', $parts);

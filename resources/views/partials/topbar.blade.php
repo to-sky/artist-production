@@ -8,5 +8,5 @@
         <a href="tel:+4961316272444" title="phone number" class="ap_header__phone">+49 6131 62 72 444</a>
         <p class="ap_header__info-text">Пн-Пт с 10:00 до 17:00</p>
     </div>
-    <a href="#" class="ap_header__button">Войти в личный кабинет</a>
+    <a href="{{ route('profile.show') }}" class="ap_header__button">{!! __('Go to personal account') !!}</a>
 </header>

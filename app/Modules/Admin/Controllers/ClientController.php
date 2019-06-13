@@ -9,7 +9,7 @@ use App\Modules\Admin\Services\RedirectService;
 use Illuminate\Support\Facades\Auth;
 use Redirect;
 use Schema;
-use App\Models\Client;
+use App\Models\Profile;
 use App\Modules\Admin\Requests\CreateClientRequest;
 use App\Modules\Admin\Requests\UpdateClientRequest;
 use Illuminate\Http\Request;
@@ -20,11 +20,17 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 use Prologue\Alerts\Facades\Alert;
 
+/**
+ * TODO: revamp whole controller to use user with role client instead of Client model
+ *
+ * Class ClientController
+ * @package App\Modules\Admin\Controllers
+ */
 class ClientController extends AdminController {
 
     public function __construct(RedirectService $redirectService)
     {
-        $this->authorizeResource(Client::class, 'client');
+        $this->authorizeResource(Profile::class, 'client');
 
         parent::__construct($redirectService);
     }
@@ -35,12 +41,14 @@ class ClientController extends AdminController {
      * @param Request $request
      *
      * @return \Illuminate\View\View
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
 	 */
 	public function index(Request $request)
     {
-        $this->authorize('index', Client::class);
+        $this->authorize('index', Profile::class);
 
-        $clients = Client::all();
+        $clients = Profile::all();
 
 		return view('Admin::client.index', compact('clients'));
 	}
@@ -55,7 +63,7 @@ class ClientController extends AdminController {
 	    $countries = Country::pluck('name', 'id')->toArray();
         $countryCodes = Country::pluck('code')->toArray();
 	    $addresses = [];
-        $types = Client::getTypes();
+        $types = Profile::getTypes();
 	    
 	    return view('Admin::client.create', compact('countries', 'countryCodes', 'addresses', 'types'));
 	}
@@ -69,7 +77,7 @@ class ClientController extends AdminController {
 	public function store(CreateClientRequest $request)
 	{
 		$request->merge(['user_id' => Auth::id()]);
-		$client = Client::create($request->all());
+		$client = Profile::create($request->all());
 
 		$request->merge(['id' => $client->id]);
 
@@ -85,7 +93,7 @@ class ClientController extends AdminController {
                 'city' => $request->get('city'),
                 'country_id' => $request->get('country_id'),
                 'active' => Address::ACTIVE,
-                'client_id' => $client->id
+                'user_id' => $client->id
             ]);
         } else {
 		    foreach ($addresses as $address) {
@@ -105,12 +113,12 @@ class ClientController extends AdminController {
 	 * @param  int  $id
      * @return \Illuminate\View\View
 	 */
-	public function edit(Client $client)
+	public function edit(Profile $client)
 	{
         $countries = Country::pluck('name', 'id')->toArray();
         $addresses = $client->addresses->toArray();
         $countryCodes = Country::pluck('code')->toArray();
-        $types = Client::getTypes();
+        $types = Profile::getTypes();
 	    
 		return view('Admin::client.edit', compact('client', 'countries', 'countryCodes', 'addresses', 'types'));
 	}
@@ -118,13 +126,13 @@ class ClientController extends AdminController {
     /**
      * Update the specified client in storage.
      *
-     * @param $id
+     * @param Profile $profile
      * @param UpdateClientRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-	public function update(Client $client, UpdateClientRequest $request)
+	public function update(Profile $profile, UpdateClientRequest $request)
 	{
-		$client->update($request->all());
+        $profile->update($request->all());
 
         Alert::success(trans('Admin::admin.controller-successfully_updated', ['item' => trans('Admin::models.Client')]))->flash();
 
@@ -140,7 +148,7 @@ class ClientController extends AdminController {
      */
 	public function destroy($id)
 	{
-		Client::destroy($id);
+		Profile::destroy($id);
 
 		return response()->json(null, 204);
 	}
@@ -155,9 +163,9 @@ class ClientController extends AdminController {
     {
         if ($request->get('toDelete') != 'mass') {
             $toDelete = json_decode($request->get('toDelete'));
-            Client::destroy($toDelete);
+            Profile::destroy($toDelete);
         } else {
-            Client::whereNotNull('id')->delete();
+            Profile::whereNotNull('id')->delete();
         }
 
         return redirect()->route(config('admin.route').'.clients.index');

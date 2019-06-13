@@ -3,9 +3,34 @@
   padding: 20px;
   border-radius: 4px;
 
-  .ap_section--2-cols & {
+  .ap_section--2-cols .ap_section__heading + & {
     height: calc(100% - 43px);
   }
+}
+
+.ap_buttons {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 4px;
+  text-align: right;
+}
+
+.ap_button {
+  border: none;
+  background-color: rgba(0, 0, 0, 0.06);
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-family: "ProximaNovaSB", sans-serif;
+  font-size: 18px;
+  line-height: 22px;
+  color: rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+}
+
+.ap_button--submit {
+  @extend .ap_button;
+
+  background-color: #FFEB3B;
 }
 
 .ap_form--2-cols {

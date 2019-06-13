@@ -8,7 +8,7 @@ use App\Modules\Admin\Observers\UserActionsObserver;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Client extends Model
+class Profile extends Model
 {
 
     use SoftDeletes;
@@ -25,7 +25,7 @@ class Client extends Model
      */
     protected $dates = ['deleted_at'];
 
-    protected $table = 'clients';
+    protected $table = 'profiles';
 
     protected $fillable = [
         'first_name',
@@ -56,7 +56,7 @@ class Client extends Model
     {
         parent::boot();
 
-        Client::observe(new UserActionsObserver);
+        Profile::observe(new UserActionsObserver);
     }
 
     /**

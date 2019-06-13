@@ -26,3 +26,15 @@ Route::post('cart/remove/{id}', 'CartController@removeById')->name('cart.remove'
 Route::post('cart/destroy', 'CartController@destroy')->name('cart.destroy');
 
 Route::get('hall/{id}/{mode?}', 'WidgetController@index')->name('hallWidget');
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('profile', 'ProfileController@show')->name('profile.show');
+    Route::post('profile', 'ProfileController@update')->name('profile.update');
+
+    Route::get('orders', 'OrderController@index')->name('order.index');
+    Route::get('orders/{order}', 'OrderController@show')->name('order.show');
+
+    Route::get('addresses', 'AddressController@index')->name('address.index');
+    Route::get('addresses/{address}', 'AddressController@show')->name('address.show');
+    Route::post('addresses/{address}', 'AddressController@update')->name('address.update');
+});

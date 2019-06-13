@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\Client;
+use App\Models\Profile;
 
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromCollection;
@@ -22,7 +22,7 @@ class ClientsExport implements WithEvents, FromCollection, WithHeadings, WithTit
      */
     public function collection()
     {
-        $clients = Client::all();
+        $clients = Profile::all();
         $clients->transform(function ($item, $key) {
             return [
                 $item['id'],
