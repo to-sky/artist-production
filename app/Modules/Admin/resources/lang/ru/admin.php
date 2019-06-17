@@ -109,7 +109,7 @@ return [
     'Menu' => 'Меню',
     'Settings' => 'Настройки',
     'Mail' => 'Почта',
-    'Checkout' => 'Заказы',
+//    'Checkout' => 'Заказы',
     'Orders' => 'Заказы',
 
     // actions

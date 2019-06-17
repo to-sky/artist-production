@@ -107,6 +107,7 @@ return [
     'Menu' => 'Menu',
     'Settings' => 'Settings',
     'Mail' => 'Mail',
+    'Orders' => 'Orders',
 
     // actions
     'index' => 'List',

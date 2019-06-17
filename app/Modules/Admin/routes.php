@@ -49,6 +49,7 @@ Route::group([
         Route::get('hallPlaces/{event}', 'EventController@hallPlaces')->name(config('admin.route').'.events.hallPlaces');
         Route::delete('prices/{price}', 'EventController@deletePrice')->name('events.deletePrice');
         Route::delete('priceGroups/{price_group}', 'EventController@deletePriceGroup')->name('events.deletePriceGroup');
+        Route::get('widget/{event}', 'EventController@widgetContent')->name('events.widgetContent');
     });
 
     Route::prefix('tickets')->group(function () {

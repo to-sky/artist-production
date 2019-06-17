@@ -13,7 +13,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title" id="clientsModalLabel">Клиенты</h4>
+                    <h4 class="modal-title" id="clientsModalLabel">{{ __('Admin::admin.Clients') }}</h4>
                 </div>
                 <div class="modal-body">
                     <table id="datatable" class="table table-bordered table-hover table-selected">
@@ -21,11 +21,11 @@
                             <tr>
                                 <th></th>
                                 <th>id</th>
-                                <th>Имя</th>
-                                <th>Коммисия</th>
+                                <th>{{ __('Name') }}</th>
+                                <th>{{ __('Commission') }}</th>
                                 <th>Email</th>
-                                <th>Телефон</th>
-                                <th>Тип</th>
+                                <th>{{ __('Phone') }}</th>
+                                <th>{{ __('Type') }}</th>
                             </tr>
                         </thead>
 
@@ -47,21 +47,14 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                    <button type="button" id="getClient" class="btn btn-primary">Выбрать</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Close') }}</button>
+                    <button type="button" id="getClient" class="btn btn-primary">{{ __('Select') }}</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Widget modal -->
-    <div class="widget-wrapper">
-        <div class="widget-content">
-            {{-- widget content here --}}
-        </div>
-    </div>
-
-    <div class="row">
+    <div id="mainContent" class="row">
             <div class="col-md-6">
                 @include('Admin::order.partials._events_filter')
             </div>
@@ -69,7 +62,7 @@
             <div class="col-md-6">
                 <div class="box">
                     <div id="clientData" class="box-header with-border">
-                        <small>Клиент не выбран</small>
+                        <small>{{ __(':item not selected', ['item' => __('Admin::models.Client')]) }}</small>
                     </div>
 
                     <div class="box-body">
@@ -77,26 +70,26 @@
                                 class="btn btn-xs btn-default"
                                 data-toggle="modal"
                                 data-target="#clientsModal">
-                            Выберите клиента
+                            {{ __('Select :item', ['item' => __('Admin::models.client')]) }}
                         </button>
                     </div>
                 </div>
 
                 <div class="box">
-                    <div class="box-body">
-                        <table class="table table-bordered">
+                    <div>
+                        <table class="table table-striped">
                             <tr>
-                                <td>Билет</td>
-                                <td>Цена</td>
-                                <td>Скидка</td>
-                                <td>Бонус</td>
-                                <td>Касс. сбор</td>
-                                <td>К оплате</td>
-                                <td>Удалить</td>
+                                <td>{{ __('Ticket') }}</td>
+                                <td>{{ __('Price') }}</td>
+                                <td>{{ __('Discount') }}</td>
+                                <td>{{ __('Bonus') }}</td>
+                                <td>{{ __('Cash collection') }}</td>
+                                <td>{{ __('Final price') }}</td>
+                                <td>{{ __('Admin::admin.delete') }}</td>
                             </tr>
                             <tr>
                                 <td colspan="7" class="text-center">
-                                    <small>Билеты не выбраны</small>
+                                    <small>{{ __(':items not selected', ['items' => __('Tickets')]) }}</small>
                                 </td>
                             </tr>
                         </table>

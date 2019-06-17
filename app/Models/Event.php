@@ -32,6 +32,8 @@ class Event extends Model
           'free_pass_logo_id'
     ];
 
+    protected $appends = ['image_url'];
+
     public static function boot()
     {
         parent::boot();
@@ -62,6 +64,11 @@ class Event extends Model
     public function eventImage()
     {
         return $this->belongsTo('App\Models\File', 'event_image_id');
+    }
+
+    public function getImageUrlAttribute()
+    {
+        return $this->eventImage->file_url ?? asset('images/no-image.jpg');
     }
 
     public function freePassLogo()

@@ -5,15 +5,6 @@ namespace App\Modules\Admin\Controllers;
 
 use App\Modules\Admin\Services\RedirectService;
 use App\Modules\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Route;
-use App\Models\Menu;
 use Prologue\Alerts\Facades\Alert;
 
 class AdminController extends Controller
@@ -49,19 +40,18 @@ class AdminController extends Controller
         }
     }
 
-    public function setLocale($locale, Request $request)
+    public function setLocale($locale)
     {
         $languages = array_keys(config('admin.languages'));
-        
-        if (in_array($locale, $languages)) {
-            App::setLocale($locale);
 
-            Cookie::queue('locale', $locale);
-        } else {
+        if (! in_array($locale, $languages)) {
             Alert::warning(__('Locale :locale not supported.', ['locale' => $locale]))->flash();
+
+            return redirect()->back();
         }
 
-        return redirect()->back();
-    }
+        app()->setLocale($locale);
 
+        return redirect()->back()->cookie('locale', $locale);
+    }
 }

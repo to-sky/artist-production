@@ -107,6 +107,7 @@ return [
     'Menu' => 'Speisekarte',
     'Settings' => 'die Einstellungen',
     'Mail' => 'Mail',
+    'Orders' => 'Aufträge',
 
     // actions
     'index' => 'Liste',

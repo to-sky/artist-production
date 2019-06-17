@@ -1,7 +1,7 @@
 <?php
 return [
     'Client' => 'Client',
-    'client' => 'Client',
+    'client' => 'сlient',
     'City' => 'City',
     'Event' => 'Event',
     'Building' => 'Building',
@@ -14,5 +14,6 @@ return [
     'Countries' => 'Countries',
     'role' => 'role',
     'user' => 'user',
-    'menu' => 'menu'
+    'menu' => 'menu',
+    'order' => 'order',
 ];

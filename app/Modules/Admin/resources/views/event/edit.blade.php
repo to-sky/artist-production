@@ -101,7 +101,7 @@
                                     <div class="thumbnail-container">
                                         <label>{{ __('Thumbnail') }}</label>
                                         <div class="image-preview"
-                                             style="background-image: url('{{ $event->eventImage->file_url ?? asset('images/no-image.jpg') }}');">
+                                             style="background-image: url('{{ $event->image_url }}');">
                                         </div>
 
                                         <div class="row">

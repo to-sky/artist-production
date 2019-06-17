@@ -64,18 +64,108 @@
 .table-selected tr:hover {
   cursor: pointer;
 }
+
+.widget-open {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1050;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: block;
+}
+
+.widget-close {
+  display: none;
+}
+
+.widget-close-btn {
+  margin-right: 25px;
+  line-height: 51px;
+  font-size: 28px;
+}
+
 .widget-wrapper {
-  width: 100%;
-  height: 100%;
-  position: relative;
+  background: rgba(0,0,0,.6);
 }
 
 .widget-content {
-  background: #fff;
+  height: 920px;
+  background: #f4f5f5;
   position: absolute;
-  z-index: 10;
-  width: 100%;
-  height: 100%;
+  width: 1635px;
+  right: -1900px;
+  top: 0;
 }
 
-//height: auto; min-height: 100%; padding-right: 15px;
+.widget-header--data,
+.widget-header--info,
+.widget-hall-location,
+.widget-event-date {
+  display: inline-block;
+}
+
+.widget-hall-location,
+.widget-event-date {
+  color: #777;
+}
+
+.widget-header--info {
+  margin-left: 15px;
+  h4 {
+    margin: 5px 0;
+  }
+}
+
+.widget-header--img {
+  vertical-align: top;
+  width: 35px;
+}
+
+.widget-header--close {
+  float: right;
+}
+
+.widget-header {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  background: #fff;
+}
+
+.widget-event-date {
+  margin-left: 10px;
+}
+
+.widget-body {
+  padding: 15px;
+}
+
+.widget-block,
+.widget-tickets {
+  box-shadow: 0 0 5px rgba(0,0,0,.2);
+  background: #fff;
+  border: 1px solid #ccc;
+}
+
+.widget-tickets table {
+  margin-bottom: 0;
+}
+
+.event-item p {
+  margin-bottom: 5px;
+}
+
+.period-search {
+  width: 100%;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+}
+
+.prices-count {
+  width: 50%;
+  float: left;
+}

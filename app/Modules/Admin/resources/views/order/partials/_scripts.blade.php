@@ -1,20 +1,21 @@
 <script>
     // Date range
-    var startDate = moment();
-    var endDate = moment().add(1, 'month').startOf('month');
     var dateFormat = 'YYYY-MM-DD';
     var displayedDateFormat = 'D MMM Y';
-    var period = $('#period');
-
     var dateFrom, dateTo;
     function addDate(startDate, endDate) {
         dateFrom = startDate.format(dateFormat);
         dateTo = endDate.format(dateFormat);
 
         $('#period span').html(startDate.format(displayedDateFormat) + ' - ' + endDate.format(displayedDateFormat));
-        $('#period ~ input[type="hidden"]').val(dateFrom + ' ' + dateTo);
+
+        $('#periodFrom').val(dateFrom);
+        $('#periodTo').val(dateTo);
     }
 
+    var startDate = moment();
+    var endDate = moment().add(6, 'month').startOf('month');
+    var period = $('#period');
     period.daterangepicker({
         ranges: {
             "{{ __('Today') }}": [moment(), moment()],
@@ -64,15 +65,31 @@
 
     addDate(startDate, endDate);
 
-
     period.on('hide.daterangepicker', function(ev, picker) {
         dateFrom = picker.startDate.format('YYYY-MM-DD');
         dateTo = picker.endDate.format('YYYY-MM-DD');
     });
 
     // Filter events
-     $('#findEvents').click(function (e) {
-         var searchText = $('#search').val();
+     $('#findEvents').click(function () {
+         var dateFrom = $('#periodFrom').val();
+         var dateTo = $('#periodTo').val();
+         var eventName = $('#findByName option:selected').val();
+         var listEvents = $('#eventList li');
+
+         listEvents.each(function (i, el) {
+            var findEventDate = $(this).find('[data-date]').data('date');
+            var findPeriod = moment(findEventDate).isBetween(moment(dateFrom, dateFormat), moment(dateTo, dateFormat));
+            var findEventName = $(this).find('a.show-widget').text().trim();
+
+            if (findEventName === eventName && findPeriod) {
+                $(el).show();
+            } else if (eventName === 'all' && findPeriod) {
+                $(el).show();
+            } else {
+                $(el).hide();
+            }
+        });
      });
 
      // Select client
@@ -89,14 +106,14 @@
 
         var clientRow = $('<div>', {class: 'row'}).appendTo(clientDataHtml);
 
-        $('<div>', {class: 'col-md-4'})
+        $('<div>', {class: 'col-md-5'})
             .append($('<i>', {class: 'fa fa-envelope-o'}))
             .append($('<a>', {
                 href: 'mailto:' + email,
                 text: ' ' + email
             })).appendTo(clientRow);
 
-        $('<div>', {class: 'col-md-4'})
+        $('<div>', {class: 'col-md-5'})
             .append($('<i>', {class: 'fa fa-phone'}))
             .append(' ' + phone).appendTo(clientRow);
 
@@ -113,14 +130,29 @@
         $('#clientData').html(clientDataHtml);
     });
 
-    // Show widget
+    // Open popup widget
     $('.show-widget').click(function (e) {
         e.preventDefault();
 
-        var eventId = $(this).data('event-id');
+        $.get($(e.target).attr('href'), function (data) {
+            $('#mainContent').before(data);
 
-        // TODO: open widget
-        console.log('widget opened');
-    })
+            setTimeout(function () {
+                $('body').addClass('modal-open');
+                $('.widget-wrapper').removeClass('widget-close').toggleClass('widget-open');
+                $(".widget-content").animate({"left":"230px"}, 1000);
+            }, 500);
+        });
+    });
+
+    // Close popup widget
+    $('body').on('click', '.widget-close-btn', function () {
+        $(".widget-content").animate({"left":"1900px"}, 500);
+
+        setTimeout(function () {
+            $('body').removeClass('modal-open');
+            $('.widget-wrapper').remove();
+        }, 500);
+    });
 </script>
 

@@ -22,6 +22,7 @@
                         <th class="no-sort text-center" width="5%">
                             {!! Form::checkbox('delete_all',1,false,['class' => 'mass']) !!}
                         </th>
+                        <th>{{ __('Thumbnail') }}</th>
                         <th>{{ __('Event') }}</th>
                         <th>{{ __('Date') }}</th>
                         <th>{{ __('Time') }}</th>
@@ -39,8 +40,11 @@
                         <td class="text-center">
                             {!! Form::checkbox('del-'.$event->id,1,false,['class' => 'single','data-id'=> $event->id]) !!}
                         </td>
+                        <td class="text-center">
+                            <img src="{{ $event->image_url }}" alt="{{ $event->id }}" width="40">
+                        </td>
                         <td>{{ $event->name }}</td>
-                        <td>{{ $event->date->toFormattedDateString() }}</td>
+                        <td>{{ $event->date->formatLocalized('%b %d, %Y') }}</td>
                         <td>{{ $event->date->format('H:i') }}</td>
                         <td>{{ $event->hall->building->city->name }}</td>
                         <td>{{ $event->hall->building->name }}</td>
