@@ -26,13 +26,13 @@ class PaypalPaymentProcessor extends AbstractPaymentProcessor
 
     public function __construct()
     {
-        $this->_api_context = new ApiContext(
+        $this->_apiContext = new ApiContext(
             new OAuthTokenCredential(
                 config('paypal.client_id'),
                 config('paypal.secret')
             )
         );
-//        $this->_apiContext->setConfig(config('paypal.settings'));
+        $this->_apiContext->setConfig(config('paypal.settings'));
     }
 
     public function process(Order $order)
@@ -49,7 +49,7 @@ class PaypalPaymentProcessor extends AbstractPaymentProcessor
                 ->setCurrency(Order::CURRENCY)
                 ->setQuantity(1)
                 ->setSku($ticket->id)
-                ->setPrice($ticket->price);
+                ->setPrice($ticket->getBuyablePrice());
 
             $items[] = $item;
         }
@@ -94,20 +94,16 @@ class PaypalPaymentProcessor extends AbstractPaymentProcessor
         try {
             $payment->create($this->_apiContext);
         } catch (Exception $ex) {
-            return Redirect::route('payment.error', ['order' => $order->id])->withErrors(['message' => $ex->getMessage()]);
+            return redirect()->route('payment.error', ['order' => $order->id])->withErrors(['message' => $ex->getMessage()]);
         }
 
         $approvalUrl = $payment->getApprovalLink();
 
-
-
-        Redirect::away($approvalUrl);
-
+        return redirect()->away($approvalUrl);
     }
 
     public function confirm(Order $order, Request $request)
     {
-
         if ($request->get('success', false)) {
             $paymentId = $request->get('paymentId', null);
             $payment = Payment::get($paymentId, $this->_apiContext);
@@ -142,16 +138,16 @@ class PaypalPaymentProcessor extends AbstractPaymentProcessor
                 if ($result->getState() == 'approved') {
                     $order->update(['status' => Order::STATUS_CONFIRMED]);
 
-                    Redirect::route('payment.success', ['order' => $order->id]);
+                    return redirect()->route('payment.success', ['order' => $order->id]);
                 }
             } catch (Exception $ex) {
-                Redirect::route('payment.error', ['order' => $order->id])->withErrors(['message' => $ex->getMessage()]);
+                return redirect()->route('payment.error', ['order' => $order->id])->withErrors(['message' => $ex->getMessage()]);
             }
 
         } else {
             $order->update(['status' => Order::STATUS_CANCELED]);
 
-            Redirect::route('payment.cancel', ['order' => $order->id]);
+            return redirect()->route('payment.cancel', ['order' => $order->id]);
         }
     }
 

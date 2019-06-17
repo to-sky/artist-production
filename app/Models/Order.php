@@ -27,7 +27,25 @@ class Order extends Model
     /**
      * @var array
      */
-    protected $fillable = ['user_id', 'status', 'expired_at', 'tax', 'discount', 'final_price', 'paid_bonuses', 'paid_cash', 'payment_type', 'delivery_type', 'delivery_status', 'comment', 'paid_at'];
+    protected $fillable = [
+        'user_id',
+        'status',
+        'expired_at',
+        'tax',
+        'discount',
+        'final_price',
+        'subtotal',
+        'paid_bonuses',
+        'paid_cash',
+        'payment_type',
+        'delivery_type',
+        'delivery_status',
+        'shipping_price',
+        'shipping_status',
+        'shipping_zone_id',
+        'comment',
+        'paid_at',
+    ];
 
     /**
      * The accessors to append to the model's array form.
@@ -134,5 +152,10 @@ class Order extends Model
         }else{
             return '';
         }
+    }
+
+    public function getTotalAttribute()
+    {
+        return $this->subtotal + $this->tax + $this->shipping_price;
     }
 }

@@ -81,6 +81,7 @@
                                     type="radio"
                                     class="ap_form__radio-input"
                                     @if($loop->first) checked="checked" @endif
+                                    data-country="{{ $address->country_id }}"
                                     value="{{ $address->id }}"
                             >
                             <label for="adr_{{ $address->id }}" class="ap_form__radio-label">{{ $address->full }}</label>
@@ -437,12 +438,22 @@
 
         // Shippings update
         function loadShippingOptions() {
+          var countryId = getCountryId();
+
+          $shippingsContainer.load('/payment/shippingOptions/'+countryId);
+        }
+
+        function getCountryId() {
+          var id;
+          if (id = $('input[name="address_id"]:checked').data('country'))
+            return id;
+
           var countryId = $otherAddressSwitcher.prop('checked')
             ? $otherCountryInput.val()
             : $countryInput.val()
           ;
 
-          $shippingsContainer.load('/payment/shippingOptions/'+countryId);
+          return countryId;
         }
 
         loadShippingOptions();

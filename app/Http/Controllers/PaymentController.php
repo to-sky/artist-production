@@ -80,20 +80,22 @@ class PaymentController
             );
         }
 
-        $responce = $this->paymentService->checkout(
+        $response = $this->paymentService->checkout(
             $request,
             $user,
             $address,
             $additionalAddress
         );
 
-        return $responce;
+        return $response;
     }
 
 
     public function confirm(Order $order, Request $request)
     {
-        $this->paymentService->confrim($order, $request);
+        dd($this->paymentService->confirm($order, $request));
+
+        return $this->paymentService->confirm($order, $request);
     }
 
     public function success(Order $order, Request $request)

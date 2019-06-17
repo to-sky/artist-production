@@ -39,6 +39,7 @@ class PaymentService
     public function checkout(Request $request, User $user, Address $address, Address $additionalAddress = null)
     {
         $shippingZone = ShippingZone::find($request->get('shipping_zone_id'));
+        $paymentMethod = PaymentMethod::find($request->get('payment_method_id'));
 
         $data = [
             'status' => Order::STATUS_PENDING,
@@ -48,21 +49,36 @@ class PaymentService
             'shipping_price' => $shippingZone->price ?? 0,
             'shipping_status' => Shipping::STATUS_IN_PROCESSING,
             'shipping_zone_id' => $shippingZone->id ?? null,
+            'payment_method_id' => $paymentMethod->id ?? null,
         ];
 
         $order = Order::create(array_merge($data, $request->all()));
 
-        $shippingAddress = $this->castAddress($order, $additionalAddress ?: $address, ShippingAddress::class);
-        $billingAddress = $this->castAddress($order, $address, BillingAddress::class);
+        $this->castAddress($order, $additionalAddress ?: $address, ShippingAddress::class);
+        $this->castAddress($order, $address, BillingAddress::class);
 
         $this->ticketService->attachCartToOrder($order);
 
-        $paymentMethod = $this->getPaymentMethod($request->get('payment_method_id'));
+        $paymentMethod = $this->getPaymentMethod($paymentMethod->id ?? 0);
         if ($paymentMethod) {
             return $paymentMethod->process($order);
         }
 
         return redirect('payment.error');
+    }
+
+    /**
+     * Confirm payment
+     *
+     * @param Order $order
+     * @param Request $request
+     * @return mixed
+     */
+    public function confirm(Order $order, Request $request)
+    {
+        $processor = $this->getPaymentMethod($order->payment_method_id);
+
+        return $processor->confirm($order, $request);
     }
 
     /**
