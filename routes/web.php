@@ -35,6 +35,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('orders/{order}', 'OrderController@show')->name('order.show');
 
     Route::get('addresses', 'AddressController@index')->name('address.index');
+    Route::get('addresses/create', 'AddressController@create')->name('address.create');
+    Route::post('addresses', 'AddressController@save')->name('address.save');
     Route::get('addresses/{address}', 'AddressController@show')->name('address.show');
     Route::post('addresses/{address}', 'AddressController@update')->name('address.update');
+    Route::delete('address/{address}', 'AddressController@remove')->name('address.delete');
 });

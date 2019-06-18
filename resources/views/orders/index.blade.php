@@ -22,31 +22,30 @@
             <h2 class="ap_section__title">{!! __('My Orders') !!}</h2>
         </div>
         <div class="ap_section__content">
-            <table class="ap_table--striped o_table">
-                <thead>
-                    <th>#</th>
-                    <th>date</th>
-                    <th></th>
-                </thead>
-                <tbody>
+            <div class="ap_table-container">
+                <table class="ap_table ap_table--striped link_table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>{{ __('Event name') }}</th>
+                            <th>{{ __('Tickets num.') }}</th>
+                            <th>{{ __('Order date') }}</th>
+                            <th>{{ __('Payment date') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                     @foreach($orders as $order)
-                        <tr data-url="{{ route('order.show', ['order' => $order]) }}">
+                        <tr class="link_row" data-url="{{ route('order.show', ['order' => $order]) }}">
                             <td>{{ $order->id }}</td>
+                            <td>{{ $order->event_name }}</td>
+                            <td>{{ $order->tickets_count }}</td>
                             <td>{{ $order->created_at }}</td>
-                            <td></td>
+                            <td>{{ $order->paid_at ?? '-' }}</td>
                         </tr>
                     @endforeach
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </section>
-@endsection
-
-@section('after_scripts')
-    <script>
-        $orderRows = $('.o_table tr');
-        $orderRows.click(function (e) {
-          location.href = $(this).data('url');
-        });
-    </script>
 @endsection

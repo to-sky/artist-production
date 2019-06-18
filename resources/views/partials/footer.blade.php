@@ -35,11 +35,5 @@
     @include('partials.javascripts')
 
     @yield('after_scripts')
-
-    <script>
-        $('.b_back').click(function(e) {
-          history.back();
-        });
-    </script>
 </body>
 </html>

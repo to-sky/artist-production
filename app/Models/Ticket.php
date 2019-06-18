@@ -93,6 +93,13 @@ class Ticket extends Model implements Buyable
         return (100 - $discount) * $this->price()->value('price') / 100;
     }
 
+    public function getIsSittingPlaceAttribute()
+    {
+        $place = $this->place;
+
+        return !!$place->row && !!$place->num;
+    }
+
     /**
      *  User avatar
      *

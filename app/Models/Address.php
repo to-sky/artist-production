@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Country $country
  * @property string $full
  * @property string $full_name
- * @property string $building_address
+ * @property string $building_name
  */
 class Address extends Model
 {
@@ -31,7 +31,7 @@ class Address extends Model
     /**
      * @var array
      */
-    protected $fillable = ['country_id', 'client_id', 'first_name', 'last_name', 'street', 'house', 'apartment', 'post_code', 'city', 'active'];
+    protected $fillable = ['country_id', 'user_id', 'first_name', 'last_name', 'street', 'house', 'apartment', 'post_code', 'city', 'active'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -78,7 +78,7 @@ class Address extends Model
         $parts[] = $this->full_name;
         $parts[] = $this->country->name;
         $parts[] = $this->city;
-        $parts[] = $this->building_address;
+        $parts[] = $this->building_name;
         $parts[] = $this->post_code;
 
         return join(', ', $parts);

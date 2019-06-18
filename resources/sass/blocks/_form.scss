@@ -33,6 +33,12 @@
   background-color: #FFEB3B;
 }
 
+.ap_button--icon {
+  display: inline-block;
+  background: none;
+  border: none;
+}
+
 .ap_form--2-cols {
   display: flex;
   justify-content: space-between;

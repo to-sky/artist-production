@@ -65,6 +65,35 @@ class Order extends Model
         return $this->belongsTo('App\Models\ShippingZone');
     }
 
+    public function getEventNameAttribute()
+    {
+        $ticket = $this->tickets()->first();
+
+        if (empty($ticket)) return null;
+
+        return $ticket->event()->value('name');
+    }
+
+    public function getTicketsCountAttribute()
+    {
+        return $this->tickets()->count();
+    }
+
+    public function getDisplayStatusAttribute()
+    {
+        $statuses = $this->_displayStatuses();
+
+        return $statuses[$this->status] ?? array_first($statuses);
+    }
+
+    protected function _displayStatuses() {
+        return [
+            self::STATUS_PENDING => __('Pending'),
+            self::STATUS_CONFIRMED => __('Confirmed'),
+            self::STATUS_CANCELED => __('Cancelled'),
+        ];
+    }
+
     /**
      * Order subTotal attribute
      */

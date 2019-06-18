@@ -10,6 +10,11 @@ use Auth;
 
 class AddressController extends Controller
 {
+    /**
+     * Index page
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         $user = Auth::user();
@@ -18,6 +23,41 @@ class AddressController extends Controller
         return view('addresses.index', compact('addresses'));
     }
 
+    /**
+     * Create page
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create()
+    {
+        $countries = Country::pluck('name', 'id');
+
+        return view('addresses.create', compact('countries'));
+    }
+
+    /**
+     * Save action
+     *
+     * @param AddressRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function save(AddressRequest $request)
+    {
+        $data = array_merge($request->get('address'), [
+            'user_id' => Auth::id(),
+        ]);
+
+        $address = Address::create($data);
+
+        return redirect()->route('address.index');
+    }
+
+    /**
+     * Show/Edit page
+     *
+     * @param Address $address
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function show(Address $address)
     {
         $countries = Country::pluck('name', 'id');
@@ -25,6 +65,13 @@ class AddressController extends Controller
         return view('addresses.show', compact('address', 'countries'));
     }
 
+    /**
+     * Update action
+     *
+     * @param AddressRequest $request
+     * @param Address $address
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(AddressRequest $request, Address $address)
     {
         $address->fill($request->get('address'));
@@ -33,8 +80,17 @@ class AddressController extends Controller
         return redirect()->route('address.index');
     }
 
+    /**
+     * Remove action
+     *
+     * @param Address $address
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
     public function remove(Address $address)
     {
+        if (Address::whereUserId(Auth::id())->count() <= 1)
+            return redirect()->back()->withErrors(__('Can\'t delete last address'));
+
         $address->delete();
 
         return redirect()->back();

@@ -50,4 +50,13 @@
             expires: -1
         })
     }
+
+    $orderRows = $('.link_table tr.link_row');
+    $orderRows.click(function (e) {
+      location.href = $(this).data('url');
+    });
+
+    $('.b_back').click(function(e) {
+      history.back();
+    });
 </script>
