@@ -82,6 +82,20 @@ class PaymentService
     }
 
     /**
+     * Cancel payment
+     *
+     * @param Order $order
+     * @param Request $request
+     * @return mixed
+     */
+    public function cancel(Order $order, Request $request)
+    {
+        $processor = $this->getPaymentMethod($order->payment_method_id);
+
+        return $processor->cancel($order, $request);
+    }
+
+    /**
      * Get payment method processor object
      *
      * @param $id

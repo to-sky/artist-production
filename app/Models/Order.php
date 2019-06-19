@@ -43,6 +43,8 @@ class Order extends Model
         'shipping_price',
         'shipping_status',
         'shipping_zone_id',
+        'payment_method_id',
+        'service_price',
         'comment',
         'paid_at',
     ];
@@ -83,13 +85,13 @@ class Order extends Model
         return $this->belongsTo('App\Models\ShippingZone');
     }
 
-    public function getEventNameAttribute()
+    public function getEventAttribute()
     {
         $ticket = $this->tickets()->first();
 
         if (empty($ticket)) return null;
 
-        return $ticket->event()->value('name');
+        return $ticket->event()->first();
     }
 
     public function getTicketsCountAttribute()

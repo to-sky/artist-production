@@ -124,21 +124,24 @@ class TicketService
     /**
      * Add tickets to cart
      *
-     * @param Request $request
+     * @param array $data
+     * @param \App\Models\User|null $user
      * @return mixed
      */
-    public function reserve(Request $request)
+    public function reserve($data, $user = null)
     {
+        if (empty($user)) $user = auth()->user();
+
         $tickets = Ticket
             ::whereStatus(Ticket::AVAILABLE)
-            ->whereEventId($request->get('event_id'))
-            ->wherePlaceId($request->get('place_id'))
-            ->limit($request->get('count'))
+            ->whereEventId($data['event_id'])
+            ->wherePlaceId($data['place_id'])
+            ->limit($data['count'])
             ->get()
         ;
 
         foreach ($tickets as $ticket) {
-            $this->reserveTicket($ticket, $request->get('fill', []));
+            $this->reserveTicket($ticket, $user, $data['fill'] ?? []);
             Cart::add($ticket);
         }
 
@@ -146,14 +149,31 @@ class TicketService
     }
 
     /**
+     * Get reservation data from request
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function getReserveDataFromRequest(Request $request)
+    {
+        return $request->only([
+            'event_id',
+            'place_id',
+            'count',
+            'fill',
+        ]);
+    }
+
+    /**
      * Ticket reservation
      *
      * @param Ticket $ticket
+     * @param \App\Models\User $user
      * @param array $fill
      */
-    public function reserveTicket(Ticket $ticket, $fill = [])
+    public function reserveTicket(Ticket $ticket, $user, $fill = [])
     {
-        $ticket->user()->associate(auth()->user());
+        $ticket->user()->associate($user);
         $ticket->status = Ticket::RESERVED;
 
         foreach ($fill as $k => $v) {
@@ -198,14 +218,14 @@ class TicketService
     /**
      * Remove tickets prom cart
      *
-     * @param Request $request
+     * @param array $data
      * @return array
      */
-    public function free(Request $request)
+    public function free($data)
     {
-        $filter = $request->get('filter', []);
-        $filter['place_id'] = $request->get('place_id');
-        $filter['event_id'] = $request->get('event_id');
+        $filter = $data['filter'];
+        $filter['place_id'] = $data['place_id'];
+        $filter['event_id'] = $data['event_id'];
         $freedTickets = [];
         foreach (Cart::content() as $id => $reserved) {
             $ticket = $reserved->model;
@@ -218,6 +238,25 @@ class TicketService
         }
 
         return $freedTickets;
+    }
+
+    /**
+     * get data to free tickets from request
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function getFreeDataFromRequest(Request $request)
+    {
+        $data = $request->only([
+            'filter',
+            'place_id',
+            'event_id',
+        ]);
+
+        if (empty($data['filter'])) $data['filter'] = [];
+
+        return $data;
     }
 
     /**

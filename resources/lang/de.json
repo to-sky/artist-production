@@ -186,5 +186,12 @@
   "Go to personal account": "Gehe zum persönlichen Account",
   "Profile": "Profil",
   "My Orders": "meine Bestellungen",
-  "Addresses": "Adressen"
+  "Addresses": "Adressen",
+  "Edit address": "Adresse bearbeite",
+  "Add Address": "Adresse hinzufügen",
+  "Add": "Hinzufügen",
+  "Order Status": "Bestellstatus"
+  "Pending": "Anstehend",
+  "Confirmed": "Bestätigt",
+  "Cancelled": "Abgebrochen"
 }

@@ -3,6 +3,7 @@
 namespace App\PaymentMethods\Paypal;
 
 use App\PaymentMethods\AbstractPaymentProcessor;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PayPal\Api\Amount;
 use PayPal\Api\Details;
@@ -104,51 +105,52 @@ class PaypalPaymentProcessor extends AbstractPaymentProcessor
 
     public function confirm(Order $order, Request $request)
     {
-        if ($request->get('success', false)) {
-            $paymentId = $request->get('paymentId', null);
-            $payment = Payment::get($paymentId, $this->_apiContext);
 
-            $execution = new PaymentExecution();
-            $execution->setPayerId($request->get('PayerID', null));
+        $paymentId = $request->get('paymentId', null);
+        $payment = Payment::get($paymentId, $this->_apiContext);
 
-            $transaction = new Transaction();
-            $amount = new Amount();
-            $details = new Details();
+        $execution = new PaymentExecution();
+        $execution->setPayerId($request->get('PayerID', null));
 
-            $shipping = $order->shipping_price;
-            $tax = $order->tax;
-            $subtotal = $order->subtotal;
+        $transaction = new Transaction();
+        $amount = new Amount();
+        $details = new Details();
 
-            $details->setShipping($shipping)
-                ->setTax($tax)
-                ->setSubtotal($subtotal);
+        $shipping = $order->shipping_price;
+        $tax = $order->tax;
+        $subtotal = $order->subtotal;
 
-            $total = $order->total;
+        $details->setShipping($shipping)
+            ->setTax($tax)
+            ->setSubtotal($subtotal);
 
-            $amount->setCurrency(Order::CURRENCY);
-            $amount->setTotal($total);
-            $amount->setDetails($details);
-            $transaction->setAmount($amount);
+        $total = $order->total;
 
-            $execution->addTransaction($transaction);
+        $amount->setCurrency(Order::CURRENCY);
+        $amount->setTotal($total);
+        $amount->setDetails($details);
+        $transaction->setAmount($amount);
 
-            try {
-                $result = $payment->execute($execution, $this->_apiContext);
+        $execution->addTransaction($transaction);
 
-                if ($result->getState() == 'approved') {
-                    $order->update(['status' => Order::STATUS_CONFIRMED]);
+        try {
+            $result = $payment->execute($execution, $this->_apiContext);
+            if ($result->getState() == 'approved') {
+                $order->update([
+                    'status' => Order::STATUS_CONFIRMED,
+                    'paid_at' => Carbon::now(),
+                ]);
 
-                    return redirect()->route('payment.success', ['order' => $order->id]);
-                }
-            } catch (Exception $ex) {
-                return redirect()->route('payment.error', ['order' => $order->id])->withErrors(['message' => $ex->getMessage()]);
+                return redirect()->route('payment.success', ['order' => $order->id]);
             }
-
-        } else {
-            $order->update(['status' => Order::STATUS_CANCELED]);
-
-            return redirect()->route('payment.cancel', ['order' => $order->id]);
+        } catch (Exception $ex) {
+            return redirect()->route('payment.error', ['order' => $order->id])->withErrors(['message' => $ex->getMessage()]);
         }
+    }
+
+    public function cancel(Order $order, Request $request)
+    {
+        $order->update(['status' => Order::STATUS_CANCELED]);
     }
 
 }

@@ -39,7 +39,9 @@ class TicketController extends ApiController
      */
     public function reserve(Request $request)
     {
-        $tickets = $this->ticketService->reserve($request);
+        $tickets = $this->ticketService->reserve(
+            $this->ticketService->getReserveDataFromRequest($request)
+        );
 
         return response()->json(compact('tickets'));
     }
@@ -52,7 +54,9 @@ class TicketController extends ApiController
      */
     public function free(Request $request)
     {
-        $tickets = $this->ticketService->free($request);
+        $tickets = $this->ticketService->free(
+            $this->ticketService->getFreeDataFromRequest($request)
+        );
 
         return response()->json(compact('tickets'));
     }

@@ -90,24 +90,53 @@ class PaymentController
         return $response;
     }
 
-
+    /**
+     * Confirmation of payment
+     *
+     * @param Order $order
+     * @param Request $request
+     * @return mixed
+     */
     public function confirm(Order $order, Request $request)
     {
-        dd($this->paymentService->confirm($order, $request));
+        $response = $this->paymentService->confirm($order, $request);
 
-        return $this->paymentService->confirm($order, $request);
+        return $response;
     }
 
+    /**
+     * Success page for payment
+     *
+     * @param Order $order
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function success(Order $order, Request $request)
     {
         return view('payment.success', compact('order'));
     }
 
+    /**
+     * Cancel page for payment
+     *
+     * @param Order $order
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function cancel(Order $order, Request $request)
     {
+        $this->paymentService->cancel($order, $request);
+
         return view('payment.cancel', compact('order'));
     }
 
+    /**
+     * Payment error page
+     *
+     * @param Order $order
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function error(Order $order, Request $request)
     {
         return view('payment.error', compact('order'));

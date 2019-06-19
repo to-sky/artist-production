@@ -14,23 +14,24 @@
 @endsection
 
 @section('content')
-  {!! LinkMenu::make('menus.client', 'orders') !!}
-
   <main class="ap_order">
+
+    <div class="ap_headline">
+      <a href="#" class="ap_backlink">Назад</a>
+      <p class="ap_headline-text"><span class="ap_success">Поздравляем!</span> Заказ успешно оформлен</p>
+    </div>
 
     <div class="ap_order__info">
       <div class="ap_order__col1">
         <p>Номер вашего заказа</p>
-        <p>{{ __('Order Status') }}</p>
         @if(empty($order->paid_at))<p>Бронь действительна до</p>@endif
-
       </div>
       <div class="ap_order__col2">
         <p>{{ $order->id }}</p>
-        <p>{{ $order->display_status }}</p>
         @if(empty($order->paid_at))<p>14 мая 2019 12:42</p>@endif
       </div>
       <div class="ap_order__col3">
+        <p>В течении пары минут вам придет уведомление на E-mail с подтверждением вашего заказа и номером резерва </p>
         <div class="ap_order__actions">
           <button class="ap_order__action btn-print">Распечатать счет</button>
           <button class="ap_order__action">Скачать счет</button>
@@ -78,7 +79,7 @@
         <p>Стоимость доставки:</p>
       </div>
       <div class="ap_booked__col2">
-        <p>{{ sprintf('%1.2f', $order->tax) }} EUR</p>
+        <p>0.00 EUR</p>
         <p>{{ sprintf('%1.2f', $order->shipping_price) }} EUR</p>
       </div>
       <div class="ap_booked__col3">
@@ -88,7 +89,7 @@
         </a>
       </div>
       <div class="ap_booked__col4">
-        <p>{{ sprintf('%1.2f', $order->total) }} EUR</p>
+        <p>{{ sprintf('%1.2f', $order->final_price) }} EUR</p>
       </div>
     </div>
 
