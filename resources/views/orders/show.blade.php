@@ -78,7 +78,7 @@
         <p>Стоимость доставки:</p>
       </div>
       <div class="ap_booked__col2">
-        <p>{{ sprintf('%1.2f', $order->tax) }} EUR</p>
+        <p>{{ sprintf('%1.2f', $order->service_price) }} EUR</p>
         <p>{{ sprintf('%1.2f', $order->shipping_price) }} EUR</p>
       </div>
       <div class="ap_booked__col3">

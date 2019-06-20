@@ -14,6 +14,7 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
  * @property int $id
  * @property string $first_name
  * @property string $last_name
+ * @property string $full_name
  * @property string $email
  * @property string $password
  * @property boolean $active

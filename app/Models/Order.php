@@ -140,8 +140,13 @@ class Order extends Model
         ];
     }
 
+    /**
+     * Get total price of order
+     *
+     * @return int
+     */
     public function getTotalAttribute()
     {
-        return $this->subtotal + $this->tax + $this->shipping_price;
+        return $this->subtotal + $this->shipping_price + $this->service_price;
     }
 }

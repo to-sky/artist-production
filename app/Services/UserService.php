@@ -5,16 +5,22 @@ namespace App\Services;
 
 use App\Http\Requests\ProcessCheckoutRequest;
 use App\Http\Requests\ProfileRequest;
-use App\Mail\AccountDetails;
+use App\Mail\DynamicMails\RegistrationMail;
 use App\Models\Address;
 use App\Models\Profile;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Mail;
 
 class UserService
 {
+    protected $_mailService;
+
+    public function __construct(MailService $mailService)
+    {
+        $this->_mailService = $mailService;
+    }
+
     /**
      * Create client user from Checkout request
      *
@@ -42,7 +48,7 @@ class UserService
 
         if($authenticate) auth()->loginUsingId($user->id);
 
-        Mail::to($user->email)->send(new AccountDetails($user, $password));
+        $this->_mailService->send(new RegistrationMail($user, $password));
 
         return $user;
     }

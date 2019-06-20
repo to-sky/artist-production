@@ -56,7 +56,7 @@ class PaypalPaymentProcessor extends AbstractPaymentProcessor
         }
 
         $shipping = $order->shipping_price;
-        $tax = $order->tax;
+        $tax = $order->service_price;
         $subtotal = $order->subtotal;
 
 
@@ -117,7 +117,7 @@ class PaypalPaymentProcessor extends AbstractPaymentProcessor
         $details = new Details();
 
         $shipping = $order->shipping_price;
-        $tax = $order->tax;
+        $tax = $order->service_price;
         $subtotal = $order->subtotal;
 
         $details->setShipping($shipping)

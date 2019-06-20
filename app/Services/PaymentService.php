@@ -38,7 +38,9 @@ class PaymentService
      */
     public function checkout(Request $request, User $user, Address $address, Address $additionalAddress = null)
     {
+        /** @var ShippingZone|null $shippingZone */
         $shippingZone = ShippingZone::find($request->get('shipping_zone_id'));
+        /** @var PaymentMethod|null $paymentMethod */
         $paymentMethod = PaymentMethod::find($request->get('payment_method_id'));
 
         $data = [
@@ -54,14 +56,19 @@ class PaymentService
 
         $order = Order::create(array_merge($data, $request->all()));
 
+        if ($paymentMethod) {
+            $order->service_price = $paymentMethod->calculateServicePrice($order->subtotal);
+            $order->save();
+        }
+
         $this->castAddress($order, $additionalAddress ?: $address, ShippingAddress::class);
         $this->castAddress($order, $address, BillingAddress::class);
 
         $this->ticketService->attachCartToOrder($order);
 
-        $paymentMethod = $this->getPaymentMethod($paymentMethod->id ?? 0);
-        if ($paymentMethod) {
-            return $paymentMethod->process($order);
+        $paymentProcessor = $this->getPaymentMethod($paymentMethod->id ?? 0);
+        if ($paymentProcessor) {
+            return $paymentProcessor->process($order);
         }
 
         return redirect('payment.error');
