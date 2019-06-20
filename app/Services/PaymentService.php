@@ -20,11 +20,13 @@ use Illuminate\Support\Facades\Auth;
 
 class PaymentService
 {
-    protected $ticketService;
+    protected $_ticketService;
+    protected $_mailService;
 
-    public function __construct(TicketService $ticketService)
+    public function __construct(TicketService $ticketService, MailService $mailService)
     {
-        $this->ticketService = $ticketService;
+        $this->_ticketService = $ticketService;
+        $this->_mailService = $mailService;
     }
 
     /**
@@ -64,7 +66,7 @@ class PaymentService
         $this->castAddress($order, $additionalAddress ?: $address, ShippingAddress::class);
         $this->castAddress($order, $address, BillingAddress::class);
 
-        $this->ticketService->attachCartToOrder($order);
+        $this->_ticketService->attachCartToOrder($order);
 
         $paymentProcessor = $this->getPaymentMethod($paymentMethod->id ?? 0);
         if ($paymentProcessor) {
@@ -115,7 +117,7 @@ class PaymentService
 
         @$paymentMethodClass = '\\App\\PaymentMethods\\' . $paymentMethod->name . '\\' . $paymentMethod->name . 'PaymentProcessor';
         if (class_exists($paymentMethodClass)) {
-            return new $paymentMethodClass;
+            return new $paymentMethodClass($this->_mailService, $this->_ticketService);
         }
 
         return false;

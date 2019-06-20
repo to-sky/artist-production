@@ -57,6 +57,20 @@ abstract class AbstractDynamicMail implements DynamicMailInterface
     }
 
     /**
+     * @return string
+     */
+    public function getBody()
+    {
+        $template = setting($this->_getTemplateName());
+
+        foreach ($this->_prepareData() as $placeholder => $value) {
+            $template = str_replace($placeholder, $value, $template);
+        }
+
+        return view('layouts.mail', compact('template'))->render();
+    }
+
+    /**
      * Prepare placeholders data
      *
      * @return array

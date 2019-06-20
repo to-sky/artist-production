@@ -56,20 +56,6 @@ class RegistrationMail extends AbstractDynamicMail
     /**
      * @return string
      */
-    public function getBody()
-    {
-        $template = setting($this->_getTemplateName());
-
-        foreach ($this->_prepareData() as $placeholder => $value) {
-            $template = str_replace($placeholder, $value, $template);
-        }
-
-        return view('layouts.mail', compact('template'))->render();
-    }
-
-    /**
-     * @return string
-     */
     public function getTemplateTag()
     {
         return 'registration_confirmation';

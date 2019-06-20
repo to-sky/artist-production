@@ -301,9 +301,10 @@
                         {!! Form::radio('shipping_zone_id', '', true, [
                             'class' => 'ap_form__radio-input',
                             'id' => 'ship_type_mail',
+                            'data-shipping-price' => '0',
                         ]) !!}
                         <label for="ship_type_mail" class="ap_form__radio-label">{{ __('E-ticket') }}</label>
-                        <span class="ap-form__price">0 EUR</span>
+                        <span class="ap-form__price">0.00 EUR</span>
                     </div>
                     <div class="shippings_list"></div>
                     @if ($errors->has('shipping_type'))
@@ -316,9 +317,15 @@
                         <div class="ap_form__group">
                             {!! Form::radio('payment_method_id', $paymentMethod->id, true, array(
                                 'class' => 'ap_form__radio-input',
-                                'id' => "payment_method_{$paymentMethod->id}"
+                                'id' => "payment_method_{$paymentMethod->id}",
+                                'data-service-price' => $paymentMethod->calculateServicePrice(Cart::subtotal()),
                             )) !!}
-                            <label for="{{ "payment_method_{$paymentMethod->id}" }}" class="ap_form__radio-label">{{ $paymentMethod->name }}</label>
+                            <label for="{{ "payment_method_{$paymentMethod->id}" }}" class="ap_form__radio-label">
+                                {{ $paymentMethod->name }}
+                                @if($paymentMethod->display_service_price)
+                                    ({{ $paymentMethod->display_service_price }})
+                                @endif
+                            </label>
                         </div>
                     @endforeach
                     @if ($errors->has('payment_method_id'))
