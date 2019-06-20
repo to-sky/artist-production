@@ -102,7 +102,9 @@
         var phone = $(this).find('td[data-type="phone"]').text();
 
         clientDataHtml = $('<div>', {class: 'client-data-container'});
-        $('<h4>').append($('<i>', {class: 'fa fa-user'})).append(' ' + name).appendTo(clientDataHtml);
+        $('<h4>', {
+            class: 'client-name'
+        }).append($('<i>', {class: 'fa fa-user'})).append(' ' + name).appendTo(clientDataHtml);
 
         var clientRow = $('<div>', {class: 'row'}).appendTo(clientDataHtml);
 
@@ -119,7 +121,7 @@
 
         $('<input>', {
             type: 'hidden',
-            name: 'clientId',
+            name: 'user_id',
             value: radio.val()
         }).appendTo(clientDataHtml)
     });
@@ -130,7 +132,7 @@
         $('#clientData').html(clientDataHtml);
     });
 
-    // Open popup widget
+    // Open widget popup
     $('.show-widget').click(function (e) {
         e.preventDefault();
 
@@ -145,8 +147,10 @@
         });
     });
 
-    // Close popup widget
-    $('body').on('click', '.widget-close-btn', function () {
+    var body = $('body');
+
+    // Close widget popup
+    body.on('click', '.widget-close-btn', function () {
         $(".widget-content").animate({"left":"1900px"}, 500);
 
         setTimeout(function () {
@@ -154,5 +158,80 @@
             $('.widget-wrapper').remove();
         }, 500);
     });
+
+    // Change shipping type in modal
+    $('#shippingType').change(function () {
+        var type = $('option:selected', this).val();
+        var paymentTypeInput = $('#paymentType');
+
+        // TODO: set payment_type
+        if (type === 'office') {
+            paymentTypeInput.attr('value', '{{ __('Payment at the checkout') }}').next('input[type="hidden"]').val(1);
+        } else {
+            paymentTypeInput.attr('value', '{{ __('Bank transfer') }}').next('input[type="hidden"]').val(2);
+        }
+
+        // Append/remove address block
+        if (type === 'post') {
+            paymentTypeInput.parent('div').after(createAddressBlock());
+        } else {
+            $('#shippingAddress').closest('div.form-group').remove();
+        }
+    });
+
+    // Append client/user to modals
+    $('#saleModal, #reserveModal, #realizationModal').on('show.bs.modal', function () {
+        var clientBlock = $('#clientData');
+        var userId = $('input[name="user_id"]', clientBlock).val();
+        var userName = $('.client-name', clientBlock).text();
+            userName = userName ? userName : $('small', clientBlock).text();
+
+        $(this).find('.modal-client-name').text(userName);
+        $(this).find('input[name="user_id"]').val(userId);
+    });
+
+    // Disable/Enable submit buttons if user not selected
+    $('#reserveModal, #realizationModal').on('show.bs.modal', function () {
+        var user = $(this).find('input[name="user_id"]').val();
+        var buttonsStatus = (!user.length) ? true : false;
+
+        $('.modal-footer button', this).not('button[data-dismiss="modal"]').attr('disabled', buttonsStatus);
+    });
+
+    // Get user addresses and append to modal
+    body.on('click', '#anotherAddress', function () {
+        // TODO: Send ajax and get all addresses for current user
+        $.get(url, {user_id: 3}, function (data) {
+            // TODO: append user addresses after address block
+        });
+    });
+
+    // Create address block
+    function createAddressBlock() {
+        var inputAddress = $('<div>', {class: 'col-md-9'})
+            .append($('<label>', {
+                for: 'shippingAddress',
+                text: '{{ __('Address') }}'
+            }))
+            .append($('<input>', {
+                type: 'text',
+                id: 'shippingAddress',
+                class: 'form-control'
+            }))
+            .append($('<input>', {
+                type: 'hidden',
+                name: 'address_id',
+            }));
+
+        var anotherAddress = $('<div>', {class: 'col-md-3 label-top-offset'})
+            .append($('<button>', {
+                type: 'button',
+                id: 'anotherAddress',
+                class: 'btn btn-file-upload pull-right',
+                text: '{{ __('Another address') }}'
+            }));
+
+        return $('<div>', {class: 'form-group row'}).append(inputAddress).append(anotherAddress);
+    }
 </script>
 

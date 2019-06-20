@@ -128,7 +128,7 @@ class EventController extends AdminController
      */
     public function widgetContent(Event $event)
     {
-        return view('Admin::order.partials._popup_widget', compact('event'));
+        return view('Admin::order.partials.modals._popup_widget', compact('event'));
     }
 
     /**

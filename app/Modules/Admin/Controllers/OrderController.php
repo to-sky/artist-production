@@ -45,10 +45,10 @@ class OrderController extends AdminController {
 	/**
 	 * Store a newly created order in storage.
 	 *
-     * @param CreateOrderRequest|Request $request
+     * @param Request|Request $request
      * @return \Illuminate\Http\RedirectResponse
 	 */
-	public function store(CreateOrderRequest $request)
+	public function store(Request $request)
 	{
 		Order::create($request->all());
 
@@ -57,11 +57,6 @@ class OrderController extends AdminController {
         $this->redirectService->setRedirect($request);
         return $this->redirectService->redirect($request);
 	}
-
-    public function search()
-    {
-        return Event::all();
-    }
 
 	/**
 	 * Show the form for editing the specified order.

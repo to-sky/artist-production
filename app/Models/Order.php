@@ -33,13 +33,6 @@ class Order extends Model
     ];
 
     /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
-//    protected $appends = ['subTotal'];
-
-    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
@@ -67,20 +60,6 @@ class Order extends Model
     {
         return $this->hasMany('App\Models\Invoice');
     }
-
-    /**
-     * Order subTotal attribute
-     */
-//    public function getSubTotalAttribute()
-//    {
-//        $subTotal = 0;
-//
-//        foreach ($this->tickets() as $ticket) {
-//            $subTotal += $ticket->price;
-//        }
-//
-//        return $subTotal;
-//    }
 
     /**
      * Set attribute to datetime format
