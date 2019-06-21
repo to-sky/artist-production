@@ -140,34 +140,6 @@ class Order extends Model
         ];
     }
 
-    /**
-     * Set attribute to datetime format
-     * @param $input
-     */
-    public function setPaidAtAttribute($input)
-    {
-        if(!is_null($input)) {
-            $this->attributes['paid_at'] = Carbon::createFromFormat(config('admin.date_format') . ' ' . config('admin.time_format'), $input)->format('Y-m-d H:i:s');
-        }else{
-            $this->attributes['paid_at'] = '';
-        }
-    }
-
-    /**
-     * Get attribute from datetime format
-     * @param $input
-     *
-     * @return string
-     */
-    public function getPaidAtAttribute($input)
-    {
-        if(!is_null($input)) {
-            return Carbon::createFromFormat('Y-m-d H:i:s', $input)->format(config('admin.date_format') . ' ' .config('admin.time_format'));
-        }else{
-            return '';
-        }
-    }
-
     public function getTotalAttribute()
     {
         return $this->subtotal + $this->tax + $this->shipping_price;

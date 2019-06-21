@@ -2,12 +2,10 @@
 
 namespace App\Modules\Admin\Controllers;
 
-use App\Models\Client;
-use App\Models\Event;
+use App\Models\{Order, Event, User};
 use App\Modules\Admin\Controllers\AdminController;
 use Redirect;
 use Schema;
-use App\Models\Order;
 use App\Modules\Admin\Requests\CreateOrderRequest;
 use App\Modules\Admin\Requests\UpdateOrderRequest;
 use Illuminate\Http\Request;
@@ -38,7 +36,7 @@ class OrderController extends AdminController {
 	{
 	    return view('Admin::order.create', [
 	        'events' => Event::all(),
-            'clients' => Client::all()
+            'clients' => User::all()
         ]);
 	}
 

@@ -14,7 +14,7 @@ class AlterAddressTableClientIdToUserId extends Migration
     public function up()
     {
         Schema::table('addresses', function (Blueprint $table) {
-            $table->dropForeign('fk_addreses_clients1');
+            $table->dropForeign(['client_id']);
 
             $table->dropColumn('client_id');
 
@@ -39,9 +39,9 @@ class AlterAddressTableClientIdToUserId extends Migration
 
             $table->dropColumn('user_id');
 
-            $table->integer('client_id');
+            $table->unsignedInteger('client_id');
 
-            $table->foreign('client_id', 'fk_addreses_clients1')
+            $table->foreign('client_id')
                 ->references('id')
                 ->on('clients')
                 ->onDelete('CASCADE');

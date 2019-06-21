@@ -33,7 +33,8 @@
                             <td>{{ $client->commission }}%</td>
                             <td data-type="email">{{ $client->email }}</td>
                             <td  data-type="phone">{{ $client->phone }}</td>
-                            <td>{{ $client->getTypeLabel($client->type) }}</td>
+                            {{-- TODO: change to type--}}
+                            <td>Тип клиента</td>
                         </tr>
                     @endforeach
                     </tbody>

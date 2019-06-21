@@ -220,7 +220,6 @@
   "Tickets": "Tickets",
   "ticket": "fahrkarte",
   "tickets": "tickets",
-  "Row": "Reihe",
   "Place": "Platz",
   ":item not selected": ":item nicht ausgewählt",
   ":items not selected": ":items nicht ausgewählt",
@@ -243,8 +242,7 @@
   "Evening ticket office": "Abendkasse",
   "Post delivery": "Postzustellung",
   "Payment type": "Zahlungsart",
-  "Amount to pay": "Zu zahlender betrag"
-  "Free pass": "Freikarte",
+  "Amount to pay": "Zu zahlender betrag",
   "Details of your new account": "Angaben zu Ihrem neuen Konto",
   "I have read and agree to the Terms and Conditions (AGB), the Terms of Return (Widerrufsbelehrung) and the Privacy Policy (Datenschutzerklärung).":
     "Ich habe die AGB, die Widerrufsbelehrung und die Datenschutzerklärung gelesen und bin damit einverstanden.",
@@ -255,7 +253,7 @@
   "Edit address": "Adresse bearbeite",
   "Add Address": "Adresse hinzufügen",
   "Add": "Hinzufügen",
-  "Order Status": "Bestellstatus"
+  "Order Status": "Bestellstatus",
   "Pending": "Anstehend",
   "Confirmed": "Bestätigt",
   "Cancelled": "Abgebrochen"
