@@ -1,9 +1,11 @@
 <template>
   <div class="timer">
     <span v-html="$t('checkout.timeSession')"></span>
-    <span class="number">{{ minutes }}</span>
-    <span>:</span>
-    <span class="number">{{ seconds }}</span>
+    <span class="time">
+      <span class="number">{{ minutes }}</span>
+      <span>:</span>
+      <span class="number">{{ seconds }}</span>
+    </span>
     <div v-bind:style="{color: DANGER_COLOR}" class="message">{{ message }}</div>
   </div>
 </template>
@@ -12,36 +14,62 @@
 import moment from "moment";
 
 export default {
-  props: ["endTime"],
+  props: ["time"],
+
   data: () => ({
-    end: "",
-    interval: "",
-    minutes: "",
-    seconds: "",
-    message: "",
-    DANGER_COLOR: '#f00'
+    endTime: null,
+    currentTime: null,
+    interval: null,
+    timeIsOut: false,
+    DANGER_COLOR: '#f00',
+    format: 'DD-MM-YYYY HH:mm:ss'
   }),
 
+  created() {
+    this.endTime = moment(this.time, this.format).add(30, "minute");
+    this.currentTime = moment();
+  },
+
   mounted() {
-    this.end = this.endTime;
-    this.spreadOutTime(this.endTime);
     this.interval = setInterval(() => {
-      this.spreadOutTime(this.endTime);
-    }, 1000);
+      this.progress();
+    }, 500);
   },
   methods: {
-    spreadOutTime(date) {
-      let momentFormat = "DD-MM-YYYY HH:mm:ss";
-      let maxDate = moment(date, momentFormat)
-        .add(30, "m")
-        .format(momentFormat);
-      this.minutes = moment(maxDate, momentFormat).diff(moment(), "minutes");
-      if (this.minutes < 0)
-        this.message = this.$i18n.t("checkout.timeSessionEnd");
-      this.seconds =
-        moment(maxDate, momentFormat).diff(moment(), "seconds") -
-        this.minutes * 60;
+    progress() {
+      this.currentTime = moment();
+
+      if (this.diff <= 0) {
+        this.timeIsOut = true;
+        clearInterval(this.interval);
+        this.$emit('timeout');
+      }
+    }
+  },
+  computed: {
+    minutes() {
+      return this.endTime.diff(this.currentTime, 'minutes');
+    },
+    diff() {
+      return this.endTime.diff(this.currentTime, 'seconds');
+    },
+    seconds() {
+      let s = this.diff - this.minutes * 60;
+      if (s < 10) s = '0' + s.toString();
+      return s;
+    },
+    message() {
+      return this.timeIsOut ? this.$i18n.t("checkout.timeSessionEnd") : '';
     }
   }
 };
 </script>
+
+<style>
+  .timer .time {
+    font-size: 0;
+  }
+  .timer .time span {
+    font-size: 20px;
+  }
+</style>

@@ -46,7 +46,7 @@
                         <td>{{ $row->commission }}</td>
                         <td>{{ $row->email }}</td>
                         <td>{{ $row->phone }}</td>
-                        <td>{{ App\Models\Client::getTypeLabel($row->type) }}</td>
+                        <td>{{ App\Models\Profile::getTypeLabel($row->type) }}</td>
                         <td>{{ $row->comment }}</td>
 
                         <td>

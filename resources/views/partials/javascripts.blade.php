@@ -9,8 +9,15 @@
         return matches ? decodeURIComponent(matches[1]) : undefined;
     }
 
+    function getCookieOptions() {
+      return {
+        expires: 0,
+        path: '/'
+      };
+    }
+
     function setCookie(name, value, options) {
-        options = options || {};
+        options = Object.assign(getCookieOptions(), options);
 
         var expires = options.expires;
 
@@ -43,4 +50,13 @@
             expires: -1
         })
     }
+
+    $orderRows = $('.link_table tr.link_row');
+    $orderRows.click(function (e) {
+      location.href = $(this).data('url');
+    });
+
+    $('.b_back').click(function(e) {
+      history.back();
+    });
 </script>

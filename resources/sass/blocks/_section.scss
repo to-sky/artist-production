@@ -2,6 +2,10 @@
   margin-bottom: 60px;
 }
 
+.ap_section.ap_section--link-menu:not(:last-child) {
+  margin-bottom: 20px;
+}
+
 .ap_section--2-cols {
   display: flex;
   justify-content: space-between;

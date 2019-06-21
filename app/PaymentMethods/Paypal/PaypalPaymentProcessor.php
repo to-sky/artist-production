@@ -2,12 +2,16 @@
 
 namespace App\PaymentMethods\Paypal;
 
+use App\PaymentMethods\AbstractPaymentProcessor;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use PayPal\Api\Amount;
 use PayPal\Api\Details;
 use PayPal\Api\Item;
 use PayPal\Api\ItemList;
 use PayPal\Api\Payer;
 use PayPal\Api\Payment;
+use PayPal\Api\PaymentExecution;
 use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
 use PayPal\Rest\ApiContext;
@@ -16,20 +20,20 @@ use Illuminate\Support\Facades\Redirect;
 use App\Models\Order;
 use Exception;
 
-class PaypalPaymentProcessor
+class PaypalPaymentProcessor extends AbstractPaymentProcessor
 {
 
     protected $_apiContext;
 
     public function __construct()
     {
-        $this->_api_context = new ApiContext(
+        $this->_apiContext = new ApiContext(
             new OAuthTokenCredential(
                 config('paypal.client_id'),
                 config('paypal.secret')
             )
         );
-//        $this->_apiContext->setConfig(config('paypal.settings'));
+        $this->_apiContext->setConfig(config('paypal.settings'));
     }
 
     public function process(Order $order)
@@ -46,12 +50,12 @@ class PaypalPaymentProcessor
                 ->setCurrency(Order::CURRENCY)
                 ->setQuantity(1)
                 ->setSku($ticket->id)
-                ->setPrice($ticket->price);
+                ->setPrice($ticket->getBuyablePrice());
 
             $items[] = $item;
         }
 
-        $shipping = $order->shipping->price;
+        $shipping = $order->shipping_price;
         $tax = $order->tax;
         $subtotal = $order->subtotal;
 
@@ -91,65 +95,62 @@ class PaypalPaymentProcessor
         try {
             $payment->create($this->_apiContext);
         } catch (Exception $ex) {
-            return Redirect::route('payment.error', ['order' => $order->id])->withErrors(['message' => $ex->getMessage()]);
+            return redirect()->route('payment.error', ['order' => $order->id])->withErrors(['message' => $ex->getMessage()]);
         }
 
         $approvalUrl = $payment->getApprovalLink();
 
-
-
-        Redirect::away($approvalUrl);
-
+        return redirect()->away($approvalUrl);
     }
 
     public function confirm(Order $order, Request $request)
     {
 
-        if ($request->get('success', false)) {
-            $paymentId = $request->get('paymentId', null);
-            $payment = Payment::get($paymentId, $this->_apiContext);
+        $paymentId = $request->get('paymentId', null);
+        $payment = Payment::get($paymentId, $this->_apiContext);
 
-            $execution = new PaymentExecution();
-            $execution->setPayerId($request->get('PayerID', null));
+        $execution = new PaymentExecution();
+        $execution->setPayerId($request->get('PayerID', null));
 
-            $transaction = new Transaction();
-            $amount = new Amount();
-            $details = new Details();
+        $transaction = new Transaction();
+        $amount = new Amount();
+        $details = new Details();
 
-            $shipping = $order->shipping->price;
-            $tax = $order->tax;
-            $subtotal = $order->subtotal;
+        $shipping = $order->shipping_price;
+        $tax = $order->tax;
+        $subtotal = $order->subtotal;
 
-            $details->setShipping($shipping)
-                ->setTax($tax)
-                ->setSubtotal($subtotal);
+        $details->setShipping($shipping)
+            ->setTax($tax)
+            ->setSubtotal($subtotal);
 
-            $total = $order->total;
+        $total = $order->total;
 
-            $amount->setCurrency(Order::CURRENCY);
-            $amount->setTotal($total);
-            $amount->setDetails($details);
-            $transaction->setAmount($amount);
+        $amount->setCurrency(Order::CURRENCY);
+        $amount->setTotal($total);
+        $amount->setDetails($details);
+        $transaction->setAmount($amount);
 
-            $execution->addTransaction($transaction);
+        $execution->addTransaction($transaction);
 
-            try {
-                $result = $payment->execute($execution, $this->_apiContext);
+        try {
+            $result = $payment->execute($execution, $this->_apiContext);
+            if ($result->getState() == 'approved') {
+                $order->update([
+                    'status' => Order::STATUS_CONFIRMED,
+                    'paid_at' => Carbon::now(),
+                ]);
 
-                if ($result->getState() == 'approved') {
-                    $order->update(['status' => Order::STATUS_CONFIRMED]);
-
-                    Redirect::route('payment.success', ['order' => $order->id]);
-                }
-            } catch (Exception $ex) {
-                Redirect::route('payment.error', ['order' => $order->id])->withErrors(['message' => $ex->getMessage()]);
+                return redirect()->route('payment.success', ['order' => $order->id]);
             }
-
-        } else {
-            $order->update(['status' => Order::STATUS_CANCELED]);
-
-            Redirect::route('payment.cancel', ['order' => $order->id]);
+        } catch (Exception $ex) {
+            return redirect()->route('payment.error', ['order' => $order->id])->withErrors(['message' => $ex->getMessage()]);
         }
+    }
+
+    public function cancel(Order $order, Request $request)
+    {
+        $order->update(['status' => Order::STATUS_CANCELED]);
     }
 
 }

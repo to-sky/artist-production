@@ -21,6 +21,7 @@ class Role extends EntrustRole
     const ADMIN = 'admin';
     const BOOKKEEPER = 'bookkeeper';
     const PARTNER = 'partner';
+    const CLIENT = 'client';
 
     /**
      * @var array

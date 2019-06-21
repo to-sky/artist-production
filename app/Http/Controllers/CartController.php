@@ -3,32 +3,34 @@
 namespace App\Http\Controllers;
 
 
-use Gloudemans\Shoppingcart\Facades\Cart;
+use App\Models\Place;
+use App\Services\TicketService;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 
 class CartController
 {
-    public function add(Ticket $ticket)
+    protected $ticketService;
+
+    public function __construct(TicketService $ticketService)
     {
-        Cart::add($ticket);
+        $this->ticketService = $ticketService;
     }
 
-    public function update($id, Request $request)
+    public function removeById($id)
     {
-
-        Cart::update($id, $request->all());
-    }
-
-    public function remove($id)
-    {
-        Cart::remove($id);
+        $this->ticketService->freeById($id);
 
         return back();
     }
 
-    public function destroy()
+    public function destroy(Request $request)
     {
-        Cart::destroy();
+        $this->ticketService->emptyCart();
+
+        return $request->wantsJson()
+            ? response()->json([], 204)
+            : back()
+        ;
     }
 }

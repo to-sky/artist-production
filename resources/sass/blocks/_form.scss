@@ -3,9 +3,40 @@
   padding: 20px;
   border-radius: 4px;
 
-  .ap_section--2-cols & {
+  .ap_section--2-cols .ap_section__heading + & {
     height: calc(100% - 43px);
   }
+}
+
+.ap_buttons {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 4px;
+  text-align: right;
+}
+
+.ap_button {
+  border: none;
+  background-color: rgba(0, 0, 0, 0.06);
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-family: "ProximaNovaSB", sans-serif;
+  font-size: 18px;
+  line-height: 22px;
+  color: rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+}
+
+.ap_button--submit {
+  @extend .ap_button;
+
+  background-color: #FFEB3B;
+}
+
+.ap_button--icon {
+  display: inline-block;
+  background: none;
+  border: none;
 }
 
 .ap_form--2-cols {
@@ -14,7 +45,6 @@
 
   & > * {
     width: 50%;
-    padding-right: 100px;
   }
 
   & > *:first-child {
@@ -24,6 +54,13 @@
 
 .ap_form__group {
   margin-bottom: 20px;
+}
+
+.ap_form__error {
+  display: block;
+  text-align: right;
+  color: #f11;
+  margin: 5px 0 0;
 }
 
 .ap_form__group--separated {
@@ -42,6 +79,12 @@
   }
 }
 
+.ap_form__group--shipping {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 20px;
+}
+
 .ap_form__label {
   display: block;
   color: rgba(0, 0, 0, 0.4);
@@ -49,10 +92,15 @@
   cursor: pointer;
 }
 
+.ap_form__price {
+  color: rgba(0, 0, 0, 0.8);
+}
+
 .ap_form__input {
   width: 100%;
   height: 47px;
   line-height: 47px;
+  background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 4px;
   padding: 0 10px;
@@ -64,8 +112,7 @@
 }
 
 .ap_form__checkbox-label {
-  display: flex;
-  justify-content: space-between;
+  display: block;
   position: relative;
   padding-left: 26px;
   cursor: pointer;
@@ -89,10 +136,6 @@
     font-family: "Font Awesome 5 Free";
     color: rgba(0, 0, 0, 0.6);
   }
-
-  strong {
-    font-family: $fontSB;
-  }
 }
 
 .ap_form__checkbox-input:checked + .ap_form__checkbox-label::after {
@@ -103,17 +146,10 @@
   margin-left: 22px;
   margin-bottom: 15px;
   font-family: $fontSB;
-
-  .ap_form--2-cols & {
-    margin-left: 0;
-  }
 }
 
 .ap_form__radio-label {
   position: relative;
-  display: inline-flex;
-  justify-content: space-between;
-  width: 100%;
   padding-left: 28px;
   cursor: pointer;
 
@@ -136,10 +172,6 @@
     height: 6px;
     border-radius: 50%;
     border: 5px solid #333333;
-  }
-
-  strong {
-    font-family: $fontSB;
   }
 }
 

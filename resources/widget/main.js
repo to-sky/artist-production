@@ -5,6 +5,12 @@ import VModal from "vue-js-modal";
 import VueI18n from "vue-i18n";
 import VueCarousel from "vue-carousel";
 import VueSweetAlert from "vue-sweetalert2";
+import axios from 'axios';
+import UrlService from './services/UrlService/UrlService';
+
+Object.assign(axios.defaults, {
+  withCredentials: true
+});
 
 Vue.config.productionTip = false;
 Vue.use(VModal);
@@ -40,6 +46,9 @@ const messages = {
       row: "Row: ",
       num: "Num: ",
       price: "Price: "
+    },
+    priceGroup: {
+      standard: 'Standard'
     }
   },
   de: {
@@ -70,6 +79,9 @@ const messages = {
       row: "Reihe: ",
       num: "Anzahl: ",
       price: "Preis: "
+    },
+    priceGroup: {
+      standard: 'Standard'
     }
   },
   ru: {
@@ -99,6 +111,9 @@ const messages = {
       row: "Ряд: ",
       num: "Место: ",
       price: "Цена: "
+    },
+    priceGroup: {
+      standard: 'Стандартный'
     }
   }
 };
@@ -111,5 +126,36 @@ const i18n = new VueI18n({
 new Vue({
   store,
   i18n,
-  render: h => h(App)
+  render: h => h(App),
+
+  data() {
+    return {
+      locales: ['de', 'en', 'ru'],
+      defaultLocale: 'de',
+      currentLocale: UrlService.get('lang', 'de', l => {
+        this.currentLocale = l;
+      })
+    };
+  },
+
+  mounted() {
+    this.changeLanguage(this.currentLocale);
+  },
+
+  methods: {
+    changeLanguage(locale) {
+      this.currentLocale = this.locales.includes(locale)
+        ? locale
+        : this.currentLocale || this.defaultLocale
+      ;
+
+      this.$i18n.locale = this.currentLocale;
+    }
+  },
+
+  watch: {
+    currentLocale(n, o) {
+      this.changeLanguage(n);
+    }
+  }
 }).$mount("#app");

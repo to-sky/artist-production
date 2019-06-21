@@ -1,0 +1,33 @@
+.ap_table-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 4px;
+}
+
+.ap_table {
+  width: 100%;
+
+  thead {
+    background-color: #003d64;
+    color: #fff;
+  }
+
+  th, td {
+    padding: 10px;
+  }
+
+  tbody tr:hover {
+    background-color: #F9F8F8;
+    padding: 0;
+  }
+
+  &--striped {
+    tr:nth-child(even) {
+      background-color: #fafafa;
+    }
+  }
+}
+
+.link_row {
+  cursor: pointer;
+}

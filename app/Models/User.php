@@ -20,6 +20,9 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
  * @property string $created_at
  * @property string $updated_at
  * @property string $remember_token
+ * @property \App\Models\Address[] $addresses
+ * @property \App\Models\Profile $profile
+ * @property \App\Models\Order[] $orders
  */
 class User extends Authenticatable implements AuthenticatableContract
 {
@@ -60,6 +63,21 @@ class User extends Authenticatable implements AuthenticatableContract
     public function tickets()
     {
         return $this->hasMany('App\Models\Ticket');
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany('App\Models\Address');
+    }
+
+    public function profile()
+    {
+        return $this->hasOne('App\Models\Profile');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany('App\Models\Order');
     }
 
     /**

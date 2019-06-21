@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Keygen\Keygen;
 use Gloudemans\Shoppingcart\Contracts\Buyable;
+use Keygen\Keygen;
 
 class Ticket extends Model implements Buyable
 {
@@ -17,7 +17,7 @@ class Ticket extends Model implements Buyable
 
     protected static $barcodes = [];
 
-    protected $fillable = ['barcode', 'amount_printed', 'price', 'status', 'user_id', 'event_id', 'place_id', 'price_id'];
+    protected $fillable = ['barcode', 'amount_printed', 'price', 'status', 'user_id', 'event_id', 'place_id', 'price_id', 'order_id'];
 
     public function __construct(array $attributes = [])
     {
@@ -43,9 +43,73 @@ class Ticket extends Model implements Buyable
         return $this->belongsTo('App\Models\Price');
     }
 
+    public function priceGroup()
+    {
+        return $this->belongsTo('App\Models\PriceGroup');
+    }
+
     public function scopeAvailable($query)
     {
         return $query->where('status', self::AVAILABLE);
+    }
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['address'];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function order()
+    {
+        return $this->belongsTo('App\Models\Order');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function event()
+    {
+        return $this->belongsTo('App\Models\Event');
+    }
+
+    public function getBuyableIdentifier($options = null)
+    {
+        return $this->id;
+    }
+
+    public function getBuyableDescription($options = null)
+    {
+        return $this->event->name;
+    }
+
+    public function getBuyablePrice($options = null)
+    {
+        $discount = $this->priceGroup()->value('discount') ?: 0;
+
+        return (100 - $discount) * $this->price()->value('price') / 100;
+    }
+
+    public function getIsSittingPlaceAttribute()
+    {
+        $place = $this->place;
+
+        return !!$place->row && !!$place->num;
+    }
+
+    /**
+     *  User avatar
+     *
+     * @return mixed
+     */
+    public function getAddressAttribute()
+    {
+        return $this->event->hall->name . ', '
+            . $this->event->hall->building->address . ', '
+            . $this->event->hall->building->city->name;
     }
 
     /**
@@ -73,32 +137,5 @@ class Ticket extends Model implements Buyable
         $this->setRawAttributes([
             'barcode' => $barcode,
         ]);
-    }
-
-    public function getBuyableIdentifier($options = null)
-    {
-        return $this->id;
-    }
-
-    public function getBuyableDescription($options = null)
-    {
-        return $this->name;
-    }
-
-    public function getBuyablePrice($options = null)
-    {
-        return $this->price()->value('price');
-    }
-
-    /**
-     *  User avatar
-     *
-     * @return mixed
-     */
-    public function getAddressAttribute()
-    {
-        return $this->event->hall->name . ', '
-            . $this->event->hall->building->address . ', '
-            . $this->event->hall->building->city->name;
     }
 }

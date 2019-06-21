@@ -3,26 +3,31 @@
     <zone-description :event="event"></zone-description>
     <hall-map
         :event="event"
-        :selected="selected"
-        @updatePlace="flushPlace($event)"
-        @updateZone="flushZone($event)"
+        @updatePlace="processPlace($event)"
+        @updateZone="selectZone($event)"
         @hallMapLoaded="$emit('hallMapLoaded')"
     ></hall-map>
     <checkout
-        v-show="showCheckout"
         :event="event"
-        :selected="selected"
-        :time="timeLimit"
-        @deleteReserve="flushPlace($event)"
-        @closeCheck="showCheckout = false"
+        :time="time"
+        @deleteReserveById="freeTicketById($event)"
+        @closeCheck="$modal.hide('checkout-zone')"
         @sendCheckout="sendCheckout"
     ></checkout>
     <place-popup
-        v-if="showPlace"
+        v-if="selectedZone"
         :max="selectedZone.limit"
-        @sendFanZone="countZone($event)"
+        :event="event"
+        :has-groups="event.hasManyPriceGroups()"
+        @selectGroup="setZoneGroup($event)"
+        @updateTicketsCount="reserveFanZone($event)"
     ></place-popup>
+    <price-group-popup
+        :priceGroups="event.priceGroups"
+        @selectGroup="bindGroupPlace($event)"
+    ></price-group-popup>
     <div
+      v-if="event.cart.hasItems() && !hideCheckoutButton"
       class="current-zone__buy-tickets"
       v-html="buttonBuyTickets"
       @click="openCheckoutPopup"
@@ -35,7 +40,10 @@ import hallMap from "./Map/HallMap.vue";
 import zoneDescription from "./ZoneDescription.vue";
 import checkout from "./Checkout.vue";
 import placePopup from './PlacePopup.vue';
+import priceGroupPopup from './PriceGroupPopup.vue';
 import moment from 'moment';
+import CookieService from '../../services/CookieService/CookieService';
+import UrlService from '../../services/UrlService/UrlService';
 
 export default {
   props: ["event"],
@@ -44,109 +52,116 @@ export default {
     hallMap,
     zoneDescription,
     checkout,
-    placePopup
+    placePopup,
+    priceGroupPopup
   },
 
   data() {
+    let time = moment();
+
     return {
-      selected: [],
+      selectedPlace: null,
       selectedZone: null,
-      showCheckout: false,
-      showPlace: false,
-      timeLimit: moment().format("DD-MM-YYYY HH:mm:ss")
+      selectedPriceGroup: null,
+      time: time.format("DD-MM-YYYY HH:mm:ss"),
+      timestamp: +time,
+      hideCheckoutButton: UrlService.get('no_checkout', false, d => this.hideCheckoutButton = d)
     };
   },
 
   mounted() {
+    CookieService.set('orderSeconds', this.timestamp);
   },
 
   computed: {
     buttonBuyTickets() {
-      if (!this.selected.length) return "";
-      return this.computedButtonHtml(this.selected);
+      return this.computedButtonHtml(this.event.cart.length, this.event.cart.total());
     }
   },
 
   methods: {
     openCheckoutPopup() {
       this.$modal.show("checkout-zone");
-      this.showCheckout = true;
+    },
+
+    openPriceGroupPopup() {
+      this.$modal.show('price-group');
+    },
+
+    processPlace(place) {
+      if (this.isReserved(place)) {
+        this.flushPlace(place);
+      } else {
+        if (this.event.hasManyPriceGroups()) {
+          this.selectedPlace = place;
+          this.openPriceGroupPopup();
+
+          return;
+        }
+
+        this.flushPlace(place);
+      }
+    },
+
+    bindGroupPlace(group) {
+      this.selectedPriceGroup = group;
+      this.$modal.hide('price-group');
+
+      this.flushPlace(this.selectedPlace);
+    },
+
+    setZoneGroup(group) {
+      this.selectedPriceGroup = group;
     },
 
     flushPlace(place) {
-      let toDel = false;
-      this.selected.forEach((e, i) =>  {
-        if (e.id === place.id) {
-          toDel = true;
-          this.selected.splice(i, 1);
-        }
-      });
-
-      if (!toDel) {
-        this.selected.push(place);
-      }
-    },
-
-    flushZone(place) {
-      let toDel = false;
-      this.selected.forEach((e, i) =>  {
-        if (e.id === place.id) {
-          toDel = true;
-          this.selected.splice(i, 1);
-        }
-      });
-
-      if (!toDel) {
-        this.selectedZone = place;
-        this.$modal.show("place-zone");
-        this.showPlace = true;
-      }
-    },
-
-    countZone(count) {
-      this.selectedZone.count = count;
-      this.selected.push(this.selectedZone);
-      this.showPlace = false;
-    },
-
-    hasParent(t, className) {
-      while (t && t !== document) {
-        if (t.classList.contains(className)) return true;
-
-        t = t.parentNode;
+      if (this.isReserved(place)) {
+        this.event.cart.free(place);
+      } else {
+        this.event.cart.reserve(place, 1, {
+          price_group_id: this.selectedPriceGroup && this.selectedPriceGroup.id || null
+        });
       }
 
-      return false;
+      this.selectedPriceGroup = null;
     },
 
-    computedButtonHtml(places) {
-      let finalPrice = 0;
-      let length = 0;
-      places.forEach(p => {
-        let count = parseInt(p.count) || 1;
+    freeTicketById(ticketId) {
+      this.event.cart.freeById(ticketId);
+    },
 
-        length += count;
-        finalPrice += parseFloat(p.price) * count;
+    isReserved(place) {
+      return this.event.cart.isReserved(place);
+    },
+
+    selectZone(place) {
+      this.selectedZone = place;
+      this.$modal.show("place-zone");
+    },
+
+    reserveFanZone(count) {
+      this.event.cart.reserve(this.selectedZone, count, {
+        price_group_id: this.selectedPriceGroup && this.selectedPriceGroup.id || null
       });
 
-      console.log(length);
+      this.selectedPriceGroup = null;
+      this.$modal.hide('place-zone');
+    },
 
+    computedButtonHtml(ticketsNum, total) {
       return (
         "<div class='current-zone__buy-tickets_size'>" +
-        this.$tc("buyButton.ticket", length, {
-          count: length,
-          price: finalPrice.toFixed(2)
+        this.$tc("buyButton.ticket", ticketsNum, {
+          count: ticketsNum,
+          price: total
         }) +
         "</div>"
       );
     },
 
-    sendCheckout(num) {
-      this.showCheckout = false;
-
-      // @todo: finish checkout code
-
-      this.selected = [];
+    sendCheckout() {
+      this.$modal.hide('checkout-zone');
+      window.parent.location = '/payment/checkout';
     }
   }
 };

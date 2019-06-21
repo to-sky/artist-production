@@ -25,25 +25,15 @@ class EventService {
     });
   }
 
-  static updateTicket(event_id, place, price, count) {
-    let placeIds = [];
-
-    if (place.id) {
-      placeIds = place.id;
-    } else {
-      place.forEach(p => {
-        placeIds.push(p.id);
-      });
-    }
+  static loadDelta(eventId) {
+    !this.lastDeltaTime && (this.lastDeltaTime = 0);
 
     return new Promise((resolve, reject) => {
-      axios.post(`/api/tickets`, {
-        event_id: event_id,
-        place_id: placeIds,
-        price_id: price.id,
-        count: count || 1
-      })
-        .then(r => resolve(r))
+      axios.get(`/api/events/${eventId}/delta?last_update=${escape(this.lastDeltaTime)}`)
+        .then(r => {
+          this.lastDeltaTime = r.data.timestamp;
+          resolve(r.data.tickets);
+        })
         .catch(e => reject(e))
       ;
     });

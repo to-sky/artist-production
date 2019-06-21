@@ -28,8 +28,25 @@ class Order extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'status', 'expired_at', 'tax', 'discount', 'final_price', 'paid_bonuses',
-        'paid_cash', 'payment_type', 'delivery_type', 'delivery_status', 'comment', 'paid_at'
+        'user_id',
+        'status',
+        'expired_at',
+        'tax',
+        'discount',
+        'final_price',
+        'subtotal',
+        'paid_bonuses',
+        'paid_cash',
+        'payment_type',
+        'delivery_type',
+        'delivery_status',
+        'shipping_price',
+        'shipping_status',
+        'shipping_zone_id',
+        'payment_method_id',
+        'service_price',
+        'comment',
+        'paid_at',
     ];
 
     /**
@@ -87,5 +104,72 @@ class Order extends Model
         }else{
             return '';
         }
+    }
+
+    public function shippingZone()
+    {
+        return $this->belongsTo('App\Models\ShippingZone');
+    }
+
+    public function getEventAttribute()
+    {
+        $ticket = $this->tickets()->first();
+
+        if (empty($ticket)) return null;
+
+        return $ticket->event()->first();
+    }
+
+    public function getTicketsCountAttribute()
+    {
+        return $this->tickets()->count();
+    }
+
+    public function getDisplayStatusAttribute()
+    {
+        $statuses = $this->_displayStatuses();
+
+        return $statuses[$this->status] ?? array_first($statuses);
+    }
+
+    protected function _displayStatuses() {
+        return [
+            self::STATUS_PENDING => __('Pending'),
+            self::STATUS_CONFIRMED => __('Confirmed'),
+            self::STATUS_CANCELED => __('Cancelled'),
+        ];
+    }
+
+    /**
+     * Set attribute to datetime format
+     * @param $input
+     */
+    public function setPaidAtAttribute($input)
+    {
+        if(!is_null($input)) {
+            $this->attributes['paid_at'] = Carbon::createFromFormat(config('admin.date_format') . ' ' . config('admin.time_format'), $input)->format('Y-m-d H:i:s');
+        }else{
+            $this->attributes['paid_at'] = '';
+        }
+    }
+
+    /**
+     * Get attribute from datetime format
+     * @param $input
+     *
+     * @return string
+     */
+    public function getPaidAtAttribute($input)
+    {
+        if(!is_null($input)) {
+            return Carbon::createFromFormat('Y-m-d H:i:s', $input)->format(config('admin.date_format') . ' ' .config('admin.time_format'));
+        }else{
+            return '';
+        }
+    }
+
+    public function getTotalAttribute()
+    {
+        return $this->subtotal + $this->tax + $this->shipping_price;
     }
 }

@@ -2,9 +2,9 @@
     <svg width="100%" height="100%">
         <g
             v-for="place in event.places.circle"
-            @click.prevent="$emit('clickPlace', $event, place)"
-            @mouseover="$emit('overPlace', $event, place)"
-            @mouseout="$emit('outPlace', place)"
+            @click.prevent="!place.disabled && $emit('clickPlace', $event, place)"
+            @mouseover="!place.disabled && $emit('overPlace', $event, place)"
+            @mouseout="!place.disabled && $emit('outPlace', place)"
         >
             <circle
                     :cx="place.x"
@@ -30,9 +30,9 @@
 
         <g
             v-for="place in event.places.fanZone"
-            @click.prevent="$emit('clickFanZone', $event, place)"
-            @mouseover="$emit('overPlace', $event, place)"
-            @mouseout="$emit('outPlace', place)"
+            @click.prevent="!place.disabled && $emit('clickFanZone', $event, place)"
+            @mouseover="!place.disabled && $emit('overPlace', $event, place)"
+            @mouseout="!place.disabled && $emit('outPlace', place)"
         >
             <rect
                     :x="place.x - place.width/2"
@@ -84,17 +84,11 @@
 
 <script>
   export default {
-    props: ['event', 'selected'],
+    props: ['event'],
     name: "HallSvg",
     methods: {
       placeSelected(place) {
-        let s = false;
-        this.selected.forEach(p => {
-          if (p.id === place.id) {
-            s = true;
-          }
-        });
-        return s;
+        return this.event.cart && this.event.cart.isReserved(place);
       }
     }
   }

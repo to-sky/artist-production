@@ -2,19 +2,23 @@
 
 namespace App\Modules\Api\Controllers;
 
+use App\Http\Requests\EventTicketsDeltaRequest;
 use App\Models\Event;
-use App\Models\Ticket;
+use App\Services\TicketService;
 
 class EventController extends ApiController
 {
     /**
      * Get event data
      *
+     * @param TicketService $ticketService
      * @param Event $event
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Event $event)
+    public function show(TicketService $ticketService, Event $event)
     {
+        $event->loadMissing('eventImage');
+
         $hall = $event->hall()->with('building.city')->first();
 
         $labels = $event->hall->labels()->get([
@@ -51,6 +55,8 @@ class EventController extends ApiController
 
         $priceGroups = $event->priceGroups()->get(['id', 'name','discount']);
 
+        $selectedTickets = $ticketService->getCartTickets($event->id);
+
         return response()->json(compact(
             'event',
             'hall',
@@ -58,7 +64,8 @@ class EventController extends ApiController
             'zones',
             'places',
             'prices',
-            'priceGroups'
+            'priceGroups',
+            'selectedTickets'
         ), 200);
     }
 
@@ -90,5 +97,26 @@ class EventController extends ApiController
         $tickets = $event->tickets;
 
         return response()->json(compact('places', 'prices', 'tickets'));
+    }
+
+    /**
+     * Get tickets updates from `last_update` to current time
+     *
+     * @param TicketService $ticketService
+     * @param EventTicketsDeltaRequest $request
+     * @param Event $event
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function delta(TicketService $ticketService, EventTicketsDeltaRequest $request, Event $event)
+    {
+        $end = time();
+        $start = $request->get('last_update') ?: $end;
+
+        $tickets = $ticketService->getStatusDelta($event, $start, $end);
+
+        return response()->json([
+            'tickets' => $tickets,
+            'timestamp' => $end,
+        ]);
     }
 }

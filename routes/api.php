@@ -12,16 +12,6 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::group([
-    'module'=>'Api',
-    'namespace' => '\App\Modules\Api\Controllers'
-], function() {
-    Route::get('events/{event}', 'EventController@show');
-    Route::get('events/{event}/setup',  'EventController@hallPrices');
-
-    Route::post('tickets', 'TicketController@updateTicket');
-});
-
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

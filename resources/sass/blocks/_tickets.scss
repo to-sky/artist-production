@@ -48,6 +48,8 @@
   right: 20px;
   border: 0;
   background: none;
+  padding: 0;
+  outline: none;
 
   width: 25px;
   height: 25px;
@@ -66,7 +68,7 @@
     background-color: #999;
     transform-origin: center;
   }
-  
+
   &::before {
     transform: rotate(45deg);
   }
@@ -102,4 +104,5 @@
   font-size: inherit;
   font-family: inherit;
   color: inherit;
+  outline: none;
 }

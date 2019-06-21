@@ -17,104 +17,276 @@
 
     @if(Cart::count())
 
+    <!-- Tickets -->
+    <section class="ap_section">
+        <div class="ap_section__heading">
+            <h2 class="ap_section__title">{!! __('Chosen tickets <b>:quantity</b>', ['quantity' => Cart::count()]) !!}</h2>
+            <p class="ap_section__info">{!! __('Time left to place an order') !!} <span id="counter"></span></p>
+        </div>
+
+        <div class="ap_section__content ap_tickets">
+            @foreach (Cart::content() as $item)
+                <article class="ap_ticket">
+                    <a href="" class="ap_ticket__image" style="background-image: url({{ $item->model->event->eventImage->file_url ?? asset('images/no-image.jpg') }});"></a>
+                    <div class="ap_ticket__info">
+                        <h3 class="ap_ticket__title">{{ $item->name }}</h3>
+                        <p class="ap_ticket__price">
+                            {{ $item->price }} EUR
+                            @if($item->model->priceGroup)
+                                ({{ $item->model->priceGroup->name }})
+                            @endif
+                        </p>
+                        <p class="ap_ticket__detail"><i class="fas fa-calendar-alt"></i> {{ $item->model->event->date->format('d.m.Y') }}</p>
+                        <p class="ap_ticket__detail"><i class="fas fa-calendar-alt"></i> {{ __($item->model->event->date->format('l')) }}</p>
+                        <p class="ap_ticket__detail"><i class="fas fa-clock"></i> {{ $item->model->event->date->format('H:i') }}</p>
+                        <p class="ap_ticket__detail"><i class="fas fa-map-marked-alt"></i> {{ $item->model->address }}</p>
+                        <p class="ap_ticket__detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            @php $place = $item->model->place; @endphp
+                            {!! __('Block') !!} {{ $place->zone->name ?? '-' }}:
+                            {!! __('Row') !!} {{ $place->row ?? '-' }},
+                            {!! __('Seat') !!} {{ $place->num ?? '-' }}
+                        </p>
+                    </div>
+                    {!! Form::open(['route' => ['cart.remove', 'id' => $item->model->id]]) !!}
+                        <button class="ap_ticket__remove"></button>
+                    {!! Form::close() !!}
+                </article>
+            @endforeach
+            <div class="ap_tickets__footer">
+                <p class="ap_tickets__footer-text">{!! __('Total') !!}: <b>{{ Cart::subtotal() }} EUR</b></p>
+                {!! Form::open(['route' => 'cart.destroy']) !!}
+                    <button class="ap_tickets__footer-text">{{ __('Remove all tickets') }}</button>
+                {!! Form::close() !!}
+            </div>
+        </div>
+    </section>
+
     {!! Form::open(array('route' => 'payment.processCheckout')) !!}
 
-        <!-- Tickets -->
-        <section class="ap_section">
-            <div class="ap_section__heading">
-                <h2 class="ap_section__title">{!! __('Chosen tickets <b>:quantity</b>', ['quantity' => Cart::count()]) !!}</h2>
-                <p class="ap_section__info">Время на оформление заказа <span id="counter"></span></p>
-            </div>
+        @if(auth()->check())
+            <!-- Client Addresses -->
+            <section class="ap_section">
+                <div class="ap_section__heading">
+                    <h2 class="ap_section__title">{{ __('Another addresses') }}</h2>
+                </div>
+                <div class="ap_form">
+                    <h3 class="ap_form__radio-title">{{ __('Add address') }}</h3>
 
-            <div class="ap_section__content ap_tickets">
-                @foreach (Cart::content() as $item)
-                    @php
-                        //dd($item);
-                    @endphp
-                    <article class="ap_ticket">
-                        <a href="" class="ap_ticket__image" style="background-image: url({{ asset('images/kir-core.jpg') }});"></a>
-                        <div class="ap_ticket__info">
-                            <h3 class="ap_ticket__title">{{ $item->name }}</h3>
-                            <p class="ap_ticket__price">{{ $item->price }} EUR</p>
-                            <p class="ap_ticket__detail"><i class="fas fa-calendar-alt"></i> {{ $item->model->event->date->format('d.m.Y') }}</p>
-                            <p class="ap_ticket__detail"><i class="fas fa-calendar-alt"></i> {{ __($item->model->event->date->format('l')) }}</p>
-                            <p class="ap_ticket__detail"><i class="fas fa-clock"></i> {{ $item->model->event->date->format('H:i') }}</p>
-                            <p class="ap_ticket__detail"><i class="fas fa-map-marked-alt"></i> {{ $item->model->address }}</p>
-                            <p class="ap_ticket__detail">
-                                <i class="fas fa-map-marker-alt"></i>
-                                @php $place = $item->model->place; @endphp
-                                Block {{ $place->zone->name ?? '-' }}:
-                                Reihe {{ $place->row ?? '-' }},
-                                Platz {{ $place->num ?? '-' }}
-                            </p>
+                    @foreach($addresses as $address)
+                        <div class="ap_form__group">
+                            <input
+                                    id="adr_{{ $address->id }}"
+                                    name="address_id"
+                                    type="radio"
+                                    class="ap_form__radio-input"
+                                    @if($loop->first) checked="checked" @endif
+                                    data-country="{{ $address->country_id }}"
+                                    value="{{ $address->id }}"
+                            >
+                            <label for="adr_{{ $address->id }}" class="ap_form__radio-label">{{ $address->full }}</label>
                         </div>
-                        <a href="{{ route('cart.remove', ['id' => $item->rowId]) }}" class="ap_ticket__remove"></a>
-                    </article>
-                @endforeach
-                <div class="ap_tickets__footer">
-                    <p class="ap_tickets__footer-text">Сумма заказа: <b>{{ Cart::subtotal() }} EUR</b></p>
-                    <button class="ap_tickets__footer-text">Удалить все билеты</button>
-                </div>
-            </div>
-        </section>
+                    @endforeach
 
-        <!-- Client Details -->
-        <section class="ap_section ap_section--2-cols">
-            <div class="ap_section__content">
-                <div class="ap_section__heading">
-                    <h2 class="ap_section__title">{{ __('Contact information') }}</h2>
-                </div>
-                <div class="ap_form">
                     <div class="ap_form__group">
-                        {!! Form::label('first_name', __('First name'), array('class'=>'ap_form__label')) !!}
-                        {!! Form::text('billing_address[first_name]', old('billing_address[first_name]'), array('class'=>'ap_form__input')) !!}
-                    </div>
-                    <div class="ap_form__group">
-                        {!! Form::label('last_name', __('Last name'), array('class'=>'ap_form__label')) !!}
-                        {!! Form::text('billing_address[last_name]', old('billing_address[last_name]'), array('class'=>'ap_form__input')) !!}
-                    </div>
-                    <div class="ap_form__group">
-                        {!! Form::label('email', __('Email'), array('class'=>'ap_form__label')) !!}
-                        {!! Form::text('email', old('billing_address[email]'), array('class'=>'ap_form__input')) !!}
+                        <input
+                                id="other_address_switch"
+                                name="other_address_check"
+                                type="checkbox"
+                                class="ap_form__checkbox-input shipping_switch"
+                                value="1"
+                                @if(old('other_address_check')) checked="checked" @endif>
+                        <label for="other_address_switch" class="ap_form__checkbox-label">
+                            {{ __('Deliver to different address') }}
+                        </label>
                     </div>
                 </div>
+            </section>
+        @else
+            <!-- Client Details -->
+            <section class="ap_section ap_section--2-cols">
+                <div class="ap_section__content">
+                    <div class="ap_section__heading">
+                        <h2 class="ap_section__title">{{ __('Contact information') }}</h2>
+                    </div>
+                    <div class="ap_form">
+                        <div class="ap_form__group">
+                            {!! Form::label('first_name', __('First name'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::text('user[first_name]', old('user[first_name]'), array('class'=>'ap_form__input')) !!}
+                            @if ($errors->has('user.first_name'))
+                                <div class="ap_form__error">{{ $errors->first('user.first_name') }}</div>
+                            @endif
+                        </div>
+                        <div class="ap_form__group">
+                            {!! Form::label('last_name', __('Last name'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::text('user[last_name]', old('user[last_name]'), array('class'=>'ap_form__input')) !!}
+                            @if ($errors->has('user.last_name'))
+                                <div class="ap_form__error">{{ $errors->first('user.last_name') }}</div>
+                            @endif
+                        </div>
+                        <div class="ap_form__group">
+                            {!! Form::label('email', __('Email'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::text('user[email]', old('user[email]'), array('class'=>'ap_form__input')) !!}
+                            @if ($errors->has('user.email'))
+                                <div class="ap_form__error">{{ $errors->first('user.email') }}</div>
+                            @endif
+                        </div>
+                        <div class="ap_form__group">
+                            {!! Form::label('email_confirm', __('Email Confirm'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::text('user[email_confirm]', old('user[email_confirm]'), array('class'=>'ap_form__input')) !!}
+                            @if ($errors->has('user.email_confirm'))
+                                <div class="ap_form__error">{{ $errors->first('user.email_confirm') }}</div>
+                            @endif
+                        </div>
+                        <div class="ap_form__group">
+                            {!! Form::label('phone', __('Phone'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::text('user[phone]', old('user[phone]'), array('class'=>'ap_form__input')) !!}
+                            @if ($errors->has('user.phone'))
+                                <div class="ap_form__error">{{ $errors->first('user.phone') }}</div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ap_section__content">
+                    <div class="ap_section__heading">
+                        <h2 class="ap_section__title">{{ __('Address') }}</h2>
+                    </div>
+                    <div class="ap_form">
+                        <div class="ap_form__group">
+                            {!! Form::label('street', __('Street'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::text('billing_address[street]', old('billing_address[street]'), array('class'=>'ap_form__input')) !!}
+                            @if ($errors->has('billing_address.street'))
+                                <div class="ap_form__error">{{ $errors->first('billing_address.street') }}</div>
+                            @endif
+                        </div>
+                        <div class="ap_form__group">
+                            {!! Form::label('house', __('House'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::text('billing_address[house]', old('billing_address[house]'), array('class'=>'ap_form__input')) !!}
+                            @if ($errors->has('billing_address.house'))
+                                <div class="ap_form__error">{{ $errors->first('billing_address.house') }}</div>
+                            @endif
+                        </div>
+                        <div class="ap_form__group">
+                            {!! Form::label('apartment', __('Apartment'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::text('billing_address[apartment]', old('billing_address[apartment]'), array('class'=>'ap_form__input')) !!}
+                            @if ($errors->has('billing_address.apartment'))
+                                <div class="ap_form__error">{{ $errors->first('billing_address.apartment') }}</div>
+                            @endif
+                        </div>
+                        <div class="ap_form__group">
+                            {!! Form::label('post_code', __('Post code'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::text('billing_address[post_code]', old('billing_address[post_code]'), array('class'=>'ap_form__input')) !!}
+                            @if ($errors->has('billing_address.post_code'))
+                                <div class="ap_form__error">{{ $errors->first('billing_address.post_code') }}</div>
+                            @endif
+                        </div>
+                        <div class="ap_form__group">
+                            {!! Form::label('city', __('City'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::text('billing_address[city]', old('billing_address[city]'), array('class'=>'ap_form__input')) !!}
+                            @if ($errors->has('billing_address.city'))
+                                <div class="ap_form__error">{{ $errors->first('billing_address.city') }}</div>
+                            @endif
+                        </div>
+                        <div class="ap_form__group">
+                            {!! Form::label('country_id', __('Country'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::select('billing_address[country_id]', $countries, old('country_id'), array('class' => 'ap_form__input shipping_switch i_country')) !!}
+                            @if ($errors->has('billing_address.country_id'))
+                                <div class="ap_form__error">{{ $errors->first('billing_address.country_id') }}</div>
+                            @endif
+                        </div>
+                        <div class="ap_form__group">
+                            <input
+                                    id="other_address_switch"
+                                    name="other_address_check"
+                                    type="checkbox"
+                                    class="ap_form__checkbox-input shipping_switch"
+                                    value="1"
+                                    @if(old('other_address_check')) checked="checked" @endif>
+                            <label for="other_address_switch" class="ap_form__checkbox-label">
+                                {{ __('Deliver to different address') }}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        @endif
+
+        <!-- Other Address Section -->
+        <section class="ap_section other_address">
+            <div class="ap_section__heading">
+                <h2 class="ap_section__title">{{ __('Deliver to different address') }}</h2>
             </div>
 
-            <div class="ap_section__content">
-                <div class="ap_section__heading">
-                    <h2 class="ap_section__title">{{ __('Address') }}</h2>
+            <section class="ap_section ap_section--2-cols">
+                <div class="ap_section__content">
+                    <div class="ap_form">
+                        <div class="ap_form__group">
+                            {!! Form::label(null, __('First name'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::text('other_address[first_name]', old('other_address[first_name]'), array('class'=>'ap_form__input')) !!}
+                            @if ($errors->has('other_address.first_name'))
+                                <div class="ap_form__error">{{ $errors->first('other_address.first_name') }}</div>
+                            @endif
+                        </div>
+                        <div class="ap_form__group">
+                            {!! Form::label('street', __('Street'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::text('other_address[street]', old('other_address[street]'), array('class'=>'ap_form__input')) !!}
+                            @if ($errors->has('other_address.street'))
+                                <div class="ap_form__error">{{ $errors->first('other_address.street') }}</div>
+                            @endif
+                        </div>
+                        <div class="ap_form__group">
+                            {!! Form::label('apartment', __('Apartment'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::text('other_address[apartment]', old('other_address[apartment]'), array('class'=>'ap_form__input')) !!}
+                            @if ($errors->has('other_address.apartment'))
+                                <div class="ap_form__error">{{ $errors->first('other_address.apartment') }}</div>
+                            @endif
+                        </div>
+                        <div class="ap_form__group">
+                            {!! Form::label('city', __('City'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::text('other_address[city]', old('other_address[city]'), array('class'=>'ap_form__input')) !!}
+                            @if ($errors->has('other_address.city'))
+                                <div class="ap_form__error">{{ $errors->first('other_address.city') }}</div>
+                            @endif
+                        </div>
+                    </div>
                 </div>
-                <div class="ap_form">
-                    <div class="ap_form__group">
-                        {!! Form::label('street', __('Street'), array('class'=>'ap_form__label')) !!}
-                        {!! Form::text('billing_address[street]', old('billing_address[street]'), array('class'=>'ap_form__input')) !!}
-                    </div>
-                    <div class="ap_form__group">
-                        {!! Form::label('apartment', __('Apartment'), array('class'=>'ap_form__label')) !!}
-                        {!! Form::text('billing_address[apartment]', old('billing_address[apartment]'), array('class'=>'ap_form__input')) !!}
-                    </div>
-                    <div class="ap_form__group">
-                        {!! Form::label('house', __('House'), array('class'=>'ap_form__label')) !!}
-                        {!! Form::text('billing_address[house]', old('billing_address[house]'), array('class'=>'ap_form__input')) !!}
-                    </div>
-                    <div class="ap_form__group">
-                        {!! Form::label('post_code', __('Post code'), array('class'=>'ap_form__label')) !!}
-                        {!! Form::text('billing_address[post_code]', old('billing_address[post_code]'), array('class'=>'ap_form__input')) !!}
-                    </div>
-                    <div class="ap_form__group">
-                        {!! Form::label('city', __('City'), array('class'=>'ap_form__label')) !!}
-                        {!! Form::text('billing_address[city]', old('billing_address[city]'), array('class'=>'ap_form__input')) !!}
-                    </div>
-                    <div class="ap_form__group">
-                        {!! Form::label('country_id', __('Country'), array('class'=>'ap_form__label')) !!}
-                        {!! Form::select('billing_address[country_id]', $countries, old('country_id'), array('class' => 'ap_form__input')) !!}
-                    </div>
-                    <div class="ap_form__group">
-                        <input id="otherAddressField" type="checkbox" class="ap_form__checkbox-input">
-                        <label for="otherAddressField" class="ap_form__checkbox-label">Доставка по иному адресу</label>
+
+                <div class="ap_section__content">
+                    <div class="ap_form">
+                        <div class="ap_form__group">
+                            {!! Form::label(null, __('Last name'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::text('other_address[last_name]', old('other_address[last_name]'), array('class'=>'ap_form__input')) !!}
+                            @if ($errors->has('other_address.last_name'))
+                                <div class="ap_form__error">{{ $errors->first('other_address.last_name') }}</div>
+                            @endif
+                        </div>
+                        <div class="ap_form__group">
+                            {!! Form::label('house', __('House'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::text('other_address[house]', old('other_address[house]'), array('class'=>'ap_form__input')) !!}
+                            @if ($errors->has('other_address.house'))
+                                <div class="ap_form__error">{{ $errors->first('other_address.house') }}</div>
+                            @endif
+                        </div>
+                        <div class="ap_form__group">
+                            {!! Form::label('post_code', __('Post code'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::text('other_address[post_code]', old('other_address[post_code]'), array('class'=>'ap_form__input')) !!}
+                            @if ($errors->has('other_address.post_code'))
+                                <div class="ap_form__error">{{ $errors->first('other_address.post_code') }}</div>
+                            @endif
+                        </div>
+                        <div class="ap_form__group">
+                            {!! Form::label('country_id', __('Country'), array('class'=>'ap_form__label')) !!}
+                            {!! Form::select('other_address[country_id]', $countries, old('other_address[country_id]'), array(
+                                'class' => 'ap_form__input shipping_switch i_other_country',
+                            )) !!}
+                            @if ($errors->has('other_address.country_id'))
+                                <div class="ap_form__error">{{ $errors->first('other_address.country_id') }}</div>
+                            @endif
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
         </section>
 
         <!-- Shipping and Payment -->
@@ -125,42 +297,33 @@
             <div class="ap_form ap_form--2-cols">
                 <div class="no-border">
                     <h3 class="ap_form__radio-title">{{ __('Delivery method') }}</h3>
-                    <div class="ap_form__group">
-                        {!! Form::radio('shipping_type', \App\Models\Shipping::TYPE_EMAIL, true, array('class' => 'ap_form__radio-input', 'id' => 'shipping_type_email')) !!}
-                        <label for="shipping_type_email" class="ap_form__radio-label">
-                            <span>{{ __('E-ticket') }}</span>
-                            <strong>0 {{ \App\Models\Order::CURRENCY }}</strong>
-                        </label>
+                    <div class="ap_form__group ap_form__group--shipping">
+                        {!! Form::radio('shipping_zone_id', '', true, [
+                            'class' => 'ap_form__radio-input',
+                            'id' => 'ship_type_mail',
+                        ]) !!}
+                        <label for="ship_type_mail" class="ap_form__radio-label">{{ __('E-ticket') }}</label>
+                        <span class="ap-form__price">0 EUR</span>
                     </div>
-                    @foreach($shippings as $shipping)
-                        <div class="ap_form__group">
-                            {!! Form::radio('shipping_type', \App\Models\Shipping::TYPE_DELIVERY, true, array('class' => 'ap_form__radio-input', 'id' => 'shipping_type_delivery')) !!}
-                            <label for="shipping_type_delivery" class="ap_form__radio-label">
-                                <span>{{ __($shipping->name) }}</span>
-                                <strong>{{ $shipping->price . ' ' . \App\Models\Order::CURRENCY}}</strong>
-                            </label>
-                        </div>
-                    @endforeach
-                    <div class="ap_form__group spaced-left">
-                        {!! Form::checkbox('courier', 1, false, array('class' => 'ap_form__checkbox-input', 'id' => 'courier')) !!}
-                        <label for="courier" class="ap_form__checkbox-label">
-                            <span>{{ __('Courier') }}</span>
-                            <strong>{{ setting('checkout_courier_price') . ' ' . \App\Models\Order::CURRENCY }}</strong>
-                        </label>
-                        {!! Form::hidden('courier','') !!}
-                    </div>
+                    <div class="shippings_list"></div>
+                    @if ($errors->has('shipping_type'))
+                        <div class="ap_form__error">{{ $errors->first('shipping_type') }}</div>
+                    @endif
                 </div>
                 <div>
                     <h3 class="ap_form__radio-title">{{ __('Payment method') }}</h3>
                     @foreach($paymentMethods as $paymentMethod)
-                        @php
-                            $id = 'payment_method_' . $paymentMethod->name;
-                        @endphp
                         <div class="ap_form__group">
-                            {!! Form::radio('payment_method_id', $paymentMethod->id, true, array('class' => 'ap_form__radio-input', 'id' => $id)) !!}
-                            <label for="{{ $id }}" class="ap_form__radio-label">{{ $paymentMethod->name }}</label>
+                            {!! Form::radio('payment_method_id', $paymentMethod->id, true, array(
+                                'class' => 'ap_form__radio-input',
+                                'id' => "payment_method_{$paymentMethod->id}"
+                            )) !!}
+                            <label for="{{ "payment_method_{$paymentMethod->id}" }}" class="ap_form__radio-label">{{ $paymentMethod->name }}</label>
                         </div>
                     @endforeach
+                    @if ($errors->has('payment_method_id'))
+                        <div class="ap_form__error">{{ $errors->first('payment_method_id') }}</div>
+                    @endif
                 </div>
             </div>
         </section>
@@ -168,17 +331,24 @@
         <!-- Approvement -->
         <section class="ap_section">
             <div class="ap_section__heading">
-                <h2 class="ap_section__title">{{ __('Confirmation') }}</h2>
+                <h2 class="ap_section__title">{!! __('Confirmation') !!}</h2>
             </div>
             <div class="approvement">
-                <p class="approvement__price">Сумма заказа: <b>{{ Cart::total() }} EUR</b></p>
+                <p class="approvement__price">{!! __('Total') !!}: <b>{{ Cart::total() }} EUR</b></p>
                 <div class="approvement__checkbox">
-                    {!! Form::checkbox('confirmation', 1, false, array('class' => 'ap_form__checkbox-input')) !!}
-                    <input id="approvementField" type="checkbox" class="ap_form__checkbox-input">
-                    <label for="approvementField" class="ap_form__checkbox-label">Я прочитал и согласен с Условиями (AGB), Условиями  возврата (Widerrufsbelehrung) и Политикой конфедициальности (Datenschutzerklärung).</label>
+                    {!! Form::checkbox('confirmation', 1, false, array(
+                        'class' => 'ap_form__checkbox-input',
+                        'id' => 'confirmation',
+                    )) !!}
+                    <label for="confirmation" class="ap_form__checkbox-label">
+                        {!! __('I have read and agree to the Terms and Conditions (AGB), the Terms of Return (Widerrufsbelehrung) and the Privacy Policy (Datenschutzerklärung).') !!}
+                    </label>
+                    @if ($errors->has('confirmation'))
+                        <div class="ap_form__error">{{ $errors->first('confirmation') }}</div>
+                    @endif
                 </div>
                 <button class="approvement__btn">{{ __('Checkout') }}</button>
-                <a href="#" class="approvement__back">Назад</a>
+                <a href="#" class="approvement__back">{{ __('Back') }}</a>
             </div>
         </section>
 
@@ -207,59 +377,106 @@
             }
         });
 
-        var orderSeconds = 1800,
-            cartCount = {{ Cart::count() }},
-            initialTimestamp = getCookie('initialTimestamp'),
-            date = new Date;
+        var orderSeconds = (+ new Date) + 1800000;
+        var cartCount = {{ Cart::count() }};
 
-        if (!initialTimestamp) {
-            setCookie('initialTimestamp', date.getTime(), {expires: 3600});
+        var cookieOrderSeconds = getCookie('orderSeconds');
+        if (!cookieOrderSeconds) {
+            setCookie('orderSeconds', orderSeconds, {expires: 3600});
+            cookieOrderSeconds = orderSeconds;
+        } else {
+            cookieOrderSeconds = parseInt(cookieOrderSeconds) + 1800000;
         }
 
         if (cartCount) {
-            var orderTimerId = setInterval(orderTimer, 1000);
+            var orderTimerId = setInterval(orderTimer, 500);
         } else {
-            deleteCookie('initialTimestamp');
+            deleteCookie('orderSeconds');
         }
 
         function orderTimer(){
-            initialTimestamp = getCookie('initialTimestamp');
-
-            if (!initialTimestamp) {
-                clearInterval(orderTimerId);
-                $.ajax({
-                    url: '{{ route('cart.destroy') }}',
-                    type: 'GET',
-                    dataType: 'json',
-                    async: false,
-                    success: function(result) {
-                    }
-                });
-                window.location = '{{ route('payment.checkout') }}';
-                return;
-
-            }
-            var date = new Date,
-                currentTimestamp = date.getTime(),
-                secondsPassed = Math.floor((currentTimestamp - initialTimestamp)/1000),
-                secondsLeft = orderSeconds - secondsPassed,
-                hours   = Math.floor(secondsLeft / 3600),
-                minutes = Math.floor((secondsLeft - (hours * 3600)) / 60),
-                seconds = secondsLeft - (hours * 3600) - (minutes * 60);
-
-            if (minutes == 0 && seconds == 0) {
-                deleteCookie('initialTimestamp');
-            }
+            var now = +new Date;
+            var diff = Math.floor((cookieOrderSeconds - now) / 1000);
+            var hours   = Math.floor(diff / 3600);
+            var minutes = Math.floor((diff - (hours * 3600)) / 60);
+            var seconds = diff - (hours * 3600) - (minutes * 60);
 
             if (minutes < 10) {
-                minutes = '0' + minutes;
+              minutes = '0' + minutes;
             }
 
             if (seconds < 10) {
-                seconds = '0' + seconds;
+              seconds = '0' + seconds;
             }
             $('#counter').html(minutes + ':' + seconds);
+
+            if (minutes <= 0 && seconds <= 0) {
+                deleteCookie('orderSeconds');
+                clearInterval(orderTimerId);
+                $.ajax({
+                  url: '{{ route('cart.destroy') }}',
+                  type: 'POST',
+                  data: {
+                   _token: '{{ csrf_token() }}'
+                  },
+                  dataType: 'json',
+                  async: false,
+                  success: function(result) {
+                    window.location.href = '{{ route('payment.checkout') }}';
+                  }
+                });
+                return;
+            }
         }
 
+        var $switchers = $('.shipping_switch');
+        var $countryInput = $('.i_country');
+        var $otherCountryInput = $('.i_other_country');
+        var $otherAddressContriner = $('.other_address');
+        var $otherAddressSwitcher = $('#other_address_switch');
+        var $shippingsContainer = $('.shippings_list');
+
+        // Shippings update
+        function loadShippingOptions() {
+          var countryId = getCountryId();
+
+          $shippingsContainer.load('/payment/shippingOptions/'+countryId);
+        }
+
+        function getCountryId() {
+          var id;
+          if (id = $('input[name="address_id"]:checked').data('country'))
+            return id;
+
+          var countryId = $otherAddressSwitcher.prop('checked')
+            ? $otherCountryInput.val()
+            : $countryInput.val()
+          ;
+
+          return countryId;
+        }
+
+        loadShippingOptions();
+        $switchers.change(loadShippingOptions);
+
+        // Other address section
+        function otherAddressSwitch() {
+          if ($otherAddressSwitcher.prop('checked')) {
+            $otherAddressContriner.show();
+          } else {
+            $otherAddressContriner.hide();
+          }
+        }
+
+        otherAddressSwitch();
+        $otherAddressSwitcher.change(otherAddressSwitch);
+
+//        $(document).on('change', '#shippings', function(event){
+//            var shipping_id = $(this).val();
+//            var shipping_zone_id = $('#shipping-zones-' + shipping_id).find('select').val();
+//            $('input[name="shipping_zone_id"]').val(shipping_zone_id);
+//            $('.shipping-zones').hide();
+//            $('#shipping-zones-' + shipping_id).show();
+//        });
     </script>
 @endsection
