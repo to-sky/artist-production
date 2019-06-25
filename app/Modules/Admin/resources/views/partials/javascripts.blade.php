@@ -24,7 +24,7 @@
 <script src="{{ asset('/bower_components/select2/dist/js/i18n/de.js') }}"></script>
 <script src="{{ asset('/bower_components/select2/dist/js/i18n/ru.js') }}"></script>
 <script src="{{ asset('/bower_components/evol-colorpicker/js/evol-colorpicker.js') }}"></script>
-<script src="{{ asset('/bower_components/daterangepicker/daterangepicker.js') }}"></script>
+<script src="{{ asset('/bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
 
 <!-- page script -->
 <script type="text/javascript">

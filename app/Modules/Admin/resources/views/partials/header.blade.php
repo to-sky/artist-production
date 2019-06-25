@@ -36,7 +36,7 @@
     <link rel="stylesheet" href="{{ asset('/bower_components/select2/dist/css/select2.css') }}">
     <link rel="stylesheet" href="{{ asset('/bower_components/flag-icon-css/css/flag-icon.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/bower_components/evol-colorpicker/css/evol-colorpicker.css') }}">
-    <link rel="stylesheet" href="{{ asset('/bower_components/daterangepicker/daterangepicker.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bower_components/bootstrap-daterangepicker/daterangepicker.css') }}">
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 

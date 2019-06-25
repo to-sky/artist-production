@@ -41,9 +41,8 @@
                 <div class="col-md-7">
                     <div id="widget" class="widget-block">
                         <iframe class="hall-widget-frame"
-                                src="{{ route('hallWidget', [$event->id]) }}"
-                                frameborder="0"
-                                style="min-height: 800px"></iframe>
+                                src="{{ route('hallWidget', [$event->id]) }}#lang:{{ app()->getLocale() }},no_header,no_checkout"
+                                frameborder="0"></iframe>
                     </div>
                 </div>
 
@@ -57,7 +56,7 @@
                                 <td>{{ __('Price') }}</td>
                                 <td>{{ __('Admin::admin.delete') }}</td>
                             </tr>
-                            <tr>
+                            <tr id="widgetTickets">
                                 <td colspan="5" class="text-center">
                                     <small>{{ __(':items not selected', ['items' => __('Tickets')]) }}</small>
                                 </td>

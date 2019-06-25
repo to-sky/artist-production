@@ -4,6 +4,7 @@ namespace App\Modules\Admin\Controllers;
 
 use App\Models\{Order, Event, User};
 use App\Modules\Admin\Controllers\AdminController;
+use App\Services\TicketService;
 use Redirect;
 use Schema;
 use App\Modules\Admin\Requests\CreateOrderRequest;
@@ -38,6 +39,13 @@ class OrderController extends AdminController {
 	        'events' => Event::all(),
             'clients' => User::all()
         ]);
+	}
+
+    public function getSelectedTickets(TicketService $ticketService, Request $request)
+    {
+        $selectedTickets = $ticketService->getCartTickets($request->event_id);
+
+        return response()->json($selectedTickets);
 	}
 
 	/**

@@ -132,22 +132,54 @@
         $('#clientData').html(clientDataHtml);
     });
 
+    var eventId;
+
     // Open widget popup
     $('.show-widget').click(function (e) {
         e.preventDefault();
+
+        eventId = $(e.target).data('event-id');
 
         $.get($(e.target).attr('href'), function (data) {
             $('#mainContent').before(data);
 
             setTimeout(function () {
+                var windowHeight = $(window).height();
+
                 $('body').addClass('modal-open');
                 $('.widget-wrapper').removeClass('widget-close').toggleClass('widget-open');
-                $(".widget-content").animate({"left":"230px"}, 1000);
+                $('#widget iframe').css({
+                    "height": windowHeight - 100
+                });
+
+                $(".widget-content").animate({
+                    "left": $('.main-sidebar').outerWidth(),
+                    "width": $('.content-wrapper').width(),
+                    "height": windowHeight
+                }, 1000);
             }, 500);
         });
     });
 
     var body = $('body');
+
+    // Check selected tickets
+    setInterval(function () {
+        if (body.hasClass('modal-open')) {
+            $.get('{{ route("orders.getSelectedTickets") }}', {event_id: eventId}, function (data) {
+                var html;
+                // data.each(function (i, el) {
+                //     var tr = $('<tr>');
+                //
+                //     $('<td>', {'text': el.event.name})
+                //     $('<td>', {'text': el.event.name})
+                // })
+
+                console.log(data);
+            });
+        }
+    }, 5000);
+
 
     // Close widget popup
     body.on('click', '.widget-close-btn', function () {

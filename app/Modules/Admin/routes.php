@@ -59,9 +59,9 @@ Route::group([
 
     Route::prefix('orders')->group(function () {
         Route::get('order/{order}', 'TicketController@print')->name('tickets.print');
+        Route::get('event/selected_tickets', 'OrderController@getSelectedTickets')->name('orders.getSelectedTickets');
     });
 });
-
 
 if (Schema::hasTable('menus')) {
     $menus = Menu::with('children')->where('menu_type', '!=', 0)->orderBy('position')->get();
