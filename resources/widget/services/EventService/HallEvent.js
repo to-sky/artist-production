@@ -23,7 +23,7 @@ class HallEvent extends BaseEvent {
   }
 
   getReservedTickets() {
-    return this._rawData.selectedTickets.filter(t => t.event_id == this.raw('event.id'));
+    return this._rawData.selectedTickets;
   }
 
   getSelectedPlaces() {

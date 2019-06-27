@@ -37,7 +37,7 @@
                     @foreach($orders as $order)
                         <tr class="link_row" data-url="{{ route('order.show', ['order' => $order]) }}">
                             <td>{{ $order->id }}</td>
-                            <td>{{ $order->event->name }}</td>
+                            <td>{{ $order->event_names }}</td>
                             <td>{{ $order->tickets_count }}</td>
                             <td>{{ $order->created_at }}</td>
                             <td>{{ $order->paid_at ?: '-' }}</td>

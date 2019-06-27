@@ -1,7 +1,8 @@
 @import
-    //'reset',
-    'fonts',
-    'settings',
+    'reset',
+	'variables',
+	'fonts',
+	'settings',
 
 	'mixins/interpolation',
 
@@ -17,6 +18,8 @@
 	'blocks/shippings',
 	'blocks/order',
 	'blocks/booked',
+	'blocks/linkMenu',
+	'blocks/table',
 
 	'helpers'
 ;

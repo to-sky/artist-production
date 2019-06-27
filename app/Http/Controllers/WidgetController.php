@@ -16,10 +16,6 @@ class WidgetController extends Controller
 
     public function index($id, $mode = 'view')
     {
-        if ($mode == 'view') {
-            $this->ticketService->emptyCart($id);
-        }
-
         return view('widget.template', compact('id', 'mode'));
     }
 }
