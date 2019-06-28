@@ -2,7 +2,7 @@
 
 namespace App\Modules\Admin\Controllers;
 
-use App\Models\{Order, Event, User};
+use App\Models\{Order, Event, Ticket, User};
 use App\Modules\Admin\Controllers\AdminController;
 use App\Services\TicketService;
 use Redirect;
@@ -37,15 +37,24 @@ class OrderController extends AdminController {
 	{
 	    return view('Admin::order.create', [
 	        'events' => Event::all(),
-            'clients' => User::all()
+            'clients' => User::all(),
+            'ticketsData' => Ticket::whereUserId(auth()->id())->with('event')->get()->groupBy('event.name')
         ]);
 	}
 
     public function getSelectedTickets(TicketService $ticketService, Request $request)
     {
-        $selectedTickets = $ticketService->getCartTickets($request->event_id);
+        $tickets = $ticketService->getCartTickets($request->event_id)
+            ->transform(function ($ticket) {
+                return [
+                    'id' => $ticket->id,
+                    'row' => $ticket->place->row,
+                    'place' => $ticket->place->num,
+                    'price' => $ticket->getBuyablePrice()
+                ];
+        })->sortBy('place');
 
-        return response()->json($selectedTickets);
+        return response()->json($tickets);
 	}
 
 	/**

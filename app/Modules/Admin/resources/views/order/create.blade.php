@@ -9,6 +9,7 @@
     @include('Admin::order.partials.modals._modal_sale')
     @include('Admin::order.partials.modals._modal_realization')
     @include('Admin::order.partials.modals._modal_reserve')
+    @include('Admin::order.partials.modals._modal_discount')
 
     <div id="mainContent" class="row">
             <div class="col-md-6">
@@ -31,26 +32,7 @@
                     </div>
                 </div>
 
-                <div class="box">
-                    <div>
-                        <table class="table table-striped">
-                            <tr>
-                                <td>{{ __('Ticket') }}</td>
-                                <td>{{ __('Price') }}</td>
-                                <td>{{ __('Discount') }}</td>
-                                <td>{{ __('Bonus') }}</td>
-                                <td>{{ __('Cash collection') }}</td>
-                                <td>{{ __('Final price') }}</td>
-                                <td>{{ __('Admin::admin.delete') }}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="7" class="text-center">
-                                    <small>{{ __(':items not selected', ['items' => __('Tickets')]) }}</small>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
+                @include('Admin::order.partials._tickets_table')
 
                 <div class="btn-group">
                     <button type="button" class="btn btn-success">{{ __('Create order') }}</button>

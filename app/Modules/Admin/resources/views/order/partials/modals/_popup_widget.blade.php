@@ -48,19 +48,35 @@
 
                 <div class="col-md-5">
                     <div class="widget-tickets">
-                        <table class="table table-striped">
-                            <tr>
-                                <td>{{ __('Ticket') }}</td>
+                        <table class="table table-striped text-center">
+                            <tr id="widgetTicketsHeader">
                                 <td>{{ __('Row') }}</td>
                                 <td>{{ __('Place') }}</td>
                                 <td>{{ __('Price') }}</td>
                                 <td>{{ __('Admin::admin.delete') }}</td>
                             </tr>
-                            <tr id="widgetTickets">
-                                <td colspan="5" class="text-center">
-                                    <small>{{ __(':items not selected', ['items' => __('Tickets')]) }}</small>
-                                </td>
-                            </tr>
+
+                            @php
+                                $tickets = $event->tickets()->whereUserId(auth()->user()->id)->get();
+                            @endphp
+                            @forelse($tickets as $ticket)
+                                <tr>
+                                    <td>{{ $ticket->place->row }}</td>
+                                    <td>{{ $ticket->place->num }}</td>
+                                    <td>{{ $ticket->getBuyablePrice() }}</td>
+                                    <td>
+                                        <a href="#" class="delete-ticket" data-ticket-id="{{ $ticket->id }}">
+                                            <i class="fa fa-trash text-danger"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="4" class="text-center">
+                                        <small>{{ __(':items not selected', ['items' => __('Tickets')]) }}</small>
+                                    </td>
+                                </tr>
+                            @endforelse
                         </table>
                     </div>
                 </div>

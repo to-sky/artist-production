@@ -259,5 +259,6 @@
     "Order Status": "Статус заказа",
     "Pending": "Ожидает Подтверждения",
     "Confirmed": "Подтвежден",
-    "Cancelled": "Отменен"
+    "Cancelled": "Отменен",
+    "Select": "Выбрать"
 }

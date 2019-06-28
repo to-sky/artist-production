@@ -3,7 +3,9 @@
 namespace App\Modules\Admin\Controllers;
 
 use App\Models\Ticket;
+use App\Services\TicketService;
 use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Http\Request;
 
 class TicketController extends AdminController
 {
@@ -20,5 +22,12 @@ class TicketController extends AdminController
         $ticket = Ticket::all()->first();
 
         return view('Admin::pdf.zebra_ticket', compact('ticket'));
+    }
+
+    public function dissociateUser(TicketService $ticketService, Request $request)
+    {
+        $ticketService->freeAnywhere($request->ticket_id);
+
+        return response()->json(null, 200);
     }
 }

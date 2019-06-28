@@ -163,23 +163,64 @@
 
     var body = $('body');
 
-    // Check selected tickets
+    // Check selected tickets and add to widget table
     setInterval(function () {
-        if (body.hasClass('modal-open')) {
+        if ($('div').hasClass('widget-open')) {
             $.get('{{ route("orders.getSelectedTickets") }}', {event_id: eventId}, function (data) {
-                var html;
-                // data.each(function (i, el) {
-                //     var tr = $('<tr>');
-                //
-                //     $('<td>', {'text': el.event.name})
-                //     $('<td>', {'text': el.event.name})
-                // })
+                var widgetTicketsHeader = $('#widgetTicketsHeader');
+                    widgetTicketsHeader.nextAll('tr').remove();
 
-                console.log(data);
+                if (! data.length) {
+                    var tr = $('<tr>');
+
+                    $('<td>', {
+                        colspan: 4,
+                        class: 'text-center'
+                    }).append($('<small>', {
+                        text: '{{ __(":items not selected", ["items" => __("Tickets")]) }}'
+                    })).appendTo(tr);
+
+                    widgetTicketsHeader.after(tr);
+
+                    return;
+                }
+
+                $(data).each(function (i, ticket) {
+                    var tr = $('<tr>');
+
+                    $('<td>', {text: ticket.row}).appendTo(tr);
+                    $('<td>', {text: ticket.place}).appendTo(tr);
+                    $('<td>', {text: ticket.price}).appendTo(tr);
+
+                    var deleteTd = $('<td>');
+                    $('<a>', {
+                        'href': '#',
+                        'class': 'delete-ticket',
+                        'data-ticket-id': ticket.id,
+                    }).append($('<i>', {
+                        class: 'fa fa-trash text-danger'
+                    })).appendTo(deleteTd);
+
+                    deleteTd.appendTo(tr);
+
+                    widgetTicketsHeader.after(tr)
+                });
             });
         }
     }, 5000);
 
+    // Delete ticket from cart
+    body.on('click', '.delete-ticket', function () {
+        $.ajax({
+            url: '{{ route("tickets.dissociateUser") }}',
+            type : 'PATCH',
+            data: {
+                ticket_id: $(this).data('ticket-id')
+            }
+        });
+
+        $(this).closest('tr').remove();
+    });
 
     // Close widget popup
     body.on('click', '.widget-close-btn', function () {
@@ -190,6 +231,108 @@
             $('.widget-wrapper').remove();
         }, 500);
     });
+
+    // Calculate price for all tickets
+    var mainDiscount = 0;
+    var mainDiscountType = 'percent';
+    $('#ticketsTable tbody').bind("DOMSubtreeModified", function() {
+        var ticketsPrice = 0;
+        $('td[data-price-final]').each(function (i, el) {
+            ticketsPrice += parseFloat($(el).data('price-final'));
+        });
+
+        var finalPrice = ticketsPrice;
+        if (mainDiscount > 0) {
+            finalPrice = calcDiscount(ticketsPrice, mainDiscount, mainDiscountType).sum;
+        }
+
+        $('#allTicketsPrice').text(ticketsPrice);
+        $('#allTicketsFinalPrice').text(finalPrice);
+    });
+
+    // Discount modal for tickets
+    var targetButton, row, price;
+    var allTickets = false;
+    $('#discountModal').on('show.bs.modal', function (e) {
+        targetButton = $(e.relatedTarget);
+        row = targetButton.closest('tr');
+
+        if(targetButton.data('discount') === 'all') {
+            allTickets = true;
+            price = $('#allTicketsPrice').text()
+        } else {
+            allTickets = false;
+            price = row.find('td[data-price]').data('price');
+        }
+
+        $('#discountModalPrice', this).text(price);
+    }).on('hide.bs.modal', function () {
+        if(allTickets) {
+            mainDiscount = parseFloat($('#mainDiscount').text());
+            mainDiscountType = $('#discountTypeValue').data('type');
+        }
+
+        $('#discount', this).val(0);
+        $('#discountType', this).val('percent');
+
+        if ($('has-error', this)) {
+            $('.has-error').removeClass('has-error');
+            $('.text-error').remove();
+        }
+    });
+
+    // Set discount for ticket or all tickets and close modal
+    $('#setDiscount').click(function() {
+        var discountBlock = $('#discount');
+        var discount = discountBlock.val();
+        var type = $('#discountType option:selected').val();
+        var typeValue = type === 'euro' ? '&euro;' : '&percnt;';
+        var finalPrice = calcDiscount(price, discount, type);
+
+        if (finalPrice.sum < 0) {
+            var errorText = 'Введено некоректное значение';
+
+            if (! discountBlock.parent('div').hasClass('has-error')) {
+                discountBlock.parent('div').addClass('has-error').append($('<small>', {
+                    text: errorText,
+                    class: 'text-red text-error'
+                }));
+            }
+
+            return false;
+        }
+
+        if (allTickets) {
+            if (discount > 0) {
+                $('#allTicketsFinalPrice').text(finalPrice.sum);
+                $('#mainDiscount').text(discount);
+                $('#discountTypeValue').data('type', type).html(typeValue);
+            }
+        } else {
+            var priceFinalTd = row.find('td[data-price-final]');
+            targetButton.text(finalPrice.discountSum);
+            priceFinalTd.data('price-final', finalPrice.sum).html(finalPrice.sum + ' &euro;');
+        }
+    });
+
+    // Calculate discount
+    function calcDiscount(currentPrice, discount, type) {
+        var finalPrice = currentPrice;
+        var discountSum;
+
+        if (type === 'euro') {
+            discountSum = discount;
+            finalPrice = currentPrice - discount;
+        } else if (type === 'percent') {
+            discountSum = currentPrice * discount / 100;
+            finalPrice = currentPrice - discountSum;
+        }
+
+        return {
+            sum: finalPrice,
+            discountSum: parseFloat(discountSum).toFixed(2)
+        };
+    }
 
     // Change shipping type in modal
     $('#shippingType').change(function () {

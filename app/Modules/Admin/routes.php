@@ -55,6 +55,7 @@ Route::group([
     Route::prefix('tickets')->group(function () {
        Route::get('print/{ticket}', 'TicketController@print')->name('tickets.print');
        Route::get('zebraPrint', 'TicketController@zebraPrint')->name('tickets.zebraPrint');
+       Route::patch('dissociateUser', 'TicketController@dissociateUser')->name('tickets.dissociateUser');
     });
 
     Route::prefix('orders')->group(function () {
