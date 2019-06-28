@@ -4,6 +4,9 @@ namespace App\Modules\Api\Controllers;
 
 use App\Http\Requests\EventTicketsDeltaRequest;
 use App\Models\Event;
+use App\Models\Place;
+use App\Models\Price;
+use App\Models\PriceGroup;
 use App\Services\TicketService;
 
 class EventController extends ApiController
@@ -55,7 +58,10 @@ class EventController extends ApiController
 
         $priceGroups = $event->priceGroups()->get(['id', 'name','discount']);
 
-        $selectedTickets = $ticketService->getCartTickets($event->id);
+        $selectedTickets = $ticketService->getCartTickets();
+        $selectedPlaces = Place::find($selectedTickets->pluck('place_id'));
+        $selectedPrices = Price::find($selectedTickets->pluck('price_id'));
+        $selectedPriceGroups = PriceGroup::find($selectedTickets->pluck('price_group_id'));
 
         return response()->json(compact(
             'event',
@@ -65,7 +71,10 @@ class EventController extends ApiController
             'places',
             'prices',
             'priceGroups',
-            'selectedTickets'
+            'selectedTickets',
+            'selectedPlaces',
+            'selectedPrices',
+            'selectedPriceGroups'
         ), 200);
     }
 

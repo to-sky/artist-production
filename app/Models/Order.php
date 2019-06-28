@@ -111,13 +111,15 @@ class Order extends Model
         return $this->belongsTo('App\Models\ShippingZone');
     }
 
-    public function getEventAttribute()
+    public function getEventNamesAttribute()
     {
-        $ticket = $this->tickets()->first();
+        $eventIds = $this->tickets()->pluck('event_id');
 
-        if (empty($ticket)) return null;
+        if (empty($eventIds)) return '';
 
-        return $ticket->event()->first();
+        $eventsNames = Event::whereIn('id', $eventIds)->pluck('name');
+
+        return join(', ', $eventsNames->toArray());
     }
 
     public function getTicketsCountAttribute()
@@ -140,8 +142,13 @@ class Order extends Model
         ];
     }
 
+    /**
+     * Get total price of order
+     *
+     * @return int
+     */
     public function getTotalAttribute()
     {
-        return $this->subtotal + $this->tax + $this->shipping_price;
+        return $this->subtotal + $this->shipping_price + $this->service_price;
     }
 }

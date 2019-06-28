@@ -2,11 +2,39 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Gloudemans\Shoppingcart\Contracts\Buyable;
 use Keygen\Keygen;
 
+/**
+ * Ticket model
+ *
+ * @property int $id
+ * @property int $barcode
+ * @property int $amount_printed
+ * @property float $price
+ * @property int $status
+ * @property int $user_id
+ * @property User $user
+ * @property int $event_id
+ * @property Event $event
+ * @property int $place_id
+ * @property Place $place
+ * @property int $order_id
+ * @property Order $order
+ * @property string $address
+ * @property PriceGroup $price_group
+ * @property bool $is_sitting_place
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property Carbon $reserved_to
+ * @property Carbon $deleted_at
+ *
+ * Class Ticket
+ * @package App\Models
+ */
 class Ticket extends Model implements Buyable
 {
     use SoftDeletes;
@@ -16,6 +44,13 @@ class Ticket extends Model implements Buyable
     const SOLD = 2;
 
     protected static $barcodes = [];
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'reserved_to',
+        'deleted_at',
+    ];
 
     protected $fillable = ['barcode', 'amount_printed', 'price', 'status', 'user_id', 'event_id', 'place_id', 'price_id', 'order_id'];
 

@@ -324,6 +324,20 @@ class TicketService
         $ticket->save();
     }
 
+    public function sold(Order $order)
+    {
+        foreach ($order->tickets as $ticket) {
+            $this->soldTicket($ticket);
+        }
+    }
+
+    public function soldTicket(Ticket $ticket)
+    {
+        $ticket->reserved_to = null;
+        $ticket->status = Ticket::SOLD;
+        $ticket->save();
+    }
+
     /**
      * Empty cart. Only for event with eventId if set.
      *
