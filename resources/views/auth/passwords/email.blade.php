@@ -1,50 +1,38 @@
-@extends('Admin::layouts.master')
+@extends('layouts.master')
 
 @section('content')
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="box box-default">
+    <!-- Password reset request -->
+    {!! Form::open(array('route' => 'password.email')) !!}
+        <section class="ap_section">
+            <div class="ap_section__heading">
+                <h2 class="ap_section__title">{{ trans('Admin::auth.password-reset_password') }}</h2>
+            </div>
 
-                <div class="box-header with-border">
-                    <div class="box-title">{{ __('Admin::auth.reset-reset_password') }}</div>
-                </div>
-
-                <div class="box-body">
+            <div class="ap_section__content">
+                <div class="ap_form">
                     @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
+                        <div class="ap_form__group">
+                            <div class="alert alert-success">
+                                {{ session('status') }}
+                            </div>
                         </div>
                     @endif
 
-                    <form class="form-horizontal" method="POST" action="{{ route('password.email') }}">
-                        {{ csrf_field() }}
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">{{ __('Admin::auth.reset-email') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fa fa-btn fa-envelope"></i>
-                                    {{ __('Admin::auth.password-btnsend_password') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                    <div class="ap_form__group">
+                        {!! Form::label(null, __('Admin::auth.password-email'), array('class'=>'ap_form__label')) !!}
+                        {!! Form::text('email', old('email'), array('class'=>'ap_form__input')) !!}
+                        @if ($errors->has('email'))
+                            <div class="ap_form__error">{{ $errors->first('email') }}</div>
+                        @endif
+                    </div>
                 </div>
-
             </div>
-        </div>
-    </div>
+        </section>
+
+        <section class="ap_section">
+            <div class="ap_buttons">
+                <button class="ap_button--submit">{!! __('Admin::auth.password-btnsend_password') !!}</button>
+            </div>
+        </section>
+    {!! Form::close() !!}
 @endsection

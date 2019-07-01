@@ -32,7 +32,7 @@ Route::group([
     Route::get(config('admin.homeRoute'), config('admin.homeAction','DashboardController@index'));
 //    Route::resource('users', 'UserController');
 //    Route::resource('roles', 'RoleController');
-    Route::get('home', 'DashboardController@index');
+    Route::get('home', 'DashboardController@index')->name('admin.dashboard');
     Route::post('logout', 'Auth\LoginController@logout')->name('logout');
     Route::post('addresses/manage', 'AddressController@manage')->name('addresses.manage');
     Route::delete('addresses/{id}', 'AddressController@destroy')->name('addresses.destroy');

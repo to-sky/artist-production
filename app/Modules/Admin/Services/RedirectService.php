@@ -3,8 +3,59 @@
 namespace App\Modules\Admin\Services;
 
 
+use App\Models\Role;
+use App\Models\User;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+
 class RedirectService
 {
+
+    static protected $_roles;
+
+    /**
+     * Homepage redirect
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function homeRedirect()
+    {
+        if (!auth()->check()) return redirect()->route(config('auth.redirectRoutes.login'));
+
+        $redirectRoute = $this->getHomeRedirectRoute();
+
+        if (is_null($redirectRoute)) {
+            throw new AccessDeniedHttpException('Access denied');
+        } else {
+            return redirect()->route($redirectRoute);
+        }
+    }
+
+    /**
+     * Get homepage redirect route
+     *
+     * @return \Illuminate\Config\Repository|mixed|null
+     */
+    public function getHomeRedirectRoute()
+    {
+        if (!auth()->check()) self::$_roles = ['guest'];
+
+        if (empty(self::$_roles)) {
+            /** @var User $user */
+            $user = auth()->user();
+            self::$_roles = $user->roles()->pluck('name')->toArray();
+        }
+
+        if (
+            in_array(Role::ADMIN, self::$_roles) ||
+            in_array(Role::BOOKKEEPER, self::$_roles) ||
+            in_array(Role::PARTNER, self::$_roles)
+        ) return config('auth.redirectRoutes.admin');
+
+        if (in_array(Role::CLIENT, self::$_roles))
+            return config('auth.redirectRoutes.client');
+
+        return null;
+    }
 
     /**
      * Gets redirect option from the session

@@ -2,6 +2,7 @@
 
 namespace App\Modules\Admin\Controllers\Auth;
 
+use App\Modules\Admin\Services\RedirectService;
 use Illuminate\Foundation\Auth\AuthenticatesUsers AS AuthenticatesUsers;
 use App\Modules\Admin\Controllers\AdminController AS AdminController;
 
@@ -28,15 +29,25 @@ class LoginController extends AdminController
      */
     protected $redirectTo = '/home';
 
+    protected $redirectService;
+
     /**
      * Create a new controller instance.
      *
-     * @return void
+     * @param RedirectService $redirectService
      */
-    public function __construct()
+    public function __construct(RedirectService $redirectService)
     {
+        $this->redirectService = $redirectService;
+
         $this->middleware('guest')->except('logout');
         $this->redirectTo = config('admin.homeRoute');
     }
 
+    protected function redirectTo()
+    {
+        $redirectRoute = $this->redirectService->getHomeRedirectRoute();
+
+        return is_null($redirectRoute) ? $this->redirectTo : route($redirectRoute);
+    }
 }

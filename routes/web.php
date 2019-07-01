@@ -11,8 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', function (\App\Modules\Admin\Services\RedirectService $redirectService) {
+    return $redirectService->homeRedirect();
 });
 
 Route::get('payment/checkout', 'PaymentController@checkout')->name('payment.checkout');
