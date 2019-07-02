@@ -122,6 +122,13 @@ class Order extends Model
         return join(', ', $eventsNames->toArray());
     }
 
+    public function getEventsAttribute()
+    {
+        $eventIds = $this->tickets()->distinct()->pluck('event_id');
+
+        return Event::find($eventIds);
+    }
+
     public function getTicketsCountAttribute()
     {
         return $this->tickets()->count();

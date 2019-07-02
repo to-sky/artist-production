@@ -83,9 +83,9 @@
       </div>
       <div class="ap_booked__col3">
         <p>ОБЩАЯ СУММА ЗАКАЗА</p>
-        <a href="{{ route('hallWidget', ['id' => $order->event->id]) }}#lang:{{ app()->getLocale() }}" class="ap_booked__more">
-          Заказать еще
-        </a>
+        @component('components.more-button')
+          @slot('order', $order)
+        @endcomponent
       </div>
       <div class="ap_booked__col4">
         <p>{{ sprintf('%1.2f', $order->total) }} EUR</p>
