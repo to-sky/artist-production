@@ -14,6 +14,7 @@ class BankPaymentProcessor extends AbstractPaymentProcessor
     {
         $user = $order->user;
 
+        $this->_ticketService->reserveByOrder($order);
         $this->_mailService->send(new ReservationMail($user, $order));
 
         return redirect()->route('payment.success', compact('order'));
@@ -28,5 +29,6 @@ class BankPaymentProcessor extends AbstractPaymentProcessor
     public function cancel(Order $order, Request $request)
     {
         $order->update(['status' => Order::STATUS_CANCELED]);
+        $this->_ticketService->freeByOrder($order);
     }
 }

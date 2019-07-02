@@ -140,6 +140,7 @@ class PaypalPaymentProcessor extends AbstractPaymentProcessor
                     'status' => Order::STATUS_CONFIRMED,
                     'paid_at' => Carbon::now(),
                 ]);
+                $this->_ticketService->sold($order);
 
                 return redirect()->route('payment.success', ['order' => $order->id]);
             }
@@ -151,6 +152,7 @@ class PaypalPaymentProcessor extends AbstractPaymentProcessor
     public function cancel(Order $order, Request $request)
     {
         $order->update(['status' => Order::STATUS_CANCELED]);
+        $this->_ticketService->freeByOrder($order);
     }
 
 }

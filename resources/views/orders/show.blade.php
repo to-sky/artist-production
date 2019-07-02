@@ -28,7 +28,7 @@
       <div class="ap_order__col2">
         <p>{{ $order->id }}</p>
         <p>{{ $order->display_status }}</p>
-        @if(empty($order->paid_at))<p>14 мая 2019 12:42</p>@endif
+        @if(empty($order->paid_at))<p>{{ $order->getReservationDate() }}</p>@endif
       </div>
       <div class="ap_order__col3">
         <div class="ap_order__actions">

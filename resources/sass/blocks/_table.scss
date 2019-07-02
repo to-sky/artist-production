@@ -1,7 +1,12 @@
-.ap_table-container {
+.ap_table-container,
+.ap_pagination-container {
   background-color: #fff;
   padding: 20px;
   border-radius: 4px;
+}
+
+.ap_pagination-container {
+  text-align: center;
 }
 
 .ap_table {
@@ -30,4 +35,44 @@
 
 .link_row {
   cursor: pointer;
+}
+
+ul.pagination {
+  display: inline-block;
+  margin: 0 -5px;
+  padding: 0;
+
+  li.page-item {
+    display: inline-block;
+    margin: 0 5px;
+    border-radius: 5px;
+    background-color: transparent;
+    color: #003d64;
+    overflow: hidden;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    &.disabled {
+      visibility: .5;
+      pointer-events: none;
+    }
+
+    .page-link {
+      display: block;
+      padding: 5px 10px;
+      width: 100%;
+      height: 100%;
+      background: #003d64;
+      color: #fff;
+    }
+
+    &.active, &.disabled {
+      .page-link {
+        background: transparent;
+        color: #000;
+      }
+    }
+  }
 }

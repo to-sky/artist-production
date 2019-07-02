@@ -149,6 +149,19 @@ class Order extends Model
         ];
     }
 
+    public function getReservationDate()
+    {
+        /** @var null|Carbon $date */
+        $date = null;
+        foreach ($this->tickets as $ticket) {
+            if (empty($date) || $date->greaterThan($ticket->reserved_to)) {
+                $date = $ticket->reserved_to;
+            }
+        }
+
+        return $date;
+    }
+
     /**
      * Get total price of order
      *
