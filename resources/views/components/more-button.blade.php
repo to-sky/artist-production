@@ -6,7 +6,7 @@
   $firstEvent = $events->first();
 
 @endphp
-@if($multiple <= 0)
+@if($multiple > 0)
   <section class="more-button-wrap link_dropdown_wrap">
     <a
         href="{{ route('hallWidget', ['id' => $firstEvent->id]) }}#lang:{{ app()->getLocale() }}"

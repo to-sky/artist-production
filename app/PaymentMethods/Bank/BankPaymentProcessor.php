@@ -2,10 +2,11 @@
 
 namespace App\PaymentMethods\Bank;
 
+use App\Mail\DynamicMails\PaymentMail;
 use App\Mail\DynamicMails\ReservationMail;
-use App\Models\Ticket;
 use App\PaymentMethods\AbstractPaymentProcessor;
 use App\Models\Order;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class BankPaymentProcessor extends AbstractPaymentProcessor
@@ -22,8 +23,15 @@ class BankPaymentProcessor extends AbstractPaymentProcessor
 
     public function confirm(Order $order, Request $request)
     {
-        $order->update(['status' => Order::STATUS_CONFIRMED]);
+        $user = $order->user;
+
+        $order->update([
+            'status' => Order::STATUS_CONFIRMED,
+            'paid_at' => Carbon::now(),
+        ]);
         $this->_ticketService->sold($order);
+
+        $this->_mailService->send(new PaymentMail($user, $order));
     }
 
     public function cancel(Order $order, Request $request)

@@ -11,9 +11,11 @@ interface DynamicMailInterface
     public function getSubject();
 
     /**
+     * @param bool $isCopy
+     *
      * @return array
      */
-    public function getTo();
+    public function getTo($isCopy);
 
     /**
      * @return string
@@ -29,4 +31,9 @@ interface DynamicMailInterface
      * @return bool
      */
     public function canSend();
+
+    /**
+     * @return bool
+     */
+    public function shouldSendCopy();
 }

@@ -2,6 +2,7 @@
 
 namespace App\PaymentMethods\Paypal;
 
+use App\Mail\DynamicMails\PaymentMail;
 use App\PaymentMethods\AbstractPaymentProcessor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -141,6 +142,8 @@ class PaypalPaymentProcessor extends AbstractPaymentProcessor
                     'paid_at' => Carbon::now(),
                 ]);
                 $this->_ticketService->sold($order);
+
+                $this->_mailService->send(new PaymentMail($order->user, $order));
 
                 return redirect()->route('payment.success', ['order' => $order->id]);
             }
