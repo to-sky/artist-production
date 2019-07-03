@@ -260,5 +260,9 @@
     "Pending": "Ожидает Подтверждения",
     "Confirmed": "Подтвежден",
     "Cancelled": "Отменен",
-    "Select": "Выбрать"
+    "Select": "Выбрать",
+    "Invalid value entered": "Введено некорректное значение",
+    "Tickets price": "Стоимость билетов",
+    "Total discount": "Общая скидка",
+    "The total cost": "Итоговая стоимость"
 }

@@ -49,7 +49,6 @@ Route::group([
         Route::get('hallPlaces/{event}', 'EventController@hallPlaces')->name(config('admin.route').'.events.hallPlaces');
         Route::delete('prices/{price}', 'EventController@deletePrice')->name('events.deletePrice');
         Route::delete('priceGroups/{price_group}', 'EventController@deletePriceGroup')->name('events.deletePriceGroup');
-        Route::get('widget/{event}', 'EventController@widgetContent')->name('events.widgetContent');
     });
 });
 
@@ -164,7 +163,6 @@ Route::group([
         'uses' => 'UserActionsController@table'
     ]);
 
-
     Route::prefix('tickets')->group(function () {
         Route::get('print/{ticket}', 'TicketController@print')->name('tickets.print');
         Route::get('zebraPrint', 'TicketController@zebraPrint')->name('tickets.zebraPrint');
@@ -173,5 +171,6 @@ Route::group([
     Route::prefix('admin/orders')->group(function () {
         Route::get('/tickets_table', 'OrderController@updateTicketsTable')->name('order.updateTicketsTable');
         Route::get('{order}', 'TicketController@print')->name('tickets.print');
+        Route::get('widget/{event}', 'OrderController@widgetContent')->name('events.widgetContent');
     });
 });

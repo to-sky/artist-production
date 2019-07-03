@@ -121,17 +121,6 @@ class EventController extends AdminController
 	}
 
     /**
-     * Get event data to order popup widget
-     *
-     * @param Event $event
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function widgetContent(Event $event)
-    {
-        return view('Admin::order.partials.modals._popup_widget', compact('event'));
-    }
-
-    /**
      * Update the specified event in storage.
      * @param Event $event
      * @param EventRequest $request

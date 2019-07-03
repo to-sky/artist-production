@@ -256,5 +256,10 @@
   "Order Status": "Bestellstatus",
   "Pending": "Anstehend",
   "Confirmed": "Bestätigt",
-  "Cancelled": "Abgebrochen"
+  "Cancelled": "Abgebrochen",
+  "Select": "Wählen",
+  "Invalid value entered": "Ungültiger wert eingegeben",
+  "Tickets price": "Eintrittspreis",
+  "Total discount": "Totaler rabatt",
+  "The total cost": "Die gesamtkosten"
 }

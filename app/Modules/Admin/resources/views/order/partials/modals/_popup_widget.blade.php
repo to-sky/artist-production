@@ -55,28 +55,6 @@
                                 <td>{{ __('Price') }}</td>
                                 <td>{{ __('Admin::admin.delete') }}</td>
                             </tr>
-
-                            @php
-                                $tickets = $event->tickets()->whereUserId(auth()->user()->id)->get();
-                            @endphp
-                            @forelse($tickets as $ticket)
-                                <tr>
-                                    <td>{{ $ticket->place->row }}</td>
-                                    <td>{{ $ticket->place->num }}</td>
-                                    <td>{{ $ticket->getBuyablePrice() }}</td>
-                                    <td>
-                                        <a href="#" class="delete-ticket" data-ticket-id="{{ $ticket->id }}">
-                                            <i class="fa fa-trash text-danger"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="4" class="text-center">
-                                        <small>{{ __(':items not selected', ['items' => __('Tickets')]) }}</small>
-                                    </td>
-                                </tr>
-                            @endforelse
                         </table>
                     </div>
                 </div>

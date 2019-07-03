@@ -23,18 +23,17 @@
                     </thead>
 
                     <tbody>
-                    @foreach($clients as $client)
+                    @foreach($users as $user)
                         <tr>
                             <td>
-                                <input type="radio" name="client" value="{{ $client->id }}">
+                                <input type="radio" name="client" value="{{ $user->id }}">
                             </td>
-                            <td>{{ $client->id }}</td>
-                            <td data-type="name">{{ $client->full_name }}</td>
-                            <td>{{ $client->commission }}%</td>
-                            <td data-type="email">{{ $client->email }}</td>
-                            <td  data-type="phone">{{ $client->phone }}</td>
-                            {{-- TODO: change to type--}}
-                            <td>Тип клиента</td>
+                            <td>{{ $user->id }}</td>
+                            <td data-type="name">{{ $user->full_name }}</td>
+                            <td>@if ($user->profile) {{ $user->profile->commission }} @else 0 @endif %</td>
+                            <td data-type="email">{{ $user->email }}</td>
+                            <td  data-type="phone">@if ($user->profile) {{ $user->profile->phone }} @endif</td>
+                            <td>@if ($user->profile) {{ $user->profile->typeLabel }} @endif </td>
                         </tr>
                     @endforeach
                     </tbody>

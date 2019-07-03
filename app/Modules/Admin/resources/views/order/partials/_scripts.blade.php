@@ -161,6 +161,34 @@
         });
     });
 
+    // add ticket hidden inputs to form
+    function addTicketsDataToForm() {
+        var tickets = $('tr[data-ticket-id]');
+        var ticketsBlock = $('div[data-tickets="content"]');
+            ticketsBlock.html('');
+
+        tickets.each(function (i, el) {
+            var ticketId = $(el).data('ticket-id');
+            var ticketDiscount = parseInt($(el).find('a[data-target="#discountModal"]').text());
+
+            $('<input>', {
+                type: 'hidden',
+                name: 'tickets[' + ticketId + '][discount]',
+                value: ticketDiscount
+            }).appendTo(ticketsBlock);
+        });
+
+        $('<input>', {
+            type: 'hidden',
+            name: 'main_discount',
+            value: parseInt($('#mainDiscount').text())
+        }).appendTo(ticketsBlock);
+
+        selectedTickets = tickets.length;
+        $('span[data-tickets="count"]').text(selectedTickets);
+        $('span[data-tickets="final-price"]').text($('#allTicketsFinalPrice').text());
+    }
+
     var body = $('body');
 
     // Check selected tickets and add to widget table
@@ -207,7 +235,7 @@
                 });
             });
         }
-    }, 3000);
+    }, 5000);
 
     // Delete ticket from cart
     body.on('click', '.delete-ticket', function () {
@@ -244,7 +272,9 @@
                         $('<td>', {
                             colspan: 7,
                             class: 'text-center'
-                        }).append($('<small>', {text: 'Билеты не выбраны'}))
+                        }).append($('<small>', {
+                            text: '{{ __(":items not selected", ["items" => __("Tickets")]) }}'
+                        }))
                     )
                 );
             }
@@ -264,6 +294,7 @@
         setTimeout(function () {
             $('body').removeClass('modal-open');
             $('.widget-wrapper').remove();
+            $('#widgetTicketsHeader').nextAll('tr').remove();
         }, 500);
     });
 
@@ -326,7 +357,7 @@
         var finalPrice = calcDiscount(price, discount, type);
 
         if (finalPrice.sum < 0) {
-            var errorText = 'Введено некоректное значение';
+            var errorText = '{{ __("Invalid value entered") }}';
 
             if (! discountBlock.parent('div').hasClass('has-error')) {
                 discountBlock.parent('div').addClass('has-error').append($('<small>', {
@@ -390,8 +421,11 @@
         }
     });
 
+    var selectedTickets = 0;
     // Append client/user to modals
     $('#saleModal, #reserveModal, #realizationModal').on('show.bs.modal', function () {
+        addTicketsDataToForm();
+
         var clientBlock = $('#clientData');
         var userId = $('input[name="user_id"]', clientBlock).val();
         var userName = $('.client-name', clientBlock).text();
@@ -399,14 +433,25 @@
 
         $(this).find('.modal-client-name').text(userName);
         $(this).find('input[name="user_id"]').val(userId);
+
+        var disableButton = false;
+        if (! selectedTickets) {
+            disableButton = true;
+        }
+
+        $('.modal-footer button', this).not('button[data-dismiss="modal"]').attr('disabled', disableButton);
     });
 
     // Disable/Enable submit buttons if user not selected
     $('#reserveModal, #realizationModal').on('show.bs.modal', function () {
         var user = $(this).find('input[name="user_id"]').val();
-        var buttonsStatus = (!user.length) ? true : false;
 
-        $('.modal-footer button', this).not('button[data-dismiss="modal"]').attr('disabled', buttonsStatus);
+        var disableButton = false;
+        if (! selectedTickets || ! user.length) {
+            disableButton = true;
+        }
+
+        $('.modal-footer button', this).not('button[data-dismiss="modal"]').attr('disabled', disableButton);
     });
 
     // Get user addresses and append to modal

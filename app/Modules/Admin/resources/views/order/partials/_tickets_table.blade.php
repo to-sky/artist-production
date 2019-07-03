@@ -25,7 +25,7 @@
                 @php
                     $ticketsFinalPrice += $ticket->getBuyablePrice();
                 @endphp
-                <tr data-event-id="{{ $ticket->event->id }}">
+                <tr data-event-id="{{ $ticket->event->id }}" data-ticket-id="{{ $ticket->id }}">
                     <td>Ряд: {{ $ticket->place->row }} Место: {{ $ticket->place->num }}</td>
                     <td data-price="{{ $ticket->getBuyablePrice() }}">{{ $ticket->getBuyablePrice() }} &euro;</td>
                     <td><a href="#" class="set-discount" data-toggle="modal" data-target="#discountModal">0.00</a></td>
@@ -49,11 +49,11 @@
         @if($ticketsFinalPrice)
         <tfoot class="text-bold text-sm">
             <tr>
-                <td colspan="4" class="text-right">Стоимость билетов:</td>
+                <td colspan="4" class="text-right">{{ __('Tickets price') }}:</td>
                 <td><span id="allTicketsPrice">{{ $ticketsFinalPrice }}</span> &euro;</td>
             </tr>
             <tr>
-                <td colspan="4" class="text-right">Общая скидка:</td>
+                <td colspan="4" class="text-right">{{ __('Total discount') }}:</td>
                 <td>
                     <a href="#" id="mainDiscount"
                        data-toggle="modal"
@@ -63,7 +63,7 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="4" class="text-right">Итоговая стоимость:</td>
+                <td colspan="4" class="text-right">{{ __('The total cost') }}:</td>
                 <td><span id="allTicketsFinalPrice">{{ $ticketsFinalPrice }}</span> &euro;</td>
             </tr>
         </tfoot>
