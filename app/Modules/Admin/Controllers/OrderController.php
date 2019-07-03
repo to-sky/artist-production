@@ -28,33 +28,34 @@ class OrderController extends AdminController {
         ]);
 	}
 
-	/**
-	 * Show the form for creating a new order
-	 *
+    /**
+     * Show the form for creating a new order
+     *
+     * @param TicketService $ticketService
      * @return \Illuminate\View\View
-	 */
-	public function create()
+     */
+	public function create(TicketService $ticketService)
 	{
+        $ticketsData = [];
+        $ticketService->getCartTickets()->map(function ($ticket) use (&$ticketsData) {
+            return $ticketsData[$ticket->event->name][] = $ticket;
+        });
+
 	    return view('Admin::order.create', [
 	        'events' => Event::all(),
             'clients' => User::all(),
-            'ticketsData' => Ticket::whereUserId(auth()->id())->with('event')->get()->groupBy('event.name')
+            'ticketsData' => $ticketsData
         ]);
 	}
 
-    public function getSelectedTickets(TicketService $ticketService, Request $request)
+    public function updateTicketsTable(TicketService $ticketService)
     {
-        $tickets = $ticketService->getCartTickets($request->event_id)
-            ->transform(function ($ticket) {
-                return [
-                    'id' => $ticket->id,
-                    'row' => $ticket->place->row,
-                    'place' => $ticket->place->num,
-                    'price' => $ticket->getBuyablePrice()
-                ];
-        })->sortBy('place');
+        $ticketsData = [];
+        $ticketService->getCartTickets()->map(function ($ticket) use (&$ticketsData) {
+            return $ticketsData[$ticket->event->name][] = $ticket;
+        });
 
-        return response()->json($tickets);
+        return view('Admin::order.partials._tickets_table', compact('ticketsData'));
 	}
 
 	/**

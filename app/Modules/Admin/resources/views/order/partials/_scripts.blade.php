@@ -207,24 +207,59 @@
                 });
             });
         }
-    }, 5000);
+    }, 3000);
 
     // Delete ticket from cart
     body.on('click', '.delete-ticket', function () {
         $.ajax({
-            url: '{{ route("tickets.dissociateUser") }}',
+            url: '{{ route("tickets.freeTicket") }}',
             type : 'PATCH',
             data: {
                 ticket_id: $(this).data('ticket-id')
             }
         });
 
-        $(this).closest('tr').remove();
+        var ticketRow = $(this).closest('tr');
+        var eventId = ticketRow.data('event-id');
+
+        // Delete table row on tickets table
+        // If ticket is last on this event, remove header(event name)
+        if (ticketRow.closest('#ticketsTable').length) {
+            ticketRow.remove();
+
+            var ticketsTable = $('#ticketsTable');
+            var tickets = ticketsTable.find('tr[data-event-id='+ eventId +']').not('tr[data-event="title"]');
+            var eventTitle = ticketsTable.find('tr[data-event-id='+ eventId +'][data-event="title"]');
+
+            if (! tickets.length) {
+                eventTitle.remove();
+            }
+
+            // If ticket is last in order, add empty table row
+            if (! $('tbody tr', ticketsTable).length) {
+                $('tfoot', ticketsTable).hide();
+
+                $('tbody', ticketsTable).append(
+                    $('<tr>').append(
+                        $('<td>', {
+                            colspan: 7,
+                            class: 'text-center'
+                        }).append($('<small>', {text: 'Билеты не выбраны'}))
+                    )
+                );
+            }
+        }
+
+        ticketRow.remove();
     });
 
     // Close widget popup
     body.on('click', '.widget-close-btn', function () {
         $(".widget-content").animate({"left":"1900px"}, 500);
+
+        $.get('{{ route('order.updateTicketsTable') }}', function (data) {
+            $('#ticketsTableWrapper').html(data);
+        });
 
         setTimeout(function () {
             $('body').removeClass('modal-open');
@@ -235,12 +270,13 @@
     // Calculate price for all tickets
     var mainDiscount = 0;
     var mainDiscountType = 'percent';
-    $('#ticketsTable tbody').bind("DOMSubtreeModified", function() {
+    body.on("DOMSubtreeModified", '#ticketsTable tbody',function() {
         var ticketsPrice = 0;
         $('td[data-price-final]').each(function (i, el) {
             ticketsPrice += parseFloat($(el).data('price-final'));
         });
 
+        ticketsPrice = Math.round(ticketsPrice);
         var finalPrice = ticketsPrice;
         if (mainDiscount > 0) {
             finalPrice = calcDiscount(ticketsPrice, mainDiscount, mainDiscountType).sum;

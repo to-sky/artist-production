@@ -51,17 +51,6 @@ Route::group([
         Route::delete('priceGroups/{price_group}', 'EventController@deletePriceGroup')->name('events.deletePriceGroup');
         Route::get('widget/{event}', 'EventController@widgetContent')->name('events.widgetContent');
     });
-
-    Route::prefix('tickets')->group(function () {
-       Route::get('print/{ticket}', 'TicketController@print')->name('tickets.print');
-       Route::get('zebraPrint', 'TicketController@zebraPrint')->name('tickets.zebraPrint');
-       Route::patch('dissociateUser', 'TicketController@dissociateUser')->name('tickets.dissociateUser');
-    });
-
-    Route::prefix('orders')->group(function () {
-        Route::get('order/{order}', 'TicketController@print')->name('tickets.print');
-        Route::get('event/selected_tickets', 'OrderController@getSelectedTickets')->name('orders.getSelectedTickets');
-    });
 });
 
 if (Schema::hasTable('menus')) {
@@ -174,4 +163,15 @@ Route::group([
         'as'   => config('admin.route') . '.actions.ajax',
         'uses' => 'UserActionsController@table'
     ]);
+
+
+    Route::prefix('tickets')->group(function () {
+        Route::get('print/{ticket}', 'TicketController@print')->name('tickets.print');
+        Route::get('zebraPrint', 'TicketController@zebraPrint')->name('tickets.zebraPrint');
+    });
+
+    Route::prefix('admin/orders')->group(function () {
+        Route::get('/tickets_table', 'OrderController@updateTicketsTable')->name('order.updateTicketsTable');
+        Route::get('{order}', 'TicketController@print')->name('tickets.print');
+    });
 });

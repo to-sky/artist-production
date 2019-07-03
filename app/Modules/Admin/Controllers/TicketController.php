@@ -23,11 +23,4 @@ class TicketController extends AdminController
 
         return view('Admin::pdf.zebra_ticket', compact('ticket'));
     }
-
-    public function dissociateUser(TicketService $ticketService, Request $request)
-    {
-        $ticketService->freeAnywhere($request->ticket_id);
-
-        return response()->json(null, 200);
-    }
 }

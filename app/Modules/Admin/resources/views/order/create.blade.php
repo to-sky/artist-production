@@ -32,7 +32,9 @@
                     </div>
                 </div>
 
-                @include('Admin::order.partials._tickets_table')
+                <div class="box" id="ticketsTableWrapper">
+                    @include('Admin::order.partials._tickets_table')
+                </div>
 
                 <div class="btn-group">
                     <button type="button" class="btn btn-success">{{ __('Create order') }}</button>
