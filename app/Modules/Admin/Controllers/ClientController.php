@@ -6,6 +6,7 @@ use App\Models\Address;
 use App\Models\Country;
 use App\Modules\Admin\Controllers\AdminController;
 use App\Modules\Admin\Services\RedirectService;
+use App\Services\ClientService;
 use Illuminate\Support\Facades\Auth;
 use Redirect;
 use Schema;
@@ -28,9 +29,9 @@ use Prologue\Alerts\Facades\Alert;
  */
 class ClientController extends AdminController {
 
-    public function __construct(RedirectService $redirectService)
+    public function __construct(ClientService $clientService, RedirectService $redirectService)
     {
-        $this->authorizeResource(Profile::class, 'client');
+        $this->authorizeResource($clientService->getModelClass(), 'user');
 
         parent::__construct($redirectService);
     }
@@ -38,17 +39,18 @@ class ClientController extends AdminController {
 	/**
 	 * Display a listing of clients
 	 *
+     * @param ClientService $clientService
      * @param Request $request
      *
      * @return \Illuminate\View\View
      *
      * @throws \Illuminate\Auth\Access\AuthorizationException
 	 */
-	public function index(Request $request)
+	public function index(ClientService $clientService, Request $request)
     {
         $this->authorize('index', Profile::class);
 
-        $clients = Profile::all();
+        $clients = $clientService->query();
 
 		return view('Admin::client.index', compact('clients'));
 	}
@@ -71,35 +73,15 @@ class ClientController extends AdminController {
     /**
      * Store a newly created client in storage.
      *
+     * @param ClientService $clientService
      * @param CreateClientRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-	public function store(CreateClientRequest $request)
+	public function store(ClientService $clientService, CreateClientRequest $request)
 	{
-		$request->merge(['user_id' => Auth::id()]);
-		$client = Profile::create($request->all());
-
-		$request->merge(['id' => $client->id]);
-
-		$addresses = $request->get('Addresses');
-
-		if (empty($addresses)) {
-            Address::create([
-                'first_name' => $request->get('first_name'),
-                'last_name' => $request->get('last_name'),
-                'street' => $request->get('street'),
-                'house' => $request->get('house'),
-                'apartment' => $request->get('apartment'),
-                'city' => $request->get('city'),
-                'country_id' => $request->get('country_id'),
-                'active' => Address::ACTIVE,
-                'user_id' => $client->id
-            ]);
-        } else {
-		    foreach ($addresses as $address) {
-		        Address::create($address + ['client_id' => $client->id]);
-            }
-        }
+		$clientService->create(
+		    $clientService->getDataFromCreateRequest($request)
+        );
 
         Alert::success(trans('Admin::admin.controller-successfully_created', ['item' => trans('Admin::models.Client')]))->flash();
 
@@ -110,11 +92,13 @@ class ClientController extends AdminController {
 	/**
 	 * Show the form for editing the specified client.
 	 *
+     * @param ClientService $clientService
 	 * @param  int  $id
      * @return \Illuminate\View\View
 	 */
-	public function edit(Profile $client)
+	public function edit(ClientService $clientService, $id)
 	{
+	    $client = $clientService->get($id);
         $countries = Country::pluck('name', 'id')->toArray();
         $addresses = $client->addresses->toArray();
         $countryCodes = Country::pluck('code')->toArray();
