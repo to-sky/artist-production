@@ -3,11 +3,14 @@
 namespace App\Mail\DynamicMails;
 
 
+use App\Mail\Traits\TicketsListTrait;
 use App\Models\Order;
 use App\Models\User;
 
 class ReservationMail extends AbstractDynamicMail
 {
+    use TicketsListTrait;
+
     protected $_order;
 
     public function __construct(User $user, Order $order)
@@ -29,10 +32,10 @@ class ReservationMail extends AbstractDynamicMail
         // @OrderId - order number
         // @Currency - order currency
         // @Amount - order total
+        // @TicketsList - list of order tickets
+        // @ReserveExpirationDate - order reservation date
 
         // @WeWillCallYouMessage
-        // @ReserveExpirationDate - order reservation date
-        // @TicketsList - list of order tickets
         // @TicketOfficesList
         // @BankRequisites
         return [
@@ -41,6 +44,8 @@ class ReservationMail extends AbstractDynamicMail
             '@OrderId' => $this->_order->id,
             '@Currency' => Order::CURRENCY,
             '@Amount' => $this->_order->total,
+            '@TicketsList' => $this->_getTicketsListPlaceholder($this->_order),
+            '@ReserveExpirationDate' => $this->_order->getReservationDate()->format('d.m.Y H:i'),
         ];
     }
 
