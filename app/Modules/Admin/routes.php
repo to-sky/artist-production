@@ -169,8 +169,9 @@ Route::group([
     });
 
     Route::prefix('admin/orders')->group(function () {
-        Route::get('/tickets_table', 'OrderController@updateTicketsTable')->name('order.updateTicketsTable');
+        Route::get('tickets_table', 'OrderController@updateTicketsTable')->name('order.updateTicketsTable');
         Route::get('{order}', 'TicketController@print')->name('tickets.print');
         Route::get('widget/{event}', 'OrderController@widgetContent')->name('events.widgetContent');
+        Route::get('user/addresses', 'OrderController@getUserAddresses')->name('order.getAddresses');
     });
 });

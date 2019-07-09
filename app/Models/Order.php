@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\TicketService;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -16,13 +17,30 @@ class Order extends Model
      *
      * @var array
      */
-    protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at', 'expired_at'];
 
     const STATUS_PENDING = 0;
     const STATUS_CONFIRMED = 1;
     const STATUS_CANCELED = 2;
+    const STATUS_RESERVE = 3;
+    const STATUS_REALIZATION = 4;
+
+    const REALIZATION_COMMISSION = 0;
+    const REALIZATION_DISCOUNT = 1;
 
     const CURRENCY = 'EUR';
+
+    protected static function boot() {
+        parent::boot();
+
+        static::deleting(function($order) {
+            $order->tickets->each(function($ticket) {
+                $ticketService = new TicketService();
+
+                $ticketService->freeTicketFromOrder($ticket);
+            });
+        });
+    }
 
     /**
      * @var array
@@ -47,6 +65,8 @@ class Order extends Model
         'service_price',
         'comment',
         'paid_at',
+        'payer_id',
+        'manager_id'
     ];
 
     /**
@@ -55,6 +75,22 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo('App\Models\User');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function manager()
+    {
+        return $this->belongsTo('App\Models\User', 'manager_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function payer()
+    {
+        return $this->belongsTo('App\Models\User', 'payer_id');
     }
 
     /**

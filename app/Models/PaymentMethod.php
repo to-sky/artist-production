@@ -22,10 +22,13 @@ class PaymentMethod extends Model
     const PRICE_TYPE_PERCENTAGE = 0;
     const PRICE_TYPE_STATIC = 1;
 
+    const TYPE_INSTANT = 1;
+    const TYPE_DELAY = 2;
+
     /**
      * @var array
      */
-    protected $fillable = ['name', 'active', 'price_type', 'price_amount', 'created_at', 'updated_at'];
+    protected $fillable = ['name', 'active', 'payment_type', 'price_type', 'price_amount', 'created_at', 'updated_at'];
 
     /**
      * Calculate service price based on provided base price
@@ -58,5 +61,10 @@ class PaymentMethod extends Model
             case self::PRICE_TYPE_STATIC: return "{$this->price_amount} {$currency}";
             default: return '';
         }
+    }
+
+    public function scopePaymentDelay($query)
+    {
+        return $query->wherePaymentType(self::TYPE_DELAY);
     }
 }

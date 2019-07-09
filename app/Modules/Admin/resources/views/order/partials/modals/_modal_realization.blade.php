@@ -16,19 +16,24 @@
                 @include('Admin::order.partials.modals._block_client_info')
 
                 <div class="form-group">
-                    <label for="method">{{ __('Select :item', ['item' => __('type')]) }}</label>
-                    <select name="method" id="method" class="form-control">
-                        <option value="commission">{{ __('Commission') }}</option>
-                        <option value="discount">{{ __('Discount') }}</option>
+                    <label for="realization_method">{{ __('Select :item', ['item' => __('type')]) }}</label>
+                    <select name="realization_method" id="realizationMethod" class="form-control">
+                        <option value="{{ \App\Models\Order::REALIZATION_COMMISSION }}">{{ __('Commission') }}</option>
+                        <option value="{{ \App\Models\Order::REALIZATION_DISCOUNT }}">{{ __('Discount') }}</option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="percent">{{ __('Implementing percentage') }}</label>
                     <div class="input-group">
-                        <input type="text" name="percent" id="percent" class="form-control" value="10">
+                        <input type="text" name="realization_percent" id="percent" class="form-control" value="10">
                         <div class="input-group-addon">%</div>
                     </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="comment">{{ __('Comment') }}</label>
+                    <textarea name="comment" id="comment" rows="4" class="form-control"></textarea>
                 </div>
 
                 @include('Admin::order.partials.modals._block_total_sum')

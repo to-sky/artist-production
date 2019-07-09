@@ -169,7 +169,7 @@
 
         tickets.each(function (i, el) {
             var ticketId = $(el).data('ticket-id');
-            var ticketDiscount = parseInt($(el).find('a[data-target="#discountModal"]').text());
+            var ticketDiscount = parseFloat($(el).find('a[data-target="#discountModal"]').text());
 
             $('<input>', {
                 type: 'hidden',
@@ -181,7 +181,7 @@
         $('<input>', {
             type: 'hidden',
             name: 'main_discount',
-            value: parseInt($('#mainDiscount').text())
+            value: parseFloat($('#mainDiscount').text())
         }).appendTo(ticketsBlock);
 
         selectedTickets = tickets.length;
@@ -198,7 +198,7 @@
                 var widgetTicketsHeader = $('#widgetTicketsHeader');
                     widgetTicketsHeader.nextAll('tr').remove();
 
-                if (! data.length) {
+                if ($.isEmptyObject(data)) {
                     var tr = $('<tr>');
 
                     $('<td>', {
@@ -213,7 +213,7 @@
                     return;
                 }
 
-                $(data).each(function (i, ticket) {
+                $.each(data, function (i, ticket) {
                     var tr = $('<tr>');
 
                     $('<td>', {text: ticket.row}).appendTo(tr);
@@ -300,17 +300,15 @@
 
     // Calculate price for all tickets
     var mainDiscount = 0;
-    var mainDiscountType = 'percent';
     body.on("DOMSubtreeModified", '#ticketsTable tbody',function() {
         var ticketsPrice = 0;
         $('td[data-price-final]').each(function (i, el) {
             ticketsPrice += parseFloat($(el).data('price-final'));
         });
 
-        ticketsPrice = Math.round(ticketsPrice);
         var finalPrice = ticketsPrice;
         if (mainDiscount > 0) {
-            finalPrice = calcDiscount(ticketsPrice, mainDiscount, mainDiscountType).sum;
+            finalPrice = calcDiscount(ticketsPrice, mainDiscount, 'euro').sum;
         }
 
         $('#allTicketsPrice').text(ticketsPrice);
@@ -336,7 +334,6 @@
     }).on('hide.bs.modal', function () {
         if(allTickets) {
             mainDiscount = parseFloat($('#mainDiscount').text());
-            mainDiscountType = $('#discountTypeValue').data('type');
         }
 
         $('#discount', this).val(0);
@@ -353,7 +350,6 @@
         var discountBlock = $('#discount');
         var discount = discountBlock.val();
         var type = $('#discountType option:selected').val();
-        var typeValue = type === 'euro' ? '&euro;' : '&percnt;';
         var finalPrice = calcDiscount(price, discount, type);
 
         if (finalPrice.sum < 0) {
@@ -372,8 +368,8 @@
         if (allTickets) {
             if (discount > 0) {
                 $('#allTicketsFinalPrice').text(finalPrice.sum);
-                $('#mainDiscount').text(discount);
-                $('#discountTypeValue').data('type', type).html(typeValue);
+                $('#mainDiscount').text(finalPrice.discountSum);
+                $('#discountTypeValue').data('type', type).html('&euro;');
             }
         } else {
             var priceFinalTd = row.find('td[data-price-final]');
@@ -396,8 +392,8 @@
         }
 
         return {
-            sum: finalPrice,
-            discountSum: parseFloat(discountSum).toFixed(2)
+            sum: Number(finalPrice).toFixed(2),
+            discountSum: Number(discountSum).toFixed(2)
         };
     }
 
@@ -406,18 +402,18 @@
         var type = $('option:selected', this).val();
         var paymentTypeInput = $('#paymentType');
 
-        // TODO: set payment_type
         if (type === 'office') {
-            paymentTypeInput.attr('value', '{{ __('Payment at the checkout') }}').next('input[type="hidden"]').val(1);
+            paymentTypeInput.attr('value', '{{ __('Payment at the checkout') }}').next('input[type="hidden"]').val('');
         } else {
-            paymentTypeInput.attr('value', '{{ __('Bank transfer') }}').next('input[type="hidden"]').val(2);
+            paymentTypeInput.attr('value', '{{ __('Bank transfer') }}').next('input[type="hidden"]').val('{{ \App\Models\PaymentMethod::TYPE_DELAY }}');
         }
 
         // Append/remove address block
         if (type === 'post') {
-            paymentTypeInput.parent('div').after(createAddressBlock());
+            var userId = $('#reserveModal input[name="user_id"]').val();
+            paymentTypeInput.parent('div').after(createAddressBlock(userId));
         } else {
-            $('#shippingAddress').closest('div.form-group').remove();
+            $('#shippingAddresses').remove();
         }
     });
 
@@ -454,40 +450,30 @@
         $('.modal-footer button', this).not('button[data-dismiss="modal"]').attr('disabled', disableButton);
     });
 
-    // Get user addresses and append to modal
-    body.on('click', '#anotherAddress', function () {
-        // TODO: Send ajax and get all addresses for current user
-        $.get(url, {user_id: 3}, function (data) {
-            // TODO: append user addresses after address block
-        });
-    });
-
     // Create address block
-    function createAddressBlock() {
-        var inputAddress = $('<div>', {class: 'col-md-9'})
-            .append($('<label>', {
-                for: 'shippingAddress',
-                text: '{{ __('Address') }}'
-            }))
-            .append($('<input>', {
-                type: 'text',
-                id: 'shippingAddress',
-                class: 'form-control'
-            }))
-            .append($('<input>', {
-                type: 'hidden',
-                name: 'address_id',
-            }));
+    function createAddressBlock(user_id) {
+        var addresses = $('<label>', {text: 'Addresses'});
+        $.get('{{ route('order.getAddresses') }}', {user_id: user_id}, function (data) {
+            $.each(data, function (i, el) {
+                addresses.parent().append(
+                    $('<div>', {class: 'radio'})
+                        .append(
+                            $('<label>')
+                                .append($('<input>', {
+                                    type: 'radio',
+                                    name: 'address_id',
+                                    value: el.id,
+                                    checked: i === 0
+                                })).append(el.address)
+                        )
+                );
+            });
+        });
 
-        var anotherAddress = $('<div>', {class: 'col-md-3 label-top-offset'})
-            .append($('<button>', {
-                type: 'button',
-                id: 'anotherAddress',
-                class: 'btn btn-file-upload pull-right',
-                text: '{{ __('Another address') }}'
-            }));
-
-        return $('<div>', {class: 'form-group row'}).append(inputAddress).append(anotherAddress);
+        return $('<div>', {
+            id: 'shippingAddresses',
+            class: 'form-group'
+        }).append(addresses);
     }
 </script>
 

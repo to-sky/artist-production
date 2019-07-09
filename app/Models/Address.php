@@ -83,4 +83,9 @@ class Address extends Model
 
         return join(', ', $parts);
     }
+
+    public function scopeActive($query)
+    {
+        return $query->where('active', self::ACTIVE);
+    }
 }

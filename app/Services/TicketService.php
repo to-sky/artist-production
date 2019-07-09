@@ -321,6 +321,7 @@ class TicketService
     {
         $ticket->user()->dissociate();
         $ticket->status = Ticket::AVAILABLE;
+        $ticket->reserved_to = null;
         $ticket->save();
     }
 
@@ -335,6 +336,18 @@ class TicketService
     {
         $ticket->reserved_to = null;
         $ticket->status = Ticket::SOLD;
+        $ticket->save();
+    }
+
+    public function freeTicketFromOrder(Ticket $ticket)
+    {
+        $ticket->price = null;
+        $ticket->status = Ticket::AVAILABLE;
+        $ticket->discount = 0;
+        $ticket->reserved_to = null;
+        $ticket->order()->dissociate();
+        $ticket->priceGroup()->dissociate();
+        $ticket->user()->dissociate();
         $ticket->save();
     }
 

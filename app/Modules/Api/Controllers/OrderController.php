@@ -2,6 +2,7 @@
 
 namespace App\Modules\Api\Controllers;
 
+use App\Models\Ticket;
 use App\Services\TicketService;
 use Illuminate\Http\Request;
 
@@ -9,7 +10,7 @@ class OrderController extends ApiController
 {
     public function getSelectedTickets(TicketService $ticketService, Request $request)
     {
-        $ticket = $ticketService->getCartTickets($request->event_id);
+        $ticket = $ticketService->getCartTickets($request->event_id)->where('status', Ticket::RESERVED);
 
         return $ticket->map(function ($ticket) {
             return [

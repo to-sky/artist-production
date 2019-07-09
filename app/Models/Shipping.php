@@ -13,8 +13,9 @@ class Shipping extends Model
     const STATUS_DELIVERED = 2;
     const STATUS_RETURNED = 3;
 
-    const TYPE_DELIVERY = 0;
-    const TYPE_EMAIL = 1;
+    const TYPE_EMAIL = 0;
+    const TYPE_OFFICE = 1;
+    const TYPE_POST = 2;
 
     protected $fillable = [
         'name', 'is_default'

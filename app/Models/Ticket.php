@@ -52,7 +52,7 @@ class Ticket extends Model implements Buyable
         'deleted_at',
     ];
 
-    protected $fillable = ['barcode', 'amount_printed', 'price', 'status', 'user_id', 'event_id', 'place_id', 'price_id', 'order_id'];
+    protected $fillable = ['barcode', 'amount_printed', 'price', 'status', 'user_id', 'event_id', 'place_id', 'price_id', 'reserved_to', 'order_id'];
 
     public function __construct(array $attributes = [])
     {
