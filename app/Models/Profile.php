@@ -114,14 +114,4 @@ class Profile extends Model
                 break;
         }
     }
-
-    /**
-     * Get type attribute
-     *
-     * @return array|string|null
-     */
-    public function getTypeLabelAttribute()
-    {
-        return self::getTypeLabel($this->type);
-    }
 }
