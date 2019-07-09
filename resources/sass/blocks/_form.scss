@@ -27,6 +27,11 @@
   cursor: pointer;
 }
 
+.ap_button--block {
+  display: block !important;
+  width: 100% !important;
+}
+
 .ap_button--submit {
   @extend .ap_button;
 

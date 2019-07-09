@@ -30,9 +30,9 @@ class UpdateClientRequest extends FormRequest {
             'email' => [
                 'required',
                 'email',
-                Rule::unique('clients')->ignore($this->input('id'))
+                Rule::unique('users')->ignore($this->input('id'))
             ],
-            'comission' => 'numeric|between:0,100'
+            'commission' => 'numeric|between:0,100'
 		];
 	}
 }

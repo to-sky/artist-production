@@ -28,7 +28,7 @@
       <div class="ap_order__col2">
         <p>{{ $order->id }}</p>
         <p>{{ $order->display_status }}</p>
-        @if(empty($order->paid_at))<p>14 мая 2019 12:42</p>@endif
+        @if(empty($order->paid_at))<p>{{ $order->getReservationDate() }}</p>@endif
       </div>
       <div class="ap_order__col3">
         <div class="ap_order__actions">
@@ -83,9 +83,9 @@
       </div>
       <div class="ap_booked__col3">
         <p>ОБЩАЯ СУММА ЗАКАЗА</p>
-        <a href="{{ route('hallWidget', ['id' => $order->event->id]) }}#lang:{{ app()->getLocale() }}" class="ap_booked__more">
-          Заказать еще
-        </a>
+        @component('components.more-button')
+          @slot('order', $order)
+        @endcomponent
       </div>
       <div class="ap_booked__col4">
         <p>{{ sprintf('%1.2f', $order->total) }} EUR</p>

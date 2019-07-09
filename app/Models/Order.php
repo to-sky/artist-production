@@ -158,6 +158,13 @@ class Order extends Model
         return join(', ', $eventsNames->toArray());
     }
 
+    public function getEventsAttribute()
+    {
+        $eventIds = $this->tickets()->distinct()->pluck('event_id');
+
+        return Event::find($eventIds);
+    }
+
     public function getTicketsCountAttribute()
     {
         return $this->tickets()->count();
@@ -176,6 +183,19 @@ class Order extends Model
             self::STATUS_CONFIRMED => __('Confirmed'),
             self::STATUS_CANCELED => __('Cancelled'),
         ];
+    }
+
+    public function getReservationDate()
+    {
+        /** @var null|Carbon $date */
+        $date = null;
+        foreach ($this->tickets as $ticket) {
+            if (empty($date) || $date->greaterThan($ticket->reserved_to)) {
+                $date = $ticket->reserved_to;
+            }
+        }
+
+        return $date;
     }
 
     /**

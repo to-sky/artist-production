@@ -3,6 +3,7 @@
 namespace App\Modules\Admin\Controllers\Auth;
 
 use App\Modules\Admin\Controllers\AdminController;
+use App\Modules\Admin\Services\RedirectService;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
 class ResetPasswordController extends AdminController
@@ -27,13 +28,31 @@ class ResetPasswordController extends AdminController
      */
     protected $redirectTo = '/home';
 
+    protected $redirectService;
+
     /**
      * Create a new controller instance.
      *
+     * @param RedirectService $redirectService
+     *
      * @return void
      */
-    public function __construct()
+    public function __construct(RedirectService $redirectService)
     {
         $this->middleware('guest');
+
+        $this->redirectService = $redirectService;
+    }
+
+    /**
+     * Get redirect
+     *
+     * @return string
+     */
+    protected function redirectTo()
+    {
+        $redirectRoute = $this->redirectService->getHomeRedirectRoute();
+
+        return is_null($redirectRoute) ? $this->redirectTo : route($redirectRoute);
     }
 }

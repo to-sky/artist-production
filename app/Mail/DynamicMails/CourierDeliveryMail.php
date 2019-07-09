@@ -7,10 +7,11 @@ use App\Mail\Traits\TicketsListTrait;
 use App\Models\Order;
 use App\Models\User;
 
-class ReservationMail extends AbstractDynamicMail
+class CourierDeliveryMail extends AbstractDynamicMail
 {
     use TicketsListTrait;
 
+    /** @var Order */
     protected $_order;
 
     public function __construct(User $user, Order $order)
@@ -28,16 +29,13 @@ class ReservationMail extends AbstractDynamicMail
     protected function _prepareData()
     {
         // @ClientName - client name
-        // @SiteUrl - site link
+        // @SiteUrl - link to the website
         // @OrderId - order number
         // @Currency - order currency
-        // @Amount - order total
-        // @TicketsList - list of order tickets
-        // @ReserveExpirationDate - order reservation date
+        // @Amount - payment amount
+        // @TicketsList - list of ordered tickets
 
-        // @WeWillCallYouMessage
-        // @TicketOfficesList
-        // @BankRequisites
+        // @TicketOfficesList - cash list
         return [
             '@ClientName' => $this->_user->first_name,
             '@SiteUrl' => url('/'),
@@ -45,7 +43,6 @@ class ReservationMail extends AbstractDynamicMail
             '@Currency' => Order::CURRENCY,
             '@Amount' => $this->_order->total,
             '@TicketsList' => $this->_getTicketsListPlaceholder($this->_order),
-            '@ReserveExpirationDate' => $this->_order->getReservationDate()->format('d.m.Y H:i'),
         ];
     }
 
@@ -54,7 +51,7 @@ class ReservationMail extends AbstractDynamicMail
      */
     public function getSubject()
     {
-        return __('Reservation information');
+        return __('Courier delivery');
     }
 
     /**
@@ -62,6 +59,16 @@ class ReservationMail extends AbstractDynamicMail
      */
     public function getTemplateTag()
     {
-        return 'clearance_reserve';
+        return 'courier_delivery';
+    }
+
+    /**
+     * @return bool
+     */
+    public function canSend()
+    {
+        $flag = intval(setting("mail_notify_clearance_reserve"));
+
+        return !!$flag;
     }
 }

@@ -90,6 +90,11 @@ class Profile extends Model
         return static::getTypes();
     }
 
+    public function getTypeLabelAttribute()
+    {
+        return self::getTypeLabel($this->type);
+    }
+
     public static function getTypes()
     {
         return [

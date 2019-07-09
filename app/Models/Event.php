@@ -117,4 +117,14 @@ class Event extends Model
             ? self::NOT_ACTIVE
             : self::ACTIVE;
     }
+
+    public function getCanOrderAttribute()
+    {
+        $tz = new \DateTimeZone('UTC');
+        
+        $eventDate = $this->date->timezone($tz)->format('Y-m-d H:i');
+        $now = Carbon::now()->timezone($tz)->format('Y-m-d H:i');
+
+        return $now < $eventDate;
+    }
 }

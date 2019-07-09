@@ -7,7 +7,7 @@ use App\Mail\Traits\TicketsListTrait;
 use App\Models\Order;
 use App\Models\User;
 
-class ReservationMail extends AbstractDynamicMail
+class TicketsForSaleMail extends AbstractDynamicMail
 {
     use TicketsListTrait;
 
@@ -28,16 +28,15 @@ class ReservationMail extends AbstractDynamicMail
     protected function _prepareData()
     {
         // @ClientName - client name
-        // @SiteUrl - site link
+        // @SiteUrl - link to the website
         // @OrderId - order number
         // @Currency - order currency
-        // @Amount - order total
-        // @TicketsList - list of order tickets
-        // @ReserveExpirationDate - order reservation date
+        // @Amount - payment amount
+        // @TicketsList - list of ordered tickets
 
-        // @WeWillCallYouMessage
-        // @TicketOfficesList
-        // @BankRequisites
+        // @TicketOfficesList - cash list
+        // @WeWillCallYouMessage - message 'we will call you'
+        // @BankRequisites - bank details
         return [
             '@ClientName' => $this->_user->first_name,
             '@SiteUrl' => url('/'),
@@ -45,7 +44,6 @@ class ReservationMail extends AbstractDynamicMail
             '@Currency' => Order::CURRENCY,
             '@Amount' => $this->_order->total,
             '@TicketsList' => $this->_getTicketsListPlaceholder($this->_order),
-            '@ReserveExpirationDate' => $this->_order->getReservationDate()->format('d.m.Y H:i'),
         ];
     }
 
@@ -54,7 +52,7 @@ class ReservationMail extends AbstractDynamicMail
      */
     public function getSubject()
     {
-        return __('Reservation information');
+        return __('Tickets for sale');
     }
 
     /**
@@ -62,6 +60,6 @@ class ReservationMail extends AbstractDynamicMail
      */
     public function getTemplateTag()
     {
-        return 'clearance_reserve';
+        return 'tickets_for_sale';
     }
 }

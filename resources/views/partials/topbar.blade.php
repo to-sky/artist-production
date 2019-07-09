@@ -8,5 +8,11 @@
         <a href="tel:+4961316272444" title="phone number" class="ap_header__phone">+49 6131 62 72 444</a>
         <p class="ap_header__info-text">Пн-Пт с 10:00 до 17:00</p>
     </div>
-    <a href="{{ route('profile.show') }}" class="ap_header__button">{!! __('Go to personal account') !!}</a>
+    @if(auth()->check())
+        {!! Form::open(['url' => 'logout']) !!}
+            <button class="ap_header__button">{!! __('Exit from personal account') !!}</button>
+        {!! Form::close() !!}
+    @else
+        <a href="{{ route('profile.show') }}" class="ap_header__button">{!! __('Go to personal account') !!}</a>
+    @endif
 </header>

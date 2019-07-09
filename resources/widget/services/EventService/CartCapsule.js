@@ -18,9 +18,14 @@ export default class CartCapsule {
 
   _prepareSelectedPlaces() {
     this._placeIds = [];
+    this._foreignPlaceIds = [];
     this._tickets.forEach(t => {
       if (!this._placeIds.includes(t.place_id)) {
-        this._placeIds.push(t.place_id);
+        if (t.event_id == this._eventId) {
+          this._placeIds.push(t.place_id);
+        } else {
+          this._foreignPlaceIds.push(t.place_id);
+        }
       }
     });
 
@@ -28,34 +33,36 @@ export default class CartCapsule {
   }
 
   _prepareReservationsList() {
-    let includedPlaceIds = [];
-    let places = this._event.raw('places').filter(p => {
-      let keep = this._placeIds.includes(p.id);
-
-      if (keep) includedPlaceIds.push(p.id);
-
-      return keep;
-    });
-    this._selectedPlaces.forEach(p => {
-      if (this._placeIds.includes(p.id) && !includedPlaceIds.includes(p.id))
-        places.push(p);
-    });
-
-
     this.reservationsList = [];
-    places.forEach(p => {
-      this._tickets.filter(t => t.place_id == p.id).forEach(t => {
-        this.reservationsList.push(Object.assign({}, p, {
-          discount_price: this._getDiscountedPrice(
+    this._tickets.forEach(t => {
+      let place = this._getPlace(t.place_id);
+
+      this.reservationsList.push(Object.assign({}, place, {
+        discount_price: this._getDiscountedPrice(
             this._getPriceById(t.price_id),
             this._getDiscountByPriceGroupId(t.price_group_id)
-          ),
-          price_group_id: t.price_group_id,
-          discount: this._getDiscountNameByPriceGroupId(t.price_group_id),
-          ticket_id: t.id
-        }));
-      });
+        ),
+        price_group_id: t.price_group_id,
+        discount: this._getDiscountNameByPriceGroupId(t.price_group_id),
+        ticket_id: t.id
+      }));
     });
+  }
+
+  _getPlace(place_id) {
+    let place = null;
+
+    this._event.raw('places').forEach(p => {
+      if (p.id == place_id) place = p;
+    });
+
+    if (!place) {
+      this._selectedPlaces.forEach(p => {
+        if (p.id == place_id) place = p;
+      });
+    }
+
+    return place;
   }
 
   isReserved(place) {

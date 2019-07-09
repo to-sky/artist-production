@@ -17,9 +17,10 @@ abstract class AbstractDynamicMail implements DynamicMailInterface
     /**
      * Get to section for message
      *
+     * @param bool $isCopy
      * @return array
      */
-    public function getTo()
+    public function getTo($isCopy)
     {
         return [
             $this->_user->email => $this->_user->full_name,
@@ -68,6 +69,14 @@ abstract class AbstractDynamicMail implements DynamicMailInterface
         }
 
         return view('layouts.mail', compact('template'))->render();
+    }
+
+    /**
+     * @return bool
+     */
+    public function shouldSendCopy()
+    {
+        return false;
     }
 
     /**

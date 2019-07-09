@@ -165,6 +165,32 @@ class TicketService
     }
 
     /**
+     * Make reservation for provided order
+     *
+     * @param Order $order
+     * @return mixed
+     */
+    public function reserveByOrder(Order $order)
+    {
+        $events = $order->events;
+
+        $reservationDate = Carbon::now()->addWeeks(2);
+        foreach ($events as $event) {
+            if ($reservationDate->greaterThan($event->date)) {
+                $reservationDate = $event->date;
+            }
+        }
+
+        foreach ($order->tickets as $ticket) {
+            $this->reserveTicket($ticket, $order->user, [
+                'reserved_to' => $reservationDate,
+            ]);
+        }
+
+        return $order->tickets;
+    }
+
+    /**
      * Ticket reservation
      *
      * @param Ticket $ticket
@@ -175,6 +201,7 @@ class TicketService
     {
         $ticket->user()->associate($user);
         $ticket->status = Ticket::RESERVED;
+        $ticket->reserved_to = Carbon::now()->addMinutes(30);
 
         foreach ($fill as $k => $v) {
             $ticket->$k = $v;
@@ -303,11 +330,18 @@ class TicketService
     {
         $tickets = Ticket
             ::whereStatus(Ticket::RESERVED)
-            ->where('updated_at', '<=', Carbon::now()->addMinutes(-30))
+            ->where('reserved_to', '<=', Carbon::now())
             ->get()
         ;
 
         foreach ($tickets as $ticket) {
+            $this->freeTicket($ticket);
+        }
+    }
+
+    public function freeByOrder(Order $order)
+    {
+        foreach ($order->tickets as $ticket) {
             $this->freeTicket($ticket);
         }
     }

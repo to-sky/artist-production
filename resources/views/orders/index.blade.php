@@ -48,4 +48,14 @@
             </div>
         </div>
     </section>
+
+    @if($orders->hasPages())
+        <section class="ap_section">
+            <div class="ap_section__content">
+                <div class="ap_pagination-container">
+                    {{ $orders }}
+                </div>
+            </div>
+        </section>
+    @endif
 @endsection

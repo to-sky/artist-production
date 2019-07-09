@@ -46,8 +46,11 @@
 }
 
 .ap_header__button {
+  border: none;
+  font-size: 18px;
   padding: 10px 20px;
   background: #FFEB3B;
   border-radius: 4px;
   font-family: $fontSB;
+  cursor: pointer;
 }

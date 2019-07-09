@@ -2,35 +2,30 @@
 
 namespace App\Modules\Admin\Controllers;
 
-use App\Models\Address;
+use App\Models\Client;
 use App\Models\Country;
-use App\Modules\Admin\Controllers\AdminController;
+use App\Models\User;
 use App\Modules\Admin\Services\RedirectService;
-use Illuminate\Support\Facades\Auth;
-use Redirect;
-use Schema;
+use App\Services\ClientService;
 use App\Models\Profile;
 use App\Modules\Admin\Requests\CreateClientRequest;
 use App\Modules\Admin\Requests\UpdateClientRequest;
 use Illuminate\Http\Request;
 use App\Exports\ClientsExport;
 use Excel;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 
 use Prologue\Alerts\Facades\Alert;
 
 /**
- * TODO: revamp whole controller to use user with role client instead of Client model
- *
  * Class ClientController
  * @package App\Modules\Admin\Controllers
  */
 class ClientController extends AdminController {
 
-    public function __construct(RedirectService $redirectService)
+    public function __construct(ClientService $clientService, RedirectService $redirectService)
     {
-        $this->authorizeResource(Profile::class, 'client');
+        $this->authorizeResource($clientService->getModelClass(), 'client');
 
         parent::__construct($redirectService);
     }
@@ -38,17 +33,18 @@ class ClientController extends AdminController {
 	/**
 	 * Display a listing of clients
 	 *
+     * @param ClientService $clientService
      * @param Request $request
      *
      * @return \Illuminate\View\View
      *
      * @throws \Illuminate\Auth\Access\AuthorizationException
 	 */
-	public function index(Request $request)
+	public function index(ClientService $clientService, Request $request)
     {
-        $this->authorize('index', Profile::class);
+        $this->authorize('index', Client::class);
 
-        $clients = Profile::all();
+        $clients = $clientService->query();
 
 		return view('Admin::client.index', compact('clients'));
 	}
@@ -71,37 +67,20 @@ class ClientController extends AdminController {
     /**
      * Store a newly created client in storage.
      *
+     * @param ClientService $clientService
      * @param CreateClientRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-	public function store(CreateClientRequest $request)
+	public function store(ClientService $clientService, CreateClientRequest $request)
 	{
-		$request->merge(['user_id' => Auth::id()]);
-		$client = Profile::create($request->all());
+		$clientService->create(
+		    $clientService->getDataFromCreateRequest($request)
+        );
 
-		$request->merge(['id' => $client->id]);
-
-		$addresses = $request->get('Addresses');
-
-		if (empty($addresses)) {
-            Address::create([
-                'first_name' => $request->get('first_name'),
-                'last_name' => $request->get('last_name'),
-                'street' => $request->get('street'),
-                'house' => $request->get('house'),
-                'apartment' => $request->get('apartment'),
-                'city' => $request->get('city'),
-                'country_id' => $request->get('country_id'),
-                'active' => Address::ACTIVE,
-                'user_id' => $client->id
-            ]);
-        } else {
-		    foreach ($addresses as $address) {
-		        Address::create($address + ['client_id' => $client->id]);
-            }
-        }
-
-        Alert::success(trans('Admin::admin.controller-successfully_created', ['item' => trans('Admin::models.Client')]))->flash();
+        Alert::success(trans(
+            'Admin::admin.controller-successfully_created',
+            ['item' => trans('Admin::models.Client')]
+        ))->flash();
 
         $this->redirectService->setRedirect($request);
         return $this->redirectService->redirect($request);
@@ -110,11 +89,13 @@ class ClientController extends AdminController {
 	/**
 	 * Show the form for editing the specified client.
 	 *
-	 * @param  int  $id
+	 * @param Client $client
      * @return \Illuminate\View\View
 	 */
-	public function edit(Profile $client)
+	public function edit(Client $client)
 	{
+	    $client->loadMissing('profile', 'addresses');
+
         $countries = Country::pluck('name', 'id')->toArray();
         $addresses = $client->addresses->toArray();
         $countryCodes = Country::pluck('code')->toArray();
@@ -126,13 +107,17 @@ class ClientController extends AdminController {
     /**
      * Update the specified client in storage.
      *
-     * @param Profile $profile
+     * @param ClientService $clientService
+     * @param Client $client
      * @param UpdateClientRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-	public function update(Profile $profile, UpdateClientRequest $request)
+	public function update(ClientService $clientService, Client $client, UpdateClientRequest $request)
 	{
-        $profile->update($request->all());
+	    $clientService->update(
+	        $client,
+            $clientService->getDataFromUpdateRequest($request)
+        );
 
         Alert::success(trans('Admin::admin.controller-successfully_updated', ['item' => trans('Admin::models.Client')]))->flash();
 
@@ -143,12 +128,13 @@ class ClientController extends AdminController {
     /**
      * Remove the specified client from storage.
      *
-     * @param $id
+     * @param ClientService $clientService
+     * @param Client $client
      * @return \Illuminate\Http\JsonResponse
      */
-	public function destroy($id)
+	public function destroy(ClientService $clientService, Client $client)
 	{
-		Profile::destroy($id);
+	    $clientService->delete($client);
 
 		return response()->json(null, 204);
 	}
@@ -156,24 +142,29 @@ class ClientController extends AdminController {
     /**
      * Mass delete function from index page
      *
+     * @param ClientService $clientService
      * @param Request $request
      * @return mixed
      */
-    public function massDelete(Request $request)
+    public function massDelete(ClientService $clientService, Request $request)
     {
         if ($request->get('toDelete') != 'mass') {
             $toDelete = json_decode($request->get('toDelete'));
-            Profile::destroy($toDelete);
+            $clientService->delete($toDelete);
         } else {
-            Profile::whereNotNull('id')->delete();
+            Client::whereNotNull('id')->delete();
         }
 
         return redirect()->route(config('admin.route').'.clients.index');
     }
 
+    /**
+     * Export data in excel format
+     *
+     * @return mixed
+     */
     public function excel()
     {
         return Excel::download(new ClientsExport(), 'clients.xlsx');
     }
-
 }

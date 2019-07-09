@@ -50,20 +50,32 @@ class MailService
      * Send a message
      *
      * @param DynamicMailInterface $mail
+     * @param bool $isCopy
      * @return bool|int
      */
-    public function send(DynamicMailInterface $mail)
+    public function send(DynamicMailInterface $mail, $isCopy = false)
     {
         if (!$mail->canSend()) return false;
 
         $message = new \Swift_Message($mail->getSubject());
         $message
             ->setFrom($this->_prepareFrom())
-            ->setTo($mail->getTo())
-            ->setBody($mail->getBody(), 'text/html', 'utf-8')
+            ->setTo($mail->getTo($isCopy))
+            ->setBody($mail->getBody(), 'text/plain', 'utf-8')
         ;
 
-        return $this->_mailer->send($message);
+        $r = $this->_mailer->send($message);
+
+        if (!$r) return false;
+
+        $cr = 0;
+        if ($mail->shouldSendCopy() && $isCopy === false) {
+            $cr = $this->send($mail, true);
+
+            if (!$cr) return false;
+        }
+
+        return $r + $cr;
     }
 
     /**

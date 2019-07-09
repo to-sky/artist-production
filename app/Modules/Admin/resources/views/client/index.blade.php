@@ -43,11 +43,11 @@
                             {!! Form::checkbox('del-'.$row->id,1,false,['class' => 'single','data-id'=> $row->id]) !!}
                         </td>
                         <td>{{ $row->fullname }}</td>
-                        <td>{{ $row->commission }}</td>
+                        <td>{{ $row->profile->commission }}</td>
                         <td>{{ $row->email }}</td>
-                        <td>{{ $row->phone }}</td>
-                        <td>{{ App\Models\Profile::getTypeLabel($row->type) }}</td>
-                        <td>{{ $row->comment }}</td>
+                        <td>{{ $row->profile->phone }}</td>
+                        <td>{{ $row->profile->type_label }}</td>
+                        <td>{{ $row->profile->comment }}</td>
 
                         <td>
                             <a href="{{ route(config('admin.route').'.clients.edit', [$row->id]) }}"
