@@ -40,46 +40,46 @@
                     </div>
                     <div class="form-group col-md-12">
                         {!! Form::label('phone', __('Phone')) !!}
-                        {!! Form::text('phone', old('phone', $client->phone), array('class'=>'form-control')) !!}
+                        {!! Form::text('phone', old('phone', $client->profile->phone), array('class'=>'form-control')) !!}
                     </div>
                     <div class="form-group col-md-12">
                         {!! Form::label('commission', __('Commission')) !!}
-                        {!! Form::text('commission', old('commission', $client->comisson), array('class'=>'form-control')) !!}
+                        {!! Form::text('commission', old('commission', $client->profile->commission), array('class'=>'form-control')) !!}
 
                     </div>
                     <div class="form-group col-md-12">
                         {!! Form::label('type', __('Type')) !!}
-                        {!! Form::select('type', $types, old('type', $client->type), array('class'=>'form-control')) !!}
+                        {!! Form::select('type', $types, old('type', $client->profile->type), array('class'=>'form-control')) !!}
                     </div>
                     <div class="form-group col-md-12">
                         {!! Form::label('code', __('Code')) !!}
-                        {!! Form::text('code', old('code', $client->code), array('class'=>'form-control')) !!}
+                        {!! Form::text('code', old('code', $client->profile->code), array('class'=>'form-control')) !!}
                     </div>
                     <div class="form-group col-md-12">
                         {!! Form::label('comment', __('Comment')) !!}
-                        {!! Form::textarea('comment', old('comment', $client->comment), array('class'=>'form-control')) !!}
+                        {!! Form::textarea('comment', old('comment', $client->profile->comment), array('class'=>'form-control')) !!}
                     </div>
                     <div class="form-group col-md-12">
                         <h4>{{ __('Address') }}</h4>
                         <div class="form-group">
                             {!! Form::label('street', __('Street')) !!}
-                            {!! Form::text('street', old('street', $client->street), array('class'=>'form-control')) !!}
+                            {!! Form::text('street', old('street', $client->profile->street), array('class'=>'form-control')) !!}
                         </div>
                         <div class="form-group">
                             {!! Form::label('house', __('House')) !!}
-                            {!! Form::text('house', old('house', $client->house), array('class'=>'form-control')) !!}
+                            {!! Form::text('house', old('house', $client->profile->house), array('class'=>'form-control')) !!}
                         </div>
                         <div class="form-group">
                             {!! Form::label('post_code', __('Post code')) !!}
-                            {!! Form::text('post_code', old('post_code', $client->post_code), array('class'=>'form-control')) !!}
+                            {!! Form::text('post_code', old('post_code', $client->profile->post_code), array('class'=>'form-control')) !!}
                         </div>
                         <div class="form-group">
                             {!! Form::label('city', __('City')) !!}
-                            {!! Form::text('city', old('city', $client->city), array('class'=>'form-control')) !!}
+                            {!! Form::text('city', old('city', $client->profile->city), array('class'=>'form-control')) !!}
                         </div>
                         <div class="form-group">
                             {!! Form::label('country_id', __('Country')) !!}
-                            {!! Form::select('country_id', $countries, old('country_id', $client->country_id), array('class'=>'form-control')) !!}
+                            {!! Form::select('country_id', $countries, old('country_id', $client->profile->country_id), array('class'=>'form-control')) !!}
                         </div>
                         <div class="form-group">
                             <button type="button" id="manage-addresses" class="btn btn-primary">

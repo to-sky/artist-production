@@ -56,29 +56,24 @@ class User extends Authenticatable implements AuthenticatableContract
      */
     protected $appends = ['avatar', 'fullname', 'role'];
 
-    public function client()
-    {
-        return $this->hasOne('App\Models\Client');
-    }
-
     public function tickets()
     {
-        return $this->hasMany('App\Models\Ticket');
+        return $this->hasMany('App\Models\Ticket', 'user_id');
     }
 
     public function addresses()
     {
-        return $this->hasMany('App\Models\Address');
+        return $this->hasMany('App\Models\Address', 'user_id');
     }
 
     public function profile()
     {
-        return $this->hasOne('App\Models\Profile');
+        return $this->hasOne('App\Models\Profile', 'user_id');
     }
 
     public function orders()
     {
-        return $this->hasMany('App\Models\Order');
+        return $this->hasMany('App\Models\Order', 'user_id');
     }
 
     /**

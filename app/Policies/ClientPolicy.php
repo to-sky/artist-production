@@ -26,10 +26,10 @@ class ClientPolicy
      * Determine whether the user can view the client.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\Models\User  $client
      * @return mixed
      */
-    public function view(User $user, Profile $client)
+    public function view(User $user, User $client)
     {
         return true;
     }
@@ -49,10 +49,10 @@ class ClientPolicy
      * Determine whether the user can update the client.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\Models\User  $client
      * @return mixed
      */
-    public function update(User $user, Profile $client)
+    public function update(User $user, User $client)
     {
         return true;
     }
@@ -61,10 +61,10 @@ class ClientPolicy
      * Determine whether the user can delete the client.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\Models\User  $client
      * @return mixed
      */
-    public function delete(User $user, Profile $client)
+    public function delete(User $user, User $client)
     {
         //
     }
@@ -73,10 +73,10 @@ class ClientPolicy
      * Determine whether the user can restore the client.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\Models\User  $client
      * @return mixed
      */
-    public function restore(User $user, Profile $client)
+    public function restore(User $user, User $client)
     {
         //
     }
@@ -85,10 +85,10 @@ class ClientPolicy
      * Determine whether the user can permanently delete the client.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Client  $client
+     * @param  \App\Models\User  $client
      * @return mixed
      */
-    public function forceDelete(User $user, Profile $client)
+    public function forceDelete(User $user, User $client)
     {
         //
     }

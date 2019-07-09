@@ -16,5 +16,6 @@ class DatabaseSeeder extends Seeder
         $this->call(MenuTableSeeder::class);
         $this->call(CountriesTableSeeder::class);
         $this->call(CitiesTableSeeder::class);
+        $this->call(PaymentMethodsSeeder::class);
     }
 }
