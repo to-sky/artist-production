@@ -61,12 +61,15 @@
     props: ["event"],
     data() {
       return {
+        IE: window.navigator.userAgent.indexOf("MSIE "),
         loaded: false,
         map: null,
         baseR: 4,
         zoom: 1,
         minR: 8,
         maxR: 12,
+        offsetX: 0,
+        offsetY: 0,
         baseRTimer: null,
         scene: null,
         grabbing: false,
@@ -87,7 +90,11 @@
     },
     mounted() {
       this.loaded = true;
+      this.calculateOffset();
       window.addEventListener('mouseup', () => {this.grabbing = false});
+      window.addEventListener('mousemove', (e) => {
+        if (this.popupVisible) this.makePopupMove(e);
+      });
       this.$emit('hallMapLoaded');
 
       this.$nextTick(() => {
@@ -103,6 +110,15 @@
       }
     },
     methods: {
+      calculateOffset() {
+        let el = this.$refs.mapViewport;
+
+        while( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
+          this.offsetX += el.offsetLeft - el.scrollLeft;
+          this.offsetY += el.offsetTop - el.scrollTop;
+          el = el.offsetParent;
+        }
+      },
       setMap(map) {
         this.map = map;
         this.zoom = map.getZoom();
@@ -181,27 +197,34 @@
         }
       },
       updateBaseR() {
-        // clearTimeout(this.baseRTimer);
-        //
-        // this.baseRTimer = setTimeout(() => {
-        //   let width = this.$refs.mapViewport.offsetWidth ;
-        //   let ratio = this.viewport.width/width;
-        //
-        //   let r = 16 * ratio / this.zoom;
-        //
-        //   if (r > this.maxR) r = this.maxR;
-        //   if (r < this.minR) r = this.minR;
-        //
-        //   this.baseR = r;
-        // }, 500);
+      },
+      makePopupMove(e) {
+        let x,y;
+
+        if (this.IE) {
+          x = e.clientX + document.body.scrollLeft;
+          y = e.clientY + document.body.scrollTop;
+        }
+        else {
+          x = e.pageX;
+          y = e.pageY;
+        }
+
+        if (x < 0){x = 0;}
+        if (y < 0){y = 0;}
+
+        this.movePopup(x, y);
+      },
+      movePopup(x, y) {
+        this.popupLeft = x - this.offsetX;
+        this.popupTop = y - this.offsetY;
       },
       showPopup(e, place) {
         if (place.disable) return;
         clearTimeout(this.popupTimer);
+        this.makePopupMove(e);
 
         this.popupTimer = setTimeout(() => {
-          this.popupTop = e.offsetY;
-          this.popupLeft = e.offsetX;
           this.popupVisible = true;
           this.popupPlace = place;
 
