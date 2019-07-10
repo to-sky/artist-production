@@ -16,6 +16,8 @@ mix.js('resources/js/app.js', 'public/js')
    .copyDirectory('resources/images', 'public/images')
    .copyDirectory('resources/js/zebra', 'public/js');
 
+mix.sass('resources/sass/reset.scss', 'public/css');
+
 /*
  |--------------------------------------------------------------------------
  | Hall Widget Asset Management

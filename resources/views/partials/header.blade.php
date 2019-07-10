@@ -9,6 +9,8 @@
 
     <title>{{ isset($title) ? $title : config('app.name') }}</title>
 
+    <link rel="stylesheet" href="{{ asset('css/reset.css') }}">
+
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/solid.css"
