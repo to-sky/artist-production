@@ -22,7 +22,7 @@ class AlterOrdersTable extends Migration
             $table->float('courier_price')->default(0);
             $table->float('shipping_price')->default(0);
             $table->tinyInteger('shipping_status')->default(Shipping::STATUS_IN_PROCESSING);
-            $table->tinyInteger('shipping_type')->default(Shipping::TYPE_DELIVERY);
+            $table->tinyInteger('shipping_type')->default(0);
             $table->string('shipping_comment')->nullable();
             $table->string('status_comment')->nullable();
             $table->dateTime('deleted_at')->nullable();

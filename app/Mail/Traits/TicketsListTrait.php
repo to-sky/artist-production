@@ -22,7 +22,7 @@ trait TicketsListTrait
      */
     protected function _getTicketsListPlaceholder(Order $order)
     {
-        $tickets = $order->tickets->loadMissing('');
+        $tickets = $order->tickets;
 
         $list = [];
         foreach ($tickets as $ticket) {
