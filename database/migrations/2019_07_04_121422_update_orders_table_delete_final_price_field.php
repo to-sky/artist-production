@@ -31,9 +31,13 @@ class UpdateOrdersTableDeleteFinalPriceField extends Migration
     public function down()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->decimal('final_price')->nullable();
+            $table->dropForeign('payer_id');
+            $table->dropForeign('manager_id');
 
-            $table->dropForeign(['payer_id', 'manager_id']);
+            $table->dropColumn('payer_id');
+            $table->dropColumn('manager_id');
+            
+            $table->decimal('final_price')->nullable();
         });
     }
 }
