@@ -64,7 +64,9 @@ class UserController extends AdminController
     {
         $this->authorize('index', User::class);
 
-        $users = User::all();
+        $users = User::whereDoesntHave('roles', function ($q) {
+            $q->whereName(Role::CLIENT);
+        })->get();
 
         return view('Admin::user.index', compact('users'));
     }
@@ -75,7 +77,7 @@ class UserController extends AdminController
      */
     public function create()
     {
-        $roles = Role::pluck('display_name', 'id');
+        $roles = Role::where('name', '!=', Role::CLIENT)->pluck('display_name', 'id');
 
         return view('Admin::user.create', compact('roles'));
     }
@@ -116,7 +118,7 @@ class UserController extends AdminController
      */
     public function edit(User $user)
     {
-        $roles = Role::pluck('display_name', 'id');
+        $roles = Role::where('name', '!=', Role::CLIENT)->pluck('display_name', 'id');
 
         return view('Admin::user.edit', compact('user', 'roles'));
     }
@@ -195,7 +197,7 @@ class UserController extends AdminController
     {
         $user = Auth::user();
 
-        $roles = Role::pluck('display_name', 'id');
+        $roles = Role::where('name', '!=', Role::CLIENT)->pluck('display_name', 'id');
 
         return view('Admin::user.profile', compact('user', 'roles'));
     }
