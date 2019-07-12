@@ -2,9 +2,10 @@
 
 namespace App\Modules\Admin\Controllers;
 
-use App\Models\{Address, Country, Order, Event, PaymentMethod, Shipping, ShippingZone, Ticket, User};
+use App\Models\{Address, Country, Order, Event, PaymentMethod, Role, Shipping, ShippingZone, Ticket, User};
 use App\Modules\Admin\Controllers\AdminController;
 use App\Modules\Admin\Services\RedirectService;
+use App\Services\ClientService;
 use App\Services\ShippingService;
 use App\Services\TicketService;
 use App\Modules\Admin\Requests\CreateOrderRequest;
@@ -18,18 +19,22 @@ use Prologue\Alerts\Facades\Alert;
 
 class OrderController extends AdminController
 {
-
     protected $ticketService;
+
     protected $shippingService;
+
+    protected $clientService;
 
     public function __construct(
         RedirectService $redirectService,
         TicketService $ticketService,
-        ShippingService $shippingService
+        ShippingService $shippingService,
+        ClientService $clientService
     )
     {
         $this->ticketService = $ticketService;
         $this->shippingService = $shippingService;
+        $this->clientService = $clientService;
 
         parent::__construct($redirectService);
     }
@@ -42,7 +47,8 @@ class OrderController extends AdminController
 	public function index()
     {
 		return view('Admin::order.index', [
-		    'orders' => Order::all()
+		    'orders' => Order::all(),
+            'paymentMethods' => PaymentMethod::all()
         ]);
 	}
 
@@ -55,7 +61,7 @@ class OrderController extends AdminController
 	{
 	    return view('Admin::order.create', [
 	        'events' => Event::all(),
-            'users' => User::all(),
+            'users' => $this->clientService->query(),
             'ticketsData' => $this->getTicketData()
         ]);
 	}
@@ -110,15 +116,17 @@ class OrderController extends AdminController
 	{
         switch ($request->order_type) {
             case 'sale':
-                $this->sale($request);
+                $order = $this->sale($request);
             break;
             case 'realization':
-                $this->realization($request);
+                $order = $this->realization($request);
             break;
             case 'reserve':
-                $this->reserve($request);
+                $order = $this->reserve($request);
             break;
         }
+
+        $this->ticketService->attachCartToOrder($order);
 
         Alert::success(trans('Admin::admin.controller-successfully_created', ['item' => trans('Admin::models.OrderController')]))->flash();
 
@@ -178,15 +186,15 @@ class OrderController extends AdminController
      */
     public function sale(Request $request)
     {
-        $clientId = $request->user_id ?? Auth::id();
         $order = Order::create([
             'status' => Order::STATUS_CONFIRMED,
             'paid_at' => Carbon::now(),
-            'user_id' => $clientId,
+            'user_id' => $request->user_id,
             'payer_id' => Auth::id(),
             'manager_id' => Auth::id()
         ]);
 
+        $clientId = $request->user_id ?? Auth::id();
         $subtotal = $this->updateTickets(
             $request->tickets,
             $order->id,
@@ -233,18 +241,14 @@ class OrderController extends AdminController
 
         $discount = $request->main_discount;
         $subtotal = $subtotal - $discount;
-        $realizationPercent = $subtotal * ($request->realization_percent / 100);
-        if ($request->realization_method == Order::REALIZATION_COMMISSION) {
-            $subtotal = $subtotal + $realizationPercent;
-        } else {
-            $subtotal = $subtotal - $realizationPercent;
-            $discount = $discount + $realizationPercent;
-        }
+        $realizatorCommision= $subtotal * ($request->realizator_commission / 100);
 
-        $order->update([
+       $order->update([
+           'realizator_commission' => $realizatorCommision,
+           'realizator_percent' => $request->realizator_commission,
             'subtotal' => $subtotal,
             'discount' => $discount,
-            'paid_cash' => $subtotal
+            'paid_cash' => $subtotal - $realizatorCommision
         ]);
 
         return $order;
@@ -266,17 +270,20 @@ class OrderController extends AdminController
             'payer_id' => Auth::id(),
             'manager_id' => Auth::id(),
             'comment' => $request->comment,
-            'expired_at' => Carbon::now()->addDays(14)
+            'expired_at' => Carbon::now()->addDays(14),
+            'shipping_type' => $request->shipping_type
         ];
 
-        if ($request->shipping_type == 'post') {
+        if ($request->shipping_type == Shipping::TYPE_POST) {
             $address = Address::find($request->address_id);
             $shippingZones = $this->shippingService->getShippingOptionsForCountry($address->country);
 
             $data['shipping_zone_id'] = $request->shipping_zone_id;
             $data['shipping_price'] = min(array_column($shippingZones, 'price'));
-            $data['shipping_status'] = Shipping::STATUS_IN_PROCESSING;
-            $data['shipping_type'] = Shipping::TYPE_EMAIL;
+            $data['payment_method_id'] = PaymentMethod::paymentDelay()->first()->id;
+        }
+
+        if ($request->shipping_type == Shipping::TYPE_EMAIL) {
             $data['payment_method_id'] = PaymentMethod::paymentDelay()->first()->id;
         }
 
@@ -290,6 +297,64 @@ class OrderController extends AdminController
         )->sum('price');
 
         return $order;
+	}
+
+    /**
+     * Confirm order payment
+     *
+     * @param Order $order
+     * @return Order
+     */
+    public function confirmPayment(Order $order)
+    {
+        $order->update([
+            'payer_id' => Auth::id(),
+            'paid_at' => Carbon::now(),
+            'payment_status' => Shipping::STATUS_DELIVERED
+        ]);
+
+        return response()->json(null, 204);
+	}
+
+    /**
+     * Change order status and payment method
+     *
+     * @param Order $order
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function changeOrderStatus(Order $order, Request $request)
+    {
+        $data = ['status' => $request->status];
+
+        if ($request->status == Order::STATUS_CONFIRMED) {
+            $data = [
+                'payer_id' => Auth::id(),
+                'paid_at' => Carbon::now(),
+                'status' => Order::STATUS_CONFIRMED,
+                'payment_method_id' => $request->payment_method_id
+            ];
+        }
+
+        $order->update($data);
+
+        return response()->json(null, 204);
+	}
+
+    /**
+     * Change shipping status
+     *
+     * @param Order $order
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function changeShippingStatus(Order $order, Request $request)
+    {
+        $order->update([
+            'shipping_status' => $request->shipping_status
+        ]);
+
+        return response()->json(null, 204);
 	}
 
     /**

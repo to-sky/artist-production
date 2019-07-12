@@ -36,7 +36,7 @@ class UpdateOrdersTableDeleteFinalPriceField extends Migration
 
             $table->dropColumn('payer_id');
             $table->dropColumn('manager_id');
-            
+
             $table->decimal('final_price')->nullable();
         });
     }

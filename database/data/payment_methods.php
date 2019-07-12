@@ -2,7 +2,7 @@
 
 return [
     [
-        'name' => 'Bank',
+        'name' => 'Банковский перевод',
         'active' => 1,
         'price_type' => \App\Models\PaymentMethod::PRICE_TYPE_PERCENTAGE,
         'price_amount' => 0,
