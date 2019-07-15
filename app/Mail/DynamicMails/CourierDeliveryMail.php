@@ -71,4 +71,14 @@ class CourierDeliveryMail extends AbstractDynamicMail
 
         return !!$flag;
     }
+
+    /**
+     * Get mail attachments list
+     *
+     * @return array
+     */
+    protected function _attachmentsList()
+    {
+        return [];
+    }
 }

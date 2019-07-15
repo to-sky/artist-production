@@ -19,8 +19,8 @@
                 <div class="box-header with-border">
                     <ul class="nav nav-tabs">
                         <li class="active"><a href="#my-data">{{ __('My data') }}</a></li>
-                        <li><a href="#my-orders">{{ __('My orders') }}</a></li>
-                        <li><a href="#bonus-program">{{ __('Bonus program') }}</a></li>
+                        <li><a href="#company-data">{{ __('Company data') }}</a></li>
+                        <li><a href="#bank-data">{{ __('Bank data') }}</a></li>
                     </ul>
                 </div>
 
@@ -28,13 +28,11 @@
                     <div class="tab-pane active" id="my-data">
                         @include('Admin::user.partials.fields')
                     </div>
-                    <div class="tab-pane" id="my-orders">
-                        <div class="form-group col-md-12">
-                        </div>
+                    <div class="tab-pane" id="company-data">
+                        @include('Admin::user.partials.companyFields')
                     </div>
-                    <div class="tab-pane" id="bonus-program">
-                        <div class="form-group col-md-12">
-                        </div>
+                    <div class="tab-pane" id="bank-data">
+                        @include('Admin::user.partials.bankFields')
                     </div>
                 </div>
 

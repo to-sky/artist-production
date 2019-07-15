@@ -3,6 +3,7 @@
 namespace App\Mail\DynamicMails;
 
 
+use App\Documents\Invoices\OrderInvoiceDocument;
 use App\Mail\Traits\TicketsListTrait;
 use App\Models\Order;
 use App\Models\User;
@@ -49,6 +50,17 @@ class ReservationMail extends AbstractDynamicMail
         ];
     }
 
+    protected function _attachmentsList()
+    {
+        return [
+            'OrderInvoice' => function($mail) {
+                $invoice = new OrderInvoiceDocument($mail->getOrder());
+
+                return $invoice->attachment('provisional');
+            },
+        ];
+    }
+
     /**
      * @return array
      */
@@ -63,5 +75,10 @@ class ReservationMail extends AbstractDynamicMail
     public function getTemplateTag()
     {
         return 'clearance_reserve';
+    }
+
+    public function getOrder()
+    {
+        return $this->_order;
     }
 }

@@ -62,4 +62,14 @@ class TicketsForSaleMail extends AbstractDynamicMail
     {
         return 'tickets_for_sale';
     }
+
+    /**
+     * Get mail attachments list
+     *
+     * @return array
+     */
+    protected function _attachmentsList()
+    {
+        return [];
+    }
 }

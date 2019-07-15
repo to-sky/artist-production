@@ -17,7 +17,7 @@
   <main class="ap_order">
 
     <div class="ap_headline">
-      <a href="#" class="ap_backlink">Назад</a>
+      <a href="{{ route('order.index') }}" class="ap_backlink">Назад</a>
       <p class="ap_headline-text"><span class="ap_success">Поздравляем!</span> Заказ успешно оформлен</p>
     </div>
 
@@ -33,8 +33,12 @@
       <div class="ap_order__col3">
         <p>В течении пары минут вам придет уведомление на E-mail с подтверждением вашего заказа и номером резерва </p>
         <div class="ap_order__actions">
-          <button class="ap_order__action btn-print">Распечатать счет</button>
-          <button class="ap_order__action">Скачать счет</button>
+          @component('components.invoice-print-button')
+            @slot('order', $order)
+          @endcomponent
+          @component('components.invoice-download-button')
+            @slot('order', $order)
+          @endcomponent
         </div>
       </div>
     </div>

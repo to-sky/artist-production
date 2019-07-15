@@ -9,6 +9,8 @@
 /public/widget
 /public/fonts
 /storage/*.key
+/storage/fonts
+/storage/public
 /vendor
 .env
 .phpunit.result.cache

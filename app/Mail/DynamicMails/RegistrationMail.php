@@ -60,4 +60,14 @@ class RegistrationMail extends AbstractDynamicMail
     {
         return 'registration_confirmation';
     }
+
+    /**
+     * Get mail attachments list
+     *
+     * @return array
+     */
+    protected function _attachmentsList()
+    {
+        return [];
+    }
 }

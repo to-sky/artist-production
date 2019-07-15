@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Services\TicketService;
+use App\Traits\FilesMorphTrait;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -10,7 +11,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Order extends Model
 {
 
-    use SoftDeletes;
+    use SoftDeletes, FilesMorphTrait;
+
+    const ENTITY_TYPE = 'order';
+
+    protected $entity_type;
 
     /**
      * The attributes that should be mutated to dates.
@@ -18,6 +23,13 @@ class Order extends Model
      * @var array
      */
     protected $dates = ['deleted_at', 'expired_at'];
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->entity_type = static::ENTITY_TYPE;
+    }
 
     const STATUS_PENDING = 0;
     const STATUS_CONFIRMED = 1;
@@ -112,6 +124,26 @@ class Order extends Model
     public function invoice()
     {
         return $this->hasMany('App\Models\Invoice');
+    }
+
+    public function billingAddress()
+    {
+        return $this->hasOne('App\Models\BillingAddress');
+    }
+
+    public function shippingAddress()
+    {
+        return $this->hasOne('App\Models\ShippingAddress');
+    }
+
+    public function provisionalInvoice()
+    {
+        return $this->belongsTo('App\Models\File', 'provisional_invoice_id', 'id');
+    }
+
+    public function finalInvoice()
+    {
+        return $this->belongsTo('App\Models\File', 'final_invoice_id', 'id');
     }
 
     /**

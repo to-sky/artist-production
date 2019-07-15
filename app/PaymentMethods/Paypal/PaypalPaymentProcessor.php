@@ -4,6 +4,8 @@ namespace App\PaymentMethods\Paypal;
 
 use App\Mail\DynamicMails\PaymentMail;
 use App\PaymentMethods\AbstractPaymentProcessor;
+use App\Services\MailService;
+use App\Services\TicketService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PayPal\Api\Amount;
@@ -26,8 +28,10 @@ class PaypalPaymentProcessor extends AbstractPaymentProcessor
 
     protected $_apiContext;
 
-    public function __construct()
+    public function __construct(MailService $mailService, TicketService $ticketService)
     {
+        parent::__construct($mailService, $ticketService);
+
         $this->_apiContext = new ApiContext(
             new OAuthTokenCredential(
                 config('paypal.client_id'),

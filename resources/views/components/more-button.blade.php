@@ -7,7 +7,7 @@
 
 @endphp
 @if($multiple > 0)
-  <section class="more-button-wrap link_dropdown_wrap">
+  <section class="link-dropdown-wrap link_dropdown_wrap">
     <a
         href="{{ route('hallWidget', ['id' => $firstEvent->id]) }}#lang:{{ app()->getLocale() }}"
         class="ap_booked__more {{ $multiple ? 'link_dropdown_trigger' : '' }}"

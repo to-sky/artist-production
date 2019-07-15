@@ -1,13 +1,34 @@
 <?php
 
-namespace App\Controllers\Modules;
+namespace App\Modules\Admin\Controllers;
 
+use App\Documents\Invoices\OrderInvoiceDocument;
 use App\Models\Invoice;
-use App\Modules\Admin\Controllers\AdminController;
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class InvoiceController extends AdminController
 {
+    /**
+     * Download invoice pdf
+     *
+     * @param Order $order
+     * @param string $tag
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function download(Order $order, $tag)
+    {
+        $invoice = new OrderInvoiceDocument($order);
+
+        return $invoice->download($tag);
+    }
+
+    public function print(Order $order, $tag)
+    {
+        $invoice = new OrderInvoiceDocument($order);
+
+        return $invoice->print($tag);
+    }
 
     /**
      * Store a newly created resource in storage.

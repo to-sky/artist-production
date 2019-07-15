@@ -23,6 +23,11 @@ interface DynamicMailInterface
     public function getBody();
 
     /**
+     * @return array
+     */
+    public function getAttachments();
+
+    /**
      * @return string
      */
     public function getTemplateTag();

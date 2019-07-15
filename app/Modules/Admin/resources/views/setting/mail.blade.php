@@ -116,6 +116,12 @@
                                             </a>
                                             {{ __(':placeholder - client name', ['placeholder' => '@ClientName']) }}
                                         </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="[OrderInvoice]" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - Order invoice attachment', ['placeholder' => '[OrderInvoice]']) }}
+                                        </li>
                                     </ul>
                                     <hr style="margin: 20px 0 0 0">
                                 </div>
@@ -205,6 +211,12 @@
                                                 <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
                                             </a>
                                             {{ __(':placeholder - bank details', ['placeholder' => '@BankRequisites']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="[OrderInvoice]" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - Order invoice attachment', ['placeholder' => '[OrderInvoice]']) }}
                                         </li>
                                     </ul>
                                     <hr style="margin: 20px 0 0 0">

@@ -60,4 +60,14 @@ class ETicketsListMail extends AbstractDynamicMail
     {
         return 'e-ticket_list';
     }
+
+    /**
+     * Get mail attachments list
+     *
+     * @return array
+     */
+    protected function _attachmentsList()
+    {
+        return [];
+    }
 }

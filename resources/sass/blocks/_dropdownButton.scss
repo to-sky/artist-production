@@ -1,9 +1,13 @@
-.more-button-wrap {
+.link-dropdown-wrap {
   display: inline-block;
   position: relative;
 
   &.active .link-dropdown {
     display: inline-block;
+  }
+
+  &:not(:last-child) {
+    margin-right: 20px;
   }
 }
 

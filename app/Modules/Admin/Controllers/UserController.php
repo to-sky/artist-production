@@ -17,6 +17,8 @@ use Illuminate\Validation\Rule;
 use Prologue\Alerts\Facades\Alert;
 use App\Helpers\FileHelper;
 
+use Setting;
+
 class UserController extends AdminController
 {
 
@@ -197,6 +199,10 @@ class UserController extends AdminController
     {
         $user = Auth::user();
 
+        Setting::setExtraColumns(array(
+            'user_id' => $user->id
+        ));
+
         $roles = Role::where('name', '!=', Role::CLIENT)->pluck('display_name', 'id');
 
         return view('Admin::user.profile', compact('user', 'roles'));
@@ -213,6 +219,15 @@ class UserController extends AdminController
         $user = Auth::user();
 
         $this->updateUser($user, $request);
+
+        Setting::setExtraColumns(array(
+            'user_id' => $user->id
+        ));
+        $settings = $request->get('settings');
+        foreach ($settings as $k => $v) {
+            setting([$k => $v]);
+        }
+        setting()->save();
 
         Alert::success(__('Profile was successfully updated!'))->flash();
 

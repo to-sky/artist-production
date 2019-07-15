@@ -64,6 +64,10 @@ class MailService
             ->setBody($mail->getBody(), 'text/plain', 'utf-8')
         ;
 
+        foreach ($mail->getAttachments() as $attachment) {
+            $message->attach(new \Swift_Attachment($attachment['data'], $attachment['name'], $attachment['mime']));
+        }
+
         $r = $this->_mailer->send($message);
 
         if (!$r) return false;

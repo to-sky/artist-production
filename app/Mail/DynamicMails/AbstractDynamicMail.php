@@ -9,6 +9,8 @@ abstract class AbstractDynamicMail implements DynamicMailInterface
 {
     protected $_user;
 
+    protected $_attachments = [];
+
     public function __construct(User $user)
     {
         $this->_user = $user;
@@ -68,6 +70,14 @@ abstract class AbstractDynamicMail implements DynamicMailInterface
             $template = str_replace($placeholder, $value, $template);
         }
 
+        foreach ($this->_attachmentsList() as $name => $callback) {
+            if (strstr($template, "[$name]")) {
+                $template = str_replace("[$name]", '', $template);
+            }
+
+            $this->_attachments[] = $callback($this);
+        }
+
         return view('layouts.mail', compact('template'))->render();
     }
 
@@ -80,9 +90,24 @@ abstract class AbstractDynamicMail implements DynamicMailInterface
     }
 
     /**
+     * @return array
+     */
+    public function getAttachments()
+    {
+        return $this->_attachments;
+    }
+
+    /**
      * Prepare placeholders data
      *
      * @return array
      */
     abstract protected function _prepareData();
+
+    /**
+     * Get mail attachments list
+     *
+     * @return array
+     */
+    abstract protected function _attachmentsList();
 }

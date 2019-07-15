@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
  * @property string $mime
  * @property string $original_name
  * @property string $thumbnail
+ * @property-read string $file_path
  */
 class File extends Model
 {
@@ -63,6 +64,21 @@ class File extends Model
             }
         } else {
             return null;
+        }
+    }
+
+    /**
+     * File path
+     *
+     * @return null|string
+     */
+    function getFilePathAttribute()
+    {
+        $entity = $this->entity()->withTrashed()->first();
+
+        if (!empty($entity) && !is_null($this->name)) {
+            $path = FileHelper::storagePath($entity) . $this->name;
+            return Storage::exists($path) ? Storage::path($path) : null;
         }
     }
 

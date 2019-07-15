@@ -3,6 +3,7 @@
 namespace App\Mail\DynamicMails;
 
 
+use App\Documents\Invoices\OrderInvoiceDocument;
 use App\Mail\Traits\TicketsListTrait;
 use App\Models\Order;
 use App\Models\User;
@@ -43,6 +44,17 @@ class PaymentMail extends AbstractDynamicMail
         ];
     }
 
+    protected function _attachmentsList()
+    {
+        return [
+            'OrderInvoice' => function($mail) {
+                $invoice = new OrderInvoiceDocument($mail->getOrder());
+
+                return $invoice->attachment('final');
+            },
+        ];
+    }
+
     /**
      * @return array
      */
@@ -76,5 +88,10 @@ class PaymentMail extends AbstractDynamicMail
     public function shouldSendCopy()
     {
         return !!setting('mail_order_payment_copy_email');
+    }
+
+    public function getOrder()
+    {
+        return $this->_order;
     }
 }

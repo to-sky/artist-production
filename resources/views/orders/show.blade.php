@@ -32,8 +32,12 @@
       </div>
       <div class="ap_order__col3">
         <div class="ap_order__actions">
-          <button class="ap_order__action btn-print">Распечатать счет</button>
-          <button class="ap_order__action">Скачать счет</button>
+          @component('components.invoice-print-button')
+            @slot('order', $order)
+          @endcomponent
+          @component('components.invoice-download-button')
+            @slot('order', $order)
+          @endcomponent
         </div>
       </div>
     </div>
