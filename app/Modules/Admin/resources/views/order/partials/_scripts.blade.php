@@ -94,12 +94,14 @@
 
      // Select client
     var clientDataHtml;
+    var realizatorCommission = 0;
     $('#datatable tbody tr').click(function () {
         var radio = $(this).find('input[name="client"]');
             radio.prop('checked', true);
         var name = $(this).find('td[data-type="name"]').text();
         var email = $(this).find('td[data-type="email"]').text();
         var phone = $(this).find('td[data-type="phone"]').text();
+        realizatorCommission = $(this).find('td[data-commission]').data('commission');
 
         clientDataHtml = $('<div>', {class: 'client-data-container'});
         $('<h4>', {
@@ -402,14 +404,14 @@
         var type = $('option:selected', this).val();
         var paymentTypeInput = $('#paymentType');
 
-        if (type === 'office') {
+        if (type === '{{ \App\Models\Shipping::TYPE_OFFICE }}') {
             paymentTypeInput.attr('value', '{{ __('Payment at the checkout') }}').next('input[type="hidden"]').val('');
         } else {
             paymentTypeInput.attr('value', '{{ __('Bank transfer') }}').next('input[type="hidden"]').val('{{ \App\Models\PaymentMethod::TYPE_DELAY }}');
         }
 
         // Append/remove address block
-        if (type === 'post') {
+        if (type === '{{ \App\Models\Shipping::TYPE_POST }}') {
             var userId = $('#reserveModal input[name="user_id"]').val();
             paymentTypeInput.parent('div').after(createAddressBlock(userId));
         } else {
@@ -450,9 +452,16 @@
         $('.modal-footer button', this).not('button[data-dismiss="modal"]').attr('disabled', disableButton);
     });
 
+    // Add realization percent from client, on open modal
+    $('#realizationModal').on('show.bs.modal', function () {
+        $('#realizatorCommission').val(realizatorCommission)
+    });
+
     // Create address block
     function createAddressBlock(user_id) {
-        var addresses = $('<label>', {text: 'Addresses'});
+        var addresses = $('<label>', {
+            text: '{{ __('Addresses') }}'
+        });
         $.get('{{ route('order.getAddresses') }}', {user_id: user_id}, function (data) {
             $.each(data, function (i, el) {
                 addresses.parent().append(

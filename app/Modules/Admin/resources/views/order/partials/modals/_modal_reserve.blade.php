@@ -13,19 +13,12 @@
             <div class="modal-body">
                 @include('Admin::order.partials.modals._block_client_info')
 
-                <div class="form-group">
-                    <label for="shippingType">{{ __('Shipping type') }}</label>
-                    <select name="shipping_type" id="shippingType" class="form-control">
-                        <option value="email">{{ __('E-ticket') }}</option>
-                        <option value="office">{{ __('Evening ticket office') }}</option>
-                        <option value="post">{{ __('Post delivery') }}</option>
-                    </select>
-                </div>
+                @include('Admin::order.partials._shipping_type_group')
 
                 <div class="form-group">
                     <label for="paymentType">{{ __('Payment type') }}</label>
                     <input type="text" id="paymentType" class="form-control" value="{{ __('Bank transfer') }}" readonly>
-                    <input type="hidden" name="payment_type">
+                    <input type="hidden" name="payment_type" value="{{ \App\Models\Shipping::TYPE_POST }}">
                 </div>
 
                 <div class="form-group">

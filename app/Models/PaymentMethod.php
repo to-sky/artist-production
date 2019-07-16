@@ -63,8 +63,24 @@ class PaymentMethod extends Model
         }
     }
 
+    /**
+     * Get delay payment methods
+     *
+     * @param $query
+     * @return mixed
+     */
     public function scopePaymentDelay($query)
     {
         return $query->wherePaymentType(self::TYPE_DELAY);
+    }
+
+    /**
+     * Check if payment method is delay
+     *
+     * @return bool
+     */
+    public function is_delay()
+    {
+        return $this->payment_type === self::TYPE_DELAY ? true : false;
     }
 }

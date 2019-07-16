@@ -30,10 +30,10 @@
                             </td>
                             <td>{{ $user->id }}</td>
                             <td data-type="name">{{ $user->full_name }}</td>
-                            <td>@if ($user->profile) {{ $user->profile->commission }} @else 0 @endif %</td>
+                            <td data-commission="{{ $user->profile->commission }}">{{ $user->profile->commission }} %</td>
                             <td data-type="email">{{ $user->email }}</td>
-                            <td  data-type="phone">@if ($user->profile) {{ $user->profile->phone }} @endif</td>
-                            <td>@if ($user->profile) {{ $user->profile->typeLabel }} @endif </td>
+                            <td  data-type="phone">{{ $user->profile->phone }}</td>
+                            <td>{{ $user->profile->typeLabel }}</td>
                         </tr>
                     @endforeach
                     </tbody>

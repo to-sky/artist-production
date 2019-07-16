@@ -8,10 +8,11 @@ use Illuminate\Support\Facades\Auth;
 class Shipping extends Model
 {
 
-    const STATUS_IN_PROCESSING = 0;
-    const STATUS_DISPATCHED = 1;
-    const STATUS_DELIVERED = 2;
-    const STATUS_RETURNED = 3;
+    const STATUS_NOT_SET = 0;
+    const STATUS_IN_PROCESSING = 1;
+    const STATUS_DISPATCHED = 2;
+    const STATUS_DELIVERED = 3;
+    const STATUS_NOT_DELIVERED = 4;
 
     const TYPE_EMAIL = 0;
     const TYPE_OFFICE = 1;

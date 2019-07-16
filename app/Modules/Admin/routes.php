@@ -167,7 +167,7 @@ Route::group([
 
     Route::prefix('tickets')->group(function () {
         Route::get('print/{ticket}', 'TicketController@print')->name('tickets.print');
-        Route::get('zebraPrint', 'TicketController@zebraPrint')->name('tickets.zebraPrint');
+        Route::get('zebra_print/{ticket}', 'TicketController@zebraPrint')->name('tickets.zebraPrint');
     });
 
     Route::prefix('admin/orders')->group(function () {
@@ -175,5 +175,9 @@ Route::group([
         Route::get('{order}', 'TicketController@print')->name('tickets.print');
         Route::get('widget/{event}', 'OrderController@widgetContent')->name('events.widgetContent');
         Route::get('user/addresses', 'OrderController@getUserAddresses')->name('order.getAddresses');
+        Route::post('confirm_payment/{order}', 'OrderController@confirmPayment')->name('order.confirmPayment');
+        Route::post('change_order_status/{order}', 'OrderController@changeOrderStatus')->name('order.changeOrderStatus');
+        Route::post('change_shipping_status/{order}', 'OrderController@changeShippingStatus')->name('order.changeShippingStatus');
+        Route::post('remove_ticket/{order}/{ticket}', 'OrderController@deleteTicket')->name('order.deleteTicket');
     });
 });

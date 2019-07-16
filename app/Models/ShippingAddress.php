@@ -26,7 +26,19 @@ class ShippingAddress extends Model
     /**
      * @var array
      */
-    protected $fillable = ['country', 'order_id', 'first_name', 'last_name', 'street', 'house', 'apartment', 'post_code', 'city', 'created_at', 'updated_at'];
+    protected $fillable = [
+        'country',
+        'order_id',
+        'first_name',
+        'last_name',
+        'street',
+        'house',
+        'apartment',
+        'post_code',
+        'city',
+        'created_at',
+        'updated_at'
+    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -36,4 +48,31 @@ class ShippingAddress extends Model
         return $this->belongsTo('App\Models\Order');
     }
 
+
+    /**
+     * Full name accessor
+     *
+     * @return string
+     */
+    public function getFullNameAttribute()
+    {
+        return "{$this->first_name} {$this->last_name}";
+    }
+
+/**
+* Return full address
+*
+* @return string
+*/
+    public function getFullAttribute()
+    {
+        $parts = [];
+        $parts[] = $this->full_name;
+        $parts[] = $this->country;
+        $parts[] = $this->city;
+        $parts[] = $this->street;
+        $parts[] = $this->post_code;
+
+        return join(', ', $parts);
+    }
 }

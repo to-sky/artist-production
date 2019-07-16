@@ -22,7 +22,11 @@ class Order extends Model
      *
      * @var array
      */
-    protected $dates = ['deleted_at', 'expired_at'];
+    protected $dates = [
+        'deleted_at',
+        'expired_at',
+        'paid_at'
+    ];
 
     public function __construct(array $attributes = [])
     {
@@ -36,9 +40,6 @@ class Order extends Model
     const STATUS_CANCELED = 2;
     const STATUS_RESERVE = 3;
     const STATUS_REALIZATION = 4;
-
-    const REALIZATION_COMMISSION = 0;
-    const REALIZATION_DISCOUNT = 1;
 
     const CURRENCY = 'EUR';
 
@@ -68,17 +69,18 @@ class Order extends Model
         'paid_bonuses',
         'paid_cash',
         'payment_type',
-        'delivery_type',
-        'delivery_status',
-        'shipping_price',
+        'shipping_type',
         'shipping_status',
+        'shipping_price',
         'shipping_zone_id',
         'payment_method_id',
         'service_price',
         'comment',
         'paid_at',
         'payer_id',
-        'manager_id'
+        'manager_id',
+        'realizator_commission',
+        'realizator_percent'
     ];
 
     /**
@@ -114,16 +116,11 @@ class Order extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function tickets()
+    public function shippingAddress()
     {
-        return $this->hasMany('App\Models\Ticket');
-    }
-
-    public function invoice()
-    {
-        return $this->hasMany('App\Models\Invoice');
+        return $this->hasOne('App\Models\ShippingAddress');
     }
 
     public function billingAddress()
@@ -147,31 +144,16 @@ class Order extends Model
     }
 
     /**
-     * Set attribute to datetime format
-     * @param $input
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function setPaidAtAttribute($input)
+    public function tickets()
     {
-        if(!is_null($input)) {
-            $this->attributes['paid_at'] = Carbon::createFromFormat(config('admin.date_format') . ' ' . config('admin.time_format'), $input)->format('Y-m-d H:i:s');
-        }else{
-            $this->attributes['paid_at'] = '';
-        }
+        return $this->hasMany('App\Models\Ticket');
     }
 
-    /**
-     * Get attribute from datetime format
-     * @param $input
-     *
-     * @return string
-     */
-    public function getPaidAtAttribute($input)
+    public function invoice()
     {
-        if(!is_null($input)) {
-            return Carbon::createFromFormat('Y-m-d H:i:s', $input)->format(config('admin.date_format') . ' ' .config('admin.time_format'));
-        }else{
-            return '';
-        }
+        return $this->hasMany('App\Models\Invoice');
     }
 
     public function shippingZone()
@@ -202,6 +184,11 @@ class Order extends Model
         return $this->tickets()->count();
     }
 
+    public function paymentMethod()
+    {
+        return $this->belongsTo('App\Models\PaymentMethod');
+    }
+
     public function getDisplayStatusAttribute()
     {
         $statuses = $this->_displayStatuses();
@@ -214,6 +201,8 @@ class Order extends Model
             self::STATUS_PENDING => __('Pending'),
             self::STATUS_CONFIRMED => __('Confirmed'),
             self::STATUS_CANCELED => __('Cancelled'),
+            self::STATUS_RESERVE => __('Reserve'),
+            self::STATUS_REALIZATION => __('Realization'),
         ];
     }
 
@@ -238,5 +227,60 @@ class Order extends Model
     public function getTotalAttribute()
     {
         return $this->subtotal + $this->shipping_price + $this->service_price;
+    }
+
+    public function getDisplayShippingStatusAttribute()
+    {
+        $statuses = $this->_displayShippingStatus();
+
+        return $statuses[$this->shipping_status] ?? array_first($statuses);
+    }
+
+    protected function _displayShippingStatus() {
+        return [
+            Shipping::STATUS_NOT_SET => __('Not set'),
+            Shipping::STATUS_IN_PROCESSING => __('In processing'),
+            Shipping::STATUS_DISPATCHED => __('Dispatched'),
+            Shipping::STATUS_DELIVERED => __('Delivered'),
+            Shipping::STATUS_NOT_DELIVERED => __('Not delivered'),
+        ];
+    }
+
+
+    public function getDisplayShippingTypeAttribute()
+    {
+        $types = $this->_displayShippingType();
+
+        return $types[$this->shipping_type] ?? $types[Shipping::TYPE_OFFICE];
+    }
+
+    protected function _displayShippingType() {
+        return [
+            Shipping::TYPE_EMAIL => __('E-ticket'),
+            Shipping::TYPE_OFFICE => __('Evening ticket office'),
+            Shipping::TYPE_POST => __('Post delivery'),
+        ];
+    }
+
+    /**
+     * Check if order is paid
+     *
+     * @return bool
+     */
+    public function is_paid()
+    {
+        return is_null($this->paid_at) ? false : true;
+    }
+
+    /**
+     * Get hall name
+     *
+     * @return string
+     */
+    public function getHallNameAttribute()
+    {
+        return $this->tickets->first()
+            ? $this->tickets->first()->event->hall->name
+            : '';
     }
 }

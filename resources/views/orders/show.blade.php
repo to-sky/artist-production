@@ -21,7 +21,7 @@
     <div class="ap_order__info">
       <div class="ap_order__col1">
         <p>Номер вашего заказа</p>
-        <p>{{ __('Order Status') }}</p>
+        <p>{{ __('Order status') }}</p>
         @if(empty($order->paid_at))<p>Бронь действительна до</p>@endif
 
       </div>
