@@ -60,10 +60,10 @@
                         </td>
 
                         <td>{{ $order->id }}</td>
-                        <td>{{ $order->manager->fullname }}</td>
+                        <td>{{ $order->manager->fullname ?? '-' }}</td>
                         <td>{{ $order->created_at->format('d.m.Y H:i') }}</td>
                         <td>{{ $order->expired_at ? $order->expired_at->format('d.m.Y H:i') : '' }}</td>
-                        <td>{{ $order->payer->fullname }}</td>
+                        <td>{{ $order->payer->fullname ?? '-' }}</td>
                         <td>{{ $order->paid_at ? $order->paid_at->format('d.m.Y H:i') : '' }}</td>
                         <td>{{ $order->user_id }}</td>
                         <td>{{ $order->user ? $order->user->fullname : ''}}</td>

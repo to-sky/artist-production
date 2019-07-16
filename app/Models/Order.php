@@ -123,14 +123,12 @@ class Order extends Model
         return $this->hasOne('App\Models\ShippingAddress');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function billingAddress()
     {
         return $this->hasOne('App\Models\BillingAddress');
-    }
-
-    public function shippingAddress()
-    {
-        return $this->hasOne('App\Models\ShippingAddress');
     }
 
     public function provisionalInvoice()
