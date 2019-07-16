@@ -290,5 +290,20 @@
   "Client type": "Client-Typ",
   "Amount of tickets": "Anzahl der tickets",
   "Order type": "Auftragsart",
-  "Anonymous": "Anonym"
+  "Anonymous": "Anonym",
+  "Main information": "Hauptinformation",
+  "Number": "Nummer",
+  "Сancel date": "Abbruchdatum",
+  "Shipping price": "Versandkosten",
+  "Service price": "Service Preis",
+  "Paid": "Bezahlt",
+  "Paid in cash": "Bar bezahlt",
+  "Main": "Main",
+  "Payment": "Zahlung",
+  "Barcode": "Barcode",
+  "Printed": "Gedruckt",
+  "Ticket print": "Ticket drucken",
+  "Status": "Status",
+  "Valid until": "Gültig bis",
+  "Delete": "Löschen"
 }

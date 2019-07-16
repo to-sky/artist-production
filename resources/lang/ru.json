@@ -293,5 +293,20 @@
     "Client type": "Тип клиента",
     "Amount of tickets": "Кол-во билетов",
     "Order type": "Тип заказа",
-    "Anonymous": "Аноним"
+    "Anonymous": "Аноним",
+    "Main information": "Общая информация",
+    "Number": "Номер",
+    "Сancel date": "Дата отмены",
+    "Shipping price": "Стоимость доставки",
+    "Service price": "Сервисный сбор",
+    "Paid": "Оплаченно",
+    "Paid in cash": "Оплаченно наличными",
+    "Main": "Всего",
+    "Payment": "Оплата",
+    "Barcode": "Штрихкод",
+    "Printed": "Отпечатанно",
+    "Ticket print": "Печать билета",
+    "Status": "Статус",
+    "Valid until": "Действителен до",
+    "Delete": "Удалить"
 }

@@ -24,9 +24,8 @@
                     <label for="payment_method">{{ __('Payment method') }}</label>
                     <select name="payment_method" id="paymentMethod" class="form-control" disabled="disabled">
                         <option disabled selected>{{ __('Select :item', ['item' => __('payment method')]) }}</option>
-                        <option value="">{{ __('Evening ticket office') }}</option>
-                        @foreach($paymentMethods as $paymentMethod)
-                            <option value="{{ $paymentMethod->id }}">{{ $paymentMethod->name }}</option>
+                        @foreach($paymentMethods as $id => $method)
+                            <option value="{{ $id ?? '' }}">{{ $method }}</option>
                         @endforeach
                     </select>
                 </div>

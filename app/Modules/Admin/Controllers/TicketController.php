@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 
 class TicketController extends AdminController
 {
+    /**
+     * Print ticket on standard A4 printer
+     *
+     * @param Ticket $ticket
+     * @return mixed
+     */
     public function print(Ticket $ticket)
     {
         $filename = "ETicket_$ticket->id";
@@ -17,10 +23,14 @@ class TicketController extends AdminController
         return $pdf->stream($filename.'.pdf', 'UTF-8');
     }
 
-    public function zebraPrint()
+    /**
+     * Print ticket on Zebra printer
+     *
+     * @param Ticket $ticket
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function zebraPrint(Ticket $ticket)
     {
-        $ticket = Ticket::all()->first();
-
         return view('Admin::pdf.zebra_ticket', compact('ticket'));
     }
 }

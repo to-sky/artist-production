@@ -459,7 +459,9 @@
 
     // Create address block
     function createAddressBlock(user_id) {
-        var addresses = $('<label>', {text: 'Addresses'});
+        var addresses = $('<label>', {
+            text: '{{ __('Addresses') }}'
+        });
         $.get('{{ route('order.getAddresses') }}', {user_id: user_id}, function (data) {
             $.each(data, function (i, el) {
                 addresses.parent().append(

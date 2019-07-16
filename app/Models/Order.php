@@ -104,6 +104,14 @@ class Order extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function shippingAddress()
+    {
+        return $this->hasOne('App\Models\ShippingAddress');
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function tickets()
@@ -230,5 +238,17 @@ class Order extends Model
     public function is_paid()
     {
         return is_null($this->paid_at) ? false : true;
+    }
+
+    /**
+     * Get hall name
+     *
+     * @return string
+     */
+    public function getHallNameAttribute()
+    {
+        return $this->tickets->first()
+            ? $this->tickets->first()->event->hall->name
+            : '';
     }
 }

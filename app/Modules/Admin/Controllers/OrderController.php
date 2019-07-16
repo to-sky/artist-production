@@ -2,7 +2,17 @@
 
 namespace App\Modules\Admin\Controllers;
 
-use App\Models\{Address, Country, Order, Event, PaymentMethod, Role, Shipping, ShippingZone, Ticket, User};
+use App\Models\{Address,
+    Country,
+    Order,
+    Event,
+    PaymentMethod,
+    Role,
+    Shipping,
+    ShippingAddress,
+    ShippingZone,
+    Ticket,
+    User};
 use App\Modules\Admin\Controllers\AdminController;
 use App\Modules\Admin\Services\RedirectService;
 use App\Services\ClientService;
@@ -46,10 +56,12 @@ class OrderController extends AdminController
 	 */
 	public function index()
     {
-		return view('Admin::order.index', [
-		    'orders' => Order::all(),
-            'paymentMethods' => PaymentMethod::all()
-        ]);
+        $orders = Order::all();
+        $paymentMethods = PaymentMethod::all()
+            ->pluck('name', 'id')
+            ->prepend(__('Evening ticket office'), '');
+
+		return view('Admin::order.index', compact('orders', 'paymentMethods'));
 	}
 
     /**
@@ -131,6 +143,7 @@ class OrderController extends AdminController
         Alert::success(trans('Admin::admin.controller-successfully_created', ['item' => trans('Admin::models.OrderController')]))->flash();
 
         $this->redirectService->setRedirect($request);
+
         return $this->redirectService->redirect($request);
 	}
 
@@ -148,14 +161,6 @@ class OrderController extends AdminController
         $response = collect();
         foreach ($tickets as $id => $discount) {
             $ticket = Ticket::find($id);
-
-            $ticketPrice = $ticket->getBuyablePrice();
-            $ticketDiscount = (float) $discount['discount'];
-            if ($ticketDiscount) {
-                $ticketPrice -= $ticketDiscount;
-            }
-
-
             $eventDate = $ticket->event->date;
             $diffDate = $eventDate->diffInDays(Carbon::now());
 
@@ -164,9 +169,9 @@ class OrderController extends AdminController
                 : $eventDate;
 
             $ticket->update([
-                'price' => $ticketPrice,
+                'price' => $ticket->getBuyablePrice(),
                 'status' => $ticketStatus,
-                'discount' => $ticketDiscount,
+                'discount' => $discount['discount'],
                 'user_id' => $payerId,
                 'order_id' => $orderId,
                 'reserved_to' => $reservedTo
@@ -191,7 +196,8 @@ class OrderController extends AdminController
             'paid_at' => Carbon::now(),
             'user_id' => $request->user_id,
             'payer_id' => Auth::id(),
-            'manager_id' => Auth::id()
+            'manager_id' => Auth::id(),
+            'shipping_type' => Shipping::TYPE_OFFICE
         ]);
 
         $clientId = $request->user_id ?? Auth::id();
@@ -229,7 +235,8 @@ class OrderController extends AdminController
             'payer_id' => Auth::id(),
             'manager_id' => Auth::id(),
             'comment' => $request->comment,
-            'expired_at' => Carbon::now()->addDays(14)
+            'expired_at' => Carbon::now()->addDays(14),
+            'shipping_type' => Shipping::TYPE_OFFICE
         ]);
 
         $subtotal = $this->updateTickets(
@@ -246,9 +253,9 @@ class OrderController extends AdminController
        $order->update([
            'realizator_commission' => $realizatorCommision,
            'realizator_percent' => $request->realizator_commission,
-            'subtotal' => $subtotal,
-            'discount' => $discount,
-            'paid_cash' => $subtotal - $realizatorCommision
+           'subtotal' => $subtotal,
+           'discount' => $discount,
+           'paid_cash' => $subtotal - $realizatorCommision
         ]);
 
         return $order;
@@ -275,11 +282,11 @@ class OrderController extends AdminController
         ];
 
         if ($request->shipping_type == Shipping::TYPE_POST) {
-            $address = Address::find($request->address_id);
+            $address = Address::findOrFail($request->address_id);
             $shippingZones = $this->shippingService->getShippingOptionsForCountry($address->country);
 
-            $data['shipping_zone_id'] = $request->shipping_zone_id;
-            $data['shipping_price'] = min(array_column($shippingZones, 'price'));
+            $data['shipping_zone_id'] = isset($shippingZones[0]) ? $shippingZones[0]['id'] : null;
+            $data['shipping_price'] = isset($shippingZones[0]) ? $shippingZones[0]['price'] : 0;
             $data['payment_method_id'] = PaymentMethod::paymentDelay()->first()->id;
         }
 
@@ -289,12 +296,36 @@ class OrderController extends AdminController
 
         $order = Order::create($data);
 
-        $this->updateTickets(
+        if ($request->shipping_type == Shipping::TYPE_POST) {
+            $shippingAddressData = $address->only([
+                'apartment',
+                'first_name',
+                'house',
+                'last_name',
+                'post_code',
+                'street'
+            ]);
+
+            $shippingAddressData += [
+                'city' => $address->city->name ?? '',
+                'country' => $address->country->name,
+                'order_id' => $order->id
+            ];
+
+            ShippingAddress::updateOrCreate($shippingAddressData);
+        }
+
+        $subtotal= $this->updateTickets(
             $request->tickets,
             $order->id,
             $clientId,
             Ticket::RESERVED
         )->sum('price');
+
+        $order->update([
+            'subtotal' => $subtotal,
+            'discount' => $request->main_discount,
+        ]);
 
         return $order;
 	}
@@ -369,44 +400,111 @@ class OrderController extends AdminController
             ->active()
             ->get()
             ->map(function($address) {
+                $country = Country::find($address->country_id);
+                $shippingPrice = $this->shippingService->getShippingOptionsForCountry($country);
+
                 return [
                     'id' => $address->id,
-                    'address' => $address->full
+                    'address' => $address->full,
+                    'shippingPrice' => isset($shippingPrice[0]) ? $shippingPrice[0]['price'] : 0
                 ];
             });
 
         return response()->json($addresses);
 	}
 
-	/**
-	 * Show the form for editing the specified order.
-	 *
-	 * @param  int  $id
-     * @return \Illuminate\View\View
-	 */
-	public function edit($id)
-	{
-		$order = Order::find($id);
+    /**
+     * Delete ticket from order and recalculate order subtotal
+     *
+     * @param Order $order
+     * @param Ticket $ticket
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteTicket(Order $order, Ticket $ticket)
+    {
+        $order->subtotal -= $ticket->price;
+        $order->save();
 
+        $this->ticketService->freeTicketFromOrder($ticket);
+
+        return response()->json(null, 204);
+	}
+
+    /**
+     * Show the form for editing the specified order.
+     *
+     * @param Order $order
+     * @return \Illuminate\View\View
+     */
+	public function edit(Order $order)
+	{
 		return view('Admin::order.edit', compact('order'));
 	}
 
-	/**
-	 * Update the specified order in storage.
-	 *
+    /**
+     * Update the specified order in storage.
+     *
+     * @param Order $order
      * @param UpdateOrderRequest|Request $request
-	 * @param $id
-	 * @return \Illuminate\Http\RedirectResponse
-	 */
-	public function update($id, UpdateOrderRequest $request)
+     * @return \Illuminate\Http\RedirectResponse
+     */
+	public function update(Order $order, UpdateOrderRequest $request)
 	{
-		$order = Order::findOrFail($id);
+        $data['subtotal'] = $this->updateTickets(
+            $request->tickets,
+            $order->id,
+            $order->user_id,
+            Ticket::SOLD
+        )->sum('price');
 
-		$order->update($request->all());
+        $data['comment'] = $request->comment;
 
-        Alert::success(trans('Admin::admin.controller-successfully_created', ['item' => trans('Admin::models.OrderController')]))->flash();
+        // Change shipping type
+        if ($order->shipping_type != $request->shipping_type) {
+            $data['shipping_type'] = $request->shipping_type;
+
+            // Change free to paid
+            if ($request->shipping_type == Shipping::TYPE_POST) {
+                $address = Address::findOrFail($request->address_id);
+                $shippingZones = $this->shippingService->getShippingOptionsForCountry($address->country);
+
+                $data['shipping_zone_id'] = isset($shippingZones[0]) ? $shippingZones[0]['id'] : null;
+                $data['shipping_price'] = isset($shippingZones[0]) ? $shippingZones[0]['price'] : 0;
+                $data['payment_method_id'] = PaymentMethod::paymentDelay()->first()->id;
+
+                $shippingAddressData = $address->only([
+                    'apartment',
+                    'first_name',
+                    'house',
+                    'last_name',
+                    'post_code',
+                    'street'
+                ]);
+
+                $shippingAddressData += [
+                    'city' => $address->city->name ?? '',
+                    'country' => $address->country->name,
+                    'order_id' => $order->id
+                ];
+
+                ShippingAddress::updateOrCreate($shippingAddressData);
+            } else {
+                $data['shipping_zone_id'] =  null;
+                $data['shipping_price'] =  0;
+                $data['courier_price'] =  0;
+
+                $order->shippingAddress()->delete();
+            }
+        }
+
+        $order->update($data);
+
+        Alert::success(trans('Admin::admin.controller-successfully_created', [
+            'item' => trans('Admin::models.OrderController')
+        ]))->flash();
 
         $this->redirectService->setRedirect($request);
+
         return $this->redirectService->redirect($request);
 	}
 
@@ -441,5 +539,4 @@ class OrderController extends AdminController
 
         return redirect()->route(config('admin.route').'.orders.index');
     }
-
 }

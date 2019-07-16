@@ -13,14 +13,7 @@
             <div class="modal-body">
                 @include('Admin::order.partials.modals._block_client_info')
 
-                <div class="form-group">
-                    <label for="shippingType">{{ __('Shipping type') }}</label>
-                    <select name="shipping_type" id="shippingType" class="form-control">
-                        <option value="{{ \App\Models\Shipping::TYPE_EMAIL }}" selected="selected">{{ __('E-ticket') }}</option>
-                        <option value="{{ \App\Models\Shipping::TYPE_OFFICE }}">{{ __('Evening ticket office') }}</option>
-                        <option value="{{ \App\Models\Shipping::TYPE_POST }}">{{ __('Post delivery') }}</option>
-                    </select>
-                </div>
+                @include('Admin::order.partials._shipping_type_group')
 
                 <div class="form-group">
                     <label for="paymentType">{{ __('Payment type') }}</label>
