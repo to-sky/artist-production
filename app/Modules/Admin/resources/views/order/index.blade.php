@@ -66,9 +66,9 @@
                         <td>{{ $order->payer->fullname ?? '-' }}</td>
                         <td>{{ $order->paid_at ? $order->paid_at->format('d.m.Y H:i') : '' }}</td>
                         <td>{{ $order->user_id }}</td>
-                        <td>{{ $order->user ? $order->user->fullname : ''}}</td>
-                        <td>{{ $order->user ? $order->user->profile->phone : ''}}</td>
-                        <td>{{ $order->user ? $order->user->profile->typeLabel : __('Anonymous') }}</td>
+                        <td>{{ $order->user->fullname ?? ''}}</td>
+                        <td>{{ $order->user->profile->phone ?? ''}}</td>
+                        <td>{{ $order->user->profile->typeLabel ?? __('Anonymous') }}</td>
                         <td>{{ $order->hallName }}</td>
                         <td>{{ $order->eventNames }}</td>
                         <td>{{ $order->ticketsCount }}</td>
