@@ -24,6 +24,7 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
  * @property \App\Models\Address[] $addresses
  * @property \App\Models\Profile $profile
  * @property \App\Models\Order[] $orders
+ * @property-read string $display_id
  */
 class User extends Authenticatable implements AuthenticatableContract
 {
@@ -104,5 +105,15 @@ class User extends Authenticatable implements AuthenticatableContract
     public function getRoleAttribute()
     {
         return $this->roles()->first();
+    }
+
+    /**
+     * Returns user id in 6 digit format with prepending zeroes (i.e.: 000105)
+     *
+     * @return string
+     */
+    public function getDisplayIdAttribute()
+    {
+        return sprintf('%06d', $this->id);
     }
 }
