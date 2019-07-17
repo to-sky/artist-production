@@ -42,13 +42,16 @@
         @endif
     @endforeach
 
-    @role([\App\Models\Role::ADMIN,  \App\Models\Role::PARTNER])
+    @role(\App\Models\Role::ADMIN)
     <li @if(Request::path() == config('admin.route').'/menu') class="active" @endif>
         <a href="{{ url(config('admin.route').'/menu') }}">
             <i class="fa fa-list"></i>
             <span class="title">{{ trans('Admin::admin.partials-sidebar-menu') }}</span>
         </a>
     </li>
+    @endrole
+
+    @role([\App\Models\Role::ADMIN,  \App\Models\Role::PARTNER])
     <li class="treeview @if(strpos(Request::path(), 'settings') !== false){{ 'active menu-open' }}@endif">
         <a href="#">
             <i class="fa fa-gear"></i>

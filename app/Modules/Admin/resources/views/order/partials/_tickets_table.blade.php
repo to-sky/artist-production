@@ -28,7 +28,13 @@
                 <tr data-event-id="{{ $ticket->event->id }}" data-ticket-id="{{ $ticket->id }}">
                     <td>Ряд: {{ $ticket->place->row }} Место: {{ $ticket->place->num }}</td>
                     <td data-price="{{ $ticket->getBuyablePrice() }}">{{ $ticket->getBuyablePrice() }} &euro;</td>
-                    <td><a href="#" class="set-discount" data-toggle="modal" data-target="#discountModal">0.00</a></td>
+                    <td>
+                        @role(\App\Models\Role::PARTNER)
+                            0.00
+                        @else
+                            <a href="#" class="set-discount" data-toggle="modal" data-target="#discountModal">0.00</a>
+                        @endrole
+                    </td>
                     <td data-price-final="{{ $ticket->getBuyablePrice() }}">{{ $ticket->getBuyablePrice() }} &euro;</td>
                     <td class="text-center">
                         <a href="#" class="delete-ticket" data-ticket-id="{{ $ticket->id }}">
@@ -55,10 +61,15 @@
             <tr>
                 <td colspan="4" class="text-right">{{ __('Total discount') }}:</td>
                 <td>
-                    <a href="#" id="mainDiscount"
-                       data-toggle="modal"
-                       data-target="#discountModal"
-                       data-discount="all">0.00</a>
+                    @role(\App\Models\Role::PARTNER)
+                        0.00
+                    @else
+                        <a href="#" id="mainDiscount"
+                           data-toggle="modal"
+                           data-target="#discountModal"
+                           data-discount="all">0.00</a>
+                    @endrole
+
                     <span id="discountTypeValue" data-type="percent"></span>
                 </td>
             </tr>

@@ -56,7 +56,15 @@ class OrderController extends AdminController
 	 */
 	public function index()
     {
-        $orders = Order::all();
+        $q = Order::query();
+
+        $user = auth()->user();
+        if ($user->hasRole(Role::PARTNER)) {
+            $q->whereManagerId($user->id);
+        }
+        $orders = $q->get();
+
+
         $paymentMethods = PaymentMethod::all()
             ->pluck('name', 'id')
             ->prepend(__('Evening ticket office'), '');
