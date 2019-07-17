@@ -66,9 +66,13 @@ class UserController extends AdminController
     {
         $this->authorize('index', User::class);
 
-        $users = User::whereDoesntHave('roles', function ($q) {
-            $q->whereName(Role::CLIENT);
-        })->get();
+        $users = User
+            ::whereDoesntHave('roles', function ($q) {
+                $q->whereName(Role::CLIENT);
+            })
+            ->whereHas('roles')
+            ->get()
+        ;
 
         return view('Admin::user.index', compact('users'));
     }
