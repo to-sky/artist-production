@@ -150,17 +150,18 @@
         let leftDest = this.$refs.animationContainer.clientWidth / 2;
         let topDest = this.$refs.animationContainer.clientHeight - 50;
         let self = this;
+        let coords = this.calculateMouseCoords(e);
 
         let dot = {
           hash: + new Date(),
-          top: e.offsetY,
-          left: e.offsetX,
+          top: coords.y - this.offsetY,
+          left: coords.x - this.offsetX,
           radius: this.getR * this.zoom,
           color: place.color,
           leftDest: leftDest,
           topDest: topDest,
-          dx: (leftDest - e.offsetX) / 20,
-          dy: (topDest - e.offsetY) / 20
+          dx: (leftDest - coords.x + this.offsetX) / 20,
+          dy: (topDest - coords.y + this.offsetY) / 20
         };
 
         this.animated.push(dot);
@@ -198,7 +199,7 @@
       },
       updateBaseR() {
       },
-      makePopupMove(e) {
+      calculateMouseCoords(e) {
         let x,y;
 
         if (this.IE) {
@@ -213,7 +214,15 @@
         if (x < 0){x = 0;}
         if (y < 0){y = 0;}
 
-        this.movePopup(x, y);
+        return {
+          x: x,
+          y: y
+        };
+      },
+      makePopupMove(e) {
+        let coords = this.calculateMouseCoords(e);
+
+        this.movePopup(coords.x, coords.y);
       },
       movePopup(x, y) {
         this.popupLeft = x - this.offsetX;
