@@ -217,6 +217,25 @@ class Order extends Model
         return $date;
     }
 
+    public function getCompositeDiscountAttribute()
+    {
+        return $this->tickets->map(function ($ticket) {
+            return $ticket->discount;
+        })->sum() + $this->discount;
+    }
+
+    /**
+     * Get sum all tickets with discount
+     *
+     * @return int
+     */
+    public function getTicketsPriceWithDiscountAttribute()
+    {
+        return $this->tickets->map(function ($ticket) {
+            return $ticket->price - $ticket->discount;
+        })->sum();
+    }
+
     /**
      * Get total price of order
      *
@@ -224,7 +243,7 @@ class Order extends Model
      */
     public function getTotalAttribute()
     {
-        return $this->subtotal + $this->shipping_price + $this->service_price;
+        return $this->getTicketsPriceWithDiscountAttribute() + $this->shipping_price + $this->service_price;
     }
 
     public function getDisplayShippingStatusAttribute()

@@ -64,7 +64,7 @@
                             </div>
                             <div class="clearfix">
                                 <div class="pull-left text-bold">{{ __('Discount') }}:</div>
-                                <div class="pull-right">{{ $order->discount ?? '0' }}</div>
+                                <div class="pull-right">{{ $order->compositeDiscount ?? '0' }}</div>
                             </div>
                             <div class="clearfix">
                                 <div class="pull-left text-bold">{{ __('Paid in cash') }}:</div>
@@ -72,7 +72,7 @@
                             </div>
                             <div class="clearfix">
                                 <div class="pull-left text-bold">{{ __('Main') }}:</div>
-                                <div class="pull-right">{{ $order->total }}</div>
+                                <div class="pull-right">{{ $order->ticketsPriceWithDiscount }}</div>
                             </div>
                         </div>
 
