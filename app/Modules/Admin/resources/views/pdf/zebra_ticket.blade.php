@@ -40,9 +40,8 @@
             <img src="data:image/png;base64, {{ DNS2D::getBarcodePNG($ticket->barcode, "QRCODE") }}" alt="qr-code" class="qr-code">
           </td>
           <td  style="text-align:right">
-            <p><b>{{ $ticke->id }}</b></p>
-            {{-- TODO: add order id --}}
-            <p>601162374</p>
+            <p><b>{{ $ticket->id }}</b></p>
+            <p>{{ $ticket->order->id }}</p>
           </td>
           <td rowspan="4" width="45">
             <div class="barcode-container">
