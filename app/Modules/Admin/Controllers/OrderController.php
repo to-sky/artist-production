@@ -216,12 +216,12 @@ class OrderController extends AdminController
             Ticket::SOLD
         )->sum('price');
 
-        $discount = $request->main_discount;
-        $paid = $order->ticketsPriceWithDiscount - $discount;
+        $orderDiscount = $request->main_discount;
+        $paid = $order->ticketsPriceWithDiscount - $orderDiscount;
 
         $order->update([
             'subtotal' => $ticketsPrice,
-            'discount' => $discount,
+            'discount' => $orderDiscount,
             'paid_cash' => $paid,
         ]);
 
@@ -253,15 +253,15 @@ class OrderController extends AdminController
             Ticket::RESERVED
         )->sum('price');
 
-        $discount = $request->main_discount;
-        $subtotal = $order->ticketsPriceWithDiscount - $discount;
+        $orderDiscount = $request->main_discount;
+        $subtotal = $order->ticketsPriceWithDiscount - $orderDiscount;
         $realizatorCommision= $subtotal * ($request->realizator_commission / 100);
 
        $order->update([
            'realizator_commission' => $realizatorCommision,
            'realizator_percent' => $request->realizator_commission,
            'subtotal' => $ticketsPrice,
-           'discount' => $discount,
+           'discount' => $orderDiscount,
            'paid_cash' => $subtotal
         ]);
 
