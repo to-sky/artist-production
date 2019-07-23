@@ -209,20 +209,20 @@ class OrderController extends AdminController
         ]);
 
         $clientId = $request->user_id ?? Auth::id();
-        $subtotal = $this->updateTickets(
+        $ticketsPrice = $this->updateTickets(
             $request->tickets,
             $order->id,
             $clientId,
             Ticket::SOLD
         )->sum('price');
 
-        $discount = $request->main_discount;
-        $subtotal = $subtotal - $discount;
+        $orderDiscount = $request->main_discount;
+        $paid = $order->ticketsPriceWithDiscount - $orderDiscount;
 
         $order->update([
-            'subtotal' => $subtotal,
-            'discount' => $discount,
-            'paid_cash' => $subtotal,
+            'subtotal' => $ticketsPrice,
+            'discount' => $orderDiscount,
+            'paid_cash' => $paid,
         ]);
 
         return $order;
@@ -240,30 +240,29 @@ class OrderController extends AdminController
         $order = Order::create([
             'status' => Order::STATUS_REALIZATION,
             'user_id' => $clientId,
-            'payer_id' => Auth::id(),
             'manager_id' => Auth::id(),
             'comment' => $request->comment,
             'expired_at' => Carbon::now()->addDays(14),
             'shipping_type' => Shipping::TYPE_OFFICE
         ]);
 
-        $subtotal = $this->updateTickets(
+        $ticketsPrice = $this->updateTickets(
             $request->tickets,
             $order->id,
             $clientId,
             Ticket::RESERVED
         )->sum('price');
 
-        $discount = $request->main_discount;
-        $subtotal = $subtotal - $discount;
+        $orderDiscount = $request->main_discount;
+        $subtotal = $order->ticketsPriceWithDiscount - $orderDiscount;
         $realizatorCommision= $subtotal * ($request->realizator_commission / 100);
 
        $order->update([
            'realizator_commission' => $realizatorCommision,
            'realizator_percent' => $request->realizator_commission,
-           'subtotal' => $subtotal,
-           'discount' => $discount,
-           'paid_cash' => $subtotal - $realizatorCommision
+           'subtotal' => $ticketsPrice,
+           'discount' => $orderDiscount,
+           'paid_cash' => $subtotal
         ]);
 
         return $order;
@@ -282,11 +281,11 @@ class OrderController extends AdminController
         $data = [
             'status' => Order::STATUS_RESERVE,
             'user_id' => $clientId,
-            'payer_id' => Auth::id(),
             'manager_id' => Auth::id(),
             'comment' => $request->comment,
             'expired_at' => Carbon::now()->addDays(14),
-            'shipping_type' => $request->shipping_type
+            'shipping_type' => $request->shipping_type,
+            'discount' => $request->main_discount
         ];
 
         if ($request->shipping_type == Shipping::TYPE_POST) {
@@ -323,7 +322,7 @@ class OrderController extends AdminController
             ShippingAddress::updateOrCreate($shippingAddressData);
         }
 
-        $subtotal= $this->updateTickets(
+        $ticketsPrice = $this->updateTickets(
             $request->tickets,
             $order->id,
             $clientId,
@@ -331,8 +330,7 @@ class OrderController extends AdminController
         )->sum('price');
 
         $order->update([
-            'subtotal' => $subtotal,
-            'discount' => $request->main_discount,
+            'subtotal' => $ticketsPrice,
         ]);
 
         return $order;

@@ -212,13 +212,11 @@
                     </tr>
                     <tr>
                         <td class="text-light">Auftragsnummer:</td>
-                        {{-- TODO: change to order id --}}
-                        <td>601162374</td>
+                        <td>{{ $ticket->order->id }}</td>
                     </tr>
                     <tr>
                         <td class="text-light text-right">Buchung:</td>
-                        {{-- TODO: change to order date --}}
-                        <td>01.04.2019</td>
+                        <td>{{ $ticket->order->date->format('d.m.Y') }}</td>
                     </tr>
                 </table>
             </div>
@@ -254,9 +252,7 @@
                         <p>
                             <b>{{ $ticket->id }}</b>
                         </p>
-
-                        {{-- TODO: change to order id --}}
-                        <span>601162374</span>
+                        <span>{{ $ticket->order->id }}</span>
                     </div>
                     <p>
                         <img src="{{ isset($ticket->event->freePassLogo) ? $ticket->event->freePassLogo->file_url : '' }}"
@@ -408,8 +404,7 @@
     </div>
     <div>
         <p class="h3 text-right">{{ $ticket->id }}</p>
-        {{-- TODO: change to order id --}}
-        <p class="text-right">601162374</p>
+        <p class="text-right">{{ $ticket->order->id }}</p>
     </div>
 </footer>
 </body>
