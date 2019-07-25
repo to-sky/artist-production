@@ -111,6 +111,7 @@ return [
     'Mail' => 'Почта',
 //    'Checkout' => 'Заказы',
     'Orders' => 'Заказы',
+    'Reports' => 'Отчеты',
 
     // actions
     'index' => 'Список',
@@ -122,6 +123,7 @@ return [
     'set-to-default' => 'По умолчанию',
     'mail' => 'Почта',
     'profile' => 'Профиль',
+    'by_partner' => 'Продажи партнеров',
 
     'back-to-all-entries' => 'Назад ко всем записям'
 

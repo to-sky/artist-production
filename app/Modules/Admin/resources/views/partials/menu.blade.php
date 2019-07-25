@@ -52,6 +52,23 @@
     @endrole
 
     @role([\App\Models\Role::ADMIN,  \App\Models\Role::PARTNER])
+    <li class="treeview @if(strpos(Request::path(), 'reports') !== false){{ 'active menu-open' }}@endif">
+        <a href="#">
+            <i class="fa fa-bar-chart"></i>
+            <span>{{ trans('Admin::admin.Reports') }}</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li class="active">
+                <a href="{{ route(config('admin.route') . '.reports.by_partner') }}">
+                    <i class="fa fa-circle-o"></i>
+                    {{ trans('Admin::admin.by_partner') }}
+                </a>
+            </li>
+        </ul>
+    </li>
     <li class="treeview @if(strpos(Request::path(), 'settings') !== false){{ 'active menu-open' }}@endif">
         <a href="#">
             <i class="fa fa-gear"></i>

@@ -108,6 +108,7 @@ return [
     'Settings' => 'Settings',
     'Mail' => 'Mail',
     'Orders' => 'Orders',
+    'Reports' => 'Reports',
 
     // actions
     'index' => 'List',
@@ -119,6 +120,7 @@ return [
     'set-to-default' => 'Default',
     'mail' => 'Mail',
     'profile' => 'Profile',
+    'by_partner' => 'By Partner',
 
     'back-to-all-entries' => 'Back to All Entries'
 ];

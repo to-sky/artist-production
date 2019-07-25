@@ -180,4 +180,18 @@ Route::group([
         Route::post('change_shipping_status/{order}', 'OrderController@changeShippingStatus')->name('order.changeShippingStatus');
         Route::post('remove_ticket/{order}/{ticket}', 'OrderController@deleteTicket')->name('order.deleteTicket');
     });
+
+    Route::prefix('admin/reports')->group(function () {
+        Route::get('/', function (\App\Modules\Admin\Services\RedirectService $redirectService) {
+            // @todo: implement redirect service method to redirect different user to different starter reports
+
+            return redirect()->route(config('admin.route') . '.reports.by_partner');
+        })->name(config('admin.route') . '.reports.index');
+
+        Route::get('event/options', 'ReportController@getEventsOptions')->name(config('admin.route') . '.reports.events');
+
+        Route::get('by_partner', 'ReportController@byPartners')->name(config('admin.route') . '.reports.by_partner');
+        Route::get('by_partner/data', 'ReportController@getByPartnersData')->name(config('admin.route') . '.reports.data.by_partner');
+        Route::get('by_partner/export', 'ReportController@exportByPartnerData')->name(config('admin.route') . '.reports.export.by_partner');
+    });
 });

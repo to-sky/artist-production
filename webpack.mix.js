@@ -25,3 +25,12 @@ mix.sass('resources/sass/reset.scss', 'public/css');
  */
 
 mix.js('resources/widget/main.js', 'public/widget/js/app.js');
+
+
+/*
+ |--------------------------------------------------------------------------
+ | Reports styles
+ |--------------------------------------------------------------------------
+ */
+
+mix.sass('resources/sass/reports.scss', 'public/css');

@@ -1,0 +1,164 @@
+.by-partner-report {
+  h3 {
+    color: #2F003E;
+    font-size: 20px;
+    font-weight: lighter;
+    padding: 0 0 10px 0;
+    margin: 0;
+  }
+
+  .dates {
+    td {
+      background-color: #f5f5f5;
+      width: 300px;
+      padding: 5px;
+    }
+
+    td:first-child {
+      background-color: #E6E6E6;
+      font-weight: bold;
+      color: #95009C;
+    }
+  }
+
+  .partner-report-table {
+    width: 100%;
+    text-align: center;
+
+    thead {
+      color: #417fd4;
+      font-weight: bold;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      height: 40px;
+      padding-top: 0;
+      background-color: #e9f1fc;
+
+      th {
+        padding: 5px 5px 15px;
+        text-align: center;
+
+        &:first-child {
+          text-align: left;
+        }
+
+        &:not(:first-child) {
+          width: 100px;
+        }
+      }
+    }
+
+    tbody {
+      border: solid 1px #ccc;
+
+      &.sep {
+        border: none;
+
+        td {
+          padding: 5px;
+        }
+      }
+
+      tr:first-child {
+        margin-top: 10px;
+      }
+
+      .primary-group-name td {
+        background-color: #417fd4;
+        font-weight: bold;
+        color: #e9f1fc;
+        padding: 5px 5px 10px;
+        text-align: left;
+      }
+
+      .secondary-group-name td {
+        background-color: #e9f1fc;
+        color: #417fd4;
+        padding: 5px 5px 10px 10px;
+        font-weight: bold;
+        text-align: left;
+      }
+
+      .secondary-group-calculation td:not(:first-child) {
+        border-bottom: 1px solid black;
+        padding: 5px;
+      }
+
+      .secondary-group-total {
+        td {
+          padding: 5px;
+        }
+
+        td:nth-child(3) {
+          text-align: right;
+        }
+
+        td:not(:first-child) {
+          background-color: #f0f0e6;
+          font-weight: bolder;
+          font-style: italic;
+        }
+      }
+
+      .primary-group-total {
+        td {
+          padding: 5px;
+          background-color: #dfe3ec;
+          color: #417fd4;
+        }
+
+        td:nth-child(3) {
+          text-align: right;
+        }
+      }
+    }
+
+    .partner-report-total {
+      td {
+        color: #f00;
+        font-weight: bold;
+        border-bottom: 1px solid #ccc;
+        font-size: 14px;
+        height: 20px;
+        background-color: #FFF3BC;
+      }
+
+      td:not(:first-child) {
+        border-bottom-width: 2px;
+      }
+
+      td:nth-child(2) {
+        text-align: right;
+      }
+    }
+  }
+
+  .tickets-table-wrap {
+    float: right;
+
+    &:after {
+      display: block;
+      content: '';
+      clear: both;
+    }
+
+    .tickets-table {
+      caption {
+        white-space: nowrap;
+        text-align: center;
+        border-bottom: solid 2px #000;
+      }
+
+      th, td {
+        text-align: right;
+        border-bottom: solid 1px #ccc;
+        padding: 5px 5px 5px 35px;
+      }
+
+      .tickets-table-total td {
+        font-weight: bold;
+        border-bottom: none;
+      }
+    }
+  }
+}
