@@ -305,5 +305,8 @@
   "Ticket print": "Ticket drucken",
   "Status": "Status",
   "Valid until": "Gültig bis",
-  "Delete": "Löschen"
+  "Delete": "Löschen",
+  "Download invoice": "Download rechnung",
+  "Order invoice": "Rechnung bestellen",
+  "Client address not set": "Clientadresse nicht festgelegt"
 }

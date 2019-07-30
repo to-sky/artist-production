@@ -308,5 +308,8 @@
     "Ticket print": "Печать билета",
     "Status": "Статус",
     "Valid until": "Действителен до",
-    "Delete": "Удалить"
+    "Delete": "Удалить",
+    "Download invoice": "Скачать счет",
+    "Order invoice": "Cчёт заказа",
+    "Client address not set": "Адрес клиента не найден"
 }

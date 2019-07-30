@@ -17,6 +17,8 @@ class Order extends Model
 
     protected $entity_type;
 
+    protected static $ticketService;
+
     /**
      * The attributes that should be mutated to dates.
      *
@@ -33,6 +35,8 @@ class Order extends Model
         parent::__construct($attributes);
 
         $this->entity_type = static::ENTITY_TYPE;
+
+        self::$ticketService = new TicketService();
     }
 
     const STATUS_PENDING = 0;
@@ -46,11 +50,13 @@ class Order extends Model
     protected static function boot() {
         parent::boot();
 
+        static::created(function ($order) {
+           self::$ticketService->attachCartToOrder($order);
+        });
+
         static::deleting(function($order) {
             $order->tickets->each(function($ticket) {
-                $ticketService = new TicketService();
-
-                $ticketService->freeTicketFromOrder($ticket);
+                self::$ticketService->freeTicketFromOrder($ticket);
             });
         });
     }

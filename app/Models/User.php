@@ -55,7 +55,7 @@ class User extends Authenticatable implements AuthenticatableContract
      *
      * @var array
      */
-    protected $appends = ['avatar', 'fullname', 'role'];
+    protected $appends = ['avatar', 'fullname', 'role', 'display_id'];
 
     public function tickets()
     {

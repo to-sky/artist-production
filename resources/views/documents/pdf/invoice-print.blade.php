@@ -61,12 +61,16 @@
 
     <tr>
         <td style="font-size: 13px;">
-            {{ $order->billingAddress->last_name }} {{ $order->billingAddress->first_name }}<br>
-            {{ $order->billingAddress->street }} {{ $order->billingAddress->house }} {{ $order->billingAddress->apartment }}<br>
-            {{ $order->billingAddress->post_code }} {{ $order->billingAddress->city }}<br>
-            {{ $order->billingAddress->country }}<br>
-            &nbsp;<br>
-            &nbsp;
+            @if($order->billingAddress)
+                {{ $order->billingAddress->last_name }} {{ $order->billingAddress->first_name }}<br>
+                {{ $order->billingAddress->street }} {{ $order->billingAddress->house }} {{ $order->billingAddress->apartment }}<br>
+                {{ $order->billingAddress->post_code }} {{ $order->billingAddress->city }}<br>
+                {{ $order->billingAddress->country }}<br>
+            @else
+                {{ __('Anonymous') }}
+            @endif
+                &nbsp;<br>
+                &nbsp;
         </td>
     </tr>
 

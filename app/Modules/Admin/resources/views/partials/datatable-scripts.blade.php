@@ -67,20 +67,18 @@
 
         $('#delete').click(function () {
             if (confirm('{{ trans('Admin::templates.templates-view_index-are_you_sure') }}')) {
-                var send = $('#send'),
-                    mass = $('.mass').is(":checked");
+                var send = $('#send');
 
-                if (mass == true) {
+                if ($('.mass').is(':checked')) {
                     send.val('mass');
                 } else {
                     var toDelete = [];
-                    $('.single').each(function () {
-                        if ($(this).is(":checked")) {
-                            toDelete.push($(this).data('id'));
-                        }
+                    $(".single:checked").each(function() {
+                        toDelete.push($(this).data('id'));
                     });
                     send.val(JSON.stringify(toDelete));
                 }
+
                 $('#massDelete').submit();
             }
         });

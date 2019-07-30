@@ -12,6 +12,7 @@
     @include('Admin::order.partials.modals._modal_change_order_status')
     @include('Admin::order.partials.modals._modal_change_shipping_status')
     @include('Admin::order.partials.modals._modal_comment')
+    @include('Admin::order.partials.modals._modal_invoice')
 
     <div class="box" style="overflow-x: scroll;">
         <div class="box-header with-border">
@@ -65,7 +66,7 @@
                         <td>{{ $order->expired_at ? $order->expired_at->format('d.m.Y H:i') : '' }}</td>
                         <td>{{ $order->payer->fullname ?? '' }}</td>
                         <td>{{ $order->paid_at ? $order->paid_at->format('d.m.Y H:i') : '' }}</td>
-                        <td>{{ $order->user_id }}</td>
+                        <td>{{ $order->user->display_id ?? '' }}</td>
                         <td>{{ $order->user->fullname ?? ''}}</td>
                         <td>{{ $order->user->profile->phone ?? ''}}</td>
                         <td>{{ $order->user->profile->typeLabel ?? __('Anonymous') }}</td>
@@ -120,13 +121,21 @@
                                         data-toggle="modal"
                                         data-target="#modalComment"
                                         data-comment="{{ $order->comment }}">
-                                    {{ substr($order->comment, 0, 20) }}...
+                                    {{ substr($order->comment, 0, 15) }}...
                                 </button>
                             @else
                                 {{ $order->comment }}
                             @endif
                         </td>
                         <td>
+                            <button
+                                    type="button"
+                                    data-toggle="modal"
+                                    data-target="#modalInvoice"
+                                    data-order-id="{{ $order->id }}"
+                                    class="btn btn-xs btn-default">
+                                <i class="fa fa-file-text-o"></i> {{ __('Download invoice') }}
+                            </button>
                             <a href="{{ route(config('admin.route').'.orders.edit', [$order->id]) }}"
                                class="btn btn-xs btn-default">
                                 <i class="fa fa-edit"></i> {{ trans('Admin::admin.users-index-edit') }}
@@ -160,6 +169,30 @@
     @include('Admin::partials.datatable-scripts')
     @include('Admin::order.partials._scripts_print')
     <script>
+        // Highlight table row
+        var activeRow = false;
+        var selectedRow;
+        $('#datatable tbody tr').click(function () {
+            // check if row is selected and set active row
+            if (! activeRow) {
+                activeRow = true;
+                selectedRow = $(this);
+                $(this).css('background', '#eaf3ff');
+            } else {
+                // unselect row after second click
+                if ($(selectedRow).is($(this))) {
+                    $(this).removeAttr('style');
+                    selectedRow = $(this);
+                    activeRow = false;
+                } else {
+                    selectedRow = $(this);
+                    $(this).css('background', '#eaf3ff');
+                }
+            }
+
+            $(this).siblings('tr').removeAttr('style');
+        });
+
         // Change order status
         $('#changeOrderStatus').on('show.bs.modal', function (e) {
             var button = $(e.relatedTarget);
@@ -238,6 +271,13 @@
             var comment = $(e.relatedTarget).data('comment');
 
             $('.modal-body', this).html(comment);
-        })
+        });
+
+        // Invoices modal
+        $('#modalInvoice').on('show.bs.modal', function (e) {
+            var orderId = $(e.relatedTarget).data('order-id');
+
+            $('#modalTitleId', this).text(orderId);
+        });
     </script>
 @endsection

@@ -22,7 +22,7 @@ use App\Modules\Admin\Requests\CreateOrderRequest;
 use App\Modules\Admin\Requests\UpdateOrderRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-
+use App\Documents\Invoices\OrderInvoiceDocument;
 
 use Illuminate\Support\Facades\Auth;
 use Prologue\Alerts\Facades\Alert;
@@ -135,18 +135,13 @@ class OrderController extends AdminController
 	public function store(Request $request)
 	{
         switch ($request->order_type) {
-            case 'sale':
-                $order = $this->sale($request);
+            case 'sale': $this->sale($request);
             break;
-            case 'realization':
-                $order = $this->realization($request);
+            case 'realization': $this->realization($request);
             break;
-            case 'reserve':
-                $order = $this->reserve($request);
+            case 'reserve': $this->reserve($request);
             break;
         }
-
-        $this->ticketService->attachCartToOrder($order);
 
         Alert::success(trans('Admin::admin.controller-successfully_created', ['item' => trans('Admin::models.OrderController')]))->flash();
 
