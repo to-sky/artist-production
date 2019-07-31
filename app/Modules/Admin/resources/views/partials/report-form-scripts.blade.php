@@ -14,8 +14,6 @@
       $form.submit(function (e) {
         e.preventDefault();
 
-        console.log(e);
-
         $target.load(action, $form.serialize(), function () {
           $container.show();
         });
@@ -25,14 +23,17 @@
 
       var $export;
       if ($export = $form.find('.r_export_excel')) {
-        var href = $export.data('href');
+        $export.each(function (i, e) {
+          var $e = $(e);
+          var href = $e.data('href');
 
-        $export.click(function () {
-          var link = document.createElement('a');
-          link.target = '_blank';
-          link.href = href + '?' + $form.serialize();
-          link.click();
-        });
+          $e.click(function () {
+            var link = document.createElement('a');
+            link.target = '_blank';
+            link.href = href + '?' + $form.serialize();
+            link.click();
+          });
+        })
       }
     });
   });

@@ -124,6 +124,8 @@ return [
     'mail' => 'Почта',
     'profile' => 'Профиль',
     'by_partner' => 'Продажи партнеров',
+    'by_bookkeeper' => 'Продажи кассиров',
+    'overall' => 'Общий отчет',
 
     'back-to-all-entries' => 'Назад ко всем записям'
 

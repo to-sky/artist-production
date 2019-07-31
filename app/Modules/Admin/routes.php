@@ -193,5 +193,18 @@ Route::group([
         Route::get('by_partner', 'ReportController@byPartners')->name(config('admin.route') . '.reports.by_partner');
         Route::get('by_partner/data', 'ReportController@getByPartnersData')->name(config('admin.route') . '.reports.data.by_partner');
         Route::get('by_partner/export', 'ReportController@exportByPartnerData')->name(config('admin.route') . '.reports.export.by_partner');
+
+        Route::get('by_bookkeeper', 'ReportController@byBookkeepers')->name(config('admin.route') . '.reports.by_bookkeeper');
+        Route::get('by_bookkeeper/data', 'ReportController@getByBookkeepersData')->name(config('admin.route') . '.reports.data.by_bookkeeper');
+        Route::get('by_bookkeeper/export', 'ReportController@exportByBookkeeperData')->name(config('admin.route') . '.reports.export.by_bookkeeper');
+        Route::get('by_bookkeeper/export/tickets', 'ReportController@exportByBookkeepersTickets')
+            ->name(config('admin.route') . '.reports.export.by_bookkeeper.tickets');
+
+        Route::get('overall', 'ReportController@overall')->name(config('admin.route') . '.reports.overall');
+        Route::get('overall/data', 'ReportController@getOverallData')->name(config('admin.route') . '.reports.data.overall');
+        Route::get('overall/export', 'ReportController@exportOverallData')->name(config('admin.route') . '.reports.export.overall');
+
+        Route::get('export/tickets/{event}', 'ReportController@exportTicketSales')->name(config('admin.route') . '.reports.export.tickets');
+        Route::get('export/tickets/{event}/unsold', 'ReportController@exportTicketsUnsold')->name(config('admin.route') . '.reports.export.tickets.unsold');
     });
 });

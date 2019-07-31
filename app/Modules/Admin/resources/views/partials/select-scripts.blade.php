@@ -24,10 +24,16 @@
   }
 
   jQuery(document).ready(function () {
-    var $selects = $('select').select2();
+    var $selects = $('select').select2({
+      allowClear: true,
+      placeholder: "{{ __('Select value') }}"
+    });
 
     $selects.each(function (i, e) {
       var $select = $(e);
+
+      $select.val('');
+      $select.trigger('change');
 
       if ($select.attr('name') === 'event_ids[]') {
         var $triggers = $('.event_id_trigger, .event_id_trigger_wrap input');

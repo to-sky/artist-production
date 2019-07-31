@@ -13,7 +13,7 @@
   <div id="mainContent" class="row" style="display: none">
     <div class="col-md-6 col-lg-4">
       <form
-          action="{{ route(config('admin.route') . '.reports.data.by_partner') }}"
+          action="{{ route(config('admin.route') . '.reports.data.by_bookkeeper') }}"
           class="report_form"
           data-target="#reportData"
           data-target-container="#reportContainer"
@@ -46,14 +46,6 @@
           <div class="box-body">
             <div class="row">
               <div class="col-xs-12">
-                <select name="event_name[]" id="event_name" class="form-control event_id_trigger" multiple>
-                  @foreach($eventNames as $value => $label)
-                    <option value="{{ $value }}">{{ $label }}</option>
-                  @endforeach
-                </select>
-              </div>
-
-              <div class="col-xs-12">
                 <label for="event_range">{{ __('Event dates range') }}</label>
 
                 <section
@@ -74,33 +66,25 @@
 
         <div class="box">
           <div class="box-header with-border">
-            <label for="with">{{ __('Partner') }}</label>
+            <label for="with">{{ __('Bookkeeper') }}</label>
           </div>
 
           <div class="box-body">
             <div class="row">
               <div class="col-xs-12">
-                <select name="with[]" id="with" class="form-control" multiple>
-                  @foreach($partnerOptions as $groupName => $groupOptions)
-                    <optgroup label="{{ $groupName }}">
-                      @foreach($groupOptions as $value => $label)
-                        <option value="{{ $value }}">{{ $label }}</option>
-                      @endforeach
-                    </optgroup>
-                  @endforeach
+                <select name="bookkeeper[]" id="with" class="form-control" multiple>
+                    @foreach($bookkeeperOptions as $value => $label)
+                      <option value="{{ $value }}">{{ $label }}</option>
+                    @endforeach
                 </select>
               </div>
 
               <div class="col-xs-12">
-                <label for="without">{{ __('Exclude') }}</label>
+                <label for="without">{{ __('Order author') }}</label>
 
-                <select name="without[]" id="without" class="form-control" multiple>
-                  @foreach($excludeOptions as $groupName => $groupOptions)
-                    <optgroup label="{{ $groupName }}">
-                      @foreach($groupOptions as $value => $label)
-                        <option value="{{ $value }}">{{ $label }}</option>
-                      @endforeach
-                    </optgroup>
+                <select name="author[]" id="without" class="form-control" multiple>
+                  @foreach($bookkeeperOptions as $value => $label)
+                    <option value="{{ $value }}">{{ $label }}</option>
                   @endforeach
                 </select>
               </div>
@@ -112,10 +96,38 @@
           <div class="box-body">
             <div class="row">
               <div class="col-xs-12">
-                <label for="order_statuses">{{ __('Order status') }}</label>
+                <label for="payment_options">{{ __('Payment Options') }}</label>
+
+                <select name="payment_options[]" id="payment_options" class="form-control" multiple>
+                  @foreach($paymentMethodOptions as $value => $label)
+                    <option value="{{ $value }}">{{ __($label) }}</option>
+                  @endforeach
+                </select>
+              </div>
+
+              <div class="col-xs-12">
+                <label>{{ __('Paid with') }}</label>
+
+                <div>
+                  <input type="radio" id="paid_add" name="paid_with" value="paid_all" checked>
+                  <label for="group_event">{{ __('all') }}</label>
+
+                  <input type="radio" id="paid_cash" name="paid_with" value="paid_cash">
+                  <label for="group_manager">{{ __('cash') }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="box">
+          <div class="box-body">
+            <div class="row">
+              <div class="col-xs-12">
+                <label for="order_statuses">{{ __('Ticket status') }}</label>
 
                 <select name="order_statuses[]" id="order_statuses" class="form-control" multiple>
-                  @foreach($orderStatusOptions as $value => $label)
+                  @foreach($ticketStatusOptions as $value => $label)
                     <option value="{{ $value }}" @if(in_array($value, $defaultStatuses)) selected @endif>{{ $label }}</option>
                   @endforeach
                 </select>
@@ -148,8 +160,13 @@
             <button
                 type="button"
                 class="btn btn-secondary r_export_excel"
-                data-href="{{ route(config('admin.route') . '.reports.export.by_partner') }}"
+                data-href="{{ route(config('admin.route') . '.reports.export.by_bookkeeper') }}"
             >{{ __('Export to Excel') }}</button>
+            <button
+                type="button"
+                class="btn btn-secondary r_export_excel"
+                data-href="{{ route(config('admin.route') . '.reports.export.by_bookkeeper.tickets') }}"
+            >{{ __('Export tickets to Excel') }}</button>
           </div>
         </div>
       </form>

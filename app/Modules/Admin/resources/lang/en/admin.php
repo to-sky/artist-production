@@ -121,6 +121,8 @@ return [
     'mail' => 'Mail',
     'profile' => 'Profile',
     'by_partner' => 'By Partner',
+    'by_bookkeeper' => 'By Cashier',
+    'overall' => 'Summary report',
 
     'back-to-all-entries' => 'Back to All Entries'
 ];

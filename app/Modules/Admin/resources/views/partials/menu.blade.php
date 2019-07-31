@@ -61,10 +61,22 @@
             </span>
         </a>
         <ul class="treeview-menu">
-            <li class="active">
+            <li class="@if(strpos(Request::path(), 'by_partner') !== false){{ 'active' }}@endif">
                 <a href="{{ route(config('admin.route') . '.reports.by_partner') }}">
                     <i class="fa fa-circle-o"></i>
                     {{ trans('Admin::admin.by_partner') }}
+                </a>
+            </li>
+            <li class="@if(strpos(Request::path(), 'by_bookkeeper') !== false){{ 'active' }}@endif">
+                <a href="{{ route(config('admin.route') . '.reports.by_bookkeeper') }}">
+                    <i class="fa fa-circle-o"></i>
+                    {{ trans('Admin::admin.by_bookkeeper') }}
+                </a>
+            </li>
+            <li class="@if(strpos(Request::path(), 'overall') !== false){{ 'active' }}@endif">
+                <a href="{{ route(config('admin.route') . '.reports.overall') }}">
+                    <i class="fa fa-circle-o"></i>
+                    {{ trans('Admin::admin.overall') }}
                 </a>
             </li>
         </ul>

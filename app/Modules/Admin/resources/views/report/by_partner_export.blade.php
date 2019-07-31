@@ -1,4 +1,4 @@
-<table style="background-color: #ccc">
+<table>
   <tbody>
   <tr>
     <td>{{ __('Sale period') }}</td>

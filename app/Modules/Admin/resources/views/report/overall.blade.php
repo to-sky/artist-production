@@ -11,9 +11,9 @@
 @section('content')
 
   <div id="mainContent" class="row" style="display: none">
-    <div class="col-md-6 col-lg-4">
+    <div class="col-md-12 col-lg-4">
       <form
-          action="{{ route(config('admin.route') . '.reports.data.by_partner') }}"
+          action="{{ route(config('admin.route') . '.reports.data.overall') }}"
           class="report_form"
           data-target="#reportData"
           data-target-container="#reportContainer"
@@ -112,11 +112,31 @@
           <div class="box-body">
             <div class="row">
               <div class="col-xs-12">
-                <label for="order_statuses">{{ __('Order status') }}</label>
+                <label for="sort_by">{{ __('Sort by') }}</label>
 
-                <select name="order_statuses[]" id="order_statuses" class="form-control" multiple>
-                  @foreach($orderStatusOptions as $value => $label)
-                    <option value="{{ $value }}" @if(in_array($value, $defaultStatuses)) selected @endif>{{ $label }}</option>
+                <select name="sort_by" id="sort_by" class="form-control">
+                  @foreach($sortOptions as $value => $label)
+                    <option value="{{ $value }}">{{ $label }}</option>
+                  @endforeach
+                </select>
+              </div>
+
+              <div class="col-xs-12">
+                <label for="shipping_method">{{ __('Shipping method') }}</label>
+
+                <select name="shipping_method" id="shipping_method" class="form-control">
+                  @foreach($shippingOptions as $value => $label)
+                    <option value="{{ $value }}">{{ $label }}</option>
+                  @endforeach
+                </select>
+              </div>
+
+              <div class="col-xs-12">
+                <label for="payment_method">{{ __('Payment method') }}</label>
+
+                <select name="payment_method" id="payment_method" class="form-control">
+                  @foreach($paymentMethodOptions as $value => $label)
+                    <option value="{{ $value }}">{{ $label }}</option>
                   @endforeach
                 </select>
               </div>
@@ -128,14 +148,9 @@
           <div class="box-body">
             <div class="row">
               <div class="col-xs-12">
-                <label>{{ __('Group by') }}</label>
-
                 <div>
-                  <input type="radio" id="group_event" name="group_by" value="event_name" checked>
-                  <label for="group_event">{{ __('events') }}</label>
-
-                  <input type="radio" id="group_manager" name="group_by" value="manager_name">
-                  <label for="group_manager">{{ __('partners') }}</label>
+                  <input type="checkbox" id="active_only" name="active" value="1">
+                  <label for="active_only">{{ __('Show only active events') }}</label>
                 </div>
               </div>
             </div>
@@ -148,14 +163,14 @@
             <button
                 type="button"
                 class="btn btn-secondary r_export_excel"
-                data-href="{{ route(config('admin.route') . '.reports.export.by_partner') }}"
+                data-href="{{ route(config('admin.route') . '.reports.export.overall') }}"
             >{{ __('Export to Excel') }}</button>
           </div>
         </div>
       </form>
     </div>
 
-    <div id="reportContainer" class="col-md-6 col-lg-8" style="display: none">
+    <div id="reportContainer" class="col-md-12 col-lg-8" style="display: none">
       <div class="box">
         <div class="box-body">
           <section id="reportData"></section>
