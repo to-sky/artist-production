@@ -183,3 +183,26 @@
 .modal-sum {
   margin-top: 20px;
 }
+
+// Admin orders
+.order-table {
+  font-size: 12px;
+  tbody {
+    tr {
+     td {
+       padding: 2px;
+       text-align: center;
+     }
+    }
+  }
+
+  .btn-group-vertical {
+    button, a {
+      background: transparent;
+    }
+  }
+}
+
+table.order-table.table-bordered.dataTable th {
+  vertical-align: baseline;
+}

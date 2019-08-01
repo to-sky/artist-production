@@ -4,10 +4,11 @@
             order: [],
             columnDefs: [
                 {
-                    targets: 'no-sort',
+                    targets: [],
                     orderable: false
                 }
             ],
+            ordering: false,
             language: {
                 url: '{{ route('dataTables.locale', ['locale' => App::getLocale()]) }}'
             }

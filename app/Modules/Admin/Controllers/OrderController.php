@@ -26,6 +26,7 @@ use App\Documents\Invoices\OrderInvoiceDocument;
 
 use Illuminate\Support\Facades\Auth;
 use Prologue\Alerts\Facades\Alert;
+use SebastianBergmann\ObjectReflector\ObjectReflector;
 
 class OrderController extends AdminController
 {
@@ -63,6 +64,11 @@ class OrderController extends AdminController
             $q->whereManagerId($user->id);
         }
         $orders = $q->get();
+
+        $invoiceDocument = new OrderInvoiceDocument($q->find(159));
+        dd($invoiceDocument->getFile('provisional'));
+//        dump($invoice->link('provisional'));
+//        dump($invoice->link('final'));
 
 
         $paymentMethods = PaymentMethod::all()
@@ -135,11 +141,11 @@ class OrderController extends AdminController
 	public function store(Request $request)
 	{
         switch ($request->order_type) {
-            case 'sale': $this->sale($request);
+            case 'sale': $order = $this->sale($request);
             break;
-            case 'realization': $this->realization($request);
+            case 'realization': $order = $this->realization($request);
             break;
-            case 'reserve': $this->reserve($request);
+            case 'reserve': $order = $this->reserve($request);
             break;
         }
 

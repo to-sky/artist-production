@@ -198,4 +198,15 @@ class OrderInvoiceDocument extends AbstractInvoiceDocument
             'mime' => $file->mime,
         ];
     }
+
+    /**
+     * Get invoice file
+     *
+     * @param string $tag
+     * @return File
+     */
+    public function getFile($tag = '')
+    {
+        return $this->_getFile($tag);
+    }
 }
