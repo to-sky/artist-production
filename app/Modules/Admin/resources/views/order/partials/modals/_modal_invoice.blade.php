@@ -5,7 +5,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="modalInvoiceLabel">{{ __('Order invoice') }} № <span id="modalTitleId"></span></h4>
+                <h4 class="modal-title" id="modalInvoiceLabel">{{ __('Order invoice') }} № <span id="modalTitleId">{{ $order->id }}</span></h4>
             </div>
             <div class="modal-body">
                 <table class="table table-bordered">
@@ -17,16 +17,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Резервирование заказа</td>
-                            <td>2019 07 25 23:43:31</td>
-                            <td><button type="button" class="btn btn-xs btn-primary btn-block">Скачать</button></td>
-                        </tr>
-                        <tr>
-                            <td>Оплата заказа</td>
-                            <td>2019 07 25 23:43:31</td>
-                            <td><button type="button" class="btn btn-xs btn-primary btn-block">Скачать</button></td>
-                        </tr>
+                        @foreach($order->invoices as $invoice)
+                            <tr>
+                                <td>{{ $invoice->title }}</td>
+                                <td>{{ $invoice->created_at->format('d.m.Y H:i') }}</td>
+                                <td><a href="{{ $invoice->file->file_url }}" class="btn btn-xs btn-primary btn-block">Скачать</a></td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

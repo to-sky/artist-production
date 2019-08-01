@@ -12,7 +12,6 @@
     @include('Admin::order.partials.modals._modal_change_order_status')
     @include('Admin::order.partials.modals._modal_change_shipping_status')
     @include('Admin::order.partials.modals._modal_comment')
-    @include('Admin::order.partials.modals._modal_invoice')
 
     <div class="box">
         <div class="box-header with-border">
@@ -23,7 +22,7 @@
             </a>
         </div>
 
-        <div class="box-body">
+        <div class="box-body padding-0">
             <div class="col-12 col-sm-12 col-lg-12">
                 <div class="table-responsive">
                     <table id="datatable" class="table table-bordered table-hover order-table">
@@ -135,14 +134,10 @@
                                 </td>
                                 <td>
                                     <div class="btn-group-vertical" role="group">
-                                        <button
-                                                type="button"
-                                                data-toggle="modal"
-                                                data-target="#modalInvoice"
-                                                data-order-id="{{ $order->id }}"
-                                                class="btn btn-xs btn-default text-left">
+                                        <a href="{{ route('invoice.modal', ['id' => $order->id]) }}"
+                                                class="btn btn-xs btn-default text-left invoice-modal">
                                             <i class="fa fa-file-text-o text-green"></i> {{ __('Download invoice') }}
-                                        </button>
+                                        </a>
                                         <a href="{{ route(config('admin.route').'.orders.edit', [$order->id]) }}"
                                            class="btn btn-xs btn-default text-left">
                                             <i class="fa fa-edit text-primary"></i> {{ trans('Admin::admin.users-index-edit') }}
@@ -284,10 +279,18 @@
         });
 
         // Invoices modal
-        $('#modalInvoice').on('show.bs.modal', function (e) {
-            var orderId = $(e.relatedTarget).data('order-id');
+        $('.invoice-modal').click(function(e) {
+            e.preventDefault();
 
-            $('#modalTitleId', this).text(orderId);
+            $.get($(this).attr('href'), function (data) {
+                $('body').append(data);
+                $('#modalInvoice').modal('show');
+            })
+        });
+
+        // Remove modal after close
+        $('body').on('hidden.bs.modal', '#modalInvoice', function () {
+            $(this).remove();
         });
     </script>
 @endsection

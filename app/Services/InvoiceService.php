@@ -4,10 +4,12 @@ namespace App\Services;
 
 
 use App\Documents\Invoices\OrderInvoiceDocument;
+use App\Models\Invoice;
 use App\Models\Order;
 
 class InvoiceService
 {
+
     protected function getStatusTitle(int $status)
     {
         switch ($status) {
@@ -28,23 +30,26 @@ class InvoiceService
     }
 
     // store invoice($order)
-    public function store(Order $order, $fill = [])
+    public function store(Order $order, $fill = [], $tag = '')
     {
         $data = [
-            'title' => $this->getStatusTitle($order->status)
+            'title' => $this->getStatusTitle($order->status),
+            'order_id' => $order->id,
         ];
+
+        $invoiceDocument = new OrderInvoiceDocument($order);
+        if (empty($tag)) {
+            $tag = $this->getInvoiceTag($order->status);
+        }
+
+        $file = $invoiceDocument->getFile($tag);
+
+        $data['file_id'] = $file->id;
 
         if ($fill) $data += $fill;
 
-        $invoice = Invoice::create($data);
-        $invoice->order()->associate($order);
-
-        $invoiceDocument = new OrderInvoiceDocument($order);
-        $tag = $this->getInvoiceTag($order->status);
-
-        dd($invoiceDocument->getFile($tag));
-
-//        $invoice->file()->associate($file);
+        $invoice = Invoice::make($data);
+        $invoice->save();
 
         return $invoice;
     }

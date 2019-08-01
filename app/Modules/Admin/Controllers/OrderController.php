@@ -16,6 +16,7 @@ use App\Models\{Address,
 use App\Modules\Admin\Controllers\AdminController;
 use App\Modules\Admin\Services\RedirectService;
 use App\Services\ClientService;
+use App\Services\InvoiceService;
 use App\Services\ShippingService;
 use App\Services\TicketService;
 use App\Modules\Admin\Requests\CreateOrderRequest;
@@ -64,12 +65,6 @@ class OrderController extends AdminController
             $q->whereManagerId($user->id);
         }
         $orders = $q->get();
-
-        $invoiceDocument = new OrderInvoiceDocument($q->find(159));
-        dd($invoiceDocument->getFile('provisional'));
-//        dump($invoice->link('provisional'));
-//        dump($invoice->link('final'));
-
 
         $paymentMethods = PaymentMethod::all()
             ->pluck('name', 'id')
@@ -154,6 +149,17 @@ class OrderController extends AdminController
         $this->redirectService->setRedirect($request);
 
         return $this->redirectService->redirect($request);
+	}
+
+    /**
+     * Get modal with invoices
+     *
+     * @param Order $order
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getInvoicesModal(Order $order)
+    {
+        return view('Admin::order.partials.modals._modal_invoice', compact('order'));
 	}
 
     /**

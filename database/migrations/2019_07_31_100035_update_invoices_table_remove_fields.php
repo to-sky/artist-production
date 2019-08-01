@@ -15,7 +15,7 @@ class UpdateInvoicesTableRemoveFields extends Migration
     {
         Schema::table('invoices', function (Blueprint $table) {
             if (Schema::hasColumn('invoices', 'client_id')) {
-                $table->dropForeign(['client_id']);
+                $table->dropForeign('invoices_client_id_foreign');
                 $table->dropColumn('client_id');
             }
 

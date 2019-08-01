@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Invoice extends Model
 {
-    protected $fillable = ['comment', 'client_id', 'is_generated', 'order_id'];
+    protected $fillable = ['title', 'file_id', 'is_generated', 'order_id'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -22,5 +22,13 @@ class Invoice extends Model
     public function order()
     {
         return $this->belongsTo('App\Models\Order');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function file()
+    {
+        return $this->belongsTo('App\Models\File');
     }
 }

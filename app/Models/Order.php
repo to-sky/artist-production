@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\InvoiceService;
 use App\Services\TicketService;
 use App\Traits\FilesMorphTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -18,6 +19,8 @@ class Order extends Model
     protected $entity_type;
 
     protected static $ticketService;
+
+    protected static $invoiceService;
 
     /**
      * The attributes that should be mutated to dates.
@@ -37,6 +40,7 @@ class Order extends Model
         $this->entity_type = static::ENTITY_TYPE;
 
         self::$ticketService = new TicketService();
+        self::$invoiceService = new InvoiceService();
     }
 
     const STATUS_PENDING = 0;
@@ -52,6 +56,11 @@ class Order extends Model
 
         static::created(function ($order) {
            self::$ticketService->attachCartToOrder($order);
+           self::$invoiceService->store($order);
+        });
+
+        static::updating(function ($order) {
+            // TODO: check is_reserved
         });
 
         static::deleting(function($order) {
@@ -155,9 +164,9 @@ class Order extends Model
         return $this->hasMany('App\Models\Ticket');
     }
 
-    public function invoice()
+    public function invoices()
     {
-        return $this->hasMany('App\Models\Invoice');
+        return $this->hasMany('App\Models\Invoice')->orderBy('created_at');
     }
 
     public function shippingZone()
