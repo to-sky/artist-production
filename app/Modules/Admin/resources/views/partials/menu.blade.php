@@ -79,6 +79,12 @@
                     {{ trans('Admin::admin.overall') }}
                 </a>
             </li>
+            <li class="@if(strpos(Request::path(), 'events') !== false){{ 'active' }}@endif">
+                <a href="{{ route(config('admin.route') . '.reports.events') }}">
+                    <i class="fa fa-circle-o"></i>
+                    {{ trans('Admin::admin.events') }}
+                </a>
+            </li>
         </ul>
     </li>
     <li class="treeview @if(strpos(Request::path(), 'settings') !== false){{ 'active menu-open' }}@endif">

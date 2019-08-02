@@ -123,6 +123,7 @@ return [
     'by_partner' => 'By Partner',
     'by_bookkeeper' => 'By Cashier',
     'overall' => 'Summary report',
+    'events' => 'Events',
 
     'back-to-all-entries' => 'Back to All Entries'
 ];

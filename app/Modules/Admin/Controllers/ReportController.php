@@ -13,6 +13,7 @@ use App\Models\Ticket;
 use App\Modules\Admin\Requests\ByBookkepperReportRequest;
 use App\Modules\Admin\Requests\ByPartnersReportRequest;
 use App\Modules\Admin\Requests\EventOptionsRequest;
+use App\Modules\Admin\Requests\EventReportRequest;
 use App\Modules\Admin\Requests\OverallReportRequest;
 use App\Modules\Admin\Services\RedirectService;
 use App\Services\ReportService;
@@ -153,6 +154,19 @@ class ReportController extends AdminController
         $hash = md5(Carbon::now());
 
         return Excel::download($excel, "rep_overall_{$hash}.xlsx");
+    }
+
+    public function events()
+    {
+        $eventsPeriodStart = Carbon::now();
+        $eventsPeriodEnd = Carbon::now()->addMonths(6);
+
+        return view('Admin::report.event', compact('eventsPeriodStart', 'eventsPeriodEnd'));
+    }
+
+    public function getEventsData(EventReportRequest $request)
+    {
+        return $this->_reportService->displayEventData($request);
     }
 
     public function exportTicketSales(Event $event)

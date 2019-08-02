@@ -334,3 +334,24 @@
     display: none;
   }
 }
+
+.events-report-table {
+  width: 100%;
+
+  .heading td {
+    padding: 5px;
+    border: solid 1px #ccc;
+    text-align: center;
+  }
+
+  .body {
+    td {
+      padding: 5px;
+      border: solid 1px #ccc;
+
+      &:nth-child(2) {
+        text-align: center;
+      }
+    }
+  }
+}

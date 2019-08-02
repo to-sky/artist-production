@@ -352,5 +352,8 @@
     "Payment date": "Дата оплаты",
     "Report composed at": "Отчет составлен",
     "Tickets left": "Оставшиеся билеты",
-    "Total price": "Итого"
+    "Total price": "Итого",
+    "ID": "ИД",
+    "Is active?": "Активно?",
+    "Building name": "Здание"
 }

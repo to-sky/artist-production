@@ -24,6 +24,7 @@
       var initialStart = $picker.data('start') || '';
       var initialEnd = $picker.data('end') || '';
       var name = $picker.data('name');
+      var className = $picker.data('class') || '';
 
       if (!name) return;
 
@@ -31,8 +32,8 @@
           '<i class="fa fa-calendar"></i>\n' +
           '<span class="range_display"></span>\n' +
           '<i class="fa fa-caret-down"></i>' +
-          '<input type="text" style="display: none" name="'+name+'_start" value="'+initialStart+'">' +
-          '<input type="text" style="display: none" name="'+name+'_end" value="'+initialEnd+'">'
+          '<input type="text" class="'+className+'" style="display: none" name="'+name+'_start" value="'+initialStart+'">' +
+          '<input type="text" class="'+className+'" style="display: none" name="'+name+'_end" value="'+initialEnd+'">'
       );
 
       var $display = $picker.find('.range_display');

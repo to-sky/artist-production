@@ -126,6 +126,7 @@ return [
     'by_partner' => 'Продажи партнеров',
     'by_bookkeeper' => 'Продажи кассиров',
     'overall' => 'Общий отчет',
+    'events' => 'Мероприятия',
 
     'back-to-all-entries' => 'Назад ко всем записям'
 

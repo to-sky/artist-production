@@ -13,6 +13,7 @@ use App\Models\Ticket;
 use App\Models\User;
 use App\Modules\Admin\Requests\ByBookkepperReportRequest;
 use App\Modules\Admin\Requests\ByPartnersReportRequest;
+use App\Modules\Admin\Requests\EventReportRequest;
 use App\Modules\Admin\Requests\OverallReportRequest;
 use Carbon\Carbon;
 use DB;
@@ -635,6 +636,57 @@ class ReportService
         $fullEventName = $composedNames[$event->id];
 
         return view('Admin::report.unsold_tickets', compact('table', 'fullEventName'));
+    }
+
+    public function getEventData(EventReportRequest $request)
+    {
+        $eventsPeriodStart = $request->get('event_period_start');
+        $eventsPeriodEnd = $request->get('event_period_end');
+        $eventId = $request->get('event_id');
+        $isActive = $request->get('is_active');
+        $eventName = $request->get('event_name');
+        $city = $request->get('event_cidy');
+        $building = $request->get('event_building');
+        $hall = $request->get('event_hall');
+
+        $q = DB::table('events')
+            ->select([
+                'events.id as id',
+                'is_active',
+                'date',
+                'events.name as name',
+                'halls.name as hall_name',
+                'buildings.name as building_name',
+                'cities.name as city_name',
+
+            ])
+            ->leftJoin('halls', 'halls.id', '=', 'events.hall_id')
+            ->leftJoin('buildings', 'buildings.id', '=', 'halls.building_id')
+            ->leftJoin('cities', 'cities.id', '=', 'buildings.city_id')
+        ;
+
+        if ($eventsPeriodStart && $eventsPeriodEnd) $q->whereBetween('date', [
+            "$eventsPeriodStart 00:00:00",
+            "$eventsPeriodEnd 23:59:59",
+        ]);
+        if ($eventId) $q->where('events.id', $eventId);
+        if ($isActive === '1') $q->where('is_active', 1);
+        if ($isActive === '0') $q->where('is_active', 0);
+        if ($eventName) $q->where('events.name', 'like', "%$eventName%");
+        if ($city) $q->where('cities.name', 'like', "%$city%");
+        if ($building) $q->where('buildings.name', 'like', "%$building%");
+        if ($hall) $q->where('halls.name', 'like', "%$hall%");
+
+        $data = $q->get();
+
+        return $data;
+    }
+
+    public function displayEventData(EventReportRequest $request)
+    {
+        $data = $this->getEventData($request);
+
+        return view('Admin::report.event_data', compact('data'));
     }
 
     protected function _getComposedEventNames($ids, $forJS = false)

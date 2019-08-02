@@ -123,6 +123,7 @@ return [
     'by_partner' => 'Mit dem Partner',
     'by_bookkeeper' => 'Mit der Kasse',
     'overall' => 'Zusammenfassender Bericht',
+    'events' => 'Veranstaltungen',
 
     'back-to-all-entries' => 'Zurück zu allen Einträgen'
 ];

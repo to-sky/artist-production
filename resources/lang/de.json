@@ -349,5 +349,8 @@
   "Payment date": "Zahlungsdatum",
   "Report composed at": "Bericht verfasst um",
   "Tickets left": "Tickets nicht verkauft",
-  "Total price": "Gesamt"
+  "Total price": "Gesamt",
+  "ID": "ID",
+  "Is active?": "Ist aktiv?",
+  "Building name": "Gebäudename"
 }

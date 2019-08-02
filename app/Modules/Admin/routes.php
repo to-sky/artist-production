@@ -204,6 +204,9 @@ Route::group([
         Route::get('overall/data', 'ReportController@getOverallData')->name(config('admin.route') . '.reports.data.overall');
         Route::get('overall/export', 'ReportController@exportOverallData')->name(config('admin.route') . '.reports.export.overall');
 
+        Route::get('events', 'ReportController@events')->name(config('admin.route') . '.reports.events');
+        Route::get('events/data', 'ReportController@getEventsData')->name(config('admin.route') . '.reports.data.events');
+
         Route::get('export/tickets/{event}', 'ReportController@exportTicketSales')->name(config('admin.route') . '.reports.export.tickets');
         Route::get('export/tickets/{event}/unsold', 'ReportController@exportTicketsUnsold')->name(config('admin.route') . '.reports.export.tickets.unsold');
     });
