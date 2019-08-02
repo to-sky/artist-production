@@ -182,13 +182,18 @@ Route::group([
     });
 
     Route::prefix('admin/reports')->group(function () {
-        Route::get('/', function (\App\Modules\Admin\Services\RedirectService $redirectService) {
+        Route::get('/', function () {
             // @todo: implement redirect service method to redirect different user to different starter reports
 
             return redirect()->route(config('admin.route') . '.reports.by_partner');
         })->name(config('admin.route') . '.reports.index');
 
         Route::get('event/options', 'ReportController@getEventsOptions')->name(config('admin.route') . '.reports.events');
+
+
+        Route::get('partner', 'ReportController@partner')->name(config('admin.route') . '.reports.partner');
+        Route::get('partner/data', 'ReportController@getPartnerData')->name(config('admin.route') . '.reports.data.partner');
+        Route::get('partner/export', 'ReportController@exportPartnerData')->name(config('admin.route') . '.reports.export.partner');
 
         Route::get('by_partner', 'ReportController@byPartners')->name(config('admin.route') . '.reports.by_partner');
         Route::get('by_partner/data', 'ReportController@getByPartnersData')->name(config('admin.route') . '.reports.data.by_partner');

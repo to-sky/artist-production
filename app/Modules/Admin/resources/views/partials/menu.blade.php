@@ -61,6 +61,7 @@
             </span>
         </a>
         <ul class="treeview-menu">
+            @role([\App\Models\Role::ADMIN])
             <li class="@if(strpos(Request::path(), 'by_partner') !== false){{ 'active' }}@endif">
                 <a href="{{ route(config('admin.route') . '.reports.by_partner') }}">
                     <i class="fa fa-circle-o"></i>
@@ -85,6 +86,15 @@
                     {{ trans('Admin::admin.events') }}
                 </a>
             </li>
+            @endrole
+            @role([\App\Models\Role::PARTNER])
+            <li class="@if(strpos(Request::path(), 'partner') !== false){{ 'active' }}@endif">
+                <a href="{{ route(config('admin.route') . '.reports.partner') }}">
+                    <i class="fa fa-circle-o"></i>
+                    {{ trans('Admin::admin.partner') }}
+                </a>
+            </li>
+            @endrole
         </ul>
     </li>
     <li class="treeview @if(strpos(Request::path(), 'settings') !== false){{ 'active menu-open' }}@endif">

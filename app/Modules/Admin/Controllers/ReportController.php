@@ -7,6 +7,7 @@ use App\Exports\ByBookkeeperTicketsExport;
 use App\Exports\ByPartnerReportExport;
 use App\Exports\EventSoldTicketsExport;
 use App\Exports\OverallReportExport;
+use App\Exports\PartnerReportExport;
 use App\Models\Event;
 use App\Models\Order;
 use App\Models\Ticket;
@@ -15,6 +16,7 @@ use App\Modules\Admin\Requests\ByPartnersReportRequest;
 use App\Modules\Admin\Requests\EventOptionsRequest;
 use App\Modules\Admin\Requests\EventReportRequest;
 use App\Modules\Admin\Requests\OverallReportRequest;
+use App\Modules\Admin\Requests\PartnerReportRequest;
 use App\Modules\Admin\Services\RedirectService;
 use App\Services\ReportService;
 use Carbon\Carbon;
@@ -180,5 +182,37 @@ class ReportController extends AdminController
     public function exportTicketsUnsold(Event $event)
     {
         return $this->_reportService->displayEventUnsoldTickets($event);
+    }
+
+    public function partner()
+    {
+        $salesStart = Carbon::now()->startOfMonth()->format('Y-m-d');
+        $salesEnd = Carbon::now()->endOfMonth()->format('Y-m-d');
+        $eventNames = ReportService::getEventNamesOptions();
+        $orderStatusOptions = ReportService::getOrderStatusesOptions();
+        $defaultStatuses = [
+            Order::STATUS_CONFIRMED,
+        ];
+
+        return view('Admin::report.partner', compact(
+            'salesStart',
+            'salesEnd',
+            'eventNames',
+            'orderStatusOptions',
+            'defaultStatuses'
+        ));
+    }
+
+    public function getPartnerData(PartnerReportRequest $request)
+    {
+        return $this->_reportService->displayPartnerData($request);
+    }
+
+    public function exportPartnerData(PartnerReportRequest $request)
+    {
+        $excel = new PartnerReportExport($this->_reportService, $request);
+        $hash = md5(Carbon::now());
+
+        return Excel::download($excel, "rep_my_sales_{$hash}.xlsx");
     }
 }

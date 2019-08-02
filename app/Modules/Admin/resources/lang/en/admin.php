@@ -124,6 +124,7 @@ return [
     'by_bookkeeper' => 'By Cashier',
     'overall' => 'Summary report',
     'events' => 'Events',
+    'partner' => 'My Sales',
 
     'back-to-all-entries' => 'Back to All Entries'
 ];

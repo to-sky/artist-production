@@ -15,8 +15,10 @@ use App\Modules\Admin\Requests\ByBookkepperReportRequest;
 use App\Modules\Admin\Requests\ByPartnersReportRequest;
 use App\Modules\Admin\Requests\EventReportRequest;
 use App\Modules\Admin\Requests\OverallReportRequest;
+use App\Modules\Admin\Requests\PartnerReportRequest;
 use Carbon\Carbon;
 use DB;
+use Auth;
 
 
 class ReportService
@@ -1089,5 +1091,192 @@ class ReportService
             'sold_count' => __('Total of sold tickets'),
             'all_transactions_count' => __('Total of sold tickets and in realization'),
         ];
+    }
+
+    public function getPartnerData(PartnerReportRequest $request)
+    {
+        $eventNames = $request->get('event_name', []);
+        $eventPeriodStart = $request->get('event_period_start');
+        $eventPeriodEnd = $request->get('event_period_end');
+        $eventIds = $request->get('event_ids', []);
+        $salePeriodStart = $request->get('sale_period_start');
+        $salePeriodEnd = $request->get('sale_period_end');
+        $orderStatuses = $request->get('order_statuses', []);
+
+        $query = DB
+            ::table('orders')
+            ->where('manager_id', Auth::id())
+        ;
+
+        if ($eventIds || $eventNames || $eventPeriodStart && $eventPeriodEnd)
+            $query->whereExists(function ($q) use ($eventIds, $eventNames, $eventPeriodStart, $eventPeriodEnd) {
+                $q
+                    ->select(DB::raw(1))
+                    ->from('tickets')
+                    ->whereRaw('tickets.order_id = orders.id')
+                ;
+
+                if ($eventIds) {
+                    $q->whereIn('event_id', $eventIds);
+                } else if ($eventNames) {
+                    $q->where(function ($q) use($eventNames) {
+                        foreach ($eventNames as $name) {
+                            $q->orWhere('name', 'like', "%$name%");
+                        }
+                    });
+                }
+
+                if ($eventPeriodStart && $eventPeriodEnd) {
+                    $q->whereBetween('date', ["$eventPeriodStart 00:00:00", "$eventPeriodEnd 23:59:59"]);
+                }
+            });
+
+        if ($salePeriodStart && $salePeriodEnd) $query->whereBetween('created_at', [
+            "$salePeriodStart 00:00:00",
+            "$salePeriodEnd 23:59:59",
+        ]);
+
+        if ($orderStatuses) $query->whereIn('status', $orderStatuses);
+
+        $orderIds = $query->pluck('id');
+
+        $dataQuery = DB
+            ::table('tickets')
+            ->leftJoin('orders', 'orders.id', '=', 'tickets.order_id')
+            ->select([
+                DB::raw('(select concat(coalesce(u.first_name, ""), " ", coalesce(u.last_name, "")) from users u where u.id = orders.manager_id) as manager_name'),
+                DB::raw('count(tickets.id) as count'),
+                DB::raw('sum(tickets.discount) as discount'),
+                'manager_id',
+                'event_id',
+                'price_id',
+                'price_group_id',
+                'orders.status as status',
+            ])
+            ->whereIn('order_id', $orderIds)
+            ->groupBy([
+                'manager_name',
+                'manager_id',
+                'event_id',
+                'price_id',
+                'price_group_id',
+                'status',
+            ])
+        ;
+
+        if ($eventIds) $dataQuery->whereIn('event_id', $eventIds);
+
+        $data = $dataQuery->get();
+        $eventIds = $data->pluck('event_id');
+
+        $eventNames = $this->_getComposedEventNames($eventIds);
+
+        foreach ($data as $row) {
+            $row->event_name = $eventNames[$row->event_id];
+            $row->price = PriceHelper::getPriceWithGroup($row->price_id, $row->price_group_id);
+        }
+
+        $data = $data->groupBy('event_name');
+
+        return $data;
+    }
+
+    public function displayPartnerData(PartnerReportRequest $request)
+    {
+        $data = $this->getPartnerData($request);
+        $totals = $this->_getPartnerTotals($data);
+        $tickets = $this->_getPartnerTicketsCalculation($data);
+        $salePeriodStart = $request->get('sale_period_start');
+        $salePeriodEnd = $request->get('sale_period_end');
+        $eventPeriodStart = $request->get('event_period_start');
+        $eventPeriodEnd = $request->get('event_period_end');
+
+        return view('Admin::report.partner_data', [
+            'data' => $data,
+            'totals' => $totals,
+            'request' => $request,
+            'tickets' => $tickets,
+            'salePeriodStart' => $salePeriodStart,
+            'salePeriodEnd' => $salePeriodEnd,
+            'eventPeriodStart' => $eventPeriodStart,
+            'eventPeriodEnd' => $eventPeriodEnd,
+            'displayStatuses' => self::getOrderStatusesOptions(),
+        ]);
+    }
+
+    public function exportPartnerData(PartnerReportRequest $request)
+    {
+        $data = $this->getPartnerData($request);
+        $totals = $this->_getPartnerTotals($data);
+        $tickets = $this->_getPartnerTicketsCalculation($data);
+        $salePeriodStart = $request->get('sale_period_start');
+        $salePeriodEnd = $request->get('sale_period_end');
+        $eventPeriodStart = $request->get('event_period_start');
+        $eventPeriodEnd = $request->get('event_period_end');
+
+        return view('Admin::report.partner_export', [
+            'data' => $data,
+            'totals' => $totals,
+            'request' => $request,
+            'tickets' => $tickets,
+            'salePeriodStart' => $salePeriodStart,
+            'salePeriodEnd' => $salePeriodEnd,
+            'eventPeriodStart' => $eventPeriodStart,
+            'eventPeriodEnd' => $eventPeriodEnd,
+            'displayStatuses' => self::getOrderStatusesOptions(),
+        ]);
+    }
+
+    protected function _getPartnerTotals($data)
+    {
+        $totals = [
+            'count' => 0,
+            'price' => 0,
+            'discount' => 0,
+        ];
+        foreach ($data as $eventName => $eventData)
+        {
+            if (!isset($totals[$eventName])) {
+                $totals[$eventName] = [];
+                $totals[$eventName]['count'] = 0;
+                $totals[$eventName]['price'] = 0;
+                $totals[$eventName]['discount'] = 0;
+            }
+
+            $count = $eventData->sum('count');
+            $price = $eventData->sum(function ($row) {
+                return $row->count * $row->price;
+            });
+            $discount = $eventData->sum('discount');
+
+            $totals[$eventName]['count'] += $count;
+            $totals[$eventName]['price'] += $price;
+            $totals[$eventName]['discount'] += $discount;
+
+            $totals['count'] += $count;
+            $totals['price'] += $price;
+            $totals['discount'] += $discount;
+        }
+
+        return $totals;
+    }
+
+    protected function _getPartnerTicketsCalculation($data)
+    {
+        $calc = [];
+        foreach ($data as $firstGrouping) {
+            foreach ($firstGrouping as $row) {
+                if (empty($calc[$row->price])) $calc[$row->price] = [
+                    'price' => $row->price,
+                    'count' => 0,
+                    'sum' => 0,
+                ];
+
+                $calc[$row->price]['count'] += $row->count;
+                $calc[$row->price]['sum'] += $row->count * $row->price;
+            }
+        }
+
+        return collect($calc)->sortBy('price');
     }
 }

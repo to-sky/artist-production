@@ -2,7 +2,10 @@
 
 namespace App\Modules\Admin\Requests;
 
+use App\Models\Role;
 use Illuminate\Foundation\Http\FormRequest;
+
+use Auth;
 
 class PartnerReportRequest extends FormRequest
 {
@@ -13,7 +16,7 @@ class PartnerReportRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return Auth::check() && Auth::user()->hasRole(Role::PARTNER);
     }
 
     /**

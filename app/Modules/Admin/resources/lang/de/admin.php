@@ -124,6 +124,7 @@ return [
     'by_bookkeeper' => 'Mit der Kasse',
     'overall' => 'Zusammenfassender Bericht',
     'events' => 'Veranstaltungen',
+    'partner' => "Meine Verkäufe",
 
     'back-to-all-entries' => 'Zurück zu allen Einträgen'
 ];
