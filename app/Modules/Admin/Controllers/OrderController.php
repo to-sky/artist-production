@@ -68,7 +68,7 @@ class OrderController extends AdminController
         if ($user->hasRole(Role::PARTNER)) {
             $q->whereManagerId($user->id);
         }
-        $orders = $q->get();
+        $orders = $q->orderBy('id', 'desc')->get();
 
         $paymentMethods = PaymentMethod::all()
             ->pluck('name', 'id')
