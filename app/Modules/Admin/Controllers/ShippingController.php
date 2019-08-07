@@ -2,6 +2,7 @@
 
 namespace App\Modules\Admin\Controllers;
 
+use App\Helpers\CountryHelper;
 use App\Models\{Country, Shipping, ShippingZone};
 use Illuminate\Http\Request;
 use App\Modules\Admin\Requests\ShippingRequest;
@@ -182,7 +183,7 @@ class ShippingController extends AdminController
     public function generateParams()
     {
         $shippingZones = ShippingZone::get()->pluck('name', 'id');
-        $countries = Country::all()->pluck('name', 'id')->prepend('All World', Country::WORLD);
+        $countries = CountryHelper::getList(true);
 
         view()->share('shippingZones', $shippingZones);
         view()->share('countries', $countries);

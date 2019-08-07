@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Helpers\CountryHelper;
 use App\Models\Address;
 use App\Models\Country;
 use App\Models\Order;
@@ -40,7 +41,7 @@ class PaymentController
         $shippings = Shipping::all();
         $paymentMethods = PaymentMethod::where('active', PaymentMethod::ACTIVE)->get();
 
-        $countries = Country::pluck('name', 'id')->toArray();
+        $countries = CountryHelper::getList();
         $addresses = Address::whereUserId(Auth::id())->get();
 
         return view('payment.checkout', compact(

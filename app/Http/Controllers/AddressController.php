@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\CountryHelper;
 use App\Http\Requests\AddressRequest;
 use App\Models\Address;
 
@@ -30,7 +31,7 @@ class AddressController extends Controller
      */
     public function create()
     {
-        $countries = Country::pluck('name', 'id');
+        $countries = CountryHelper::getList();
 
         return view('addresses.create', compact('countries'));
     }
@@ -60,7 +61,7 @@ class AddressController extends Controller
      */
     public function show(Address $address)
     {
-        $countries = Country::pluck('name', 'id');
+        $countries = CountryHelper::getList();
 
         return view('addresses.show', compact('address', 'countries'));
     }

@@ -2,6 +2,7 @@
 
 namespace App\Modules\Admin\Controllers;
 
+use App\Helpers\CountryHelper;
 use App\Models\Client;
 use App\Models\Country;
 use App\Models\User;
@@ -56,7 +57,7 @@ class ClientController extends AdminController {
 	 */
 	public function create()
 	{
-	    $countries = Country::pluck('name', 'id')->toArray();
+	    $countries = CountryHelper::getList();
         $countryCodes = Country::pluck('code')->toArray();
 	    $addresses = [];
         $types = Profile::getTypes();
@@ -96,7 +97,7 @@ class ClientController extends AdminController {
 	{
 	    $client->loadMissing('profile', 'addresses');
 
-        $countries = Country::pluck('name', 'id')->toArray();
+        $countries = CountryHelper::getList();
         $addresses = $client->addresses->toArray();
         $countryCodes = Country::pluck('code')->toArray();
         $types = Profile::getTypes();
