@@ -48,6 +48,7 @@
     "First name": "Имя",
     "Last name": "Фамилия",
     "Email": "E-Mail адрес",
+    "Email Confirm": "Пожтверждение E-Mail адреса",
     "Phone": "Телефон",
     "Commission": "Комиссия",
     "Commission %": "Комиссия, %",
@@ -155,6 +156,8 @@
     "Block": "Блок",
     "Row": "Ряд",
     "Seat": "Место",
+    "Sitting place": "Сидячие места",
+    "Standing place": "Стоячие места",
     "Ap. :apartment": "Кв. :apartment",
     "Another addresses": "Другие адреса",
     "Mandatory field": "Обязательное поле",
@@ -362,5 +365,8 @@
     "ID": "ИД",
     "Is active?": "Активно?",
     "Building name": "Здание",
-    "My sales": "Мои продажи"
+    "My sales": "Мои продажи",
+    "Event name": "Название Мер-ия",
+    "Tickets num.": "Кол-во билетов",
+    "Building address": "Адрес строения"
 }

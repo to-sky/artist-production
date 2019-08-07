@@ -48,6 +48,7 @@
   "First name": "Vorname",
   "Last name": "Nachname",
   "Email": "Email",
+  "Email Confirm": "Email bestätigen",
   "Phone": "Telefon",
   "Commission": "Kommission",
   "Commission %": "Kommission, %",
@@ -146,6 +147,8 @@
   "Block": "Block",
   "Row": "Reihe",
   "Seat": "Platz",
+  "Sitting place": "Sitzplatz",
+  "Standing place": "Stehplatz",
   "Ap. :apartment": "Wohnung :apartment",
   "Another addresses": "Weitere Adressen",
   "Mandatory field": "Pflichtfeld",
@@ -359,5 +362,8 @@
   "ID": "ID",
   "Is active?": "Ist aktiv?",
   "Building name": "Gebäudename",
-  "My sales": "Meine Verkäufe"
+  "My sales": "Meine Verkäufe",
+  "Event name": "Veranstaltungsname",
+  "Tickets num.": "Ticket Nummer",
+  "Building address": "Gebäudeadresse"
 }

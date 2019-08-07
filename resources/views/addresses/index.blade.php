@@ -30,11 +30,11 @@
                 <table class="ap_table ap_table--striped link_table">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Country</th>
-                            <th>City</th>
-                            <th>Post code</th>
-                            <th>Building</th>
+                            <th>{{ __('Name') }}</th>
+                            <th>{{ __('Country') }}</th>
+                            <th>{{ __('City') }}</th>
+                            <th>{{ __('Post code') }}</th>
+                            <th>{{ __('Building address') }}</th>
                             <th></th>
                         </tr>
                     </thead>
