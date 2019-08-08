@@ -108,6 +108,7 @@ return [
     'Settings' => 'die Einstellungen',
     'Mail' => 'Mail',
     'Orders' => 'Aufträge',
+    'Reports' => 'Bericht',
 
     // actions
     'index' => 'Liste',
@@ -119,6 +120,11 @@ return [
     'set-to-default' => 'Standard',
     'mail' => 'Mail',
     'profile' => 'Profil',
+    'by_partner' => 'Mit dem Partner',
+    'by_bookkeeper' => 'Mit der Kasse',
+    'overall' => 'Zusammenfassender Bericht',
+    'events' => 'Veranstaltungen',
+    'partner' => "Meine Verkäufe",
 
     'back-to-all-entries' => 'Zurück zu allen Einträgen'
 ];

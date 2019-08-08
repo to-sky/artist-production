@@ -31,6 +31,14 @@
   }
 }
 
+.select2 {
+  width: 100% !important;
+}
+
+.select2-container--default .select2-selection--multiple {
+  height: auto;
+}
+
 // Buttons
 .btn.btn-file-upload {
   border: 1px solid #d2d6de;

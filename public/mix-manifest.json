@@ -2,5 +2,6 @@
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
     "/css/reset.css": "/css/reset.css",
+    "/css/reports.css": "/css/reports.css",
     "/widget/js/app.js": "/widget/js/app.js"
 }

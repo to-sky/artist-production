@@ -185,4 +185,39 @@ Route::group([
 
         Route::get('invoices/modal/{order}', 'OrderController@getInvoicesModal')->name('invoice.modal');
     });
+
+    Route::prefix('admin/reports')->group(function () {
+        Route::get('/', function () {
+            // @todo: implement redirect service method to redirect different user to different starter reports
+
+            return redirect()->route(config('admin.route') . '.reports.by_partner');
+        })->name(config('admin.route') . '.reports.index');
+
+        Route::get('event/options', 'ReportController@getEventsOptions')->name(config('admin.route') . '.reports.events');
+
+
+        Route::get('partner', 'ReportController@partner')->name(config('admin.route') . '.reports.partner');
+        Route::get('partner/data', 'ReportController@getPartnerData')->name(config('admin.route') . '.reports.data.partner');
+        Route::get('partner/export', 'ReportController@exportPartnerData')->name(config('admin.route') . '.reports.export.partner');
+
+        Route::get('by_partner', 'ReportController@byPartners')->name(config('admin.route') . '.reports.by_partner');
+        Route::get('by_partner/data', 'ReportController@getByPartnersData')->name(config('admin.route') . '.reports.data.by_partner');
+        Route::get('by_partner/export', 'ReportController@exportByPartnerData')->name(config('admin.route') . '.reports.export.by_partner');
+
+        Route::get('by_bookkeeper', 'ReportController@byBookkeepers')->name(config('admin.route') . '.reports.by_bookkeeper');
+        Route::get('by_bookkeeper/data', 'ReportController@getByBookkeepersData')->name(config('admin.route') . '.reports.data.by_bookkeeper');
+        Route::get('by_bookkeeper/export', 'ReportController@exportByBookkeeperData')->name(config('admin.route') . '.reports.export.by_bookkeeper');
+        Route::get('by_bookkeeper/export/tickets', 'ReportController@exportByBookkeepersTickets')
+            ->name(config('admin.route') . '.reports.export.by_bookkeeper.tickets');
+
+        Route::get('overall', 'ReportController@overall')->name(config('admin.route') . '.reports.overall');
+        Route::get('overall/data', 'ReportController@getOverallData')->name(config('admin.route') . '.reports.data.overall');
+        Route::get('overall/export', 'ReportController@exportOverallData')->name(config('admin.route') . '.reports.export.overall');
+
+        Route::get('events', 'ReportController@events')->name(config('admin.route') . '.reports.events');
+        Route::get('events/data', 'ReportController@getEventsData')->name(config('admin.route') . '.reports.data.events');
+
+        Route::get('export/tickets/{event}', 'ReportController@exportTicketSales')->name(config('admin.route') . '.reports.export.tickets');
+        Route::get('export/tickets/{event}/unsold', 'ReportController@exportTicketsUnsold')->name(config('admin.route') . '.reports.export.tickets.unsold');
+    });
 });
