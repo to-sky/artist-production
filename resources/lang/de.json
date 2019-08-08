@@ -308,5 +308,8 @@
   "Delete": "Löschen",
   "Download invoice": "Download rechnung",
   "Order invoice": "Rechnung bestellen",
-  "Client address not set": "Clientadresse nicht festgelegt"
+  "Client address not set": "Clientadresse nicht festgelegt",
+  "Regenerate invoice": "Rechnung neu generieren",
+  "Invoice successfully regenerated": "Rechnung erfolgreich neu generiert",
+  "Invoice regeneration": "Rechnungsregenerierung"
 }

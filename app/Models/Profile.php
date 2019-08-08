@@ -28,15 +28,7 @@ class Profile extends Model
     protected $table = 'profiles';
 
     protected $fillable = [
-        'first_name',
-        'last_name',
-        'email',
         'phone',
-        'street',
-        'house',
-        'city',
-        'country_id',
-        'post_code',
         'commission',
         'type',
         'code',
@@ -49,7 +41,7 @@ class Profile extends Model
      *
      * @var array
      */
-    protected $appends = ['fullname', 'types'];
+    protected $appends = ['types'];
 
 
     public static function boot()
@@ -78,11 +70,6 @@ class Profile extends Model
     public function user()
     {
         return $this->belongsTo('App\Models\User');
-    }
-
-    public function getFullnameAttribute()
-    {
-        return $this->first_name . ' ' . $this->last_name;
     }
 
     public function getTypesAttribute()

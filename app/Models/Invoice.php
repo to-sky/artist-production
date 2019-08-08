@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Invoice extends Model
 {
-    protected $fillable = ['title', 'file_id', 'is_generated', 'order_id'];
+    protected $fillable = ['title', 'file_id', 'is_regenerated', 'order_id'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

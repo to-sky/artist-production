@@ -37,16 +37,20 @@ class OrderController extends AdminController
 
     protected $clientService;
 
+    protected $invoiceService;
+
     public function __construct(
         RedirectService $redirectService,
         TicketService $ticketService,
         ShippingService $shippingService,
-        ClientService $clientService
+        ClientService $clientService,
+        InvoiceService $invoiceService
     )
     {
         $this->ticketService = $ticketService;
         $this->shippingService = $shippingService;
         $this->clientService = $clientService;
+        $this->invoiceService = $invoiceService;
 
         parent::__construct($redirectService);
     }
@@ -136,11 +140,11 @@ class OrderController extends AdminController
 	public function store(Request $request)
 	{
         switch ($request->order_type) {
-            case 'sale': $order = $this->sale($request);
+            case 'sale': $this->sale($request);
             break;
-            case 'realization': $order = $this->realization($request);
+            case 'realization': $this->realization($request);
             break;
-            case 'reserve': $order = $this->reserve($request);
+            case 'reserve': $this->reserve($request);
             break;
         }
 
@@ -354,7 +358,8 @@ class OrderController extends AdminController
         $order->update([
             'payer_id' => Auth::id(),
             'paid_at' => Carbon::now(),
-            'payment_status' => Shipping::STATUS_DELIVERED
+            'payment_status' => Shipping::STATUS_DELIVERED,
+            'status' => Order::STATUS_CONFIRMED
         ]);
 
         return response()->json(null, 204);
@@ -399,6 +404,29 @@ class OrderController extends AdminController
         ]);
 
         return response()->json(null, 204);
+	}
+
+    /**
+     * Regenerate invoice
+     *
+     * @param Order $order
+     * @return \Prologue\Alerts\AlertsMessageBag
+     */
+    public function regenerateInvoice(Order $order)
+    {
+        $invoice = $order->getInvoice('provisional');
+        $title = $invoice->is_regenerated
+            ? $invoice->title
+            : $invoice->title . ' (' . __('Invoice regeneration') . ')';
+
+        $is_regenerated = $invoice->is_regenerated + 1;
+
+        $invoice->delete();
+        $order->provisionalInvoice->delete();
+
+        $this->invoiceService->store($order, 'provisional', compact('title', 'is_regenerated'));
+
+        return Alert::success(__('Invoice successfully regenerated'))->flash();
 	}
 
     /**

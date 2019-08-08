@@ -63,23 +63,23 @@
                         <h4>{{ __('Address') }}</h4>
                         <div class="form-group">
                             {!! Form::label('street', __('Street')) !!}
-                            {!! Form::text('street', old('street', $client->profile->street), array('class'=>'form-control')) !!}
+                            {!! Form::text('street', old('street', $clientAddress->street), array('class'=>'form-control')) !!}
                         </div>
                         <div class="form-group">
                             {!! Form::label('house', __('House')) !!}
-                            {!! Form::text('house', old('house', $client->profile->house), array('class'=>'form-control')) !!}
+                            {!! Form::text('house', old('house', $clientAddress->house), array('class'=>'form-control')) !!}
                         </div>
                         <div class="form-group">
                             {!! Form::label('post_code', __('Post code')) !!}
-                            {!! Form::text('post_code', old('post_code', $client->profile->post_code), array('class'=>'form-control')) !!}
+                            {!! Form::text('post_code', old('post_code', $clientAddress->post_code), array('class'=>'form-control')) !!}
                         </div>
                         <div class="form-group">
                             {!! Form::label('city', __('City')) !!}
-                            {!! Form::text('city', old('city', $client->profile->city), array('class'=>'form-control')) !!}
+                            {!! Form::text('city', old('city', $clientAddress->city), array('class'=>'form-control')) !!}
                         </div>
                         <div class="form-group">
                             {!! Form::label('country_id', __('Country')) !!}
-                            {!! Form::select('country_id', $countries, old('country_id', $client->profile->country_id), array('class'=>'form-control')) !!}
+                            {!! Form::select('country_id', $countries, old('country_id', $clientAddress->country_id), array('class'=>'form-control')) !!}
                         </div>
                         <div class="form-group">
                             <button type="button" id="manage-addresses" class="btn btn-primary">

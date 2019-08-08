@@ -180,6 +180,7 @@ Route::group([
             Route::post('change_order_status/{order}', 'OrderController@changeOrderStatus')->name('order.changeOrderStatus');
             Route::post('change_shipping_status/{order}', 'OrderController@changeShippingStatus')->name('order.changeShippingStatus');
             Route::post('remove_ticket/{order}/{ticket}', 'OrderController@deleteTicket')->name('order.deleteTicket');
+            Route::post('{order}/regenerate_invoice', 'OrderController@regenerateInvoice')->name('order.regenerateInvoice');
         });
 
         Route::get('invoices/modal/{order}', 'OrderController@getInvoicesModal')->name('invoice.modal');

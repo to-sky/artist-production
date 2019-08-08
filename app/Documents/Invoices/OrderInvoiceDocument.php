@@ -200,13 +200,13 @@ class OrderInvoiceDocument extends AbstractInvoiceDocument
     }
 
     /**
-     * Get invoice file
+     * Create new invoice file
      *
      * @param string $tag
      * @return File
      */
-    public function getFile($tag = '')
+    public function makeFile($tag = '')
     {
-        return $this->_getFile($tag);
+        return $this->_makeFile($tag);
     }
 }

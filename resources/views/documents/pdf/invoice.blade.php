@@ -60,7 +60,7 @@
 
             <tr>
                 <td style="font-size: 13px;">
-                    @if($order->billingAddress)
+                    @if($order->user)
                         {{ $order->billingAddress->last_name }} {{ $order->billingAddress->first_name }}<br>
                         {{ $order->billingAddress->street }} {{ $order->billingAddress->house }} {{ $order->billingAddress->apartment }}<br>
                         {{ $order->billingAddress->post_code }} {{ $order->billingAddress->city }}<br>

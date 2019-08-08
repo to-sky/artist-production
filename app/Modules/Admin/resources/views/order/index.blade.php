@@ -132,19 +132,43 @@
                                         {{ $order->comment }}
                                     @endif
                                 </td>
-                                <td>
-                                    <div class="btn-group-vertical" role="group">
+                                <td class="order-table-buttons">
+                                    <div class="btn-group" role="group">
                                         <a href="{{ route('invoice.modal', ['id' => $order->id]) }}"
-                                                class="btn btn-xs btn-default text-left invoice-modal">
-                                            <i class="fa fa-file-text-o text-green"></i> {{ __('Download invoice') }}
+                                           class="btn btn-xs btn-outline-gray text-left"
+                                           data-action="modal-invoice"
+                                           data-toggle="tooltip"
+                                           data-container="body"
+                                           title="{{ __('Download invoice') }}">
+                                            <i class="fa fa-file-text-o text-green"></i>
                                         </a>
+
+                                        @if(! $order->finalInvoice)
+                                        <a href="{{ route('order.regenerateInvoice', ['id' => $order->id]) }}"
+                                           class="btn btn-xs btn-outline-gray text-left"
+                                           data-toggle="tooltip"
+                                           data-container="body"
+                                           data-order-id="{{ $order->id }}"
+                                           data-action="regenerateInvoice"
+                                           title="{{ __('Regenerate invoice') }}">
+                                            <i class="fa fa-refresh text-yellow"></i>
+                                        </a>
+                                        @endif
+
                                         <a href="{{ route(config('admin.route').'.orders.edit', [$order->id]) }}"
-                                           class="btn btn-xs btn-default text-left">
-                                            <i class="fa fa-edit text-primary"></i> {{ trans('Admin::admin.users-index-edit') }}
+                                           class="btn btn-xs btn-outline-gray text-left"
+                                           data-toggle="tooltip"
+                                           data-container="body"
+                                           title="{{ trans('Admin::admin.users-index-edit') }}">
+                                            <i class="fa fa-edit text-primary"></i>
                                         </a>
+
                                         <a href="{{ route(config('admin.route').'.orders.destroy', [$order->id]) }}"
-                                           class="btn btn-xs btn-default delete-button text-left">
-                                            <i class="fa fa-trash text-yellow"></i> {{ trans('Admin::admin.users-index-delete') }}
+                                           class="btn btn-xs btn-outline-gray delete-button text-left"
+                                           data-toggle="tooltip"
+                                           data-container="body"
+                                           title="{{ trans('Admin::admin.users-index-delete') }}">
+                                            <i class="fa fa-trash text-red"></i>
                                         </a>
                                     </div>
                                 </td>
@@ -196,6 +220,23 @@
             }
 
             $(this).siblings('tr').removeAttr('style');
+        });
+
+        // Regenerate invoice
+        $('[data-action=regenerateInvoice]').click(function (e) {
+            e.preventDefault();
+            var button = $(this);
+
+            $.post(button.attr('href'), {'id': button.data('order-id')}, function (data) {
+                $(function () {
+                    new PNotify({
+                        text: data.success,
+                        type: "success",
+                        icon: false,
+                        delay: 2000
+                    });
+                });
+            })
         });
 
         // Change order status
@@ -279,7 +320,7 @@
         });
 
         // Invoices modal
-        $('.invoice-modal').click(function(e) {
+        $('[data-action="modal-invoice"]').click(function(e) {
             e.preventDefault();
 
             $.get($(this).attr('href'), function (data) {

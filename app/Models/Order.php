@@ -54,15 +54,23 @@ class Order extends Model
     protected static function boot() {
         parent::boot();
 
+        // Add tickets to order
+        // Generate provisional invoice
         static::created(function ($order) {
-           self::$ticketService->attachCartToOrder($order);
-           self::$invoiceService->store($order);
+            self::$ticketService->attachCartToOrder($order);
+            self::$invoiceService->store($order);
         });
 
-        static::updating(function ($order) {
-            // TODO: check is_reserved
+        // Generate final invoice after order set confirmed
+        static::updated(function ($order) {
+            if($order->isDirty('status')){
+                if ($order->status == Order::STATUS_CONFIRMED && is_null($order->final_invoice_id)) {
+                    self::$invoiceService->store($order, 'final');
+                }
+            }
         });
 
+        // Free tickets from order
         static::deleting(function($order) {
             $order->tickets->each(function($ticket) {
                 self::$ticketService->freeTicketFromOrder($ticket);
@@ -95,7 +103,9 @@ class Order extends Model
         'payer_id',
         'manager_id',
         'realizator_commission',
-        'realizator_percent'
+        'realizator_percent',
+        'provisional_invoice_id',
+        'final_invoice_id'
     ];
 
     /**
@@ -154,6 +164,19 @@ class Order extends Model
     public function finalInvoice()
     {
         return $this->belongsTo('App\Models\File', 'final_invoice_id', 'id');
+    }
+
+    /**
+     * Get invoice final or provisional
+     *
+     * @param $tag
+     * @return mixed
+     */
+    public function getInvoice($tag)
+    {
+        $type = $tag == 'final' ? 'finalInvoice' : 'provisionalInvoice';
+
+        return $this->invoices->where('file_id', $this->$type->id)->first();
     }
 
     /**
@@ -302,6 +325,16 @@ class Order extends Model
     public function is_paid()
     {
         return is_null($this->paid_at) ? false : true;
+    }
+
+    /**
+     * Check if order is confirmed
+     *
+     * @return bool
+     */
+    public function is_confirmed()
+    {
+        return $this->status == self::STATUS_CONFIRMED;
     }
 
     /**

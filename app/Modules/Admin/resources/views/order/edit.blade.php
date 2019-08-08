@@ -157,8 +157,11 @@
                                            value="{{ $ticket->discount }}">
                                     <button type="button" class="btn btn-warning btn-xs print-ticket"
                                             onclick="print({{ $ticket->id }})">{{ __('Print') }}</button>
+
+                                    @if(! $order->is_confirmed())
                                     <a href="{{ route('order.deleteTicket', ['order' => $order, 'ticket' => $ticket->id]) }}"
                                        type="button" class="btn btn-danger btn-xs delete-ticket">{{ __('Delete') }}</a>
+                                    @endif
                                 </td>
                             </tr>
                         @empty
