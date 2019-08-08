@@ -1,6 +1,6 @@
 <template>
   <div class="hall">
-    <zone-description :event="event"></zone-description>
+    <zone-description></zone-description>
     <hall-map
         :event="event"
         @updatePlace="processPlace($event)"

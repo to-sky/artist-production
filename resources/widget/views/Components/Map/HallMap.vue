@@ -36,6 +36,10 @@
       <a href="#" class="zoom-out" @click.prevent="map.zoomOut()">-</a>
     </section>
 
+    <section class="prices">
+      <prices-button :prices="event.prices"></prices-button>
+    </section>
+
     <section ref="animationContainer" class="animation">
       <div v-for="point in animated" class="dot"
            :style="{
@@ -54,10 +58,11 @@
   import SvgPanZoom from 'vue-svg-pan-zoom';
   import HallMapPopup from './HallMapPopup.vue';
   import HallSvg from './HallSvg.vue';
+  import PricesButton from '../PricesButton.vue';
   import Hammer from 'hammerjs';
 
   export default {
-    components: { SvgPanZoom, HallMapPopup, HallSvg },
+    components: { SvgPanZoom, HallMapPopup, HallSvg, PricesButton },
     props: ["event"],
     data() {
       return {
@@ -364,7 +369,7 @@
 
   .hall-map {
     position: absolute;
-    top: 80px;
+    top: 22px;
     left: 0;
     right: 0;
     bottom: 0;
@@ -438,5 +443,11 @@
     display: block;
     border-radius: 50%;
     transform: translate(-50%, -50%);
+  }
+
+  .prices {
+    position: absolute;
+    top: 10px;
+    right: 10px;
   }
 </style>

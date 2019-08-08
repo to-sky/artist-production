@@ -25,6 +25,9 @@ const messages = {
       reserve: "Reserve",
       zoneTitle: "Price categories of tickets"
     },
+    priceButton: {
+      text: "Prices",
+    },
     buyButton: {
       ticket:
         "Buy {count} ticket for {price} € | Buy {count} tickets for {price} €"
@@ -56,6 +59,9 @@ const messages = {
       busy: "Beschäftigt",
       reserve: "Reservieren",
       zoneTitle: "Preiskategorien der Tickets"
+    },
+    priceButton: {
+      text: "Preise",
     },
     buyButton: {
       ticket:
@@ -89,6 +95,9 @@ const messages = {
       busy: "Занято",
       reserve: "Резерв",
       zoneTitle: "Ценовые категории билетов"
+    },
+    priceButton: {
+      text: "Цены",
     },
     buyButton: {
       ticket:
