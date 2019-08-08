@@ -60,6 +60,14 @@ button.btn-file-upload {
   overflow: hidden;
 }
 
+.btn.btn-outline-gray {
+  border-radius: 0;
+  background-color: #fff;
+  border-color: #d2d6de;
+  color: #444;
+  transition: .3s;
+}
+
 // Image uploader
 .image-preview {
   width: 100%;

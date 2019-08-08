@@ -187,8 +187,12 @@
         }).appendTo(ticketsBlock);
 
         selectedTickets = tickets.length;
+
+        var ticketsPrice = $('#allTicketsFinalPrice').text();
+            ticketsPrice = ticketsPrice === '' ? 0 : ticketsPrice;
+
         $('span[data-tickets="count"]').text(selectedTickets);
-        $('span[data-tickets="final-price"]').text($('#allTicketsFinalPrice').text());
+        $('span[data-tickets="final-price"]').text(ticketsPrice);
     }
 
     var body = $('body');
@@ -416,6 +420,7 @@
             paymentTypeInput.parent('div').after(createAddressBlock(userId));
         } else {
             $('#shippingAddresses').remove();
+            changeShippingPrice(0);
         }
     });
 
@@ -452,6 +457,19 @@
         $('.modal-footer button', this).not('button[data-dismiss="modal"]').attr('disabled', disableButton);
     });
 
+    // Reset fields after close reserve modal
+    $('#reserveModal').on('hide.bs.modal', function () {
+        $('#shippingType', this).val(0);
+
+        $('#paymentType', this).attr('value', '{{ __('Bank transfer') }}')
+            .next('input[type="hidden"]')
+            .val('{{ \App\Models\PaymentMethod::TYPE_DELAY }}');
+
+        $('#shippingAddresses', this).remove();
+        $('#comment', this).val('');
+        changeShippingPrice(0);
+    });
+
     // Add realization percent from client, on open modal
     $('#realizationModal').on('show.bs.modal', function () {
         $('#realizatorCommission').val(realizatorCommission)
@@ -459,12 +477,22 @@
 
     // Create address block
     function createAddressBlock(user_id) {
-        var addresses = $('<label>', {
+        var addressBlock = $('<label>', {
             text: '{{ __('Addresses') }}'
         });
+
         $.get('{{ route('order.getAddresses') }}', {user_id: user_id}, function (data) {
+            if(! data.length) {
+                addressBlock.parent().append($('<p>', {
+                    text: '{{ __('Client address not set') }}',
+                    class: 'text-red'
+                }));
+
+                return false;
+            }
+
             $.each(data, function (i, el) {
-                addresses.parent().append(
+                addressBlock.parent().append(
                     $('<div>', {class: 'radio'})
                         .append(
                             $('<label>')
@@ -472,17 +500,43 @@
                                     type: 'radio',
                                     name: 'address_id',
                                     value: el.id,
-                                    checked: i === 0
+                                    checked: i === 0,
+                                    'data-price': el.shippingPrice
                                 })).append(el.address)
                         )
                 );
             });
+
+            var shippingPrice = $('input[name="address_id"]:checked').data('price');
+            changeShippingPrice(shippingPrice);
         });
 
         return $('<div>', {
             id: 'shippingAddresses',
             class: 'form-group'
-        }).append(addresses);
+        }).append(addressBlock);
+    }
+
+    // Calculate shipping and tickets price
+    function changeShippingPrice(shippingPrice) {
+        shippingPrice = parseFloat(shippingPrice);
+
+        var reserveModal = $('#reserveModal');
+        var orderPriceBlock = $('span[data-tickets="final-price"]', reserveModal);
+        var shippingPriceBlock = $('span[data-tickets="shipping-price"]', reserveModal);
+        var orderPrice = parseFloat(orderPriceBlock.text());
+
+        var finalPrice;
+        if (shippingPrice > 0) {
+            finalPrice = orderPrice + shippingPrice;
+            $(shippingPriceBlock).text(shippingPrice);
+        } else {
+            var shippingPriceOld = parseFloat(shippingPriceBlock.text());
+            finalPrice = orderPrice - shippingPriceOld;
+            $(shippingPriceBlock).text(0);
+        }
+
+        $(orderPriceBlock).text(finalPrice);
     }
 </script>
 

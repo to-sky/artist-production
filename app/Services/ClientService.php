@@ -202,9 +202,6 @@ class ClientService
         ]);
 
         $profile = $request->only([
-            'first_name',
-            'last_name',
-            'email',
             'phone',
             'code',
             'commission',

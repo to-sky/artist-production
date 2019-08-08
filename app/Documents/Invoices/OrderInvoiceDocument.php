@@ -198,4 +198,15 @@ class OrderInvoiceDocument extends AbstractInvoiceDocument
             'mime' => $file->mime,
         ];
     }
+
+    /**
+     * Create new invoice file
+     *
+     * @param string $tag
+     * @return File
+     */
+    public function makeFile($tag = '')
+    {
+        return $this->_makeFile($tag);
+    }
 }

@@ -24,13 +24,25 @@ class BillingAddress extends Model
     /**
      * @var array
      */
-    protected $fillable = ['order_id', 'first_name', 'last_name', 'street', 'house', 'apartment', 'post_code', 'city', 'country', 'created_at', 'updated_at'];
+    protected $fillable = [
+        'order_id',
+        'first_name',
+        'last_name',
+        'street',
+        'house',
+        'apartment',
+        'post_code',
+        'city',
+        'country',
+        'created_at',
+        'updated_at'
+    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function order()
     {
-        return $this->belongsTo('App\Order');
+        return $this->belongsTo('App\Models\Order');
     }
 }

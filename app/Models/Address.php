@@ -31,7 +31,18 @@ class Address extends Model
     /**
      * @var array
      */
-    protected $fillable = ['country_id', 'user_id', 'first_name', 'last_name', 'street', 'house', 'apartment', 'post_code', 'city', 'active'];
+    protected $fillable = [
+        'country_id',
+        'user_id',
+        'first_name',
+        'last_name',
+        'street',
+        'house',
+        'apartment',
+        'post_code',
+        'city',
+        'active'
+    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -84,6 +95,12 @@ class Address extends Model
         return join(', ', $parts);
     }
 
+    /**
+     * Get active address
+     *
+     * @param $query
+     * @return mixed
+     */
     public function scopeActive($query)
     {
         return $query->where('active', self::ACTIVE);

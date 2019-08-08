@@ -3,7 +3,7 @@
 <script src="{{ asset('js/qz-tray.min.js') }}"></script>
 <script>
     {{-- For Zebra printer --}}
-    var printerName = "ZTC-GK420d";
+    var printerName = "zebra";
 
     {{-- TODO: need to add certificate --}}
     // qz.websocket.connect().then(function() {
@@ -20,13 +20,7 @@
             url: printUrl,
             success: function(html) {
                 var config = qz.configs.create(printerName, {
-                    orientation: 'landscape',
-                    rotation: 180,
-                    density: 600,
-                    margins: {
-                        top: 1.3,
-                        left: 1
-                    }
+                    density: 300
                 });
 
                 var data = [{

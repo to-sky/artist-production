@@ -72,7 +72,7 @@
                             </div>
                             <div class="clearfix">
                                 <div class="pull-left text-bold">{{ __('Main') }}:</div>
-                                <div class="pull-right">{{ $order->ticketsPriceWithDiscount }}</div>
+                                <div class="pull-right">{{ $order->total }}</div>
                             </div>
                         </div>
 
@@ -157,8 +157,11 @@
                                            value="{{ $ticket->discount }}">
                                     <button type="button" class="btn btn-warning btn-xs print-ticket"
                                             onclick="print({{ $ticket->id }})">{{ __('Print') }}</button>
+
+                                    @if(! $order->is_confirmed())
                                     <a href="{{ route('order.deleteTicket', ['order' => $order, 'ticket' => $ticket->id]) }}"
                                        type="button" class="btn btn-danger btn-xs delete-ticket">{{ __('Delete') }}</a>
+                                    @endif
                                 </td>
                             </tr>
                         @empty
@@ -224,8 +227,8 @@
                                     })).append(el.address)
                             )
                     );
-                    var price = $('input[type=radio]:checked').data('price');
-                    $('#shippingPrice').html(price + '&nbsp;&euro;')
+                    var shippingPrice = $('input[name="address_id"]:checked').data('price');
+                    $('#shippingPrice').html(shippingPrice + '&nbsp;&euro;')
                 });
 
             });

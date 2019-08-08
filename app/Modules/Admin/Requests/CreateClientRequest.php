@@ -27,7 +27,8 @@ class CreateClientRequest extends FormRequest {
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|email|unique:users',
-            'commission' => 'numeric|between:0,100'
+            'commission' => 'numeric|between:0,100',
+            'country_id' => 'required'
 		];
 	}
 }

@@ -170,15 +170,20 @@ Route::group([
         Route::get('zebra_print/{ticket}', 'TicketController@zebraPrint')->name('tickets.zebraPrint');
     });
 
-    Route::prefix('admin/orders')->group(function () {
-        Route::get('tickets_table', 'OrderController@updateTicketsTable')->name('order.updateTicketsTable');
-        Route::get('{order}', 'TicketController@print')->name('tickets.print');
-        Route::get('widget/{event}', 'OrderController@widgetContent')->name('events.widgetContent');
-        Route::get('user/addresses', 'OrderController@getUserAddresses')->name('order.getAddresses');
-        Route::post('confirm_payment/{order}', 'OrderController@confirmPayment')->name('order.confirmPayment');
-        Route::post('change_order_status/{order}', 'OrderController@changeOrderStatus')->name('order.changeOrderStatus');
-        Route::post('change_shipping_status/{order}', 'OrderController@changeShippingStatus')->name('order.changeShippingStatus');
-        Route::post('remove_ticket/{order}/{ticket}', 'OrderController@deleteTicket')->name('order.deleteTicket');
+    Route::prefix('admin')->group(function () {
+        Route::prefix('orders')->group(function() {
+            Route::get('tickets_table', 'OrderController@updateTicketsTable')->name('order.updateTicketsTable');
+            Route::get('{order}', 'TicketController@print')->name('tickets.print');
+            Route::get('widget/{event}', 'OrderController@widgetContent')->name('events.widgetContent');
+            Route::get('user/addresses', 'OrderController@getUserAddresses')->name('order.getAddresses');
+            Route::post('confirm_payment/{order}', 'OrderController@confirmPayment')->name('order.confirmPayment');
+            Route::post('change_order_status/{order}', 'OrderController@changeOrderStatus')->name('order.changeOrderStatus');
+            Route::post('change_shipping_status/{order}', 'OrderController@changeShippingStatus')->name('order.changeShippingStatus');
+            Route::post('remove_ticket/{order}/{ticket}', 'OrderController@deleteTicket')->name('order.deleteTicket');
+            Route::post('{order}/regenerate_invoice', 'OrderController@regenerateInvoice')->name('order.regenerateInvoice');
+        });
+
+        Route::get('invoices/modal/{order}', 'OrderController@getInvoicesModal')->name('invoice.modal');
     });
 
     Route::prefix('admin/reports')->group(function () {

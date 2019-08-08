@@ -26,7 +26,7 @@
                     <textarea name="comment" id="comment" rows="4" class="form-control"></textarea>
                 </div>
 
-                @include('Admin::order.partials.modals._block_total_sum')
+                @include('Admin::order.partials.modals._block_total_sum', ['shippingBlock' => true])
             </div>
 
             <div class="modal-footer">

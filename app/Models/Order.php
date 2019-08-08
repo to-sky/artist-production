@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\InvoiceService;
 use App\Services\TicketService;
 use App\Traits\FilesMorphTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -16,6 +17,10 @@ class Order extends Model
     const ENTITY_TYPE = 'order';
 
     protected $entity_type;
+
+    protected static $ticketService;
+
+    protected static $invoiceService;
 
     /**
      * The attributes that should be mutated to dates.
@@ -33,6 +38,9 @@ class Order extends Model
         parent::__construct($attributes);
 
         $this->entity_type = static::ENTITY_TYPE;
+
+        self::$ticketService = new TicketService();
+        self::$invoiceService = new InvoiceService();
     }
 
     const STATUS_PENDING = 0;
@@ -46,11 +54,26 @@ class Order extends Model
     protected static function boot() {
         parent::boot();
 
+        // Add tickets to order
+        // Generate provisional invoice
+        static::created(function ($order) {
+            self::$ticketService->attachCartToOrder($order);
+            self::$invoiceService->store($order);
+        });
+
+        // Generate final invoice after order set confirmed
+        static::updated(function ($order) {
+            if($order->isDirty('status')){
+                if ($order->status == Order::STATUS_CONFIRMED && is_null($order->final_invoice_id)) {
+                    self::$invoiceService->store($order, 'final');
+                }
+            }
+        });
+
+        // Free tickets from order
         static::deleting(function($order) {
             $order->tickets->each(function($ticket) {
-                $ticketService = new TicketService();
-
-                $ticketService->freeTicketFromOrder($ticket);
+                self::$ticketService->freeTicketFromOrder($ticket);
             });
         });
     }
@@ -80,7 +103,9 @@ class Order extends Model
         'payer_id',
         'manager_id',
         'realizator_commission',
-        'realizator_percent'
+        'realizator_percent',
+        'provisional_invoice_id',
+        'final_invoice_id'
     ];
 
     /**
@@ -142,6 +167,19 @@ class Order extends Model
     }
 
     /**
+     * Get invoice final or provisional
+     *
+     * @param $tag
+     * @return mixed
+     */
+    public function getInvoice($tag)
+    {
+        $type = $tag == 'final' ? 'finalInvoice' : 'provisionalInvoice';
+
+        return $this->invoices->where('file_id', $this->$type->id)->first();
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function tickets()
@@ -149,9 +187,9 @@ class Order extends Model
         return $this->hasMany('App\Models\Ticket');
     }
 
-    public function invoice()
+    public function invoices()
     {
-        return $this->hasMany('App\Models\Invoice');
+        return $this->hasMany('App\Models\Invoice')->orderBy('created_at');
     }
 
     public function shippingZone()
@@ -287,6 +325,16 @@ class Order extends Model
     public function is_paid()
     {
         return is_null($this->paid_at) ? false : true;
+    }
+
+    /**
+     * Check if order is confirmed
+     *
+     * @return bool
+     */
+    public function is_confirmed()
+    {
+        return $this->status == self::STATUS_CONFIRMED;
     }
 
     /**

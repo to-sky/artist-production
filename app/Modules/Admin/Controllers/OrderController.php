@@ -16,16 +16,18 @@ use App\Models\{Address,
 use App\Modules\Admin\Controllers\AdminController;
 use App\Modules\Admin\Services\RedirectService;
 use App\Services\ClientService;
+use App\Services\InvoiceService;
 use App\Services\ShippingService;
 use App\Services\TicketService;
 use App\Modules\Admin\Requests\CreateOrderRequest;
 use App\Modules\Admin\Requests\UpdateOrderRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-
+use App\Documents\Invoices\OrderInvoiceDocument;
 
 use Illuminate\Support\Facades\Auth;
 use Prologue\Alerts\Facades\Alert;
+use SebastianBergmann\ObjectReflector\ObjectReflector;
 
 class OrderController extends AdminController
 {
@@ -35,16 +37,20 @@ class OrderController extends AdminController
 
     protected $clientService;
 
+    protected $invoiceService;
+
     public function __construct(
         RedirectService $redirectService,
         TicketService $ticketService,
         ShippingService $shippingService,
-        ClientService $clientService
+        ClientService $clientService,
+        InvoiceService $invoiceService
     )
     {
         $this->ticketService = $ticketService;
         $this->shippingService = $shippingService;
         $this->clientService = $clientService;
+        $this->invoiceService = $invoiceService;
 
         parent::__construct($redirectService);
     }
@@ -63,7 +69,6 @@ class OrderController extends AdminController
             $q->whereManagerId($user->id);
         }
         $orders = $q->get();
-
 
         $paymentMethods = PaymentMethod::all()
             ->pluck('name', 'id')
@@ -135,24 +140,30 @@ class OrderController extends AdminController
 	public function store(Request $request)
 	{
         switch ($request->order_type) {
-            case 'sale':
-                $order = $this->sale($request);
+            case 'sale': $this->sale($request);
             break;
-            case 'realization':
-                $order = $this->realization($request);
+            case 'realization': $this->realization($request);
             break;
-            case 'reserve':
-                $order = $this->reserve($request);
+            case 'reserve': $this->reserve($request);
             break;
         }
-
-        $this->ticketService->attachCartToOrder($order);
 
         Alert::success(trans('Admin::admin.controller-successfully_created', ['item' => trans('Admin::models.OrderController')]))->flash();
 
         $this->redirectService->setRedirect($request);
 
         return $this->redirectService->redirect($request);
+	}
+
+    /**
+     * Get modal with invoices
+     *
+     * @param Order $order
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getInvoicesModal(Order $order)
+    {
+        return view('Admin::order.partials.modals._modal_invoice', compact('order'));
 	}
 
     /**
@@ -347,7 +358,8 @@ class OrderController extends AdminController
         $order->update([
             'payer_id' => Auth::id(),
             'paid_at' => Carbon::now(),
-            'payment_status' => Shipping::STATUS_DELIVERED
+            'payment_status' => Shipping::STATUS_DELIVERED,
+            'status' => Order::STATUS_CONFIRMED
         ]);
 
         return response()->json(null, 204);
@@ -392,6 +404,29 @@ class OrderController extends AdminController
         ]);
 
         return response()->json(null, 204);
+	}
+
+    /**
+     * Regenerate invoice
+     *
+     * @param Order $order
+     * @return \Prologue\Alerts\AlertsMessageBag
+     */
+    public function regenerateInvoice(Order $order)
+    {
+        $invoice = $order->getInvoice('provisional');
+        $title = $invoice->is_regenerated
+            ? $invoice->title
+            : $invoice->title . ' (' . __('Invoice regeneration') . ')';
+
+        $is_regenerated = $invoice->is_regenerated + 1;
+
+        $invoice->delete();
+        $order->provisionalInvoice->delete();
+
+        $this->invoiceService->store($order, 'provisional', compact('title', 'is_regenerated'));
+
+        return Alert::success(__('Invoice successfully regenerated'))->flash();
 	}
 
     /**

@@ -100,8 +100,9 @@ class ClientController extends AdminController {
         $addresses = $client->addresses->toArray();
         $countryCodes = Country::pluck('code')->toArray();
         $types = Profile::getTypes();
+        $clientAddress = $client->addresses()->active()->first();
 
-		return view('Admin::client.edit', compact('client', 'countries', 'countryCodes', 'addresses', 'types'));
+		return view('Admin::client.edit', compact('client', 'countries', 'countryCodes', 'addresses', 'types', 'clientAddress'));
 	}
 
     /**
