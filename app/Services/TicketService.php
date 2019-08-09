@@ -3,6 +3,7 @@
 namespace App\Services;
 
 
+use App\Helpers\PriceHelper;
 use App\Models\Event;
 use App\Models\Order;
 use App\Models\Place;
@@ -207,6 +208,8 @@ class TicketService
             $ticket->$k = $v;
         }
 
+        $ticket->price = PriceHelper::getPriceWithGroup($ticket->price_id, $ticket->price_group_id);
+
         $ticket->save();
     }
 
@@ -370,6 +373,7 @@ class TicketService
     {
         $ticket->reserved_to = null;
         $ticket->status = Ticket::SOLD;
+        $ticket->price = PriceHelper::getPriceWithGroup($ticket->price_id, $ticket->price_group_id);
         $ticket->save();
     }
 

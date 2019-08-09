@@ -13,5 +13,8 @@ abstract class AbstractInvoiceDocument extends AbstractDocument
     public function __construct()
     {
         $this->_pdfMaker = app()->make('dompdf.wrapper');
+        $this->_pdfMaker->setOptions([
+            'isHtml5ParserEnabled' => true,
+        ]);
     }
 }

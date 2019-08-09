@@ -61,10 +61,9 @@ class InvoiceBuilder
         /** @var Ticket $ticket */
         foreach ($tickets as $ticket) {
             if (
-                $ticket->place_id == $lastPlace &&
                 $ticket->getBuyablePrice() == $lastPrice &&
                 $ticket->place->row == $lastRow &&
-                $ticket->place->num == $lastNum || $ticket->place->num == $lastNum + 1
+                ($ticket->place->num == $lastNum && $ticket->place_id == $lastPlace || $ticket->place->num == $lastNum + 1)
             ) {
                 $listParts[count($listParts) - 1]['end_num'] = $ticket->place->num;
                 $listParts[count($listParts) - 1]['count'] += 1;

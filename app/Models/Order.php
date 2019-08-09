@@ -176,7 +176,7 @@ class Order extends Model
     {
         $type = $tag == 'final' ? 'finalInvoice' : 'provisionalInvoice';
 
-        return $this->invoices->where('file_id', $this->$type->id)->first();
+        return $this->invoices->where('file_id', $this->$type->id ?? 0)->first();
     }
 
     /**

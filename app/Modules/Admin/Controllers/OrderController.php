@@ -415,16 +415,21 @@ class OrderController extends AdminController
     public function regenerateInvoice(Order $order)
     {
         $invoice = $order->getInvoice('provisional');
-        $title = $invoice->is_regenerated
-            ? $invoice->title
-            : $invoice->title . ' (' . __('Invoice regeneration') . ')';
 
-        $is_regenerated = $invoice->is_regenerated + 1;
+        if ($invoice) {
+            $title = $invoice->is_regenerated
+                ? $invoice->title
+                : $invoice->title . ' (' . __('Invoice regeneration') . ')';
 
-        $invoice->delete();
-        $order->provisionalInvoice->delete();
+            $is_regenerated = $invoice->is_regenerated + 1;
 
-        $this->invoiceService->store($order, 'provisional', compact('title', 'is_regenerated'));
+            $invoice->delete();
+            $order->provisionalInvoice->delete();
+
+            $this->invoiceService->store($order, 'provisional', compact('title', 'is_regenerated'));
+        } else {
+            $this->invoiceService->store($order, 'provisional');
+        }
 
         return Alert::success(__('Invoice successfully regenerated'))->flash();
 	}

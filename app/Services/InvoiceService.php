@@ -22,6 +22,7 @@ class InvoiceService
             case Order::STATUS_CONFIRMED:
                 return 'Оплата заказа';
             break;
+            case Order::STATUS_PENDING:
             case Order::STATUS_RESERVE:
                 return 'Резервирование заказа';
             break;
