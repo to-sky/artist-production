@@ -90,6 +90,9 @@ return [
     'roles-controller-successfully_updated' => 'Role was successfully updated!',
     'roles-controller-successfully_deleted' => 'Role was successfully deleted!',
 
+    // orders index
+    'add-comment' => 'Add comment',
+
     // errors
     'please-fix' => 'Please fix the following errors:',
 

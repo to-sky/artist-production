@@ -12,6 +12,7 @@
     @include('Admin::order.partials.modals._modal_change_order_status')
     @include('Admin::order.partials.modals._modal_change_shipping_status')
     @include('Admin::order.partials.modals._modal_comment')
+    @include('Admin::order.partials.modals._modal_add_comment')
 
     <div class="box">
         <div class="box-header with-border">
@@ -131,6 +132,17 @@
                                     @else
                                         {{ $order->comment }}
                                     @endif
+
+                                    <div class="pull-right">
+                                        <button
+                                            type="button"
+                                            class="btn btn-sm btn-info"
+                                            data-toggle="modal"
+                                            data-target="#modalAddComment"
+                                            data-order-id="{{ $order->id }}"
+                                            data-url="{{ route('order.addToComment', ['order' => $order->id]) }}"
+                                        ><i class="fa fa-comment-o" aria-hidden="true"></i></button>
+                                    </div>
                                 </td>
                                 <td class="order-table-buttons">
                                     <div class="btn-group" role="group">
@@ -316,8 +328,37 @@
         $('#modalComment').on('show.bs.modal', function (e) {
             var comment = $(e.relatedTarget).data('comment');
 
-            $('.modal-body', this).html(comment);
+            $('.modal-body', this).html(nl2br(comment));
         });
+
+        // Add to comment
+        $('#modalAddComment')
+            .on('show.bs.modal', function (e) {
+              var $button = $(e.relatedTarget);
+              var url = $button.data('url');
+
+              var $comment = $('#addComment');
+              var $submit = $('#addCommentBtn');
+
+              $comment.keyup(function () {
+                $submit.prop('disabled', $comment.val().length <= 0);
+              });
+
+              $submit.click(function () {
+                $.post(url, {comment_addition: $comment.val()}, function () {
+                  location.reload();
+                });
+              });
+            })
+            .on('hidden.bs.modal', function () {
+              $('#addComment').val('');
+            })
+        ;
+
+        function nl2br( str ) {
+          return str.replace(/([^>])\n/g, '$1<br/>');
+        }
+
 
         // Invoices modal
         $('[data-action="modal-invoice"]').click(function(e) {

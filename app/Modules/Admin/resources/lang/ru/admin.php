@@ -92,6 +92,9 @@ return [
     'roles-controller-successfully_updated' => 'Роль была успешно обновлена!',
     'roles-controller-successfully_deleted' => 'Роль была успешно удалена!',
 
+    // orders index
+    'add-comment' => 'Добавить комментарий',
+
     // errors
     'please-fix' => 'Пожалуйста исправьте следующие ошибки:',
 

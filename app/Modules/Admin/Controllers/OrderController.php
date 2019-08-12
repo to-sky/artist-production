@@ -555,6 +555,25 @@ class OrderController extends AdminController
 	}
 
     /**
+     * Add text to comment
+     *
+     * @param Request $request
+     * @param Order $order
+     * @return \Illuminate\Http\JsonResponse
+     */
+	public function addToComment(Request $request, Order $order)
+    {
+        $commentAddition = $request->comment_addition;
+        $date = Carbon::now()->format('d.m.Y H:i');
+        $name = trim(Auth::user()->full_name ?? '');
+
+        $order->comment .= "\n$name, $date: $commentAddition";
+        $order->save();
+
+        return response()->json(['success' => 'success']);
+    }
+
+    /**
      * Remove the specified order from storage.
      *
      * @param Order $order
