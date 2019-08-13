@@ -129,6 +129,9 @@ return [
     'events' => 'Events',
     'partner' => 'My Sales',
 
-    'back-to-all-entries' => 'Back to All Entries'
+    'back-to-all-entries' => 'Back to All Entries',
+
+    // orders
+    'last-order-ticket-deletion' => "You are about to remove last ticket from order. This will remove an order as well. Do you want to proceed?"
 ];
 

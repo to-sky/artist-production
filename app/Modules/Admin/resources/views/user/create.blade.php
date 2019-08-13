@@ -25,7 +25,11 @@
                 <div class="box-body row">
                     <div class="form-group col-md-12">
                         {!! Form::label('avatar', __('Avatar')) !!}
-                        {!! Form::file('avatar') !!}
+                        {!! Form::file('avatar', [
+                          'accept' => FileHelper::mimesImage(),
+                        ]) !!}
+
+                        <input type="hidden" name="MAX_FILE_SIZE" value="{{ FileHelper::maxUploadSize() }}">
                     </div>
                     <div class="form-group col-md-12">
                         {!! Form::label('first_name', __('First name')) !!}

@@ -129,6 +129,9 @@ return [
     'events' => 'Veranstaltungen',
     'partner' => "Meine Verkäufe",
 
-    'back-to-all-entries' => 'Zurück zu allen Einträgen'
+    'back-to-all-entries' => 'Zurück zu allen Einträgen',
+
+    // Orders
+    'last-order-ticket-deletion' => "Sie sind dabei, das letzte Ticket aus der Bestellung zu entfernen. Dadurch wird auch eine Bestellung entfernt. Möchten Sie fortfahren?",
 ];
 

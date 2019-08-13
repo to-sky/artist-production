@@ -6,7 +6,11 @@
             <a id="remove-avatar" href="{{ route(config('admin.route') . '.users.removeAvatar', ['id' => $user->id]) }}">{{ __('Remove')  }}</a>
         </div>
     @endif
-    {!! Form::file('avatar') !!}
+    {!! Form::file('avatar', [
+      'accept' => FileHelper::mimesImage(),
+    ]) !!}
+
+    <input type="hidden" name="MAX_FILE_SIZE" value="{{ FileHelper::maxUploadSize() }}">
 </div>
 <div class="form-group col-md-12">
     {!! Form::label('first_name', __('First name')) !!}

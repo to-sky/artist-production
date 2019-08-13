@@ -239,13 +239,36 @@
             }).append(addresses);
         }
 
+        var ticketsNum = {{ $order->tickets->count() ?? '0' }};
         // Delete ticket
         $('.delete-ticket').click(function (e) {
             e.preventDefault();
 
-            $.post($(this).attr('href'), function () {
+            if(--ticketsNum) {
+              $.post($(this).attr('href'), function () {
                 location.reload();
-            });
+              });
+            } else {
+              if (confirm("{{ __('Admin::admin.last-order-ticket-deletion') }}")) {
+                $.ajax({
+                  url: "{{ route(config('admin.route') . '.orders.destroy', ['order' => $order]) }}",
+                  type: 'DELETE',
+                  success: function (result) {
+                    location.href = "{{ route(config('admin.route') . '.orders.index') }}";
+                  },
+                  error: function (result) {
+                    // Logs the error result to console
+                    console.log(result);
+                    // Shows an error
+                    new PNotify({
+                      title: '{{ trans('Admin::templates.templates-view_index-item_deleted_error_title') }}',
+                      text: '{{ trans('Admin::templates.templates-view_index-item_deleted_error') }}',
+                      type: 'warning'
+                    });
+                  }
+                });
+              }
+            }
         });
     </script>
 

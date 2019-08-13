@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileRequest;
+use App\Models\Role;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 
@@ -14,6 +15,8 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         $profile = $user->profile;
+
+        if (!$user->hasRole(Role::CLIENT)) return redirect()->route('admin.dashboard');
 
         return view('profile.show', compact('user', 'profile'));
     }

@@ -55,6 +55,7 @@ class UserController extends AdminController
                 Rule::unique('users')->ignore((isset($user->id) ? $user->id : null)),
             ],
             'password' => 'nullable|confirmed|string||min:6|',
+            'avatar' => 'sometimes|file|max:2048|mimetypes:' . FileHelper::mimesImage(),
         ]);
     }
 
