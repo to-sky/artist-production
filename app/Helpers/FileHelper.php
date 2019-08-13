@@ -165,4 +165,30 @@ class FileHelper
 
         return $diff >= 0 ? $diff : 0;
     }
+
+    public static function mimesImage()
+    {
+        return join(',', [
+            'image/png',
+            'image/jpeg',
+            'image/jpg',
+        ]);
+    }
+
+    public static function maxUploadSize()
+    {
+        preg_match('/([\d]+)([kmg])?/i', ini_get('upload_max_filesize'), $matches);
+
+        if (empty($matches[1])) return 2 * 1024 * 1024;
+
+        $multi = empty($matches[2]) ? '' : strtoupper($matches[2]);
+        $int = $matches[1];
+
+        switch ($multi) {
+            case 'K': return 1024 * $int;
+            case 'M': return 1024 * 1024 * $int;
+            case 'G': return 1024 * 1024 * 1024 * $int;
+            default: return $int;
+        }
+    }
 }

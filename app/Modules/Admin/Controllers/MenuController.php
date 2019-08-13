@@ -339,6 +339,16 @@ class MenuController extends AdminController
 
     public function update(Request $request, $id)
     {
+        $validation = Validator::make($request->all(), [
+            'title' => 'required',
+            'icon'  => 'required',
+            'parent_id' => 'nullable|exists:menus,id',
+            'roles.*' => 'exists:roles,id',
+        ]);
+        if ($validation->fails()) {
+            return redirect()->back()->withInput()->withErrors($validation);
+        }
+
         $requestArray              = $request->all();
         $requestArray['parent_id'] = (isset($requestArray['parent_id']) && !empty($requestArray['parent_id'])) ? $requestArray['parent_id'] : null;
         $menu                      = Menu::findOrFail($id);

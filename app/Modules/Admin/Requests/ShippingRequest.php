@@ -25,6 +25,8 @@ class ShippingRequest extends FormRequest
     {
         return [
             'name' => 'required',
+            'shippingZones.*.name' => 'required',
+            'shippingZones.*.price' => 'required|numeric|min:0|max:100000',
         ];
     }
 }

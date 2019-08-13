@@ -53,7 +53,7 @@
                                 <div id="freePass" class="input-group">
                                 <span class="input-group-btn">
                                     <span class="btn btn-file btn-file-upload">
-                                        {{ __('Select logo') }} <input type="file" name="free_pass_logo">
+                                        {{ __('Select logo') }} <input type="file" name="free_pass_logo" accept="{{ FileHelper::mimesImage() }}">
                                     </span>
                                 </span>
                                     <input type="text" class="form-control" readonly>
@@ -73,11 +73,13 @@
                             <label>{{ __('Thumbnail') }}</label>
                             <div class="image-preview"></div>
                             <label class="btn btn-file-upload w100">
-                                {{ __('Select thumbnail') }} <input type="file" class="upload-file" name="event_image">
+                                {{ __('Select thumbnail') }} <input type="file" class="upload-file" name="event_image" accept="{{ FileHelper::mimesImage() }}">
                             </label>
                         </div>
                     </div>
                 </div>
+
+                <input type="hidden" name="MAX_FILE_SIZE" value="{{ FileHelper::maxUploadSize() }}">
 
                 <div class="box-footer">
                     @include('Admin::partials.save-buttons')

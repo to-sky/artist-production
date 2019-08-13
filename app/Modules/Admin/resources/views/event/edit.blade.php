@@ -67,7 +67,7 @@
                                             <div class="row">
                                                 <div id="freePass" class="col-md-12">
                                                     <label class="col-md-3 btn btn-file-upload br-none">
-                                                        {{ __('Select logo') }} <input type="file" name="free_pass_logo">
+                                                        {{ __('Select logo') }} <input type="file" name="free_pass_logo" accept="{{ FileHelper::mimesImage() }}">
                                                     </label>
 
                                                     <label class="free-pass-input @if(empty($event->freePassLogo)) col-md-9 @else col-md-8 @endif">
@@ -107,7 +107,7 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <label class="col-md-10 btn btn-file-upload @empty($event->eventImage) w100 @endempty">
-                                                    {{ __('Select thumbnail') }} <input type="file" class="upload-file" name="event_image">
+                                                    {{ __('Select thumbnail') }} <input type="file" class="upload-file" name="event_image" {{ FileHelper::mimesImage() }}>
                                                 </label>
 
                                                 @isset($event->eventImage)
@@ -124,6 +124,8 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <input type="hidden" name="MAX_FILE_SIZE" value="{{ FileHelper::maxUploadSize() }}">
                             </div>
                         </div>
                     </div>

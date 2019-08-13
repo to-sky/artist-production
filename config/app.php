@@ -248,6 +248,7 @@ return [
         'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
         'LinkMenu' => App\Http\ViewHelpers\LinkMenu::class,
         'InvoiceBuilder' => App\Http\ViewHelpers\InvoiceBuilder::class,
+        'FileHelper' => App\Helpers\FileHelper::class,
     ],
 
 ];
