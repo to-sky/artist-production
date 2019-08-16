@@ -62,6 +62,8 @@ class UserController extends AdminController
     /**
      * Show a list of users
      * @return \Illuminate\View\View
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
@@ -110,7 +112,7 @@ class UserController extends AdminController
         // Manages avatar upload
         $this->uploadService->uploadAvatar($request, $user);
 
-        Alert::success(trans('Admin::admin.users-controller-successfully_created'))->flash();
+        Alert::success(trans('Admin::admin.controller-successfully_created', ['item' => trans('Admin::models.User')]))->flash();
 
         $this->redirectService->setRedirect($request);
         return $this->redirectService->redirect($request);
@@ -141,7 +143,7 @@ class UserController extends AdminController
     {
         $this->updateUser($user, $request);
 
-        Alert::success(trans('Admin::admin.users-controller-successfully_updated'))->flash();
+        Alert::success(trans('Admin::admin.controller-successfully_updated', ['item' => trans('Admin::models.User')]))->flash();
 
         $this->redirectService->setRedirect($request);
         return $this->redirectService->redirect($request);

@@ -57,6 +57,8 @@ return [
 
     // events-index
     'events-index-place-binding' => 'Связать места',
+    'events-index-prices' => 'Расценки',
+    'hallPlaces' => 'Связать места',
 
     // roles-index
     'roles-index-add_new'                   => 'Добавить',

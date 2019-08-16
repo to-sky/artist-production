@@ -14,6 +14,8 @@ return [
     'Countries' => 'Länder',
     'role' => 'Rolle',
     'user' => 'Nutzer',
+    'User' => 'Nutzer',
     'menu' => 'Speisekarte',
-    'order' => 'aufträge'
+    'order' => 'aufträge',
+    'Order' => 'Aufträge',
 ];

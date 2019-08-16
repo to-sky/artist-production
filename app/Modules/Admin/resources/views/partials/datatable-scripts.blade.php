@@ -51,6 +51,8 @@
         });
 
         $('.mass').click(function () {
+            checkMass = false;
+
             if ($(this).is(":checked")) {
                 $('.single').each(function () {
                     if ($(this).is(":checked") == false) {
@@ -64,6 +66,21 @@
                     }
                 });
             }
+
+            checkMass = true;
+        });
+
+        var checkMass = true;
+        $('.single').change(function() {
+          if (!checkMass) return;
+
+          setTimeout(function () {
+            if (!$('.single:not(:checked)').length) {
+              $('.mass').prop('checked', true);
+            } else {
+              $('.mass').prop('checked', false);
+            }
+          });
         });
 
         $('#delete').click(function () {

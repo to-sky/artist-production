@@ -14,6 +14,8 @@ return [
     'Countries' => 'Countries',
     'role' => 'role',
     'user' => 'user',
+    'User' => 'User',
     'menu' => 'menu',
     'order' => 'order',
+    'Order' => 'Order',
 ];

@@ -51,10 +51,15 @@ return [
     'users-index-are_you_sure'              => 'Bist du sicher?',
     'users-index-no_entries_found'          => 'Keine Einträge gefunden',
 
-    // ontroller
+    // users-controller
     'controller-successfully_created' => ':item wurde erfolgreich erstellt!',
     'controller-successfully_updated' => ':item wurde erfolgreich aktualisiert!',
     'controller-successfully_deleted' => ':item wurde erfolgreich gelöscht!',
+
+    // events-index
+    'events-index-place-binding' => 'Orte binden',
+    'events-index-prices' => 'Preise',
+    'hallPlaces' => 'Orte binden',
 
     // roles-index
     'roles-index-add_new'                   => 'Neue hinzufügen',

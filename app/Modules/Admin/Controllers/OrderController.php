@@ -148,7 +148,7 @@ class OrderController extends AdminController
             break;
         }
 
-        Alert::success(trans('Admin::admin.controller-successfully_created', ['item' => trans('Admin::models.OrderController')]))->flash();
+        Alert::success(trans('Admin::admin.controller-successfully_created', ['item' => trans('Admin::models.Order')]))->flash();
 
         $this->redirectService->setRedirect($request);
 
@@ -560,9 +560,15 @@ class OrderController extends AdminController
      * @param Request $request
      * @param Order $order
      * @return \Illuminate\Http\JsonResponse
+     *
+     * @throws \Illuminate\Validation\ValidationException
      */
 	public function addToComment(Request $request, Order $order)
     {
+        $this->validate($request, [
+            'comment_addition' => 'required|string',
+        ]);
+
         $commentAddition = $request->comment_addition;
         $date = Carbon::now()->format('d.m.Y H:i');
         $name = trim(Auth::user()->full_name ?? '');

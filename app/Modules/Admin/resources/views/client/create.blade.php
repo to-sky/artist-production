@@ -54,7 +54,7 @@
                     </div>
                     <div class="form-group col-md-12">
                         {!! Form::label('comment', __('Comment')) !!}
-                        {!! Form::textarea('comment', old('comment'), array('class'=>'form-control')) !!}
+                        {!! Form::textarea('comment', old('comment'), array('class'=>'form-control max-width-100')) !!}
                     </div>
                     <div class="form-group col-md-12">
                         <h4>{{ __('Address') }}</h4>

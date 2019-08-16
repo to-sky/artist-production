@@ -55,7 +55,7 @@
                                 <i class="fa fa-edit"></i> {{ trans('Admin::admin.users-index-edit') }}
                             </a>
                             <a href="{{ route(config('admin.route').'.events.edit', [$event->id]) }}#prices" class="btn btn-xs btn-default">
-                                <i class="fa fa-magic"></i> Расценки
+                                <i class="fa fa-magic"></i> {{ trans('Admin::admin.events-index-prices') }}
                             </a>
                             <a href="{{ route(config('admin.route').'.events.hallPlaces', [$event->id]) }}" class="btn btn-xs btn-default">
                                 <i class="fa fa-list"></i> {{ trans('Admin::admin.events-index-place-binding') }}

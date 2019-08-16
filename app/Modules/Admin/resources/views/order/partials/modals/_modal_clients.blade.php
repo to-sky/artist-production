@@ -14,7 +14,7 @@
                     <tr>
                         <th></th>
                         <th>id</th>
-                        <th>{{ __('Name') }}</th>
+                        <th width="40%">{{ __('Name') }}</th>
                         <th>{{ __('Commission') }}</th>
                         <th>Email</th>
                         <th>{{ __('Phone') }}</th>
@@ -29,7 +29,7 @@
                                 <input type="radio" name="client" value="{{ $user->id }}">
                             </td>
                             <td>{{ $user->id }}</td>
-                            <td data-type="name">{{ $user->full_name }}</td>
+                            <td data-type="name" style="word-break: break-word">{{ $user->full_name }}</td>
                             <td data-commission="{{ $user->profile->commission }}">{{ $user->profile->commission }} %</td>
                             <td data-type="email">{{ $user->email }}</td>
                             <td  data-type="phone">{{ $user->profile->phone }}</td>

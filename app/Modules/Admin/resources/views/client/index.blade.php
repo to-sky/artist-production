@@ -26,7 +26,7 @@
                         {!! Form::checkbox('delete_all',1,false,['class' => 'mass']) !!}
                     </th>
                     <th>#</th>
-                    <th>{{ __('Full name') }}</th>
+                    <th style="max-width: 30%">{{ __('Full name') }}</th>
                     <th>{{ __('Commission %') }}</th>
                     <th>{{ __('Email') }}</th>
                     <th>{{ __('Phone') }}</th>
@@ -44,7 +44,7 @@
                             {!! Form::checkbox('del-'.$row->id,1,false,['class' => 'single','data-id'=> $row->id]) !!}
                         </td>
                         <td>{{ $row->display_id }}</td>
-                        <td>{{ $row->fullname }}</td>
+                        <td style="word-break: break-word">{{ $row->fullname }}</td>
                         <td>{{ $row->profile->commission }}</td>
                         <td>{{ $row->email }}</td>
                         <td>{{ $row->profile->phone }}</td>
