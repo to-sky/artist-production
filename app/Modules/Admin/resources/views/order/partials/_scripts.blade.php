@@ -172,6 +172,7 @@
         tickets.each(function (i, el) {
             var ticketId = $(el).data('ticket-id');
             var ticketDiscount = parseFloat($(el).find('a[data-target="#discountModal"]').text());
+            if (isNaN(ticketDiscount)) ticketDiscount = 0;
 
             $('<input>', {
                 type: 'hidden',
@@ -180,10 +181,12 @@
             }).appendTo(ticketsBlock);
         });
 
+        var mainDiscount = parseFloat($('#mainDiscount').text());
+        if (isNaN(mainDiscount)) mainDiscount = 0;
         $('<input>', {
             type: 'hidden',
             name: 'main_discount',
-            value: parseFloat($('#mainDiscount').text())
+            value: mainDiscount
         }).appendTo(ticketsBlock);
 
         selectedTickets = tickets.length;

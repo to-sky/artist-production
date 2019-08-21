@@ -52,7 +52,7 @@
         @endforelse
         </tbody>
 
-        @if($ticketsFinalPrice)
+        @if(count($ticketsData))
         <tfoot class="text-bold text-sm">
             <tr>
                 <td colspan="4" class="text-right">{{ __('Tickets price') }}:</td>

@@ -25,6 +25,7 @@
       var initialEnd = $picker.data('end') || '';
       var name = $picker.data('name');
       var className = $picker.data('class') || '';
+      var dateRanges = $picker.data('ranges') || 'p';
 
       if (!name) return;
 
@@ -40,16 +41,30 @@
       var $startInput = $picker.find('input[name="'+name+'_start"]');
       var $endInput = $picker.find('input[name="'+name+'_end"]');
 
-      var options = {
-        ranges: {
-          "{{ __('Today') }}": [moment(), moment()],
+      var ranges = {};
+      if (dateRanges.indexOf('p') != -1) {
+        Object.assign(ranges, {
+          "{{ __('Last year') }}": [moment().subtract(1, 'year'), moment()],
+          "{{ __('Last half year') }}": [moment().subtract(6, 'month'), moment()],
+          "{{ __('Last month') }}": [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+          "{{ __('Yesterday') }}": [moment().subtract(1, 'days'), moment().subtract(1, 'days')]
+        });
+      }
+      Object.assign(ranges, {
+        "{{ __('Today') }}": [moment(), moment()],
+        "{{ __('This month') }}": [moment().startOf('month'), moment().endOf('month')]
+      });
+      if (dateRanges.indexOf('f') != -1) {
+        Object.assign(ranges, {
           "{{ __('Tomorrow') }}": [moment().add(1, 'days'), moment().add(1, 'days')],
-          "{{ __('This month') }}": [moment().startOf('month'), moment().endOf('month')],
           "{{ __('Next month') }}": [moment().add(1, 'month').startOf('month'), moment().add(1, 'month').endOf('month')],
           "{{ __('Next half year') }}": [moment(), moment().add(6, 'month')],
-          "{{ __('Next year') }}": [moment(), moment().add(1, 'year')],
+          "{{ __('Next year') }}": [moment(), moment().add(1, 'year')]
+        });
+      }
 
-        },
+      var options = {
+        ranges: ranges,
         autoUpdateInput: false,
         alwaysShowCalendars: false,
         locale: {
