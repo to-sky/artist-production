@@ -147,6 +147,26 @@ class UploadService
         return $file;
     }
 
+    public function storeFromData($data, $entity, $file = null)
+    {
+        $path = FileHelper::storagePath($entity);
+        $name = "event_image.jpg";
+        Storage::put($path . $name, $data);
+
+        if (is_null($file)) {
+            $file = new File();
+        }
+
+        $file->mime = 'image/jpeg';
+        $file->original_name = $name;
+        $file->name = $name;
+        $file->entity_id = $entity->id;
+        $file->entity_type = $entity->entity_type;
+        $file->save();
+
+        return $file;
+    }
+
     /**
      * Uploads and manages user avatar.
      *

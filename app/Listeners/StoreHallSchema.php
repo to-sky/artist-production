@@ -28,7 +28,7 @@ class StoreHallSchema implements ShouldQueue
     public function handle(ParseEventSaved $event)
     {
         if (! $event->parseEvent->is_parsed) {
-            (new Api())->storeHallSchema($event->parseEvent->kartina_id);
+            (new Api())->parse($event->parseEvent);
         }
     }
 }

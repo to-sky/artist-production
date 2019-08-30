@@ -1,7 +1,7 @@
 <script>
     var citySelect = $("#city_id");
     var buildingSelect = $("#building_id");
-    var hallSelect = $("#hall_id");
+    var hallSelect = $("#hall_blueprint_id");
 
     // Add select2 to select city
     citySelect.select2({

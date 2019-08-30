@@ -44,8 +44,8 @@
                             {!! Form::select('building_id', $buildings, old('building_id'), array('class'=>'form-control')) !!}
                         </div>
                         <div class="form-group">
-                            {!! Form::label('hall_id', __('Hall')) !!}*
-                            {!! Form::select('hall_id', $halls, old('hall_id'), array('class'=>'form-control')) !!}
+                            {!! Form::label('hall_blueprint_id', __('Hall')) !!}*
+                            {!! Form::select('hall_blueprint_id', $halls, old('hall_blueprint_id'), array('class'=>'form-control')) !!}
                         </div>
                         <div class="form-group">
                             <div class="free-pass-container">

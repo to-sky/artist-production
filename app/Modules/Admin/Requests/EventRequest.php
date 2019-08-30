@@ -28,7 +28,7 @@ class EventRequest extends FormRequest {
             'name' => 'required',
             'city_id' => 'required',
             'building_id' => 'required',
-            'hall_id' => 'required',
+            'hall_blueprint_id' => 'required',
             'date' => 'required|date_format:Y-m-d H:i|after_or_equal:today',
             'free_pass_logo' => 'sometimes|file|max:2048|mimetypes:' . FileHelper::mimesImage(),
             'event_image' => 'sometimes|file|max:2048|mimetypes:' . FileHelper::mimesImage(),

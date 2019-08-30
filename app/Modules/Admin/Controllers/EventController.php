@@ -3,7 +3,9 @@
 namespace App\Modules\Admin\Controllers;
 
 use App\Helpers\FileHelper;
-use App\Models\{Building, City, Hall, Event, Price, PriceGroup};
+use App\Models\{
+    Building, City, Hall, Event, HallBlueprint, Price, PriceGroup
+};
 use App\Modules\Admin\Requests\EventRequest;
 use App\Modules\Admin\Services\RedirectService;
 use App\Services\UploadService;
@@ -53,7 +55,7 @@ class EventController extends AdminController
     public function getBuildings()
     {
         return Building::where('city_id', request()->city_id)
-            ->has('halls')
+            ->has('hallBlueprints')
             ->get(['id', 'name'])
             ->map(function ($building) {
                 return [
@@ -70,13 +72,13 @@ class EventController extends AdminController
      */
     public function getHalls()
     {
-        return Hall::where('building_id', request()->building_id)
-            ->has('places')
-            ->get(['id', 'name'])
+        return HallBlueprint::where('building_id', request()->building_id)
+            ->has('placeBlueprints')
+            ->get(['id', 'name', 'revision'])
             ->map(function ($hall) {
                 return [
                     'id' => $hall->id,
-                    'text' => $hall->name,
+                    'text' => "$hall->name (v. $hall->revision)",
                 ];
             });
 	}
@@ -89,7 +91,8 @@ class EventController extends AdminController
      */
 	public function store(EventRequest $request)
 	{
-		$event = Event::create($request->all());
+	    $hall = Event::buildHallFromBlueprint($request->get('hall_blueprint_id'));
+		$event = Event::create($request->all() + ['hall_id' => $hall->id]);
 
         $eventImage = $this->uploadService->upload($request, $event, null, 'event_image');
         $freePassLogo = $this->uploadService->upload($request, $event, null, 'free_pass_logo');
@@ -137,6 +140,7 @@ class EventController extends AdminController
             $this->updateImage($event, 'freePassLogo', 'free_pass_logo');
         }
 
+        $event->buildHallFromBlueprint($request->get('hall_blueprint_id'));
         $event->update($request->all());
 
 		if ($request->prices) {
@@ -313,15 +317,15 @@ class EventController extends AdminController
      */
     public function generateParams()
     {
-        $cities = City::has('buildings.halls.places')
+        $cities = City::has('buildings')
             ->pluck('name', 'id')
             ->prepend(__('Admin::admin.select-item', ['item' => mb_strtolower(__('Admin::models.City'))]), '');
 
-        $buildings = Building::has('halls.places')
+        $buildings = Building::has('hallBlueprints')
             ->pluck('name', 'id')
             ->prepend(__('Admin::admin.select-item', ['item' => mb_strtolower(__('Admin::models.Building'))]), '');
 
-        $halls = Hall::has('places')
+        $halls = HallBlueprint::has('placeBlueprints')
             ->pluck('name', 'id')
             ->prepend(__('Admin::admin.select-item', ['item' => mb_strtolower(__('Admin::models.Hall'))]), '');
 

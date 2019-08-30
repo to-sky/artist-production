@@ -51,18 +51,22 @@
                         <td>{{ $event->hall->name }}</td>
                         <td>{{ numberToString($event->is_active) }}</td>
                         <td>
-                            <a href="{{ route(config('admin.route').'.events.edit', [$event->id]) }}#event" class="btn btn-xs btn-default">
-                                <i class="fa fa-edit"></i> {{ trans('Admin::admin.users-index-edit') }}
-                            </a>
-                            <a href="{{ route(config('admin.route').'.events.edit', [$event->id]) }}#prices" class="btn btn-xs btn-default">
-                                <i class="fa fa-magic"></i> {{ trans('Admin::admin.events-index-prices') }}
-                            </a>
-                            <a href="{{ route(config('admin.route').'.events.hallPlaces', [$event->id]) }}" class="btn btn-xs btn-default">
-                                <i class="fa fa-list"></i> {{ trans('Admin::admin.events-index-place-binding') }}
-                            </a>
-                            <a href="{{ route(config('admin.route').'.events.destroy', [$event->id]) }}" class="btn btn-xs btn-default delete-button">
-                                <i class="fa fa-trash"></i> {{ trans('Admin::admin.users-index-delete') }}
-                            </a>
+                            @if(empty($event->kartina_id))
+                                <a href="{{ route(config('admin.route').'.events.edit', [$event->id]) }}#event" class="btn btn-xs btn-default">
+                                    <i class="fa fa-edit"></i> {{ trans('Admin::admin.users-index-edit') }}
+                                </a>
+                                <a href="{{ route(config('admin.route').'.events.edit', [$event->id]) }}#prices" class="btn btn-xs btn-default">
+                                    <i class="fa fa-magic"></i> {{ trans('Admin::admin.events-index-prices') }}
+                                </a>
+                                <a href="{{ route(config('admin.route').'.events.hallPlaces', [$event->id]) }}" class="btn btn-xs btn-default">
+                                    <i class="fa fa-list"></i> {{ trans('Admin::admin.events-index-place-binding') }}
+                                </a>
+                                <a href="{{ route(config('admin.route').'.events.destroy', [$event->id]) }}" class="btn btn-xs btn-default delete-button">
+                                    <i class="fa fa-trash"></i> {{ trans('Admin::admin.users-index-delete') }}
+                                </a>
+                            @else
+                                KaritnaTV
+                            @endif
                         </td>
                     </tr>
                 @endforeach

@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Libs\Kartina\Api;
 use App\Libs\Kartina\Parser;
 use Illuminate\Console\Command;
 
@@ -36,7 +37,7 @@ class ParseEventIds extends Command
      *
      * @param Parser $parser
      */
-    public function handle(Parser $parser)
+    public function handle(Parser $parser, Api $api)
     {
         $eventCount = $parser->storeEventId()->count();
 
