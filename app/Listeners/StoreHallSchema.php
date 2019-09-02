@@ -27,8 +27,9 @@ class StoreHallSchema implements ShouldQueue
      */
     public function handle(ParseEventSaved $event)
     {
-        if (! $event->parseEvent->is_parsed) {
-            (new Api())->parse($event->parseEvent);
-        }
+        // TODO: remove if not used in future
+//        if (! $event->parseEvent->is_parsed) {
+//            (new Api())->parse($event->parseEvent);
+//        }
     }
 }

@@ -13,7 +13,7 @@ class ParseEventIds extends Command
      *
      * @var string
      */
-    protected $signature = 'kartina:parse-events';
+    protected $signature = 'kartina:parse-event-ids';
 
     /**
      * The console command description.
