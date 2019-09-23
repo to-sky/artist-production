@@ -8,6 +8,7 @@ class EventService {
       axios.get(`/api/events/${eventId}`)
         .then(r => {
           resolve(new HallEvent(r.data));
+          this.lastDeltaTime = r.data.ts;
         })
         .catch(e => reject(e))
       ;
@@ -31,8 +32,8 @@ class EventService {
     return new Promise((resolve, reject) => {
       axios.get(`/api/events/${eventId}/delta?last_update=${escape(this.lastDeltaTime)}`)
         .then(r => {
-          this.lastDeltaTime = r.data.timestamp;
-          resolve(r.data.tickets);
+          this.lastDeltaTime = r.data.ts;
+          resolve(r.data.updates);
         })
         .catch(e => reject(e))
       ;

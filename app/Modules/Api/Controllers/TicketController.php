@@ -73,4 +73,16 @@ class TicketController extends ApiController
 
         return response()->json(compact('tickets'));
     }
+
+    /**
+     * Get tickets list
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function cart()
+    {
+        $tickets = $this->ticketService->getCartTickets();
+
+        return response()->json(compact('tickets'));
+    }
 }

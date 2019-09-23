@@ -47,7 +47,7 @@ export default {
     setDeltaInterval() {
       this.deltaTimer = setInterval(() => {
         EventService.loadDelta(window.id)
-          .then(tickets => this.event.patch(tickets))
+          .then(places => this.event.patch(places))
           .catch(e => console.log(e))
         ;
       }, 5000);

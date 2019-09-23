@@ -53,4 +53,13 @@ export default class TicketService {
       ;
     });
   }
+
+  static card() {
+    return new Promise((resolve, reject) => {
+      axios.get('/api/tickets/cart')
+          .then(r => resolve(r.data))
+          .catch(e => reject(e))
+      ;
+    });
+  }
 }

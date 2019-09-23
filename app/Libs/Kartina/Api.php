@@ -13,6 +13,7 @@ use App\Models\LabelBlueprint;
 use App\Models\ParseEvent;
 use App\Models\Place;
 use App\Models\PlaceBlueprint;
+use App\Models\Price;
 use App\Models\Zone;
 use App\Models\ZoneBlueprint;
 use App\Services\UploadService;
@@ -46,6 +47,7 @@ class Api extends Base
         'getHalls' => '/GetHalls.cmd',
         'getHallSchema' => '/GetFlashHallDataCommand.cmd',
         'getEvents' => '/GetPartnerEventsCommand.cmd',
+        'getStatistic' => '/GetEventStatusCommand.cmd',
     ];
 
     /**
@@ -174,6 +176,18 @@ class Api extends Base
         return $events;
     }
 
+    public function getStatistic($eventId)
+    {
+        $resp = $this->sendAuthRequest(
+            $this->host.$this->urls[__FUNCTION__],
+            [
+                'event' => $eventId,
+            ]
+        );
+
+        return $resp;
+    }
+
     /**
      * Get hall schema (zones, places)
      *
@@ -193,14 +207,15 @@ class Api extends Base
      *
      * @param $schema
      * @param $building
+     * @param $priceBindings
      * @return Hall
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function storeHallSchema($schema, $building)
+    public function storeHallSchema($schema, $building, $priceBindings)
     {
         $hall = $this->storeHall($schema, $building);
         $zoneBindings = $this->storeZones($schema['zones'], $hall);
-        $this->storePlaces($schema['places'], $hall, $zoneBindings);
+        $this->storePlaces($schema['places'], $hall, $zoneBindings, $priceBindings);
         $this->storeLabels($schema['labels'], $hall);
 
         return $hall;
@@ -252,11 +267,14 @@ class Api extends Base
      * @param $places
      * @param $hall
      * @param $zoneBinds
+     * @param $priceBinds
      */
-    public function storePlaces($places, $hall, $zoneBinds)
+    public function storePlaces($places, $hall, $zoneBinds, $priceBinds)
     {
         $data = [];
         foreach ($places as $place) {
+            $priceBind = $this->getPriceBind($place, $priceBinds);
+
             $data[] = [
                 'row' => $place['row'],
                 'num' => $place['num'],
@@ -270,6 +288,7 @@ class Api extends Base
                 'path' => $place['path'],
                 'rotate' => (double)$place['rotate'],
                 'zone_id' => $zoneBinds[$place['zone']] ?? null,
+                'price_id' => $priceBind,
                 'hall_id' => $hall->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
@@ -279,6 +298,16 @@ class Api extends Base
         collect($data)->chunk(500)->each(function($chunk) {
             Place::insert($chunk->toArray());
         });
+    }
+
+    protected function getPriceBind($place, $priceBinds)
+    {
+        $bind = null;
+        foreach ($place['price'] as $price) {
+            if (isset($priceBinds[$price['value']])) $bind = $priceBinds[$price['value']];
+        }
+
+        return $bind;
     }
 
     /**
@@ -314,6 +343,12 @@ class Api extends Base
     {
         $event = $this->getEvents($parseEvent->kartina_id);
 
+        // Ignore old but not parsed events
+        if (empty($event['EventId'])) {
+            ParseEvent::parsed($parseEvent->kartina_id);
+            return;
+        }
+
         $this->storeBlueprintFromEvent($event);
         $this->storeEventLocally($event);
 
@@ -324,7 +359,9 @@ class Api extends Base
     {
         $schema = $this->getHallSchema($event['EventId']);
         $building = $this->findBuildingByEventData($event);
-        $hall = $this->storeHallSchema($schema, $building);
+        $priceStatistic = $this->getStatistic($event['EventId']);
+        $priceBindings = $this->storePrices($priceStatistic);
+        $hall = $this->storeHallSchema($schema, $building, $priceBindings);
 
         $eventModel = Event::create([
             'name' => $event['EventName'],
@@ -334,11 +371,36 @@ class Api extends Base
             'kartina_id' => $event['EventId'],
         ]);
         if ($event['EventImageBig']) {
+            Price::whereIn('id', $priceBindings)->update(['event_id' => $eventModel->id]);
+
             $data = file_get_contents($this->host . $event['EventImageBig']);
             $file = $this->uploadService->storeFromData($data, $eventModel);
             $eventModel->eventImage()->associate($file);
             $eventModel->save();
         }
+    }
+
+    protected function storePrices($priceStatistic)
+    {
+        $binds = [];
+        foreach ($priceStatistic['prices'] as $group) {
+            $prices = $group['prices'];
+            $price = null;
+            foreach ($prices as $p) {
+                if (count($p) == 1) $price = array_first($p);
+            }
+
+            if (empty($price)) continue;
+
+            $model = Price::create([
+                'price' => (float) trim($price),
+                'color' => $group['color'],
+            ]);
+
+            $binds[$price] = $model->id;
+        }
+
+        return $binds;
     }
 
     public function storeBlueprintFromEvent($event, $returnParsedSchema = true)

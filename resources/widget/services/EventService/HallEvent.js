@@ -22,10 +22,6 @@ class HallEvent extends BaseEvent {
     return !!this.priceGroups.length;
   }
 
-  getReservedTickets() {
-    return this._rawData.selectedTickets;
-  }
-
   getSelectedPlaces() {
     // todo: make method to return tickets grouped by place and price group
   }

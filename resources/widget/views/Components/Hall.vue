@@ -153,7 +153,7 @@ export default {
         "<div class='current-zone__buy-tickets_size'>" +
         this.$tc("buyButton.ticket", ticketsNum, {
           count: ticketsNum,
-          price: total
+          price: total.toFixed(2)
         }) +
         "</div>"
       );

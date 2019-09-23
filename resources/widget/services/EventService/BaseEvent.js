@@ -1,6 +1,7 @@
 class BaseEvent {
   constructor(rawData) {
     this._rawData = rawData;
+    this.selected = [];
 
     this.init();
   }
@@ -31,20 +32,47 @@ class BaseEvent {
     return head;
   }
 
-  patch(tickets) {
-    tickets && tickets.forEach(t => {
-      this._patchTicket(t);
+  _getPlace(place_id) {
+    let place = null;
+
+    this.raw('places').forEach(p => {
+      if (p.id == place_id) place = p;
+    });
+
+    return place;
+  }
+
+  addAvailable(place_id) {
+
+    let place = this._getPlace(place_id);
+
+    if (place.reserved > 0) {
+      place.reserved--;
+      place.available++;
+    }
+  }
+
+  addReserved(place_id) {
+    let place = this._getPlace(place_id);
+
+    if (place.available > 0) {
+      place.reserved++;
+      place.available--;
+    }
+  }
+
+  patch(updates) {
+    updates && updates.forEach(p => {
+      this._patchPlace(p);
     });
 
     this._processPlaces();
   }
 
-  _patchTicket(ticket) {
-    this._rawData.places.forEach(p => {
-      p.tickets = p.tickets.map(t => {
-        if (t.id == ticket.id) return ticket;
-        return t;
-      });
+  _patchPlace(place) {
+    this._rawData.places = this._rawData.places.map(p => {
+      if (p.id === place.id) return place;
+      return p;
     });
   }
 
@@ -89,28 +117,23 @@ class BaseEvent {
 
     this._rawData.places.forEach(p => {
       let color = '#aaa';
-      let disabled = true;
-      let inSelected = false;
-      let limit = 0;
+      let disabled = !p.available;
+      let reserved = !p.available && p.reserved;
+      let inSelected = this.selected.includes(p.id);
+      let limit = p.available;
       let price = 0;
-      p.tickets.forEach(t => {
-        this._rawData.selectedTickets.forEach(s => {
-          if (s.id == t.id) inSelected = true;
-        });
 
-        if (t.status == 1 && disabled && !inSelected) color = '#f00';
-        if (!t.status || inSelected) {
-          disabled = false;
-          limit++;
-        }
-
+      if (disabled) {
+        if (reserved) color = '#f00';
+        if (inSelected) disabled = false;
+      } else {
         this._rawData.prices.forEach(pr => {
-          if ((t.price_id === pr.id) && !disabled) {
+          if ((p.price_id === pr.id) && !disabled) {
             color = pr.color;
             price = pr.price;
           }
         });
-      });
+      }
 
       let head = null;
       let place = null;

@@ -3,10 +3,14 @@
 namespace App\Services;
 
 
+use App\Handlers\Abstracts\TicketHandlerInterface;
+use App\Handlers\Kartina\KartinaTicketHandler;
+use App\Handlers\Native\NativeTicketHandler;
 use App\Helpers\PriceHelper;
 use App\Models\Event;
 use App\Models\Order;
 use App\Models\Place;
+use App\Models\Price;
 use App\Models\Ticket;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -133,13 +137,8 @@ class TicketService
     {
         if (empty($user)) $user = auth()->user();
 
-        $tickets = Ticket
-            ::whereStatus(Ticket::AVAILABLE)
-            ->whereEventId($data['event_id'])
-            ->wherePlaceId($data['place_id'])
-            ->limit($data['count'])
-            ->get()
-        ;
+        $handler = $this->getHandler($data['event_id']);
+        $tickets = $handler->reserve($data);
 
         foreach ($tickets as $ticket) {
             $this->reserveTicket($ticket, $user, $data['fill'] ?? []);
@@ -356,10 +355,8 @@ class TicketService
      */
     protected function freeTicket(Ticket $ticket)
     {
-        $ticket->user()->dissociate();
-        $ticket->status = Ticket::AVAILABLE;
-        $ticket->reserved_to = null;
-        $ticket->save();
+        $handler = $this->getHandler($ticket->event_id);
+        $handler->free($ticket);
     }
 
     public function sold(Order $order)
@@ -446,10 +443,36 @@ class TicketService
     {
         $tickets = collect();
         foreach (Cart::content() as $id => $item) {
-            if (empty($eventId) || $eventId == $item->model->event_id)
-                $tickets->push($item->model);
+            if (empty($eventId) || $eventId == $item->model->event_id) {
+                /** @var Ticket $t */
+                $t = $item->model;
+
+                $t->discount_price = $t->getBuyablePrice();
+                $t->discount_name = $t->priceGroup()->value('name') ?: '';
+                $t->place_row = $t->place->row;
+                $t->place_num = $t->place->num;
+
+                $tickets->push($t);
+            }
         }
 
         return $tickets;
+    }
+
+    /**
+     *
+     *
+     * @param $event_id
+     * @return TicketHandlerInterface
+     */
+    protected function getHandler($event_id)
+    {
+        $isKartina = Event::whereId($event_id)->value('kartina_id');
+
+        if ($isKartina) {
+            return new KartinaTicketHandler();
+        } else {
+            return new NativeTicketHandler();
+        }
     }
 }

@@ -4,16 +4,14 @@ export default class CartCapsule {
   constructor(event) {
     this._event = event;
     this._eventId = event.raw('event.id');
-    this._tickets = event.getReservedTickets();
     this._prices = event.prices || [];
     this._priceGroups = event.priceGroups || [];
-    this._selectedPlaces = event.raw('selectedPlaces') || [];
-    this._selectedPrices = event.raw('selectedPrices') || [];
-    this._selectedPriceGroups = event.raw('selectedPriceGroups') || [];
-    this.length = this._tickets.length;
+    this.length = 0;
     this.reservationsList = [];
+    this._placeIds = [];
 
-    this._prepareSelectedPlaces();
+    this._tickets = [];
+    this.cart();
   }
 
   _prepareSelectedPlaces() {
@@ -37,15 +35,17 @@ export default class CartCapsule {
     this._tickets.forEach(t => {
       let place = this._getPlace(t.place_id);
 
-      this.reservationsList.push(Object.assign({}, place, {
-        discount_price: this._getDiscountedPrice(
+      this.reservationsList.push({
+        discount_price: t.discount_price || this._getDiscountedPrice(
             this._getPriceById(t.price_id),
             this._getDiscountByPriceGroupId(t.price_group_id)
         ),
         price_group_id: t.price_group_id,
-        discount: this._getDiscountNameByPriceGroupId(t.price_group_id),
-        ticket_id: t.id
-      }));
+        discount: t.hasOwnProperty('discount_name') ? t.discount_name : this._getDiscountNameByPriceGroupId(t.price_group_id),
+        ticket_id: t.id,
+        row: t.place_row || (place ? place.row : ''),
+        num: t.place_num || (place ? place.num : '')
+      });
     });
   }
 
@@ -55,12 +55,6 @@ export default class CartCapsule {
     this._event.raw('places').forEach(p => {
       if (p.id == place_id) place = p;
     });
-
-    if (!place) {
-      this._selectedPlaces.forEach(p => {
-        if (p.id == place_id) place = p;
-      });
-    }
 
     return place;
   }
@@ -85,12 +79,11 @@ export default class CartCapsule {
       count: count,
       fill: fill
     }).then(r => {
-      this._tickets.push(...r.tickets);
-      this.length = this._tickets.length;
+      r.tickets.forEach(t => {
+        this._event.addReserved(t.place_id);
+      });
 
-      this._event._rawData.selectedTickets = this._tickets;
-      this._event.patch(r.tickets);
-      this._prepareSelectedPlaces();
+      this.cart();
     });
   }
 
@@ -102,40 +95,36 @@ export default class CartCapsule {
       place_id: place.id,
       filter: filter
     }).then(r => {
-      this._tickets = this._tickets.filter(t => {
-        let keep = true;
-
-        r.tickets && r.tickets.forEach(rt => {
-          if (rt.id == t.id) keep = false;
-        });
-
-        return keep;
+      r.tickets.forEach(t => {
+        this._event.addAvailable(t.place_id);
       });
-      this._event._rawData.selectedTickets = this._tickets;
-      this._event.patch(r.tickets);
-      this.length = this._tickets.length;
 
-      this._prepareSelectedPlaces();
+      this.cart();
     });
   }
 
   freeById(ticketId) {
     TicketService.freeById(ticketId)
       .then(r => {
-        this._tickets = this._tickets.filter(t => {
-          let keep = true;
-
-          r.tickets && r.tickets.forEach(rt => {
-            if (rt.id == t.id) keep = false;
-          });
-
-          return keep;
+        r.tickets.forEach(t => {
+          this._event.addAvailable(t.place_id);
         });
-        this._event._rawData.selectedTickets = this._tickets;
-        this._event.patch(r.tickets);
+
+        this.cart();
+      })
+    ;
+  }
+
+  cart() {
+    TicketService.card()
+      .then(r => {
+        this._tickets = r.tickets;
         this.length = this._tickets.length;
 
         this._prepareSelectedPlaces();
+
+        this._event.selected = this._placeIds;
+        this._event.patch([]);
       })
     ;
   }
@@ -143,10 +132,7 @@ export default class CartCapsule {
   total() {
     let total = 0;
     this._tickets.forEach(t => {
-      total += this._getDiscountedPrice(
-        this._getPriceById(t.price_id),
-        this._getDiscountByPriceGroupId(t.price_group_id)
-      );
+      total += t.discount_price;
     });
 
     return total;
@@ -156,10 +142,6 @@ export default class CartCapsule {
     let price = 0;
 
     this._prices.forEach(p => {
-      if (p.id == id) price = parseFloat(p.price);
-    });
-
-    this._selectedPrices.forEach(p => {
       if (p.id == id) price = parseFloat(p.price);
     });
 
@@ -173,10 +155,6 @@ export default class CartCapsule {
       if (g.id == id) discount = parseFloat(g.discount);
     });
 
-    this._selectedPriceGroups.forEach(g => {
-      if (g.id == id) discount = parseFloat(g.discount);
-    });
-
     return discount;
   }
 
@@ -184,10 +162,6 @@ export default class CartCapsule {
     let name = '';
 
     this._priceGroups.forEach(g => {
-      if (g.id == id) name = g.name;
-    });
-
-    this._selectedPriceGroups.forEach(g => {
       if (g.id == id) name = g.name;
     });
 

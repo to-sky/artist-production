@@ -7,6 +7,7 @@ use App\Models\Event;
 use App\Models\Place;
 use App\Models\Price;
 use App\Models\PriceGroup;
+use App\Services\EventService;
 use App\Services\TicketService;
 
 class EventController extends ApiController
@@ -14,68 +15,15 @@ class EventController extends ApiController
     /**
      * Get event data
      *
-     * @param TicketService $ticketService
+     * @param EventService $eventService
      * @param Event $event
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(TicketService $ticketService, Event $event)
+    public function show(EventService $eventService, Event $event)
     {
-        $event->loadMissing('eventImage');
-
-        $hall = $event->hall()->with('building.city')->first();
-
-        $labels = $event->hall->labels()->get([
-            'id', 'hall_id', 'x', 'y', 'text', 'is_bold', 'is_italic', 'layer', 'rotation'
-        ]);
-
-        $zones = $event->hall->zones()->get(['id', 'hall_id', 'name', 'color']);
-
-        $places = $event
-            ->hall
-            ->places()
-            ->with([
-                'tickets' => function ($q) use ($event) {
-                    return $q->whereEventId($event->id);
-                }
-            ])
-            ->get([
-                'id',
-                'hall_id',
-                'text',
-                'template',
-                'x',
-                'y',
-                'width',
-                'height',
-                'path',
-                'rotate',
-                'row',
-                'num',
-            ])
-        ;
-
-        $prices = $event->prices()->get(['id', 'price', 'color']);
-
-        $priceGroups = $event->priceGroups()->get(['id', 'name','discount']);
-
-        $selectedTickets = $ticketService->getCartTickets();
-        $selectedPlaces = Place::find($selectedTickets->pluck('place_id'));
-        $selectedPrices = Price::find($selectedTickets->pluck('price_id'));
-        $selectedPriceGroups = PriceGroup::find($selectedTickets->pluck('price_group_id'));
-
-        return response()->json(compact(
-            'event',
-            'hall',
-            'labels',
-            'zones',
-            'places',
-            'prices',
-            'priceGroups',
-            'selectedTickets',
-            'selectedPlaces',
-            'selectedPrices',
-            'selectedPriceGroups'
-        ), 200);
+        return response()->json(
+            $eventService->schema($event)
+        );
     }
 
     /**
@@ -111,21 +59,17 @@ class EventController extends ApiController
     /**
      * Get tickets updates from `last_update` to current time
      *
-     * @param TicketService $ticketService
+     * @param EventService $eventService
      * @param EventTicketsDeltaRequest $request
      * @param Event $event
      * @return \Illuminate\Http\JsonResponse
      */
-    public function delta(TicketService $ticketService, EventTicketsDeltaRequest $request, Event $event)
+    public function delta(EventService $eventService, EventTicketsDeltaRequest $request, Event $event)
     {
-        $end = time();
-        $start = $request->get('last_update') ?: $end;
+        $start = $request->get('last_update') ?: 0;
 
-        $tickets = $ticketService->getStatusDelta($event, $start, $end);
-
-        return response()->json([
-            'tickets' => $tickets,
-            'timestamp' => $end,
-        ]);
+        return response()->json(
+            $eventService->delta($event, $start)
+        );
     }
 }

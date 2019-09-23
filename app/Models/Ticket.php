@@ -65,7 +65,8 @@ class Ticket extends Model implements Buyable
         'order_id',
         'price_group_id',
         'reserved_to',
-        'discount'
+        'discount',
+        'kartina_id',
     ];
 
     public function __construct(array $attributes = [])
