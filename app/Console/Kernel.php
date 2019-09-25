@@ -29,6 +29,9 @@ class Kernel extends ConsoleKernel
 
          $schedule->command('artist:free_reservations')
              ->everyMinute();
+
+         $schedule->command('artist:reserve-reminder')
+            ->dailyAt('08:00');
     }
 
     /**

@@ -372,5 +372,7 @@
     "My sales": "Мои продажи",
     "Event name": "Название Мер-ия",
     "Tickets num.": "Кол-во билетов",
-    "Building address": "Адрес строения"
+    "Building address": "Адрес строения",
+    "Reserve reminder": "Напоминание о резервировании",
+    "Send reserve reminder notification": "Отсылать напоминание о резервировании"
 }

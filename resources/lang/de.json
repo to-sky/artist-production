@@ -369,5 +369,7 @@
   "My sales": "Meine Verkäufe",
   "Event name": "Veranstaltungsname",
   "Tickets num.": "Ticket Nummer",
-  "Building address": "Gebäudeadresse"
+  "Building address": "Gebäudeadresse",
+  "Reserve reminder": "Reserveerinnerung",
+  "Send reserve reminder notification": "Reservemahnungsbenachrichtigung senden"
 }
