@@ -3,6 +3,9 @@
 namespace App\Libs\Kartina;
 
 
+use App\Models\Order;
+use App\Models\User;
+
 class Purchase extends Base
 {
     /**
@@ -25,6 +28,11 @@ class Purchase extends Base
         'addToOrder' => '/ChangePlaceCommand.cmd',
         'removeFromOrder' => '/DeletePlaceFromCartCommand.cmd',
         'getOrder' => '/GetOrderCommand.cmd',
+        'confirmOrder' => '/ConfirmOrderCommand.cmd',
+        'registerClient' => '/ClientRegisterCommand.cmd',
+        'loginClient' => '/ClientLoginCommand.cmd',
+        'reserveCart' => '/ReserveCurrentOrderCommand.cmd',
+        'confirmPayment' => '/ChangeOrderStatusCommand.cmd',
     ];
 
     /**
@@ -35,8 +43,6 @@ class Purchase extends Base
     public function __construct()
     {
         parent::__construct();
-
-        $this->auth = $this->getAuth();
     }
 
     /**
@@ -80,6 +86,8 @@ class Purchase extends Base
      */
     public function sendAuthRequest($url, $params = [], $options = [])
     {
+        if (empty($this->auth)) $this->auth = $this->getAuth();
+
         try {
             return $this->sendRequest($url, ['__auth' => $this->auth] + $params, $options + ['throw_errors' => true]);
         } catch (\Exception $e) {
@@ -204,4 +212,95 @@ class Purchase extends Base
 
         return $resp;
     }
-}
+
+    public function confirmOrder($orderId, $clientData, $status = 0)
+    {
+        $resp = $this->sendAuthRequest(
+            $this->host.$this->urls[__FUNCTION__],
+            [
+                'login' => $clientData['email'],
+                'password' => config('kartina.default_client_password'),
+                'order' => $orderId,
+                'paymentType' => 'BANK_PAY',
+                'status' => $status,
+            ],
+            [
+                'method' => 'POST',
+            ]
+        );
+
+        return $resp;
+    }
+
+    public function registerClient($data)
+    {
+        $resp = $this->sendAuthRequest(
+            $this->host.$this->urls[__FUNCTION__],
+            [
+                'authProvider' => 'email',
+                'login' => $data['email'],
+                'password' => config('kartina.default_client_password'),
+                'firstName' => $data['first_name'],
+                'lastName' => $data['last_name'],
+                'phone' => $data['phone'],
+                'email' => $data['email'],
+            ],
+            [
+                'method' => 'POST',
+            ]
+        );
+
+        return $resp;
+    }
+
+    public function loginClient($email)
+    {
+        $resp = $this->sendAuthRequest(
+            $this->host.$this->urls[__FUNCTION__],
+            [
+                'authProvider' => 'email',
+                'login' => $email,
+                'password' => config('kartina.default_client_password'),
+            ],
+            [
+                'method' => 'POST',
+            ]
+        );
+
+        return $resp;
+    }
+
+    public function reserveCart()
+    {
+        $resp = $this->sendAuthRequest(
+            $this->host.$this->urls[__FUNCTION__],
+            [
+                'useBonusAccount' => 0,
+                'inviteTicket' => 0,
+                'paymentType' => config('kartina.default_payment_type'),
+                'deliveryType' => config('kartina.default_delivery_type'),
+            ],
+            [
+                'method' => 'POST',
+            ]
+        );
+
+        return $resp;
+    }
+
+    public function confirmPayment($orderId)
+    {
+        $resp = $this->sendAuthRequest(
+            $this->host.$this->urls[__FUNCTION__],
+            [
+                'order' => $orderId,
+                'status' => 1,
+            ],
+            [
+                'method' => 'POST',
+            ]
+        );
+
+        return $resp;
+    }
+};

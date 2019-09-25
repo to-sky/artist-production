@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use App\Libs\Kartina\Purchase;
 use App\Models\Address;
 use App\Models\Country;
 use App\Models\Order;
@@ -22,11 +23,13 @@ class PaymentService
 {
     protected $_ticketService;
     protected $_mailService;
+    protected $_api;
 
     public function __construct(TicketService $ticketService, MailService $mailService)
     {
         $this->_ticketService = $ticketService;
         $this->_mailService = $mailService;
+        $this->_api = new Purchase();
     }
 
     /**
@@ -68,6 +71,10 @@ class PaymentService
 
         $this->_ticketService->attachCartToOrder($order);
 
+        if ($this->shouldHaveKartinaId($order)) {
+            $this->confirmKartinaOrder($order, $user);
+        }
+
         $paymentProcessor = $this->getPaymentMethod($paymentMethod->id ?? 0);
         if ($paymentProcessor) {
             return $paymentProcessor->process($order);
@@ -86,6 +93,10 @@ class PaymentService
     public function confirm(Order $order, Request $request)
     {
         $processor = $this->getPaymentMethod($order->payment_method_id);
+
+        if ($this->shouldHaveKartinaId($order)) {
+            $this->confirmPaymentKartinaOrder($order);
+        }
 
         return $processor->confirm($order, $request);
     }
@@ -153,5 +164,57 @@ class PaymentService
         }
 
         return $address;
+    }
+
+    /**
+     * Checks if current order should have user on kartina.tv
+     *
+     * @param Order $order
+     *
+     * @return bool
+     */
+    protected function shouldHaveKartinaId(Order $order)
+    {
+        foreach ($order->tickets as $ticket) {
+            if ($ticket->kartina_id) return true;
+        }
+
+        return false;
+    }
+
+    public function getKartinaClientForUser(User $user)
+    {
+        if (!$user->kartina_id) {
+            $resp = $this->_api->registerClient([
+                'email' => $user->email,
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'phone' => $user->profile->phone ?? null,
+            ]);
+
+            $user->kartina_id = $resp['clientId'];
+            $user->save();
+        }
+
+        return $this->_api->loginClient($user->email);
+    }
+
+    protected function confirmKartinaOrder(Order $order, User $user = null)
+    {
+        if (empty($user)) $user = $order->user;
+
+        $this->getKartinaClientForUser($user);
+
+        $kartinaOrder = $this->_api->getOrder();
+
+        $order->kartina_id = $kartinaOrder['orderId'];
+        $order->save();
+
+        $this->_api->reserveCart();
+    }
+
+    protected function confirmPaymentKartinaOrder(Order $order)
+    {
+        $this->_api->confirmPayment($order->kartina_id);
     }
 }
