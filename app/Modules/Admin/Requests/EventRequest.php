@@ -36,4 +36,22 @@ class EventRequest extends FormRequest {
             'priceGroups.*.discount' => 'int|min:0|max:100',
 		];
 	}
+
+	public function messages()
+    {
+        return array_merge(parent::messages(), [
+            'date.after_or_equal' => __('Date must be greater or equal to current date'),
+        ]);
+    }
+
+    public function attributes()
+    {
+        return array_merge(parent::attributes(), [
+            'city_id' => __('City'),
+            'building_id' => __('Building'),
+            'hall_blueprint_id' => __('Hall'),
+            'prices.*.price' => __('Price'),
+            'priceGroups.*.discount' => __('Discount'),
+        ]);
+    }
 }

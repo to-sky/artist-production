@@ -73,7 +73,7 @@
                                 <td>{{ $order->payer->fullname ?? '' }}</td>
                                 <td>{{ $order->paid_at ? $order->paid_at->format('d.m.Y H:i') : '' }}</td>
                                 <td>{{ $order->user->display_id ?? '' }}</td>
-                                <td>{{ $order->user->fullname ?? ''}}</td>
+                                <td class="word-cut">{{ $order->user->fullname ?? ''}}</td>
                                 <td>{{ $order->user->profile->phone ?? ''}}</td>
                                 <td>{{ $order->user->profile->typeLabel ?? __('Anonymous') }}</td>
                                 <td>{{ $order->hallName }}</td>
@@ -341,17 +341,20 @@
               var $submit = $('#addCommentBtn');
 
               $comment.keyup(function () {
-                $submit.prop('disabled', $comment.val().length <= 0);
+                var text = $comment.val().replace(new RegExp('^\\s+|\\s+$', 'g'), '');
+
+                $submit.prop('disabled', text.length <= 0);
               });
 
               $submit.click(function () {
-                $.post(url, {comment_addition: $comment.val()}, function () {
+                $.post(url, {comment_addition: $comment.val().replace(new RegExp('^\\s+|\\s+$', 'g'), '')}, function () {
                   location.reload();
                 });
               });
             })
             .on('hidden.bs.modal', function () {
               $('#addComment').val('');
+              $('#addCommentBtn').prop('disabled', true);
             })
         ;
 

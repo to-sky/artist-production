@@ -1,4 +1,8 @@
 {
+  "Menu": "Speisekarte",
+  "Create CRUD": "CRUD erstellen",
+  "Add a new CRUD menu": "Fügen Sie ein neues CRUD-Menü hinzu",
+
   "A fresh verification link has been sent to your email address.": "Ein link zum zurücksetzen ihres passworts wurde an ihre e-mail adresse gesendet.",
   "All rights reserved.": "Alle rechte vorbehalten.",
   "Before proceeding, please check your email for a verification link.": "Bevor sie fortfahren, überprüfen sie bitte den bestätigungslink in ihrer e-mail",
@@ -371,5 +375,6 @@
   "Tickets num.": "Ticket Nummer",
   "Building address": "Gebäudeadresse",
   "Reserve reminder": "Reserveerinnerung",
-  "Send reserve reminder notification": "Reservemahnungsbenachrichtigung senden"
+  "Send reserve reminder notification": "Reservemahnungsbenachrichtigung senden",
+  "Date must be greater or equal to current date": "Datum muss größer oder gleich dem aktuellen Datum sein"
 }

@@ -84,11 +84,19 @@ class MenuController extends AdminController
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request) {
-        $validation = Validator::make($request->all(), [
-            'singular_name'  => 'required|unique:menus,singular_name',
-            'plural_name'  => 'required|unique:menus,plural_name',
-            'title' => 'required'
-        ]);
+        $validation = Validator::make(
+            $request->all(),
+            [
+                'singular_name'  => 'required|unique:menus,singular_name',
+                'plural_name'  => 'required|unique:menus,plural_name',
+                'title' => 'required'
+            ],
+            [],
+            [
+                'singular_name'  => __('Singular name'),
+                'plural_name'  => __('Plural name'),
+            ]
+        );
         if ($validation->fails()) {
             return redirect()->back()->withInput()->withErrors($validation);
         }

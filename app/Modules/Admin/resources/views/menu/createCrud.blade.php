@@ -3,13 +3,13 @@
 @section('page-header')
     <section class="content-header">
         <h1>
-            <span class="text-capitalize">Menu</span>
-            <small>Create CRUD</small>
+            <span class="text-capitalize">{{ __('Menu') }}</span>
+            <small>{{ __('Create CRUD') }}</small>
         </h1>
 
         <ol class="breadcrumb">
             <li><a href="{{ url('dashboard') }}">{{ trans('Admin::admin.partials-header-title') }}</a></li>
-            <li><a href="{{ url('menu') }}" class="text-capitalize">{{ 'Menu' }}</a></li>
+            <li><a href="{{ url('menu') }}" class="text-capitalize">{{ __('Menu') }}</a></li>
             <li class="active">{{ trans('Admin::templates.templates-view_create-create') }}</li>
         </ol>
 
@@ -22,7 +22,7 @@
 
         <div class="col-md-8 col-md-offset-2">
 
-            <a href="{{ route(config('admin.route') . '.menu.index') }}"><i class="fa fa-angle-double-left"></i> Back to all <span>menu</span></a><br><br>
+            <a href="{{ route(config('admin.route') . '.menu.index') }}"><i class="fa fa-angle-double-left"></i> {{ trans('Admin::admin.back-to-all-entries') }}</a><br><br>
 
             @include('Admin::partials.errors')
 
@@ -30,7 +30,7 @@
             <div class="box">
 
                 <div class="box-header with-border">
-                    <h3 class="box-title">Add a new CRUD menu</h3>
+                    <h3 class="box-title">{{ __('Add a new CRUD menu') }}</h3>
                 </div>
 
                 <div class="box-body row">
@@ -61,7 +61,7 @@
                             <div class="checkbox">
                                 <label>
                                     {!! Form::checkbox('roles['.$role->id.']',$role->id,old('roles.'.$role->id)) !!}
-                                    {!! $role->display_name !!}
+                                    {!! __($role->display_name) !!}
                                 </label>
                             </div>
                         @endforeach
@@ -70,7 +70,7 @@
 
                     <div class="form-group col-md-12">
                         {!! Form::label('soft', trans('Admin::qa.menus-createCrud-soft_delete')) !!}
-                        {!! Form::select('soft', [1 => trans('strings.yes'), 0 => trans('strings.no')], old('soft'), ['class' => 'form-control']) !!}
+                        {!! Form::select('soft', [1 => trans('Admin::strings.yes'), 0 => trans('Admin::strings.no')], old('soft'), ['class' => 'form-control']) !!}
                     </div>
 
                     <div class="form-group col-md-12">

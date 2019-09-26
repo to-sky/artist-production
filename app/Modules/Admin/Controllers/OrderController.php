@@ -545,8 +545,8 @@ class OrderController extends AdminController
 
         $order->update($data);
 
-        Alert::success(trans('Admin::admin.controller-successfully_created', [
-            'item' => trans('Admin::models.OrderController')
+        Alert::success(trans('Admin::admin.controller-successfully_updated', [
+            'item' => trans('Admin::models.Order')
         ]))->flash();
 
         $this->redirectService->setRedirect($request);

@@ -1,4 +1,8 @@
 {
+    "Menu": "Меню",
+    "Create CRUD": "Создать CRUD",
+    "Add a new CRUD menu": "Добавить новое меню с CRUD",
+
     "A fresh verification link has been sent to your email address.": "Ссылка на сброс пароля была отправлена на Ваш email-адрес.",
     "All rights reserved.": "Все права защищены.",
     "Before proceeding, please check your email for a verification link.": "Прежде чем продолжить, пожалуйста, проверьте ссылку подтверждения в своей электронной почте",
@@ -331,7 +335,7 @@
     "events": "события",
     "partners": "партнеры",
     "Create report": "Создать отчет",
-    "Export to Excel": "Експортировать и Excel",
+    "Export to Excel": "Експортировать в Excel",
     "Export tickets to Excel": "Експортировать в Excel билеты",
     "Sale period": "Период продаж",
     "Events period": "Период событий",
@@ -374,5 +378,6 @@
     "Tickets num.": "Кол-во билетов",
     "Building address": "Адрес строения",
     "Reserve reminder": "Напоминание о резервировании",
-    "Send reserve reminder notification": "Отсылать напоминание о резервировании"
+    "Send reserve reminder notification": "Отсылать напоминание о резервировании",
+    "Date must be greater or equal to current date": "Дата должна быть больше или равна сегодняшней"
 }

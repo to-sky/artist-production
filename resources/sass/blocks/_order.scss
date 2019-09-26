@@ -178,6 +178,15 @@
   margin-bottom: 10px;
   padding-bottom: 10px;
   border-bottom: 1px solid #f4f4f4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.client-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .modal-sum {
