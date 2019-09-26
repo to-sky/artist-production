@@ -210,11 +210,13 @@ class PaymentService
         $order->kartina_id = $kartinaOrder['orderId'];
         $order->save();
 
-        $this->_api->reserveCart();
+        $this->_api->setDeliveryType($order->kartina_id);
+        $this->_api->setPaymentType($order->kartina_id);
+        $this->_api->confirmOrder($order->kartina_id);
     }
 
     protected function confirmPaymentKartinaOrder(Order $order)
     {
-        $this->_api->confirmPayment($order->kartina_id);
+        $this->_api->confirmOrder($order->kartina_id, 1);
     }
 }

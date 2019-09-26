@@ -33,6 +33,8 @@ class Purchase extends Base
         'loginClient' => '/ClientLoginCommand.cmd',
         'reserveCart' => '/ReserveCurrentOrderCommand.cmd',
         'confirmPayment' => '/ChangeOrderStatusCommand.cmd',
+        'setPaymentType' => '/SavePaymentOptions.cmd',
+        'setDeliveryType' => '/SaveDeliveryOptions.cmd',
     ];
 
     /**
@@ -213,15 +215,42 @@ class Purchase extends Base
         return $resp;
     }
 
-    public function confirmOrder($orderId, $clientData, $status = 0)
+    public function setPaymentType($orderId)
     {
         $resp = $this->sendAuthRequest(
             $this->host.$this->urls[__FUNCTION__],
             [
-                'login' => $clientData['email'],
-                'password' => config('kartina.default_client_password'),
-                'order' => $orderId,
                 'paymentType' => 'BANK_PAY',
+                'order' => $orderId,
+                'format' => 'json',
+            ]
+        );
+
+        return $resp;
+    }
+
+    public function setDeliveryType($orderId)
+    {
+        $resp = $this->sendAuthRequest(
+            $this->host.$this->urls[__FUNCTION__],
+            [
+                'deliveryType' => 'ETICKET',
+                'order' => $orderId,
+                'format' => 'json',
+            ]
+        );
+
+        return $resp;
+    }
+
+    public function confirmOrder($orderId, $status = 0)
+    {
+        $resp = $this->sendAuthRequest(
+            $this->host.$this->urls[__FUNCTION__],
+            [
+                'login' => config('kartina.master_login'),
+                'password' => config('kartina.master_password'),
+                'order' => $orderId,
                 'status' => $status,
             ],
             [
@@ -279,22 +308,6 @@ class Purchase extends Base
                 'inviteTicket' => 0,
                 'paymentType' => config('kartina.default_payment_type'),
                 'deliveryType' => config('kartina.default_delivery_type'),
-            ],
-            [
-                'method' => 'POST',
-            ]
-        );
-
-        return $resp;
-    }
-
-    public function confirmPayment($orderId)
-    {
-        $resp = $this->sendAuthRequest(
-            $this->host.$this->urls[__FUNCTION__],
-            [
-                'order' => $orderId,
-                'status' => 1,
             ],
             [
                 'method' => 'POST',
