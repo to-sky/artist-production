@@ -32,9 +32,13 @@ class Purchase extends Base
         'registerClient' => '/ClientRegisterCommand.cmd',
         'loginClient' => '/ClientLoginCommand.cmd',
         'reserveCart' => '/ReserveCurrentOrderCommand.cmd',
+        'saleCart' => '/SaleCurrentOrderCommand.cmd',
         'confirmPayment' => '/ChangeOrderStatusCommand.cmd',
         'setPaymentType' => '/SavePaymentOptions.cmd',
         'setDeliveryType' => '/SaveDeliveryOptions.cmd',
+        'getClients' => '/GetPartnerClientsCommand.cmd',
+        'setClient' => '/SetCurrentClientCommand.cmd',
+        'revertOrder' => '/RevertOrderCommand.cmd',
     ];
 
     /**
@@ -299,6 +303,44 @@ class Purchase extends Base
         return $resp;
     }
 
+    public function getClients($email = null)
+    {
+        $data = [
+            '_search' => false,
+            'rows' => 100,
+            'page' => 1,
+            'sidx' => 'id',
+            'sord' => 'desc',
+        ];
+
+        if ($email) {
+            $data['Email'] = $email;
+            $data['ClientType'] = -1;
+        }
+
+        $resp = $this->sendAuthRequest(
+            $this->host.$this->urls[__FUNCTION__],
+            $data
+        );
+
+        if (!(int) $resp['total']) return null;
+        if ($resp['total'] == 1) return array_first($resp['rows']);
+
+        return $resp['rows'];
+    }
+
+    public function setClient($kartina_id)
+    {
+        $resp = $this->sendAuthRequest(
+            $this->host.$this->urls[__FUNCTION__],
+            [
+                'client' => $kartina_id,
+            ]
+        );
+
+        return $resp;
+    }
+
     public function reserveCart()
     {
         $resp = $this->sendAuthRequest(
@@ -308,6 +350,39 @@ class Purchase extends Base
                 'inviteTicket' => 0,
                 'paymentType' => config('kartina.default_payment_type'),
                 'deliveryType' => config('kartina.default_delivery_type'),
+            ],
+            [
+                'method' => 'POST',
+            ]
+        );
+
+        return $resp;
+    }
+
+    public function saleCart()
+    {
+        $resp = $this->sendAuthRequest(
+            $this->host.$this->urls[__FUNCTION__],
+            [
+                'useBonusAccount' => 0,
+                'isInviteOrder' => 0,
+                'usePosTerminal' => 0,
+            ],
+            [
+                'method' => 'POST',
+            ]
+        );
+
+        return $resp;
+    }
+
+    public function revertOrder($orderId)
+    {
+        $resp = $this->sendAuthRequest(
+            $this->host.$this->urls[__FUNCTION__],
+            [
+                'order' => $orderId,
+                'confirmedReserve' => 0,
             ],
             [
                 'method' => 'POST',

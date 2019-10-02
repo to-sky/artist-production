@@ -2,6 +2,9 @@
 
 namespace App\Modules\Admin\Controllers;
 
+use App\Handlers\Kartina\KartinaEventHandler;
+use App\Handlers\Native\NativeEventHandler;
+use App\Libs\Kartina\Traits\OrderTrait;
 use App\Models\{Address,
     Country,
     Order,
@@ -31,6 +34,8 @@ use SebastianBergmann\ObjectReflector\ObjectReflector;
 
 class OrderController extends AdminController
 {
+    use OrderTrait;
+
     protected $ticketService;
 
     protected $shippingService;
@@ -53,6 +58,8 @@ class OrderController extends AdminController
         $this->invoiceService = $invoiceService;
 
         parent::__construct($redirectService);
+
+        $this->initOrderTrait();
     }
 
     /**
@@ -85,11 +92,55 @@ class OrderController extends AdminController
 	public function create()
 	{
 	    return view('Admin::order.create', [
-	        'events' => Event::all(),
+	        'eventNames' => Event::distinct()->pluck('name'),
             'users' => $this->clientService->query(),
             'ticketsData' => $this->getTicketData()
         ]);
 	}
+
+	public function eventsList(Request $request)
+    {
+        $q = Event
+            ::whereIsActive(1)
+            ->where('date', '>', \DB::raw('NOW()'))
+            ->orderBy('date', 'asc')
+        ;
+
+        $name = $request->get('name');
+        if ($name && $name != 'all') {
+            $q->where('name', 'like', "%$name%");
+        }
+
+        if (
+            ($start = $request->get('start')) &&
+            ($end = $request->get('end'))
+        ) {
+            $q->whereBetween('date', [
+                Carbon::createFromFormat('Y-m-d', $start)->startOfDay(),
+                Carbon::createFromFormat('Y-m-d', $end)->endOfDay(),
+            ]);
+        }
+
+        $events = $q->get();
+
+        return view('Admin::order.partials._events_list', compact('events'));
+    }
+
+    public function eventStatistic(Event $event)
+    {
+        $handler = $this->getHandler($event);
+
+        return view('Admin::order.partials._event_statistic', ['prices' => $handler->statistic($event)]);
+    }
+
+    protected function getHandler(Event $event)
+    {
+        if ($event->kartina_id) {
+            return new KartinaEventHandler();
+        }
+
+        return new NativeEventHandler();
+    }
 
     /**
      * Get event data to order popup widget
@@ -230,6 +281,10 @@ class OrderController extends AdminController
         $orderDiscount = $request->main_discount;
         $paid = $order->ticketsPriceWithDiscount - $orderDiscount;
 
+        if ($this->shouldHaveKartinaId($order)) {
+            $this->saleKartinaOrder($order, $order->user);
+        }
+
         $order->update([
             'subtotal' => $ticketsPrice,
             'discount' => $orderDiscount,
@@ -343,6 +398,10 @@ class OrderController extends AdminController
         $order->update([
             'subtotal' => $ticketsPrice,
         ]);
+
+        if ($this->shouldHaveKartinaId($order)) {
+            $this->reserveKartinaOrder($order);
+        }
 
         return $order;
 	}

@@ -18,4 +18,6 @@ interface EventHandlerInterface
      * @return array
      */
     public function delta(Event $event, $ts);
+
+    public function statistic(Event $event);
 }

@@ -70,27 +70,49 @@
         dateTo = picker.endDate.format('YYYY-MM-DD');
     });
 
+    function inView($el) {
+      var elementTop = $el.offset().top;
+      var elementBottom = elementTop + $el.outerHeight();
+
+      var viewportTop = $(window).scrollTop();
+      var viewportBottom = viewportTop + $(window).height();
+
+      return elementBottom > viewportTop && elementTop < viewportBottom;
+    }
+
+    function loadStatictic($el) {
+      if (inView($el) && !$el.hasClass('loaded')) {
+        $el.load($el.data('url'));
+        $el.addClass('loaded');
+      }
+    }
+
     // Filter events
-     $('#findEvents').click(function () {
-         var dateFrom = $('#periodFrom').val();
-         var dateTo = $('#periodTo').val();
-         var eventName = $('#findByName option:selected').val();
-         var listEvents = $('#eventList li');
+    $('#findEvents').click(function () {
+       var dateFrom = $('#periodFrom').val();
+       var dateTo = $('#periodTo').val();
+       var eventName = $('#findByName option:selected').val();
 
-         listEvents.each(function (i, el) {
-            var findEventDate = $(this).find('[data-date]').data('date');
-            var findPeriod = moment(findEventDate).isBetween(moment(dateFrom, dateFormat), moment(dateTo, dateFormat));
-            var findEventName = $(this).find('a.show-widget').text().trim();
+       $('#eventList').load(
+           "{{ route('order.eventsList') }}",
+           {
+             name: eventName,
+             start: dateFrom,
+             end: dateTo
+           },
+           function () {
+             $('#eventList .event-statistic').each(function() {
+               loadStatictic($(this));
+             });
+           }
+       );
+    });
+    $(window).scroll(function () {
+      $('#eventList .event-statistic').each(function() {
+        loadStatictic($(this));
+      });
+    });
 
-            if (findEventName === eventName && findPeriod) {
-                $(el).show();
-            } else if (eventName === 'all' && findPeriod) {
-                $(el).show();
-            } else {
-                $(el).hide();
-            }
-        });
-     });
 
      // Select client
     var clientDataHtml;
@@ -137,10 +159,12 @@
     var eventId;
 
     // Open widget popup
-    $('.show-widget').click(function (e) {
+    $('#eventList').click('.show-widget', function (e) {
         e.preventDefault();
 
         eventId = $(e.target).data('event-id');
+
+        if (!eventId) return;
 
         $.get($(e.target).attr('href'), function (data) {
             $('#mainContent').before(data);
@@ -161,6 +185,8 @@
                 }, 1000);
             }, 500);
         });
+
+        return false;
     });
 
     // add ticket hidden inputs to form
@@ -541,5 +567,9 @@
 
         $(orderPriceBlock).text(finalPrice);
     }
+
+    $(document).ready(function () {
+      $('#findEvents').click();
+    })
 </script>
 

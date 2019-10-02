@@ -172,6 +172,8 @@ Route::group([
 
     Route::prefix('admin')->group(function () {
         Route::prefix('orders')->group(function() {
+            Route::post('events', 'OrderController@eventsList')->name('order.eventsList');
+            Route::get('events/statistic/{event}', 'OrderController@eventStatistic')->name('order.eventStatistic');
             Route::get('tickets_table', 'OrderController@updateTicketsTable')->name('order.updateTicketsTable');
             Route::get('{order}', 'TicketController@print')->name('tickets.print');
             Route::get('widget/{event}', 'OrderController@widgetContent')->name('events.widgetContent');

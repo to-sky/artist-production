@@ -179,4 +179,24 @@ class NativeEventHandler implements EventHandlerInterface
             'timestamp' => $end,
         ];
     }
+
+    public function statistic(Event $event)
+    {
+        $raw = \DB::table('prices')
+            ->select([
+                'prices.color as color',
+                'prices.price as price',
+                \DB::raw('count(tickets.id) as available')
+            ])
+            ->where('prices.event_id', $event->id)
+            ->leftJoin('tickets', 'tickets.price_id', '=', 'prices.id')
+            ->where('tickets.status', Ticket::AVAILABLE)
+            ->orderBy('price', 'asc')
+            ->get()
+        ;
+
+        $data = json_decode(json_encode($raw), true);
+
+        return $data;
+    }
 }

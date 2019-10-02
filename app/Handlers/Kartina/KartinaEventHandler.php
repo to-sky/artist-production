@@ -2,12 +2,14 @@
 namespace App\Handlers\Kartina;
 
 use App\Handlers\Abstracts\EventHandlerInterface;
+use App\Libs\Kartina\Api;
 use App\Libs\Kartina\Purchase;
 use App\Models\Event;
 
 class KartinaEventHandler implements EventHandlerInterface
 {
     protected $api;
+    protected $basicApi;
 
     public function __construct()
     {
@@ -175,5 +177,42 @@ class KartinaEventHandler implements EventHandlerInterface
             'updates' => $places,
             'ts' => $data['ts'],
         ];
+    }
+
+    public function statistic(Event $event)
+    {
+        if (empty($this->basicApi)) $this->basicApi = new Api();
+
+        $prices = $event->prices;
+        $raw = $this->basicApi->getEvents($event->kartina_id);
+
+        $data = [];
+        foreach ($prices as $price) {
+            $row = [
+                'color' => $price->color,
+                'price' => $price->price,
+                'available' => $this->findAvailableFromStatistic($price, $raw['Statistic'] ?? []),
+            ];
+
+            $data[] = $row;
+        }
+
+        usort($data, function ($a, $b) {
+            return (double)$a['price'] >= (double)$b['price'];
+        });
+
+        return $data;
+    }
+
+    protected function findAvailableFromStatistic($price, $stat)
+    {
+        foreach ($stat as $s)
+        {
+            foreach ($s['Prices'] as $p) {
+                if ((double)array_first($p) == (double)$price->price) return $s['Free'];
+            }
+        }
+
+        return 0;
     }
 }
