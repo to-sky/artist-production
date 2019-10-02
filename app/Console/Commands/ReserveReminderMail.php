@@ -47,11 +47,16 @@ class ReserveReminderMail extends Command
      */
     public function handle()
     {
-        $orders = $this->getUnpaidReservationOrders();
-
         $sendCount = 0;
+
+        $orders = $this->getUnpaidReservationOrders();
         foreach ($orders as $order) {
             $sendCount += $this->sendReserveReminder($order);
+        }
+
+        $orders = $this->getUnpaidReservationsOrdersForSecondReminder();
+        foreach ($orders as $order) {
+            $sendCount += $this->sendSecondReserveReminder($order);
         }
 
         $this->output->text('Mails send: ' . $sendCount);
@@ -73,6 +78,26 @@ class ReserveReminderMail extends Command
     }
 
     protected function sendReserveReminder(Order $order)
+    {
+        return $this->mailService->send(new ReservationReminderMail($order->user, $order));
+    }
+
+    protected function getUnpaidReservationsOrdersForSecondReminder()
+    {
+        $date = Carbon::now()->subDay(10);
+        $start = $date->format('Y-m-d 00:00:00');
+        $end = $date->format('Y-m-d 23:59:59');
+
+        $orders = Order
+            ::whereIn('status' , [Order::STATUS_RESERVE, Order::STATUS_PENDING])
+            ->whereBetween('created_at', [$start, $end])
+            ->get()
+        ;
+
+        return $orders;
+    }
+
+    protected function sendSecondReserveReminder(Order $order)
     {
         return $this->mailService->send(new ReservationReminderMail($order->user, $order));
     }

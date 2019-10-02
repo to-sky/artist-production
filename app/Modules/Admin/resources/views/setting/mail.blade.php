@@ -243,9 +243,105 @@
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="ru-clearance-reserve-reminder">{!! Form::textarea('settings[mail_clearance_reserve_reminder_ru]', old('mail_clearance_reserve_reminder_ru', setting('mail_clearance_reserve_reminder_ru', null)), array('class'=>'form-control ckeditor-classic', 'id' => 'mail_clearance_reserve_reminder_ru')) !!}</div>
-                                <div class="tab-pane" id="de-clearance-reserve-reminder">{!! Form::textarea('settings[mail_clearance_reserve_reminder__de]', old('mail_clearance_reserve_reminder_de', setting('mail_clearance_reserve_reminder_de', null)), array('class'=>'form-control ckeditor-classic', 'id' => 'mail_clearance_reserve_reminder_de')) !!}</div>
-                                <div class="tab-pane" id="en-clearance-reserve-reminder">{!! Form::textarea('settings[mail_clearance_reserve_reminder__en]', old('mail_clearance_reserve_reminder_en', setting('mail_clearance_reserve_reminder_en', null)), array('class'=>'form-control ckeditor-classic', 'id' => 'mail_clearance_reserve_reminder_en')) !!}</div>
+                                <div class="tab-pane" id="de-clearance-reserve-reminder">{!! Form::textarea('settings[mail_clearance_reserve_reminder_de]', old('mail_clearance_reserve_reminder_de', setting('mail_clearance_reserve_reminder_de', null)), array('class'=>'form-control ckeditor-classic', 'id' => 'mail_clearance_reserve_reminder_de')) !!}</div>
+                                <div class="tab-pane" id="en-clearance-reserve-reminder">{!! Form::textarea('settings[mail_clearance_reserve_reminder_en]', old('mail_clearance_reserve_reminder_en', setting('mail_clearance_reserve_reminder_en', null)), array('class'=>'form-control ckeditor-classic', 'id' => 'mail_clearance_reserve_reminder_en')) !!}</div>
                                 <div class="tab-pane" id="placeholders-clearance-reserve-reminder">
+                                    <hr style="margin: 0 0 20px 0">
+                                    <ul style="list-style-type: none">
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@ReserveExpirationDate" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - reserve expiration date', ['placeholder' => '@ReserveExpirationDate']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@OrderId" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - order number', ['placeholder' => '@OrderId']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@SiteUrl" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - link to the website', ['placeholder' => '@SiteUrl']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@TicketsList" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - list of ordered tickets', ['placeholder' => '@TicketsList']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@Amount" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - payment amount', ['placeholder' => '@Amount']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@Currency" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - order currency', ['placeholder' => '@Currency']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@ClientName" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - client name', ['placeholder' => '@ClientName']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@TicketOfficesList" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - cash list', ['placeholder' => '@TicketOfficesList']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@WeWillCallYouMessage" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - message \'we will call you\'', ['placeholder' => '@WeWillCallYouMessage']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="@BankRequisites" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - bank details', ['placeholder' => '@BankRequisites']) }}
+                                        </li>
+                                        <li>
+                                            <a href="#" class="btn btn-default copy-placeholder" data-mail-placeholder="[OrderInvoice]" data-toggle="tooltip" title="{{ __('Copy') }}">
+                                                <span class="fa fa-copy" role="presentation" aria-hidden="true"></span>
+                                            </a>
+                                            {{ __(':placeholder - Order invoice attachment', ['placeholder' => '[OrderInvoice]']) }}
+                                        </li>
+                                    </ul>
+                                    <hr style="margin: 20px 0 0 0">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="checkbox">
+                                <label>
+                                    {!! Form::hidden('settings[mail_notify_clearance_reserve_reminder_10]', 0) !!}
+                                    {!! Form::checkbox('settings[mail_notify_clearance_reserve_reminder_10]', 1, old('mail_notify_clearance_reserve_reminder_10', setting('mail_notify_clearance_reserve_reminder_10', null))) !!}
+                                    {!! __('Send second reserve reminder notification') !!}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            {!! Form::label('mail_clearance_reserve_reminder_10_ru', __('Reserve second reminder')) !!}
+                            <ul class="nav nav-pills">
+                                <li class="active"><a href="#ru-clearance-reserve-reminder-10">RU</a></li>
+                                <li><a href="#de-clearance-reserve-reminder-10">DE</a></li>
+                                <li><a href="#en-clearance-reserve-reminder-10">EN</a></li>
+                                <li class="pull-right"><a href="#placeholders-clearance-reserve-reminder-10">{{ __('Placeholders') }}</a></li>
+
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="ru-clearance-reserve-reminder-10">{!! Form::textarea('settings[mail_clearance_reserve_reminder_10_ru]', old('mail_clearance_reserve_reminder_10_ru', setting('mail_clearance_reserve_reminder_10_ru', null)), array('class'=>'form-control ckeditor-classic', 'id' => 'mail_clearance_reserve_reminder_10_ru')) !!}</div>
+                                <div class="tab-pane" id="de-clearance-reserve-reminder-10">{!! Form::textarea('settings[mail_clearance_reserve_reminder_10_de]', old('mail_clearance_reserve_reminder_10_de', setting('mail_clearance_reserve_reminder_10_de', null)), array('class'=>'form-control ckeditor-classic', 'id' => 'mail_clearance_reserve_reminder_10_de')) !!}</div>
+                                <div class="tab-pane" id="en-clearance-reserve-reminder-10">{!! Form::textarea('settings[mail_clearance_reserve_reminder_10_en]', old('mail_clearance_reserve_reminder_10_en', setting('mail_clearance_reserve_reminder_10_en', null)), array('class'=>'form-control ckeditor-classic', 'id' => 'mail_clearance_reserve_reminder_10_en')) !!}</div>
+                                <div class="tab-pane" id="placeholders-clearance-reserve-reminder-10">
                                     <hr style="margin: 0 0 20px 0">
                                     <ul style="list-style-type: none">
                                         <li>
