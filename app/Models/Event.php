@@ -203,7 +203,7 @@ class Event extends Model
                 'height' => (double)$placeBlueprint->height,
                 'path' => $placeBlueprint->path,
                 'rotate' => (double)$placeBlueprint->rotate,
-                'zone_id' => $zoneBinds[$placeBlueprint->zone_id] ?? null,
+                'zone_id' => $zoneBinds[$placeBlueprint->zone_blueprint_id] ?? null,
                 'hall_id' => $hall->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
