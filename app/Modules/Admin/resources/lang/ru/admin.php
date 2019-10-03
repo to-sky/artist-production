@@ -117,6 +117,7 @@ return [
 //    'Checkout' => 'Заказы',
     'Orders' => 'Заказы',
     'Reports' => 'Отчеты',
+    'Tickets' => 'Возврат',
 
     // actions
     'index' => 'Список',

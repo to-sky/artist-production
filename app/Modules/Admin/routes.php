@@ -223,4 +223,10 @@ Route::group([
         Route::get('export/tickets/{event}', 'ReportController@exportTicketSales')->name(config('admin.route') . '.reports.export.tickets');
         Route::get('export/tickets/{event}/unsold', 'ReportController@exportTicketsUnsold')->name(config('admin.route') . '.reports.export.tickets.unsold');
     });
+
+    Route::prefix('admin/tickets')->group(function () {
+        Route::get('/', 'TicketController@returnForm')->name(config('admin.route') . '.tickets.index');
+        Route::get('/by_barcode', 'TicketController@getByBarcode')->name(config('admin.route') . '.tickets.by_barcode');
+        Route::post('return', 'TicketController@makeReturn')->name(config('admin.route') . '.tickets.doReturn');
+    });
 });

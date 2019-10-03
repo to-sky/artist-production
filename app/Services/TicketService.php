@@ -475,4 +475,36 @@ class TicketService
             return new NativeTicketHandler();
         }
     }
+
+    /**
+     * Get ticket by barcode value
+     *
+     * @param $code
+     * @return Ticket|null
+     */
+    public function getByBarcode($code)
+    {
+        $ticket = Ticket
+            ::whereIn('status', [
+                Ticket::RESERVED,
+                Ticket::SOLD,
+            ])
+            ->whereBarcode($code)
+            ->whereNull('kartina_id')
+            ->first()
+        ;
+
+        return $ticket;
+    }
+
+    public function refundById($ids)
+    {
+        if (!is_array($ids)) $ids = [$ids];
+
+        $tickets = Ticket::whereIn('id', $ids)->get();
+
+        foreach ($tickets as $ticket) {
+            $this->freeTicket($ticket);
+        }
+    }
 }

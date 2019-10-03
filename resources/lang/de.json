@@ -376,5 +376,10 @@
   "Building address": "Gebäudeadresse",
   "Reserve reminder": "Reserveerinnerung",
   "Send reserve reminder notification": "Reservemahnungsbenachrichtigung senden",
-  "Date must be greater or equal to current date": "Datum muss größer oder gleich dem aktuellen Datum sein"
+  "Date must be greater or equal to current date": "Datum muss größer oder gleich dem aktuellen Datum sein",
+  "Add Manually": "Von Hand eintragen",
+  "Sale Date": "Verkaufsdatum",
+  "Ticket price": "Ticket Preis",
+  "Return amount": "Rückgabebetrag",
+  "Make refund": "Rückerstattung leisten"
 }

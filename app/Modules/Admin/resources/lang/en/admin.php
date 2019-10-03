@@ -117,6 +117,7 @@ return [
     'Mail' => 'Mail',
     'Orders' => 'Orders',
     'Reports' => 'Reports',
+    'Tickets' => 'Refund',
 
     // actions
     'index' => 'List',

@@ -117,6 +117,7 @@ return [
     'Mail' => 'Mail',
     'Orders' => 'Aufträge',
     'Reports' => 'Bericht',
+    'Tickets' => 'Rückerstattung',
 
     // actions
     'index' => 'Liste',

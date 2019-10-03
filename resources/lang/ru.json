@@ -379,5 +379,10 @@
     "Building address": "Адрес строения",
     "Reserve reminder": "Напоминание о резервировании",
     "Send reserve reminder notification": "Отсылать напоминание о резервировании",
-    "Date must be greater or equal to current date": "Дата должна быть больше или равна сегодняшней"
+    "Date must be greater or equal to current date": "Дата должна быть больше или равна сегодняшней",
+    "Add manually": "Добавить вручную",
+    "Sale Date": "Дата продажи",
+    "Ticket price": "Цена билета",
+    "Return amount": "Сумма воврата",
+    "Make refund": "Сделать возврат"
 }
