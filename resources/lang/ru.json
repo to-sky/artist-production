@@ -384,5 +384,6 @@
     "Sale Date": "Дата продажи",
     "Ticket price": "Цена билета",
     "Return amount": "Сумма воврата",
-    "Make refund": "Сделать возврат"
+    "Make refund": "Сделать возврат",
+    "Imported event's tickets can't be send to realization": "Невозможно отдать билеты с импотированных мероприятий в реализацию"
 }

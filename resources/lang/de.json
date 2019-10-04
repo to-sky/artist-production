@@ -381,5 +381,6 @@
   "Sale Date": "Verkaufsdatum",
   "Ticket price": "Ticket Preis",
   "Return amount": "Rückgabebetrag",
-  "Make refund": "Rückerstattung leisten"
+  "Make refund": "Rückerstattung leisten",
+  "Imported event's tickets can't be send to realization": "Importierte Eventtickets können nicht zur Realisierung geschickt werden"
 }

@@ -25,7 +25,7 @@
                 @php
                     $ticketsFinalPrice += $ticket->getBuyablePrice();
                 @endphp
-                <tr data-event-id="{{ $ticket->event->id }}" data-ticket-id="{{ $ticket->id }}">
+                <tr data-event-id="{{ $ticket->event->id }}" data-ticket-id="{{ $ticket->id }}" data-is-local="{{ !$ticket->kartina_id }}">
                     <td>Ряд: {{ $ticket->place->row }} Место: {{ $ticket->place->num }}</td>
                     <td data-price="{{ $ticket->getBuyablePrice() }}">{{ $ticket->getBuyablePrice() }} &euro;</td>
                     <td>

@@ -270,6 +270,8 @@
                 });
             });
         }
+
+        checkIfRealizationPossible();
     }, 5000);
 
     // Delete ticket from cart
@@ -316,6 +318,8 @@
         }
 
         ticketRow.remove();
+
+        checkIfRealizationPossible();
     });
 
     // Close widget popup
@@ -571,5 +575,25 @@
     $(document).ready(function () {
       $('#findEvents').click();
     })
+
+    function checkIfRealizationPossible() {
+      var tickets = $('tr[data-ticket-id]');
+      var realizationPossible = true;
+      var alert = $('.a_realization');
+
+      tickets.each(function (i, e) {
+        var isLocal = +$(e).data('is-local');
+
+        if (!isLocal) realizationPossible = false;
+      });
+
+      $('button[data-target="#realizationModal"]').prop('disabled', !realizationPossible);
+      if (realizationPossible) {
+        alert.hide();
+      } else {
+        alert.show();
+      }
+    }
+    checkIfRealizationPossible();
 </script>
 

@@ -36,6 +36,10 @@
                 @include('Admin::order.partials._tickets_table')
             </div>
 
+            <div class="alert alert-warning a_realization" style="display: none;">
+                {{ __('Imported event\'s tickets can\'t be send to realization') }}
+            </div>
+
             <button type="button" class="btn btn-google" data-toggle="modal"
                     data-target="#saleModal">{{ __('Sale') }}</button>
 
