@@ -192,6 +192,7 @@ class NativeEventHandler implements EventHandlerInterface
             ->leftJoin('tickets', 'tickets.price_id', '=', 'prices.id')
             ->where('tickets.status', Ticket::AVAILABLE)
             ->orderBy('price', 'asc')
+            ->groupBy('color', 'price')
             ->get()
         ;
 
