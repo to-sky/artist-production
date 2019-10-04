@@ -64,6 +64,7 @@ class ReportService
                 $q
                     ->select(DB::raw(1))
                     ->from('tickets')
+                    ->leftJoin('events', 'events.id', '=', 'tickets.event_id')
                     ->whereRaw('tickets.order_id = orders.id')
                 ;
 
@@ -72,13 +73,13 @@ class ReportService
                 } else if ($eventNames) {
                     $q->where(function ($q) use($eventNames) {
                         foreach ($eventNames as $name) {
-                            $q->orWhere('name', 'like', "%$name%");
+                            $q->orWhere('events.name', 'like', "%$name%");
                         }
                     });
                 }
 
                 if ($eventPeriodStart && $eventPeriodEnd) {
-                    $q->whereBetween('date', ["$eventPeriodStart 00:00:00", "$eventPeriodEnd 23:59:59"]);
+                    $q->whereBetween('events.date', ["$eventPeriodStart 00:00:00", "$eventPeriodEnd 23:59:59"]);
                 }
             });
 

@@ -31,7 +31,7 @@
 
         <section class="ap_section">
             <div class="ap_buttons">
-                <button class="ap_button--submit">{!! __('Admin::auth.password-btnsend_password') !!}</button>
+                <button class="ap_button--submit" style="display: block; width: 100%;">{!! __('Admin::auth.password-btnsend_password') !!}</button>
             </div>
         </section>
     {!! Form::close() !!}

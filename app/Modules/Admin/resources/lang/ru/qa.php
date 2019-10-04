@@ -66,7 +66,7 @@ return [
     'menus-index-new_crud' => 'Создать CRUD-контроллер',
     'menus-index-new_custom' => 'Создать контроллер',
     'menus-index-new_parent' => 'Создать новый пункт родительского меню',
-    'menus-index-positions_drag_drop' => 'Вы можете менять позицию пункта меню пертаскивая его',
+    'menus-index-positions_drag_drop' => 'Вы можете менять позицию пункта меню перетаскивая его',
     'menus-index-click_save_positions' => 'Изменения будут сохранены, если вы нажмете "Сохранить позиции"',
     'menus-index-save_positions' => 'Сохранить позиции',
 
