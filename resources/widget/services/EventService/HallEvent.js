@@ -4,8 +4,9 @@ import CartCapsule from "./CartCapsule";
 class HallEvent extends BaseEvent {
   init() {
     this._buildBoundaries();
-    this._processPlaces();
     this._processPrices();
+    this._processPlaces();
+    this._processLabels();
     this._processPriceGroups();
     this._prepareCart();
   }

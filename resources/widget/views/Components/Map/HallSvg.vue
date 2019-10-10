@@ -2,26 +2,26 @@
     <svg width="100%" height="100%">
         <g
             v-for="place in event.places.circle"
-            @click.prevent="!place.disabled && $emit('clickPlace', $event, place)"
-            @mouseover="!place.disabled && $emit('overPlace', $event, place)"
-            @mouseout="!place.disabled && $emit('outPlace', place)"
+            @click.prevent="!placeDisabled(place) && $emit('clickPlace', $event, place)"
+            @mouseover="!placeDisabled(place) && $emit('overPlace', $event, place)"
+            @mouseout="!placeDisabled(place) && $emit('outPlace', place)"
         >
             <circle
                     :cx="place.x"
                     :cy="place.y"
-                    :r="place.disabled ? place.width/6 : place.width/2"
+                    :r="placeDisabled(place) ? place.width/6 : place.width/2"
                     :fill="placeSelected(place) ? '#13ff00' : place.color"
                     :stroke="placeSelected(place) ? '#444' : ''"
                     stroke-width=".3"
             ></circle>
             <text
-                    v-if="!place.disabled"
+                    v-if="!placeDisabled(place)"
                     :dx="place.x"
                     :dy="place.y + place.width/6"
                     :fill="placeSelected(place) ? '#13ff00' :'#fff'"
                     text-anchor="middle"
                     :style="{
-                      fontSize: parseInt(place.width/2) + 'px',
+                      fontSize: parseInt(place.width/2) + 'px'
                     }"
             >
                 {{ place.text }}
@@ -30,9 +30,9 @@
 
         <g
             v-for="place in event.places.fanZone"
-            @click.prevent="!place.disabled && $emit('clickFanZone', $event, place)"
-            @mouseover="!place.disabled && $emit('overPlace', $event, place)"
-            @mouseout="!place.disabled && $emit('outPlace', place)"
+            @click.prevent="!placeDisabled(place) && $emit('clickFanZone', $event, place)"
+            @mouseover="!placeDisabled(place) && $emit('overPlace', $event, place)"
+            @mouseout="!placeDisabled(place) && $emit('outPlace', place)"
         >
             <rect
                     :x="place.x - place.width/2"
@@ -53,32 +53,32 @@
                     fill="#ccc"
             ></rect>
             <text
-                    :dx="scene.x"
-                    :dy="parseFloat(scene.y) + scene.height/4"
-                    fill="#fff"
-                    text-anchor="middle"
-                    :style="{
-                    fontSize: scene.height/2
-                  }"
+                :dx="scene.x"
+                :dy="parseFloat(scene.y) + scene.height/4"
+                fill="#fff"
+                text-anchor="middle"
+                :style="{
+                    fontSize: scene.height/4
+                }"
             >
                 {{ $t('hall.scene') }}
             </text>
         </g>
 
-        <!--<g v-show="rows.length && zoom > 2">-->
-            <!--<text-->
-                    <!--v-for="row in rows"-->
-                    <!--:dx="row.x"-->
-                    <!--:dy="row.y + getR/2"-->
-                    <!--fill="#000"-->
-                    <!--text-anchor="middle"-->
-                    <!--:style="{-->
-                      <!--fontSize: getR + 'px',-->
-                    <!--}"-->
-            <!--&gt;-->
-                <!--{{ row.text }}-->
-            <!--</text>-->
-        <!--</g>-->
+        <g v-for="label in event.labels" :style="{
+          transform: 'translate('+label.x+'px, '+(label.y + event.fontSize/2)+'px)'
+        }">
+            <text
+                fill="#000"
+                text-anchor="middle"
+                :style="{
+                  transform: 'rotate(' + label.rotation + 'deg)',
+                  fontSize: event.fontSize
+                }"
+            >
+                {{ label.text }}
+            </text>
+        </g>
     </svg>
 </template>
 
@@ -89,6 +89,9 @@
     methods: {
       placeSelected(place) {
         return this.event.cart && this.event.cart.isReserved(place);
+      },
+      placeDisabled(p) {
+        return p.disabled || !this.event.shouldShowPrice(p.price_id);
       }
     }
   }

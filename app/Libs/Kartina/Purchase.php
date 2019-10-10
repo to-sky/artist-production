@@ -130,6 +130,8 @@ class Purchase extends Base
 
     protected function parseHallUpdateData($text)
     {
+        $text = str_replace(['<![CDATA[',']]>'], '', $text);
+
         $document = new \DOMDocument();
         @$document->loadHTML($text);
 
@@ -145,10 +147,18 @@ class Purchase extends Base
             $id = $node->attributes->getNamedItem('id')->value;
             $free = (int)$node->attributes->getNamedItem('free')->value;
             $status = $node->attributes->getNamedItem('status')->value;
+            $price = 0;
+
+            foreach ($node->getElementsByTagName('item') as $priceBlock) {
+                $p = (float)trim($priceBlock->getElementsByTagName('value')->item(0)->childNodes->item(0)->data);
+
+                if ($p) $price = $p;
+            }
 
             $places[$id] = [
                 'free' => $free,
                 'reserved' => (!$free && ($status == 2 || $status == 4)) ? 1 : 0,
+                'price' => $price,
             ];
         }
 
@@ -195,6 +205,7 @@ class Purchase extends Base
                 'event' => $eventId,
                 'pid' => $placeId,
                 'ticketsCount' => $count,
+                'returnStatus' => 1,
             ],
             [
                 'method' => 'POST',

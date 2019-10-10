@@ -8,10 +8,16 @@
 
     <div class="price-list-prices-wrapper">
       <ul class="price-list-prices">
-        <li v-for="price in prices">
-          <span class="price-color" :style="{
-            backgroundColor: price.color
-          }"></span>
+        <li v-for="price in prices" @click="toggleShowPrice(price.id)">
+          <span
+              class="price-color"
+              :class="{
+                checked: isPriceChecked(price.id)
+              }"
+              :style="{
+                backgroundColor: price.color
+              }"
+          ></span>
           {{ currency }} {{ price.price }}
         </li>
       </ul>
@@ -29,6 +35,10 @@
       currency: {
         type: String,
         default: '€'
+      },
+      selected: {
+        type: Array,
+        default: []
       }
     },
 
@@ -42,6 +52,18 @@
       switchOpen() {
         this.isOpen = !this.isOpen;
       },
+      toggleShowPrice(priceId) {
+        let isPos = this.selected.indexOf(priceId);
+
+        if (~isPos) {
+          this.$emit('removeShowPrice', priceId);
+        } else {
+          this.$emit('addShowPrice', priceId);
+        }
+      },
+      isPriceChecked(priceId) {
+        return this.selected.includes(priceId);
+      }
     }
   };
 </script>
@@ -109,15 +131,30 @@
     display: block;
     margin: 0;
     padding: 5px;
+    cursor: pointer;
   }
   ul.price-list-prices li:last-child {
     margin-bottom: 0;
   }
   .price-color {
+    position: relative;
     display: inline-block;
     width: 1em;
     height: 1em;
     margin-bottom: -.15em;
     border-radius: 50%;
+    overflow: hidden;
+  }
+  .price-color.checked:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    content: "\2713";
+    width: 100%;
+    height: 100%;
+    line-height: 100%;
+    font-size: 100%;
+    color: #fff;
   }
 </style>

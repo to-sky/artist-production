@@ -37,7 +37,12 @@
     </section>
 
     <section class="prices">
-      <prices-button :prices="event.prices"></prices-button>
+      <prices-button
+          :prices="event.prices"
+          :selected="event.showPrices"
+          @addShowPrice="event.addShowPrice($event)"
+          @removeShowPrice="event.removeShowPrice($event)"
+      ></prices-button>
     </section>
 
     <section ref="animationContainer" class="animation">

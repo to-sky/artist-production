@@ -5,6 +5,7 @@ use App\Handlers\Abstracts\EventHandlerInterface;
 use App\Libs\Kartina\Api;
 use App\Libs\Kartina\Purchase;
 use App\Models\Event;
+use App\Models\Place;
 
 class KartinaEventHandler implements EventHandlerInterface
 {
@@ -76,6 +77,7 @@ class KartinaEventHandler implements EventHandlerInterface
 
     protected function getPlacesData(Event $event, $statistics)
     {
+        $prices = $event->prices;
         $places = \DB::table('places')
             ->where('hall_id', $event->hall_id)
             ->select([
@@ -100,6 +102,19 @@ class KartinaEventHandler implements EventHandlerInterface
         foreach ($places as &$place) {
             $place->available = $statistics[$place->kartina_id]['free'] ?? 0;
             $place->reserved = $statistics[$place->kartina_id]['reserved'] ?? 0;
+
+            if (!$place->price_id && ($statistics[$place->kartina_id]['price'] ?? 0)) {
+
+                $price = $prices->where('price', $statistics[$place->kartina_id]['price'])->first();
+
+                if ($price) {
+                    Place::whereId($place->id)->update([
+                        'price_id' => $price->id,
+                    ]);
+                }
+            }
+
+            if (!$place->price_id) $place->available = 0;
         }
 
         return $places;
@@ -171,6 +186,8 @@ class KartinaEventHandler implements EventHandlerInterface
         foreach ($places as &$place) {
             $place->available = $data['places'][$place->kartina_id]['free'] ?? 0;
             $place->reserved = $data['places'][$place->kartina_id]['reserved'] ?? 0;
+
+            if (!$place->price_id) $place->available = 0;
         }
 
         return [

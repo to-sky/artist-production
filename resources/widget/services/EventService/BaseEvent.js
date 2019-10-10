@@ -8,8 +8,9 @@ class BaseEvent {
 
   init() {
     this._buildBoundaries();
-    this._processPlaces();
     this._processPrices();
+    this._processPlaces();
+    this._processLabels();
   }
 
   getPreselected() {
@@ -113,14 +114,16 @@ class BaseEvent {
       fanZone: []
     };
 
+    this.fontSize = 30;
+    
     this.preselected = [];
 
     this._rawData.places.forEach(p => {
       let color = '#aaa';
-      let disabled = !p.available;
-      let reserved = !p.available && p.reserved;
+      let disabled = p.available <= 0;
+      let reserved = !disabled && (p.reserved > 0);
       let inSelected = this.selected.includes(p.id);
-      let limit = p.available;
+      let limit = disabled ? 0 : p.available;
       let price = 0;
 
       if (disabled) {
@@ -134,6 +137,8 @@ class BaseEvent {
           }
         });
       }
+
+      this.fontSize = Math.min(this.fontSize, parseInt(p.width/2));
 
       let head = null;
       let place = null;
@@ -187,6 +192,37 @@ class BaseEvent {
 
   _processPrices() {
     this.prices = this._rawData.prices;
+
+    this.showPrices = [];
+  }
+
+  shouldShowPrice(id) {
+    return !this.showPrices.length || this.showPrices.includes(id);
+  }
+
+  getShowPricePos(id) {
+    return this.showPrices.indexOf(id);
+  }
+
+  addShowPrice(id) {
+    let pos = this.getShowPricePos(id);
+
+    if (pos === -1) {
+      this.showPrices.push(id);
+    }
+  }
+
+  removeShowPrice(id) {
+    let pos = this.getShowPricePos(id);
+
+    if (pos === -1) return;
+
+    this.showPrices.splice(pos, 1);
+  }
+
+  _processLabels()
+  {
+    this.labels = this._rawData.labels;
   }
 }
 

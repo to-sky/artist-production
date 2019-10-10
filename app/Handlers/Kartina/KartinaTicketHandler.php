@@ -28,6 +28,10 @@ class KartinaTicketHandler implements TicketHandlerInterface
 
         if ($r['CommandStatus'] != '0') throw new UnprocessableEntityHttpException($r['errormessage']);
 
+        $kartinaOrder = $this->api->getOrder($r['orderId']);
+        $orderTickets = collect($kartinaOrder['items']);
+        $items = $orderTickets->slice($orderTickets->count() - $data['count'], $data['count']);
+
         $tickets = Ticket
             ::whereStatus(Ticket::AVAILABLE)
             ->whereEventId($data['event_id'])
@@ -36,7 +40,7 @@ class KartinaTicketHandler implements TicketHandlerInterface
             ->get()
         ;
 
-        foreach ($r['addedTickets'] as $i => $kartinaTicket) {
+        foreach ($items as $i => $kartinaTicket) {
             $ticket = isset($tickets[$i]) ? $tickets[$i] : $this->makeTicket($place, $data);
 
             $ticket->price = $kartinaTicket['price'];
