@@ -31,10 +31,16 @@
 }
 
 .approvement__back {
-  display: block;
+  display: inline-block;
   padding-left: 33px;
   background-image: $iconArrowLeft;
   background-size: 23px;
   background-position: left center;
   background-repeat: no-repeat;
+}
+
+@media screen and (max-width: 767px) {
+  .approvement {
+    padding: 10px;
+  }
 }

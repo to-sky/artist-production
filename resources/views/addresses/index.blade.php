@@ -27,7 +27,7 @@
                     <div class="ap_form__error">{{ $errors->first() }}</div>
                 @endif
 
-                <table class="ap_table ap_table--striped link_table">
+                <table class="ap_table ap_mobile ap_table--striped link_table">
                     <thead>
                         <tr>
                             <th>{{ __('Name') }}</th>
@@ -41,7 +41,22 @@
                     <tbody>
                     @foreach($addresses as $address)
                         <tr class="link_row" data-url="{{ route('address.show', ['address' => $address]) }}">
-                            <td>{{ $address->full_name }}</td>
+                            <td>
+                                {{ $address->full_name }}
+
+                                <div class="ap_mobile_data">
+                                    <div>({{ $address->country->name }} / {{ $address->city }} / {{ $address->post_code }})</div>
+                                    {{ $address->building_name }}
+
+                                    <div style="text-align: right">
+                                        {!! Form::open(['method' => 'DELETE','route' => ['address.delete', 'address' => $address]]) !!}
+                                        <button class="ap_button--text">
+                                            {{ __('Remove') }}
+                                        </button>
+                                        {!! Form::close() !!}
+                                    </div>
+                                </div>
+                            </td>
                             <td>{{ $address->country->name }}</td>
                             <td>{{ $address->city }}</td>
                             <td>{{ $address->post_code }}</td>

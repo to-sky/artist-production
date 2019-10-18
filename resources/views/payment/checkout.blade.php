@@ -355,7 +355,9 @@
                     @endif
                 </div>
                 <button class="approvement__btn">{{ __('Checkout') }}</button>
-                <a href="#" class="approvement__back">{{ __('Back') }}</a>
+                <div>
+                    <a href="{{ config('redirects.checkout_back') }}" class="approvement__back">{{ __('Back') }}</a>
+                </div>
             </div>
         </section>
 
@@ -364,8 +366,11 @@
         <div class="box">
             <div class="box-body">
                 <div class="row">
-                    <div class="form-group col-md-12">
-                        {{ __('Your cart is empty') }}
+                    <div class="form-group col-md-12" style="text-align: center">
+                        <div>
+                            {{ __('Your cart is empty') }}
+                        </div>
+                        <a href="{{ config('redirects.checkout_back') }}" class="approvement__back">{{ __('Back') }}</a>
                     </div>
                 </div>
             </div>

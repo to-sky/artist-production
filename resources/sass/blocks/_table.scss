@@ -31,6 +31,10 @@
       background-color: #fafafa;
     }
   }
+
+  .ap_mobile_data {
+    display: none;
+  }
 }
 
 .link_row {
@@ -74,5 +78,30 @@ ul.pagination {
         color: #000;
       }
     }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .ap_table.ap_mobile {
+    thead {
+      display: none;
+    }
+
+    td:not(:first-child) {
+      display: none;
+    }
+
+    .ap_desktop_data {
+      display: none;
+    }
+
+    .ap_mobile_data {
+      display: block;
+    }
+  }
+
+  .ap_table-container,
+  .ap_pagination-container {
+    padding: 10px;
   }
 }

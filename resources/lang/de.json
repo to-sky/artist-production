@@ -382,5 +382,19 @@
   "Ticket price": "Ticket Preis",
   "Return amount": "Rückgabebetrag",
   "Make refund": "Rückerstattung leisten",
-  "Imported event's tickets can't be send to realization": "Importierte Eventtickets können nicht zur Realisierung geschickt werden"
+  "Imported event's tickets can't be send to realization": "Importierte Eventtickets können nicht zur Realisierung geschickt werden",
+  "Your cart is empty": "Ihr Warenkorb ist leer",
+  "Congratulations": "Herzliche Glückwünsche",
+  "Your order successfully placed": "Ihre Bestellung wurde erfolgreich aufgegeben",
+  "Order number": "Bestellnummer",
+  "Reserved until": "Reserviert bis",
+  "Within a couple of minutes you will receive a notification by e-mail with the confirmation of your order and the reservation number": "Innerhalb weniger Minuten erhalten Sie eine Benachrichtigung per E-Mail mit der Bestätigung Ihrer Bestellung und der Reservierungsnummer",
+  "Reserved tickets": "Reservierte Tickets",
+  "Ticket type": "Art des Tickets",
+  "Row and place": "Reihe und Platz",
+  "Service fee": "Servicegebühr",
+  "To pay": "Bezahlen",
+  "Delivery price": "Lieferpreis",
+  "ORDER TOTAL": "AUFTRAGSSUMME",
+  "Print invoice" : "Rechnung drucken"
 }

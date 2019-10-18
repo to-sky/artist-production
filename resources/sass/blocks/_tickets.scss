@@ -106,3 +106,55 @@
   color: inherit;
   outline: none;
 }
+
+@media screen and (max-width: 767px) {
+  .ap_ticket {
+    padding: 10px;
+  }
+
+  .ap_ticket__image {
+    width: 50px;
+    min-width: 50px;
+    height: 62px;
+  }
+
+  .ap_ticket__info {
+    max-width: calc(100% - 70px);
+  }
+
+  .ap_ticket__title {
+    margin: 0 30px 10px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .ap_ticket__price {
+    margin-bottom: 25px;
+  }
+
+  .ap_ticket__detail {
+    margin: 0 0 5px -60px;
+    font-size: 16px;
+
+    .fas {
+      font-size: inherit;
+      margin-right: 5px;
+    }
+  }
+
+  .ap_ticket__remove {
+    top: 5px;
+    right: 5px;
+  }
+
+  .ap_tickets__footer {
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  form .ap_tickets__footer-text {
+    text-align: right;
+    padding: 0;
+  }
+}

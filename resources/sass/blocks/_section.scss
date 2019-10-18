@@ -69,3 +69,37 @@
 .ap_section__content {
   border-radius: 4px;
 }
+
+@media screen and (max-width: 991px) {
+  .ap_content {
+    max-width: 100%;
+    padding: 40px 10px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .ap_content {
+    padding: 20px 10px;
+    min-width: 100%;
+  }
+
+  .ap_section:not(:last-child) {
+    margin-bottom: 20px;
+  }
+
+  .ap_section__heading {
+    display: block;
+  }
+
+  .ap_section--2-cols {
+    display: block;
+
+    .ap_section__content {
+      width: 100%;
+
+      &:not(:last-child) {
+        margin-bottom: 20px;
+      }
+    }
+  }
+}

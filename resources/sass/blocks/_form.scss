@@ -16,6 +16,7 @@
 }
 
 .ap_button {
+  display: inline-block;
   border: none;
   background-color: rgba(0, 0, 0, 0.06);
   padding: 10px 20px;
@@ -42,6 +43,16 @@
   display: inline-block;
   background: none;
   border: none;
+}
+
+.ap_button--text {
+  display: inline-block;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-size: inherit;
+  color: #FFEB3B;
 }
 
 .ap_form--2-cols {
@@ -186,4 +197,38 @@
 
 .ap_form__radio-input:checked + .ap_form__radio-label::after {
   content: '';
+}
+
+@media screen and (max-width: 767px) {
+  .ap_form {
+    padding: 10px;
+  }
+
+  .ap_form__group {
+    margin-bottom: 5px;
+  }
+
+  .ap_form__label {
+    margin-bottom: 2px;
+  }
+
+  .ap_form--2-cols {
+    display: block;
+
+    & > * {
+      width: 100%;
+
+      &:not(:last-child) {
+        margin-bottom: 10px;
+      }
+    }
+
+    .ap_form__group--shipping {
+      padding-right: 0;
+    }
+  }
+
+  .ap_buttons {
+    padding: 10px;
+  }
 }

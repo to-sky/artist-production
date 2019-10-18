@@ -9,7 +9,7 @@
 
 <section class="link-dropdown-wrap link_dropdown_wrap">
   <a href="{{ $provisionalLink }}" class="ap_order__action {{ $hasFinal ? 'link_dropdown_trigger' : '' }}">
-    Скачать счет
+    {{ __('Download invoice') }}
   </a>
 
   @if($hasFinal)

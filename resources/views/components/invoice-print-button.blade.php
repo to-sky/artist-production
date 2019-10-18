@@ -9,7 +9,7 @@
 
 <section class="link-dropdown-wrap link_dropdown_wrap">
   <a href="{{ $provisionalLink }}" class="ap_order__action btn-print {{ $hasFinal ? 'link_dropdown_trigger' : 'print_link' }}">
-    Распечатать счет
+    {{ __("Print invoice") }}
   </a>
 
   @if($hasFinal)

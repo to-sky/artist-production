@@ -33,3 +33,34 @@
 .ap_footer__image:not(:last-child) {
   margin-bottom: 10px;
 }
+
+@media screen and (max-width: 991px) {
+  .ap_footer {
+    padding: 33px 10px 40px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .ap_footer {
+    display: block;
+    text-align: center;
+  }
+
+  .ap_footer__logo {
+    margin-bottom: 15px;
+
+    & > * {
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+
+  .ap_footer__block {
+    display: block;
+    margin: 0 0 10px;
+
+    .ap_footer__image {
+      display: inline-block;
+    }
+  }
+}

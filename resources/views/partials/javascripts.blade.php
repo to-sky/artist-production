@@ -60,4 +60,15 @@
     $('.b_back').click(function(e) {
       history.back();
     });
+
+    var $mobileMenuContainer = $('.ap_header__mobile');
+    var $mobileMenuTrigger = $mobileMenuContainer.find('.trigger');
+
+    $(document).click(function (e) {
+      if (!$(e.target).parents('.ap_header__mobile').length) $mobileMenuContainer.removeClass('active');
+    });
+
+    $mobileMenuTrigger.click(function () {
+      $mobileMenuContainer.toggleClass('active');
+    });
 </script>

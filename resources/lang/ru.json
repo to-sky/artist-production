@@ -385,5 +385,19 @@
     "Ticket price": "Цена билета",
     "Return amount": "Сумма воврата",
     "Make refund": "Сделать возврат",
-    "Imported event's tickets can't be send to realization": "Невозможно отдать билеты с импотированных мероприятий в реализацию"
+    "Imported event's tickets can't be send to realization": "Невозможно отдать билеты с импотированных мероприятий в реализацию",
+    "Your cart is empty": "Корзина пуста",
+    "Congratulations": "Поздравляем",
+    "Your order successfully placed": "Заказ успешно оформлен",
+    "Order number": "Номер вашего заказа",
+    "Reserved until": "Бронь действительна до",
+    "Within a couple of minutes you will receive a notification by e-mail with the confirmation of your order and the reservation number": "В течении пары минут вам придет уведомление на E-mail с подтверждением вашего заказа и номером резерва",
+    "Reserved tickets": "Забронированные билеты",
+    "Ticket type": "Тип билета",
+    "Row and place": "Ряд и место",
+    "Service fee": "Сервисный сбор",
+    "To pay": "к оплате",
+    "Delivery price": "Цена доставки",
+    "ORDER TOTAL": "ОБЩАЯ СУММА ЗАКАЗА",
+    "Print invoice" : "Распечатать счет"
 }

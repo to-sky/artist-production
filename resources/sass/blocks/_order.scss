@@ -64,7 +64,6 @@
 .ap_text--alpha-gray {
   color: rgba(0, 0, 0, .4);
 }
-
 .table-selected tr:hover {
   cursor: pointer;
 }
@@ -219,4 +218,35 @@ table.order-table.table-bordered.dataTable th {
 .order-table-buttons {
   min-width: 100px;
   vertical-align: middle !important;
+}
+
+@media screen and (max-width: 991px) {
+  .ap_order__info {
+    flex-wrap: wrap;
+  }
+
+  .ap_order__col1, .ap_order__col2 {
+    width: 50%;
+    flex: 0 0 50%;
+  }
+
+  .ap_order__col3 {
+    width: 100%;
+    flex: 0 0 100%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .ap_order__actions {
+    display: block;
+
+    .link-dropdown-wrap {
+      display: block;
+      text-align: center;
+
+      &:not(:last-child) {
+        margin: 0 0 10px 0;
+      }
+    }
+  }
 }

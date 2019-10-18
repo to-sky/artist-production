@@ -54,3 +54,37 @@
   font-family: $fontSB;
   cursor: pointer;
 }
+
+@media screen and (max-width: 991px) {
+  .ap_header {
+    padding: 33px 10px 20px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .ap_header__logo-text {
+    display: none;
+  }
+
+  .ap_header__button {
+    max-width: 200px;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .ap_header {
+    padding: 5px;
+  }
+
+  .ap_header__logo-img {
+    max-width: 46px;
+  }
+
+  .ap_header__logo-text, .ap_header__mobile-menu {
+    display: block;
+  }
+
+  .ap_header__info, .ap_header__profile-button {
+    display: none;
+  }
+}

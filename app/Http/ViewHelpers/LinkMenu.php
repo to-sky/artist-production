@@ -36,6 +36,12 @@ class LinkMenu
         return new self($pathToConfig, $activeLink, $translations);
     }
 
+    public function setView($view) {
+        $this->_view = $view;
+
+        return $this;
+    }
+
     protected function __construct($pathToConfig, $activeLink = null, $translations = [])
     {
         $this->_config = config($pathToConfig, [
