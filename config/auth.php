@@ -5,7 +5,7 @@ return [
     'redirectRoutes' => [
         'login' => 'login',
         'client' => 'profile.show',
-        'admin' => 'admin.dashboard',
+        'admin' => 'admin.orders.create',
     ],
     /*
     |--------------------------------------------------------------------------

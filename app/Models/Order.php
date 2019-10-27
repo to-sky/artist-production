@@ -345,7 +345,7 @@ class Order extends Model
     public function getHallNameAttribute()
     {
         return $this->tickets->first()
-            ? $this->tickets->first()->event->hall->name
+            ? $this->tickets->first()->event()->withTrashed()->first()->hall->name
             : '';
     }
 }

@@ -1,11 +1,5 @@
 <!-- sidebar menu: : style can be found in sidebar.less -->
 <ul class="sidebar-menu tree" data-widget="tree" data-animation-speed="200">
-    <li @if(Request::path() == 'dashboard') class="active" @endif>
-        <a href="{{ url(config('admin.homeRoute')) }}">
-            <i class="fa fa-dashboard"></i>
-            <span>{{ trans('Admin::admin.Dashboard') }}</span>
-        </a>
-    </li>
 
     @foreach($menus as $menu)
         @if ($menu->availableForRole(Auth::user()->role))

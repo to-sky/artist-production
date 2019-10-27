@@ -6,10 +6,11 @@ use App\Traits\FilesMorphTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Modules\Admin\Observers\UserActionsObserver;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Event extends Model
 {
-    use FilesMorphTrait;
+    use FilesMorphTrait, SoftDeletes;
 
     const ACTIVE = 1;
     const NOT_ACTIVE = 0;

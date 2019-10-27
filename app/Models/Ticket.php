@@ -157,9 +157,9 @@ class Ticket extends Model implements Buyable
      */
     public function getAddressAttribute()
     {
-        return $this->event->hall->name . ', '
-            . $this->event->hall->building->address . ', '
-            . $this->event->hall->building->city->name;
+        return $this->event()->withTrashed()->first()->hall->name . ', '
+            . $this->event()->withTrashed()->first()->hall->building->address . ', '
+            . $this->event()->withTrashed()->first()->hall->building->city->name;
     }
 
     /**
