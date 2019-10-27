@@ -124,6 +124,7 @@ class BaseEvent {
       let reserved = !disabled && (p.reserved > 0);
       let inSelected = this.selected.includes(p.id);
       let limit = disabled ? 0 : p.available;
+      let zone = null;
       let price = 0;
 
       if (disabled) {
@@ -131,9 +132,15 @@ class BaseEvent {
         if (inSelected) disabled = false;
       } else {
         this._rawData.prices.forEach(pr => {
-          if ((p.price_id === pr.id) && !disabled) {
+          if (p.price_id === pr.id) {
             color = pr.color;
             price = pr.price;
+          }
+        });
+
+        this._rawData.zones.forEach(z => {
+          if (p.zone_id === z.id) {
+            zone = z.name;
           }
         });
       }
@@ -149,7 +156,8 @@ class BaseEvent {
             color,
             disabled,
             limit,
-            price
+            price,
+            zone
           });
           break;
         case 'fanzone':
@@ -158,7 +166,8 @@ class BaseEvent {
             color,
             disabled,
             limit,
-            price
+            price,
+            zone
           }, this._calculateFontSize(p));
 
           break;

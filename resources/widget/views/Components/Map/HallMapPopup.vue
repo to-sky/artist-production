@@ -11,6 +11,9 @@
   >
     <div class="popup-content-wrapper">
       <div v-if="place" class="popup-content">
+        <div v-if="place.zone">
+          {{ $t('place.zone') }} {{ place.zone }}
+        </div>
         <div v-if="place.row">
           {{ $t('place.row') }} {{ place.row }}
         </div>

@@ -46,6 +46,7 @@ const messages = {
       fanzone: "DANCEFLOOR"
     },
     place: {
+      zone: "Zone: ",
       row: "Row: ",
       num: "Num: ",
       price: "Price: "
@@ -82,6 +83,7 @@ const messages = {
       fanzone: "STEHPLÄTZE"
     },
     place: {
+      zone: "Zone: ",
       row: "Reihe: ",
       num: "Anzahl: ",
       price: "Preis: "
@@ -117,6 +119,7 @@ const messages = {
       fanzone: "СТОЯЧИЕ МЕСТА"
     },
     place: {
+      zone: "Зона: ",
       row: "Ряд: ",
       num: "Место: ",
       price: "Цена: "
