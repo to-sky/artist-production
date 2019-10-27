@@ -18,5 +18,12 @@ class Client extends User
         });
     }
 
+    protected function getMainAddressAttribute()
+    {
+        $addr = $this->addresses()->active()->first();
 
+        if ($addr) return $addr->full;
+
+        return '-';
+    }
 }

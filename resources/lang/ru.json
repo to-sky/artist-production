@@ -241,6 +241,7 @@
     ":item not selected": ":item не выбран",
     ":items not selected": ":items не выбраны",
     "Select :item": "Выберите :item",
+    "Clear :item": "Очистить :item",
     "Cash collection": "Касс. сбор",
     "Final price": "К оплате",
     "Bonus": "Бонус",

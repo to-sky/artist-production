@@ -115,6 +115,7 @@
 
 
      // Select client
+    var clientDataPlaceholder = '';
     var clientDataHtml;
     var realizatorCommission = 0;
     $('#datatable tbody tr').click(function () {
@@ -123,7 +124,10 @@
         var name = $(this).find('td[data-type="name"]').text();
         var email = $(this).find('td[data-type="email"]').text();
         var phone = $(this).find('td[data-type="phone"]').text();
+        var address = $(this).find('input[data-type="address"]').val();
         realizatorCommission = $(this).find('td[data-commission]').data('commission');
+
+        if (!clientDataPlaceholder) clientDataPlaceholder = $('#clientData').html();
 
         clientDataHtml = $('<div>', {class: 'client-data-container'});
         $('<h4>', {
@@ -131,6 +135,10 @@
         }).append($('<i>', {class: 'fa fa-user'})).append(' ' + name).appendTo(clientDataHtml);
 
         var clientRow = $('<div>', {class: 'row'}).appendTo(clientDataHtml);
+
+        $('<div>', {class: 'col-md-12'})
+            .append($('<i>', {class: 'fa fa-map-marker'}))
+            .append($('<span>', {text: ' ' + address})).appendTo(clientRow);
 
         $('<div>', {class: 'col-md-5'})
             .append($('<i>', {class: 'fa fa-envelope-o'}))
@@ -154,6 +162,13 @@
     $('#getClient').click(function () {
         $('#clientsModal').modal('hide');
         $('#clientData').html(clientDataHtml);
+    });
+
+    // Clear selected client
+    $('#clearClient').click(function () {
+      if (!clientDataPlaceholder) clientDataPlaceholder = $('#clientData').html();
+
+      $('#clientData').html(clientDataPlaceholder);
     });
 
     var eventId;

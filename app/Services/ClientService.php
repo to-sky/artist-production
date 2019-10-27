@@ -47,14 +47,19 @@ class ClientService
      * Get clients based on $params filter
      *
      * @param array $params
+     * @param array $order
      * @return Builder[]|\Illuminate\Database\Eloquent\Collection
      */
-    public function query($params = [])
+    public function query($params = [], $order = [])
     {
         $q = $this->_baseQuery();
 
         foreach ($params as $k => $v) {
             $q->where($k, $v);
+        }
+
+        foreach ($order as $k => $v) {
+            $q->orderBy($k, $v);
         }
 
         return $q->get();

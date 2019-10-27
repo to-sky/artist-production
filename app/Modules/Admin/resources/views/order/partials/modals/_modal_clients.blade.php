@@ -27,12 +27,13 @@
                         <tr>
                             <td>
                                 <input type="radio" name="client" value="{{ $user->id }}">
+                                <input type="hidden" data-type="address" value="{{ $user->main_address }}">
                             </td>
                             <td>{{ $user->id }}</td>
                             <td data-type="name" style="word-break: break-word">{{ $user->full_name }}</td>
                             <td data-commission="{{ $user->profile->commission }}">{{ $user->profile->commission }} %</td>
                             <td data-type="email">{{ $user->email }}</td>
-                            <td  data-type="phone">{{ $user->profile->phone }}</td>
+                            <td data-type="phone">{{ $user->profile->phone }}</td>
                             <td>{{ $user->profile->typeLabel }}</td>
                         </tr>
                     @endforeach

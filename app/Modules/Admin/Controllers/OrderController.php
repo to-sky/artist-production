@@ -93,7 +93,7 @@ class OrderController extends AdminController
 	{
 	    return view('Admin::order.create', [
 	        'eventNames' => Event::distinct()->pluck('name'),
-            'users' => $this->clientService->query(),
+            'users' => $this->clientService->query([], ['created_at' => 'desc']),
             'ticketsData' => $this->getTicketData()
         ]);
 	}

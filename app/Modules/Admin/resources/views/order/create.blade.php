@@ -29,6 +29,12 @@
                             data-target="#clientsModal">
                         {{ __('Select :item', ['item' => __('Admin::models.client')]) }}
                     </button>
+
+                    <button id="clearClient"
+                            type="button"
+                            class="btn btn-xs btn-default">
+                        {{ __('Clear :item', ['item' => __('Admin::models.client')]) }}
+                    </button>
                 </div>
             </div>
 
