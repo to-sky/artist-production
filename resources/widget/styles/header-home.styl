@@ -20,14 +20,38 @@ $en = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAARCAMAAAAfZPc8AAAjwXp
 .header-event__link-google
   display: inline-block
   text-decoration: none
+  white-space: nowrap
+  width: 100%
+
+.header-event__description-container
+  display: flex
+  flex-wrap: wrap
+  justify-content: space-between
+  padding-left: 1px
+  max-width: calc(100% - 90px)
 
   @media (max-width: 767px)
-    display: flex
-    margin-top: 8px
+    max-width: calc(100% - 85px)
+
+  @media (max-width: 325px)
+    max-width: calc(100% - 76px)
+
+.header-event__title-container
+  display: flex
+  flex: 0 0 100%
+  width: 100%
+  align-items: center
+  padding: 5px 0 5px 5px
+  box-sizing: border-box
+
+  @media (max-width: 767px)
+    padding-bottom: 10px
 
 .header-event__title
-  display: flex
-  align-items: center
+  width: 100%
+  overflow: hidden
+  white-space: nowrap
+  text-overflow: ellipsis
   text-decoration: none
   font-family: 'GothamProBold'
   color: #fff
@@ -52,6 +76,10 @@ $en = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAARCAMAAAAfZPc8AAAjwXp
   line-height: 1.1
   font-weight: 700
   width: calc(100% - 40px)
+  vertical-align: middle
+  overflow: hidden
+  white-space: nowrap
+  text-overflow: ellipsis
 
   @media (max-width: 767px)
     width: calc(100% - 25px)
@@ -73,18 +101,25 @@ $en = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAARCAMAAAAfZPc8AAAjwXp
     margin-left: 0
 
 .header-event__description
-  padding: 16px 0
+  padding: 16px 0 16px 10px
   box-sizing: border-box
   width: 45%
-  margin-left: 10px
 
   @media (max-width: 767px)
-    width: 50%
+    width: 100%
+    padding: 0 0 5px 5px
 
 .header-event__date
   padding: 16px 0
   box-sizing: border-box
   width: 40%
+
+  @media (max-width: 767px)
+    padding: 0 0 10px 5px
+    width: auto
+
+  @media (max-width: 375px)
+    padding-bottom: 15px
 
 .date-container
   display: flex
@@ -110,7 +145,6 @@ $en = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAARCAMAAAAfZPc8AAAjwXp
   align-items: center
 
   @media (max-width: 767px)
-    flex-direction: column
     justify-content: center
 
 .calendar__end-date
@@ -129,6 +163,7 @@ $en = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAARCAMAAAAfZPc8AAAjwXp
   background-repeat: no-repeat
   background-size: 25px 25px
   margin-right: 10px
+  vertical-align: middle
 
   @media (max-width: 767px)
     margin-right: 4px
@@ -261,25 +296,27 @@ $en = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAARCAMAAAAfZPc8AAAjwXp
   margin: 0 20px
 
   @media (max-width: 767px)
-    align-items: flex-end
-    margin: 0 0 0 19px
+    margin: 0 5px
 
   @media (max-width: 375px)
-    margin: 0 0 0 4px
+    margin: 0 2px
 
 .select-language
   display: flex
   justify-content: center
+  margin-right: 10px
   align-items: center
   position: relative
   cursor: pointer
 
   &:before
-    content: "▼"
+    content: "\25BE"
     position: absolute
     color: #fff
     left: 100%
     display: block
+    margin-left: 1px
+    top: -3px
 
 .select-language-change
   border: 1px solid #DCDCDC
