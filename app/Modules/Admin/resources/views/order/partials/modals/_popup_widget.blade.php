@@ -4,7 +4,7 @@
 
         <div class="widget-header">
             <div class="widget-header--data">
-                <img src="{{ $event->eventImage->file_url }}"
+                <img src="{{ $event->image_url }}"
                      id="widgetEventThumbnail"
                      class="widget-header--img"
                      alt="{{ $event->name }}"
