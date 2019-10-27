@@ -159,11 +159,12 @@ class BaseEvent {
             disabled,
             limit,
             price
-          });
+          }, this._calculateFontSize(p));
+
           break;
         case 'scene':
           head = this.places.scene;
-          place = p;
+          place = Object.assign(p, this._calculateFontSize(p, app.$t('hall.scene')));
           break;
       }
 
@@ -174,20 +175,50 @@ class BaseEvent {
     if (!this.places.scene.length) this._computeScene();
   }
 
-  _computeScene() {
-    let width = this.viewBox[2] - this.viewBox[0];
-    let height = 70;
-    let x = this.viewBox[0] - width/2;
-    let y = this.viewBox[1] - height - 30;
+  _calculateFontSize(p, text) {
+    let size = p.height - 4;
+    let t = text || p.text;
+    let e = document.createElement('div');
+    e.style.position = 'absolute';
+    e.style.visibility = 'hidden';
+    e.style.height = 'auto';
+    e.style.width = 'auto';
+    e.style.whiteSpace = 'nowrap';
+    e.style.fontSize = size + 'px';
+    e.innerHTML = t;
 
-    this.places.scene.push({
+    document.body.appendChild(e);
+
+    while(e.offsetWidth > p.width - 8) {
+      size--;
+      e.style.fontSize = size + 'px';
+
+      if (size < 1) break;
+    }
+
+    document.body.removeChild(e);
+
+    return {
+      lineHeight: p.height,
+      fontSize: size
+    };
+  }
+
+  _computeScene() {
+    let width = (this.viewBox[2] - this.viewBox[0]) / 2;
+    let height = 70;
+    let x = this.viewBox[0] + width;
+    let y = this.viewBox[1] - height - 30;
+    let scene = {
       height: height,
       template: "scene",
       text:"СЦЕНА   STAGE   BÜHNE",
       width: width,
       x: x,
       y: y
-    });
+    };
+
+    this.places.scene.push(Object.assign(scene, this._calculateFontSize(scene, app.$t('hall.scene'))));
   }
 
   _processPrices() {

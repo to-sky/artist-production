@@ -42,6 +42,18 @@
                     :fill="placeSelected(place) ? '#13ff00' : place.color"
                     :stroke="placeSelected(place) ? '#444' : ''"
             ></rect>
+            <text
+                :dx="place.x"
+                :dy="parseFloat(place.y) + place.fontSize/2 - 8"
+                :fill="placeSelected(place) ? '#13ff00' :'#fff'"
+                text-anchor="middle"
+                :textLength="place.width"
+                :style="{
+                  fontSize: place.fontSize + 'px'
+                }"
+            >
+                {{ place.text }}
+            </text>
         </g>
 
         <g v-for="scene in event.places.scene">
@@ -54,11 +66,11 @@
             ></rect>
             <text
                 :dx="scene.x"
-                :dy="parseFloat(scene.y) + scene.height/4"
+                :dy="parseFloat(scene.y) + scene.fontSize/2 - 8"
                 fill="#fff"
                 text-anchor="middle"
                 :style="{
-                    fontSize: scene.height/4
+                    fontSize: scene.fontSize
                 }"
             >
                 {{ $t('hall.scene') }}

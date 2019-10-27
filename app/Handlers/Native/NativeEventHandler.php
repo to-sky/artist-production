@@ -82,6 +82,7 @@ class NativeEventHandler implements EventHandlerInterface
             ->select([
                 'id',
                 'text',
+                'hall_id',
                 'zone_id',
                 'template',
                 'x',
@@ -94,7 +95,7 @@ class NativeEventHandler implements EventHandlerInterface
                 'num',
                 \DB::raw('(select count(tickets.id) from tickets where tickets.deleted_at is null and tickets.place_id = places.id and tickets.status = ' . Ticket::RESERVED . ') as reserved'),
                 \DB::raw('(select count(tickets.id) from tickets where tickets.deleted_at is null and tickets.place_id = places.id and tickets.status = ' . Ticket::AVAILABLE . ') as available'),
-                \DB::raw('(select tickets.price_id from tickets where tickets.deleted_at is null and tickets.place_id = places.id) as price_id'),
+                \DB::raw('(select tickets.price_id from tickets where tickets.deleted_at is null and tickets.place_id = places.id limit 1) as price_id'),
             ])
             ->get()
         ;

@@ -132,7 +132,7 @@ const i18n = new VueI18n({
   messages
 });
 
-new Vue({
+window.app = new Vue({
   store,
   i18n,
   render: h => h(App),
