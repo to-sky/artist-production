@@ -5,6 +5,11 @@ namespace App\Modules\Admin\Controllers;
 use App\Handlers\Kartina\KartinaEventHandler;
 use App\Handlers\Native\NativeEventHandler;
 use App\Libs\Kartina\Traits\OrderTrait;
+use App\Mail\DynamicMails\CourierDeliveryMail;
+use App\Mail\DynamicMails\ETicketsListMail;
+use App\Mail\DynamicMails\PaymentMail;
+use App\Mail\DynamicMails\ReservationMail;
+use App\Mail\DynamicMails\TicketsForSaleMail;
 use App\Models\{Address,
     Country,
     Order,
@@ -16,21 +21,17 @@ use App\Models\{Address,
     ShippingZone,
     Ticket,
     User};
-use App\Modules\Admin\Controllers\AdminController;
 use App\Modules\Admin\Services\RedirectService;
 use App\Services\ClientService;
 use App\Services\InvoiceService;
+use App\Services\MailService;
 use App\Services\ShippingService;
 use App\Services\TicketService;
-use App\Modules\Admin\Requests\CreateOrderRequest;
 use App\Modules\Admin\Requests\UpdateOrderRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Documents\Invoices\OrderInvoiceDocument;
-
 use Illuminate\Support\Facades\Auth;
 use Prologue\Alerts\Facades\Alert;
-use SebastianBergmann\ObjectReflector\ObjectReflector;
 
 class OrderController extends AdminController
 {
@@ -44,18 +45,22 @@ class OrderController extends AdminController
 
     protected $invoiceService;
 
+    protected $_mailService;
+
     public function __construct(
         RedirectService $redirectService,
         TicketService $ticketService,
         ShippingService $shippingService,
         ClientService $clientService,
-        InvoiceService $invoiceService
+        InvoiceService $invoiceService,
+        MailService $mailService
     )
     {
         $this->ticketService = $ticketService;
         $this->shippingService = $shippingService;
         $this->clientService = $clientService;
         $this->invoiceService = $invoiceService;
+        $this->_mailService = $mailService;
 
         parent::__construct($redirectService);
 
@@ -302,7 +307,9 @@ class OrderController extends AdminController
      */
     public function realization(Request $request)
     {
-        $clientId = $request->user_id ?? Auth::id();
+        $user = User::find($request->user_id);
+        $clientId = $user ? $user->id : Auth::id();
+
         $order = Order::create([
             'status' => Order::STATUS_REALIZATION,
             'user_id' => $clientId,
@@ -331,6 +338,8 @@ class OrderController extends AdminController
            'paid_cash' => $subtotal
         ]);
 
+       $this->_mailService->send(new TicketsForSaleMail($user, $order));
+
         return $order;
 	}
 
@@ -342,7 +351,8 @@ class OrderController extends AdminController
      */
     public function reserve(Request $request)
     {
-        $clientId = $request->user_id ?? Auth::id();
+        $user = User::find($request->user_id);
+        $clientId = $user ? $user->id : Auth::id();
 
         $data = [
             'status' => Order::STATUS_RESERVE,
@@ -403,6 +413,16 @@ class OrderController extends AdminController
             $this->reserveKartinaOrder($order);
         }
 
+        // Mail notification
+        switch ($request->shipping_type) {
+            case Shipping::TYPE_EMAIL:
+                $this->_mailService->send(new ReservationMail($user, $order));
+            break;
+            case Shipping::TYPE_POST:
+                $this->_mailService->send(new CourierDeliveryMail($user, $order));
+            break;
+        }
+
         return $order;
 	}
 
@@ -420,6 +440,16 @@ class OrderController extends AdminController
             'payment_status' => Shipping::STATUS_DELIVERED,
             'status' => Order::STATUS_CONFIRMED
         ]);
+
+        // Mail notification
+        switch ($order->shipping_type) {
+            case Shipping::TYPE_POST:
+                $this->_mailService->send(new PaymentMail($order->user, $order));
+            break;
+            case Shipping::TYPE_EMAIL:
+                $this->_mailService->send(new ETicketsListMail($order->user, $order));
+            break;
+        }
 
         return response()->json(null, 204);
 	}
