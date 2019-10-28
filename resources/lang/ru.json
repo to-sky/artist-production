@@ -400,5 +400,6 @@
     "To pay": "к оплате",
     "Delivery price": "Цена доставки",
     "ORDER TOTAL": "ОБЩАЯ СУММА ЗАКАЗА",
-    "Print invoice" : "Распечатать счет"
+    "Print invoice" : "Распечатать счет",
+    "Regeneration of the invoice in the progress": "Перегенирация счета в процессе"
 }
