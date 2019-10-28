@@ -183,6 +183,7 @@ Route::group([
             Route::post('remove_ticket/{order}/{ticket}', 'OrderController@deleteTicket')->name('order.deleteTicket');
             Route::post('{order}/regenerate_invoice', 'OrderController@regenerateInvoice')->name('order.regenerateInvoice');
             Route::post('comment/add/{order}', 'OrderController@addToComment')->name('order.addToComment');
+            Route::delete('delete_reserve/{order}', 'OrderController@deleteReservation')->name('order.deleteReservation');
         });
 
         Route::get('invoices/modal/{order}', 'OrderController@getInvoicesModal')->name('invoice.modal');

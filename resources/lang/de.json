@@ -397,5 +397,7 @@
   "To pay": "Bezahlen",
   "Delivery price": "Lieferpreis",
   "ORDER TOTAL": "AUFTRAGSSUMME",
-  "Print invoice" : "Rechnung drucken"
+  "Print invoice" : "Rechnung drucken",
+  "Reservation successfully removed": "Reservierung erfolgreich entfernt",
+  "Clear reservation": "Reservierung löschen"
 }

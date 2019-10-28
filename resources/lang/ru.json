@@ -400,5 +400,7 @@
     "To pay": "к оплате",
     "Delivery price": "Цена доставки",
     "ORDER TOTAL": "ОБЩАЯ СУММА ЗАКАЗА",
-    "Print invoice" : "Распечатать счет"
+    "Print invoice" : "Распечатать счет",
+    "Reservation successfully removed": "Резерв отменен упешно",
+    "Clear reservation": "Снять с резерва"
 }

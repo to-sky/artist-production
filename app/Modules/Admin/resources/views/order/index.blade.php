@@ -183,6 +183,17 @@
                                             <i class="fa fa-trash text-red"></i>
                                         </a>
                                     </div>
+
+                                    @if(
+                                        $order->status == \App\Models\Order::STATUS_RESERVE ||
+                                        $order->status == \App\Models\Order::STATUS_PENDING
+                                    )
+                                        <form action="{{ route('order.deleteReservation', ['order' => $order->id]) }}" method="post">
+                                            {{ csrf_field() }}
+                                            {{ method_field('DELETE') }}
+                                            <button class="btn btn-xs btn-link">{{ __('Clear reservation') }}</button>
+                                        </form>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

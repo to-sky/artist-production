@@ -39,6 +39,7 @@ class Purchase extends Base
         'getClients' => '/GetPartnerClientsCommand.cmd',
         'setClient' => '/SetCurrentClientCommand.cmd',
         'revertOrder' => '/RevertOrderCommand.cmd',
+        'deleteReserve' => 'DeleteReserveCommand.cmd',
     ];
 
     /**
@@ -394,6 +395,21 @@ class Purchase extends Base
             [
                 'order' => $orderId,
                 'confirmedReserve' => 0,
+            ],
+            [
+                'method' => 'POST',
+            ]
+        );
+
+        return $resp;
+    }
+
+    public function deleteReserve($orderId)
+    {
+        $resp = $this->sendAuthRequest(
+            $this->host.$this->urls[__FUNCTION__],
+            [
+                'order' => $orderId,
             ],
             [
                 'method' => 'POST',
