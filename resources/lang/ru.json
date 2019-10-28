@@ -403,5 +403,7 @@
     "Delivery price": "Цена доставки",
     "ORDER TOTAL": "ОБЩАЯ СУММА ЗАКАЗА",
     "Print invoice" : "Распечатать счет",
-    "Regeneration of the invoice in the progress": "Перегенирация счета в процессе"
+    "Regeneration of the invoice in the progress": "Перегенирация счета в процессе",
+    "Reservation successfully removed": "Резерв отменен упешно",
+    "Clear reservation": "Снять с резерва"
 }

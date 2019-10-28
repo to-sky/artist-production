@@ -427,6 +427,26 @@ class OrderController extends AdminController
 	}
 
     /**
+     * Remove reservation
+     *
+     * @param Order $order
+     * @return \Illuminate\Http\RedirectResponse
+     */
+	public function deleteReservation(Order $order)
+    {
+        if ($order->kartina_id) {
+            $this->_api->deleteReserve($order->kartina_id);
+        }
+
+        $this->ticketService->freeByOrder($order);
+        $order->delete();
+
+        Alert::success(__('Reservation successfully removed'))->flash();
+
+        return redirect()->back();
+    }
+
+    /**
      * Confirm order payment
      *
      * @param Order $order
