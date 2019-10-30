@@ -499,7 +499,7 @@
                             </div>
                         </div>
                         <div class="form-group col-md-12">
-                            {!! Form::label('mail_courier_delivery_ru', __('Successful processing of the reserve with courier delivery')) !!}
+                            {!! Form::label('mail_courier_delivery_ru', __('Postal delivery when making a reservation')) !!}
                             <ul class="nav nav-pills">
                                 <li class="active"><a href="#ru-courier-delivery">RU</a></li>
                                 <li><a href="#de-courier-delivery">DE</a></li>

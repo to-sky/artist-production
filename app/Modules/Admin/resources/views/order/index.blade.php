@@ -120,14 +120,14 @@
                                         {{ __('Evening ticket office') }}
                                     @endif
                                 </td>
-                                <td>
+                                <td class="align-middle">
                                     @if(strlen($order->comment) > 20)
                                         <button type="button"
                                                 class="btn-link"
                                                 data-toggle="modal"
                                                 data-target="#modalComment"
                                                 data-comment="{{ $order->comment }}">
-                                            {{ substr($order->comment, 0, 15) }}...
+                                            {{ substr($order->comment, 0, 5) }}...
                                         </button>
                                     @else
                                         {{ $order->comment }}
@@ -136,7 +136,7 @@
                                     <div class="pull-right">
                                         <button
                                             type="button"
-                                            class="btn btn-sm btn-info"
+                                            class="btn btn-outline-gray btn-xs"
                                             data-toggle="modal"
                                             data-target="#modalAddComment"
                                             data-order-id="{{ $order->id }}"
@@ -250,16 +250,28 @@
             e.preventDefault();
             var button = $(this);
 
-            $.post(button.attr('href'), {'id': button.data('order-id')}, function (data) {
-                $(function () {
-                    new PNotify({
-                        text: data.success,
-                        type: "success",
-                        icon: false,
-                        delay: 2000
+            $.ajax({
+                type: "POST",
+                url: button.attr('href'),
+                data: {'id': button.data('order-id')},
+                beforeSend: function() {
+                    $('.art-overlay-text').text('{{ __('Regeneration of the invoice in the progress') }}');
+                    $('.art-overlay').addClass('show');
+                },
+                success: function(data) {
+                    $('.art-overlay-text').text('');
+                    $('.art-overlay').removeClass('show');
+
+                    $(function () {
+                        new PNotify({
+                            text: data.success,
+                            type: "success",
+                            icon: false,
+                            delay: 2000
+                        });
                     });
-                });
-            })
+                }
+            });
         });
 
         // Change order status

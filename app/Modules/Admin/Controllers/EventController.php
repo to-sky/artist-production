@@ -31,7 +31,7 @@ class EventController extends AdminController
 	public function index()
     {
 		return view('Admin::event.index', [
-		    'events' => Event::all()
+		    'events' => Event::orderBy('created_at', 'DESC')->get()
         ]);
 	}
 

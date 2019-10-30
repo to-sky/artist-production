@@ -61,3 +61,9 @@
     </script>
     <!-- Site wrapper -->
     <div class="wrapper">
+        <div class="art-overlay">
+            <div class="art-overlay-content">
+                <i class="fa fa-spinner fa-spin art-overlay-spinner"></i>
+                <p class="art-overlay-text"></p>
+            </div>
+        </div>

@@ -113,7 +113,7 @@
     "Successful clearance reserve": "Успешное оформление резерва",
     "Send notification about issue tickets for sale": "Отправлять уведомление о выдаче билетов в реализацию",
     "Issue of tickets for sale notification": "Уведомление о выдаче билетов в реализацию",
-    "Successful processing of the reserve with courier delivery": "Успешное оформление резерва c курьерской доставкой",
+    "Postal delivery when making a reservation": "Почтовая доставка при оформлении резерва",
     "Send letter with list of e-tickets": "Отправлять письмо сo списком электронных билетов",
     "Letter with list of e-tickets": "Письмо со списком электронных билетов",
     "Send letter with registration confirmation": "Отправлять письмо с подтверждением регистрации",
@@ -379,7 +379,9 @@
     "Tickets num.": "Кол-во билетов",
     "Building address": "Адрес строения",
     "Reserve reminder": "Напоминание о резервировании",
+    "Reserve second reminder": "Повторное напоминание о резервировании",
     "Send reserve reminder notification": "Отсылать напоминание о резервировании",
+    "Send second reserve reminder notification": "Отсылать повторное напоминание о резервировании",
     "Date must be greater or equal to current date": "Дата должна быть больше или равна сегодняшней",
     "Add manually": "Добавить вручную",
     "Sale Date": "Дата продажи",
@@ -401,6 +403,7 @@
     "Delivery price": "Цена доставки",
     "ORDER TOTAL": "ОБЩАЯ СУММА ЗАКАЗА",
     "Print invoice" : "Распечатать счет",
+    "Regeneration of the invoice in the progress": "Перегенирация счета в процессе",
     "Reservation successfully removed": "Резерв отменен упешно",
     "Clear reservation": "Снять с резерва"
 }
