@@ -454,6 +454,10 @@ class OrderController extends AdminController
      */
     public function confirmPayment(Order $order)
     {
+        if ($order->kartina_id) {
+            $this->_api->confirmOrder($order->kartina_id, 1);
+        }
+
         $order->update([
             'payer_id' => Auth::id(),
             'paid_at' => Carbon::now(),
@@ -718,5 +722,41 @@ class OrderController extends AdminController
         }
 
         return redirect()->route(config('admin.route').'.orders.index');
+    }
+
+    public function resendMails(Order $order)
+    {
+        $user = $order->user;
+
+        switch ($order->status) {
+            case Order::STATUS_PENDING:
+            case Order::STATUS_RESERVE:
+                switch ($order->shipping_type) {
+                    case Shipping::TYPE_EMAIL:
+                        $this->_mailService->send(new ReservationMail($user, $order));
+                        break;
+                    case Shipping::TYPE_POST:
+                        $this->_mailService->send(new CourierDeliveryMail($user, $order));
+                        break;
+                }
+
+                break;
+            case Order::STATUS_CONFIRMED:
+                switch ($order->shipping_type) {
+                    case Shipping::TYPE_POST:
+                        $this->_mailService->send(new PaymentMail($user, $order));
+                        break;
+                    case Shipping::TYPE_EMAIL:
+                        $this->_mailService->send(new ETicketsListMail($user, $order));
+                        break;
+                }
+
+                break;
+            case Order::STATUS_REALIZATION:
+                $this->_mailService->send(new TicketsForSaleMail($user, $order));
+                break;
+        }
+
+        return redirect()->back();
     }
 }

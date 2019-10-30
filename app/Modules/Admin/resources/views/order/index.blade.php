@@ -194,6 +194,18 @@
                                             <button class="btn btn-xs btn-link">{{ __('Clear reservation') }}</button>
                                         </form>
                                     @endif
+
+                                    @if(
+                                        $order->status == \App\Models\Order::STATUS_RESERVE ||
+                                        $order->status == \App\Models\Order::STATUS_PENDING ||
+                                        $order->status == \App\Models\Order::STATUS_REALIZATION ||
+                                        $order->status == \App\Models\Order::STATUS_CONFIRMED
+                                    )
+                                        <form action="{{ route('order.resendMails', ['order' => $order->id]) }}" method="post">
+                                            {{ csrf_field() }}
+                                            <button class="btn btn-xs btn-link">{{ __('Resend tickets and invoice') }}</button>
+                                        </form>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

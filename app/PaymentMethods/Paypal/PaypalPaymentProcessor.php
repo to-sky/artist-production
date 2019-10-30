@@ -2,7 +2,9 @@
 
 namespace App\PaymentMethods\Paypal;
 
+use App\Mail\DynamicMails\ETicketsListMail;
 use App\Mail\DynamicMails\PaymentMail;
+use App\Models\Shipping;
 use App\PaymentMethods\AbstractPaymentProcessor;
 use App\Services\MailService;
 use App\Services\TicketService;
@@ -147,7 +149,14 @@ class PaypalPaymentProcessor extends AbstractPaymentProcessor
                 ]);
                 $this->_ticketService->sold($order);
 
-                $this->_mailService->send(new PaymentMail($order->user, $order));
+                switch ($order->shipping_type) {
+                    case Shipping::TYPE_POST:
+                        $this->_mailService->send(new PaymentMail($order->user, $order));
+                        break;
+                    case Shipping::TYPE_EMAIL:
+                        $this->_mailService->send(new ETicketsListMail($order->user, $order));
+                        break;
+                }
 
                 return redirect()->route('payment.success', ['order' => $order->id]);
             }

@@ -405,5 +405,6 @@
     "Print invoice" : "Распечатать счет",
     "Regeneration of the invoice in the progress": "Перегенирация счета в процессе",
     "Reservation successfully removed": "Резерв отменен упешно",
-    "Clear reservation": "Снять с резерва"
+    "Clear reservation": "Снять с резерва",
+    "Resend tickets and invoice": "Выслать повторно билеты и счет"
 }

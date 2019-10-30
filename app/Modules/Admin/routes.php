@@ -184,6 +184,7 @@ Route::group([
             Route::post('{order}/regenerate_invoice', 'OrderController@regenerateInvoice')->name('order.regenerateInvoice');
             Route::post('comment/add/{order}', 'OrderController@addToComment')->name('order.addToComment');
             Route::delete('delete_reserve/{order}', 'OrderController@deleteReservation')->name('order.deleteReservation');
+            Route::post('resend_mail/{order}', 'OrderController@resendMails')->name('order.resendMails');
         });
 
         Route::get('invoices/modal/{order}', 'OrderController@getInvoicesModal')->name('invoice.modal');

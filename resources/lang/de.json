@@ -402,5 +402,6 @@
   "Print invoice" : "Rechnung drucken",
   "Regeneration of the invoice in the progress": "Regeneration der rechnung in bearbeitung",
   "Reservation successfully removed": "Reservierung erfolgreich entfernt",
-  "Clear reservation": "Reservierung löschen"
+  "Clear reservation": "Reservierung löschen",
+  "Resend tickets and invoice": "Tickets und Rechnung erneut senden"
 }
