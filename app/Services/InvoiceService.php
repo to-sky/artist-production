@@ -59,6 +59,8 @@ class InvoiceService
 
         $userAddress = $order->user->addresses()->active()->first();
 
+        if (is_null($userAddress)) return null;
+
         $data = $userAddress->only([
             'apartment',
             'city',
