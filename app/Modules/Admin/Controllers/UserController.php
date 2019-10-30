@@ -7,6 +7,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Modules\Admin\Services\RedirectService;
 use App\Services\UploadService;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -29,7 +30,9 @@ class UserController extends AdminController
 
     public function __construct(RedirectService $redirectService, UploadService $uploadService)
     {
-        $this->authorizeResource(User::class, 'user');
+        $this->authorizeResource(User::class, 'user', [
+            'except' => ['destroy'],
+        ]);
 
         $this->uploadService = $uploadService;
 
@@ -186,15 +189,20 @@ class UserController extends AdminController
      * @param $id
      *
      * @return \Illuminate\Http\RedirectResponse
+     *
+     * @throws AuthorizationException
      */
     public function destroy($id)
     {
+        $auth = auth()->user();
+
         $user = User::findOrFail($id);
+
+        if (!$auth->hasRole(Role::ADMIN) || $user->hasRole(Role::ADMIN)) throw new AuthorizationException('Unable to delete user');
+
         User::destroy($id);
 
         return response()->json(null, 204);
-
-//        return redirect()->route('users.index')->withMessage(trans('Admin::admin.users-controller-successfully_deleted'));
     }
 
     /**

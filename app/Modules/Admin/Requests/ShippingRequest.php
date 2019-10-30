@@ -29,4 +29,11 @@ class ShippingRequest extends FormRequest
             'shippingZones.*.price' => 'required|numeric|min:0|max:100000',
         ];
     }
+
+    public function messages()
+    {
+        return array_merge(parent::messages(), [
+            'shippingZones.*.name.required' => __('Shipping zone name is required'),
+        ]);
+    }
 }

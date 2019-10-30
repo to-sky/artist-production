@@ -161,10 +161,16 @@
 
 .period-search {
   width: 100%;
-  padding: 5px 10px;
+  padding: 5px;
   border: 1px solid #ccc;
   background: #fff;
   cursor: pointer;
+  font-size: 13px;
+  line-height: 21px;
+}
+
+.order-search-name .select2-container .select2-selection--single .select2-selection__rendered{
+  padding-left: 5px;
 }
 
 .prices-count {

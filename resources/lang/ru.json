@@ -359,7 +359,7 @@
     "Select value": "Выберите значение",
     "Order author": "Автор Заказа",
     "Payment Options": "Варианты оплаты",
-    "Paid with": "Оплвчено с помощью",
+    "Paid with": "Оплачено с помощью",
     "all": "все",
     "cash": "наличные",
     "Ticket status": "Статус билета",
@@ -406,5 +406,6 @@
     "Regeneration of the invoice in the progress": "Перегенирация счета в процессе",
     "Reservation successfully removed": "Резерв отменен упешно",
     "Clear reservation": "Снять с резерва",
-    "Resend tickets and invoice": "Выслать повторно билеты и счет"
+    "Resend tickets and invoice": "Выслать повторно билеты и счет",
+    "Shipping zone name is required": "Имя зоны доставки обязательно для заполнения"
 }

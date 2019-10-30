@@ -14,6 +14,10 @@
   $templateElement.remove();
 
   function scan(code) {
+    var code = code.replace(new RegExp('^\\s+|\\s+$', 'g'), '');
+
+    if (!code) return;
+
     $.get("{{ route(config('admin.route') . '.tickets.by_barcode') }}?code=" + code)
         .then(function(t) {
           if (!ticketsList.includes(t.ticket_id)) {

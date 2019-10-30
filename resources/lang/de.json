@@ -403,5 +403,6 @@
   "Regeneration of the invoice in the progress": "Regeneration der rechnung in bearbeitung",
   "Reservation successfully removed": "Reservierung erfolgreich entfernt",
   "Clear reservation": "Reservierung löschen",
-  "Resend tickets and invoice": "Tickets und Rechnung erneut senden"
+  "Resend tickets and invoice": "Tickets und Rechnung erneut senden",
+  "Shipping zone name is required": "Der Name der Versandzone ist erforderlich"
 }
