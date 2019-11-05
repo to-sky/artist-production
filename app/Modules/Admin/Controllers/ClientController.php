@@ -3,6 +3,7 @@
 namespace App\Modules\Admin\Controllers;
 
 use App\Helpers\CountryHelper;
+use App\Libs\Kartina\Traits\ClientTrait;
 use App\Models\Client;
 use App\Models\Country;
 use App\Models\User;
@@ -24,11 +25,15 @@ use Prologue\Alerts\Facades\Alert;
  */
 class ClientController extends AdminController {
 
+    use ClientTrait;
+
     public function __construct(ClientService $clientService, RedirectService $redirectService)
     {
         $this->authorizeResource($clientService->getModelClass(), 'client');
 
         parent::__construct($redirectService);
+
+        $this->initClientTrait();
     }
 
 	/**
@@ -116,10 +121,16 @@ class ClientController extends AdminController {
      */
 	public function update(ClientService $clientService, Client $client, UpdateClientRequest $request)
 	{
+	    $previousMail = $client->email;
+
 	    $clientService->update(
 	        $client,
             $clientService->getDataFromUpdateRequest($request)
         );
+
+        if (($previousMail !== $client->email) && $client->kartina_id) {
+            $this->syncKartinaClientForUser($client);
+        }
 
         Alert::success(trans('Admin::admin.controller-successfully_updated', ['item' => trans('Admin::models.Client')]))->flash();
 
