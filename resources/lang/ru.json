@@ -407,5 +407,7 @@
     "Reservation successfully removed": "Резерв отменен упешно",
     "Clear reservation": "Снять с резерва",
     "Resend tickets and invoice": "Выслать повторно билеты и счет",
-    "Shipping zone name is required": "Имя зоны доставки обязательно для заполнения"
+    "Shipping zone name is required": "Имя зоны доставки обязательно для заполнения",
+    "Send copy to": "Послать копию на",
+    "Send": "Выслать"
 }

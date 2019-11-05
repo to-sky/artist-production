@@ -11,9 +11,23 @@ abstract class AbstractDynamicMail implements DynamicMailInterface
 
     protected $_attachments = [];
 
+    protected $_additionalTo = [];
+
     public function __construct(User $user)
     {
         $this->_user = $user;
+    }
+
+    /**
+     * Add recipient
+     *
+     * @param $email
+     * @return $this
+     */
+    public function addTo($email) {
+        if ($email) $this->_additionalTo[] = $email;
+
+        return $this;
     }
 
     /**
@@ -24,9 +38,9 @@ abstract class AbstractDynamicMail implements DynamicMailInterface
      */
     public function getTo($isCopy)
     {
-        return [
+        return array_merge([
             $this->_user->email => $this->_user->full_name,
-        ];
+        ], $this->_additionalTo);
     }
 
     /**

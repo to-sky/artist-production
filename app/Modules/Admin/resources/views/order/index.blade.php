@@ -13,6 +13,7 @@
     @include('Admin::order.partials.modals._modal_change_shipping_status')
     @include('Admin::order.partials.modals._modal_comment')
     @include('Admin::order.partials.modals._modal_add_comment')
+    @include('Admin::order.partials.modals._modal_resend_mail')
 
     <div class="box">
         <div class="box-header with-border">
@@ -201,10 +202,13 @@
                                         $order->status == \App\Models\Order::STATUS_REALIZATION ||
                                         $order->status == \App\Models\Order::STATUS_CONFIRMED
                                     )
-                                        <form action="{{ route('order.resendMails', ['order' => $order->id]) }}" method="post">
-                                            {{ csrf_field() }}
-                                            <button class="btn btn-xs btn-link">{{ __('Resend tickets and invoice') }}</button>
-                                        </form>
+                                        <button
+                                            class="btn btn-xs btn-link"
+                                            data-toggle="modal"
+                                            data-target="#modalResendMail"
+                                            data-order-id="{{ $order->id }}"
+                                            data-url="{{ route('order.resendMails', ['order' => $order->id]) }}"
+                                        >{{ __('Resend tickets and invoice') }}</button>
                                     @endif
                                 </td>
                             </tr>
@@ -412,5 +416,20 @@
         $('body').on('hidden.bs.modal', '#modalInvoice', function () {
             $(this).remove();
         });
+
+        // Add to comment
+        $('#modalResendMail')
+            .on('show.bs.modal', function (e) {
+              var $button = $(e.relatedTarget);
+              var url = $button.data('url');
+
+              var $form = $('#resendMailForm');
+
+              $form.attr('action', url);
+            })
+            .on('hidden.bs.modal', function () {
+              $('#additionalMail').val('');
+            })
+        ;
     </script>
 @endsection

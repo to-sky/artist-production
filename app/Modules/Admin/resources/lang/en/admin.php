@@ -138,6 +138,8 @@ return [
     'back-to-all-entries' => 'Back to All Entries',
 
     // orders
-    'last-order-ticket-deletion' => "You are about to remove last ticket from order. This will remove an order as well. Do you want to proceed?"
+    'last-order-ticket-deletion' => "You are about to remove last ticket from order. This will remove an order as well. Do you want to proceed?",
+
+    'resend-mail' => 'Resend mails and tickets',
 ];
 

@@ -139,5 +139,7 @@ return [
 
     // Orders
     'last-order-ticket-deletion' => "Sie sind dabei, das letzte Ticket aus der Bestellung zu entfernen. Dadurch wird auch eine Bestellung entfernt. Möchten Sie fortfahren?",
+
+    'resend-mail' => 'Senden Sie Mails und Tickets erneut',
 ];
 
