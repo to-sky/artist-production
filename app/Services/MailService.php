@@ -35,7 +35,8 @@ class MailService
     {
         $transport = new \Swift_SmtpTransport(
             setting('smtp_server'),
-            setting('smtp_port')
+            setting('smtp_port'),
+            (int)setting('smtp_security') ? 'ssl' : null
         );
 
         $transport

@@ -44,7 +44,7 @@
                         </div>
                         <div class="form-group col-md-12">
                             {!! Form::label('smtp_security', __('Security')) !!}
-                            {!! Form::select('settings[smtp_security]', [0 => __('SSL on'), 1 => __('SSL off')], old('smtp_security', setting('smtp_security', 0)), ['class'=>'form-control']) !!}
+                            {!! Form::select('settings[smtp_security]', [1 => __('SSL on'), 0 => __('SSL off')], old('smtp_security', setting('smtp_security', 0)), ['class'=>'form-control']) !!}
                         </div>
                         <div class="form-group col-md-12">
                             {!! Form::label('administrator_email', __('Administrator email')) !!}
