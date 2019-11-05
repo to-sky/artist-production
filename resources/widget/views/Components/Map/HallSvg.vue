@@ -70,7 +70,7 @@
                 fill="#fff"
                 text-anchor="middle"
                 :style="{
-                    fontSize: scene.fontSize
+                    fontSize: scene.fontSize + 'px'
                 }"
             >
                 {{ $t('hall.scene') }}
