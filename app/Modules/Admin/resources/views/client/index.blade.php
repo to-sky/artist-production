@@ -25,7 +25,8 @@
                     <th class="no-sort" width="5%" style="text-align: center">
                         {!! Form::checkbox('delete_all',1,false,['class' => 'mass']) !!}
                     </th>
-                    <th>{{ __('Full name') }}</th>
+                    <th>#</th>
+                    <th style="max-width: 30%">{{ __('Full name') }}</th>
                     <th>{{ __('Commission %') }}</th>
                     <th>{{ __('Email') }}</th>
                     <th>{{ __('Phone') }}</th>
@@ -42,12 +43,13 @@
                         <td style="text-align: center">
                             {!! Form::checkbox('del-'.$row->id,1,false,['class' => 'single','data-id'=> $row->id]) !!}
                         </td>
-                        <td>{{ $row->fullname }}</td>
-                        <td>{{ $row->commission }}</td>
+                        <td>{{ $row->display_id }}</td>
+                        <td style="word-break: break-word">{{ $row->fullname }}</td>
+                        <td>{{ $row->profile->commission }}</td>
                         <td>{{ $row->email }}</td>
-                        <td>{{ $row->phone }}</td>
-                        <td>{{ App\Models\Client::getTypeLabel($row->type) }}</td>
-                        <td>{{ $row->comment }}</td>
+                        <td>{{ $row->profile->phone }}</td>
+                        <td>{{ $row->profile->type_label }}</td>
+                        <td>{{ $row->profile->comment }}</td>
 
                         <td>
                             <a href="{{ route(config('admin.route').'.clients.edit', [$row->id]) }}"
@@ -76,7 +78,5 @@
 @endsection
 
 @section('after_scripts')
-
     @include('Admin::partials.datatable-scripts')
-
 @endsection

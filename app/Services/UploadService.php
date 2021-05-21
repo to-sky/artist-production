@@ -101,9 +101,13 @@ class UploadService
         $uploadedFiles = $request->file($field);
         $files = [];
 
+        if (is_null($uploadedFiles)) {
+            return $files;
+        }
+
         if (is_array($uploadedFiles)) {
             foreach ($uploadedFiles as $uploadedFile) {
-                $files[] = $this->store($uploadedFiles, $entity, $file);
+                $files[] = $this->store($uploadedFile, $entity, $file);
             }
         } else {
             $files[] = $this->store($uploadedFiles, $entity, $file);
@@ -120,8 +124,10 @@ class UploadService
      * @param null $file
      * @return File|null
      */
-    public function store($uploadedFile, $entity, $file = null) {
+    public function store($uploadedFile, $entity, $file = null)
+    {
         $path = FileHelper::storagePath($entity);
+
         // Stores file to disk
         $uploadedFile->store($path);
         // Saves file to database
@@ -137,6 +143,26 @@ class UploadService
         if ($file->save()) {
             $files[] = $file;
         }
+
+        return $file;
+    }
+
+    public function storeFromData($data, $entity, $file = null)
+    {
+        $path = FileHelper::storagePath($entity);
+        $name = "event_image.jpg";
+        Storage::put($path . $name, $data);
+
+        if (is_null($file)) {
+            $file = new File();
+        }
+
+        $file->mime = 'image/jpeg';
+        $file->original_name = $name;
+        $file->name = $name;
+        $file->entity_id = $entity->id;
+        $file->entity_type = $entity->entity_type;
+        $file->save();
 
         return $file;
     }
@@ -172,7 +198,7 @@ class UploadService
                     mkdir($destination, 0755, true);
                 }
 
-                $destination .=  $avatar->name;
+                $destination .= $avatar->name;
 
                 $this->fit($uploadedFile, $destination, File::THUMBNAIL_WIDTH);
             }

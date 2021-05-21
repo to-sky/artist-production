@@ -1,0 +1,130 @@
+$basket = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAOCAYAAAAbvf3sAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC6SURBVHgB1VJRDcIwEN2xCpgDJmESkIAEJOCga6YABQwHQwFIqIRKqIA25V3SklsJYb+85KXvbfcut/WoEdBad23bHouPMVpjjJU1hAcjEe3ZpJQG6EG89+BSNBpcFAr0O03UVOjAUzFKKUt5lL75DY9pvJqm6YBRHhsCI2h2soOYd2aPRg58ylQduLNA0Zy9w3d9DWzCHwU6wRVUCMFhf1j34JUF/syST16TYRXA7TnwXO3QB7BHNz5fBOJBtGRLeB8AAAAASUVORK5CYII='
+
+.checkout
+  display: flex
+  position: fixed
+  right: 0
+  background-color: #fff
+  width: 50%
+  min-height: 100%
+  flex-direction: column
+  justify-content: space-between
+  transition: 0.3s
+  top: 0
+  z-index: 450
+
+  &.v--modal-overlay
+    z-index: 1100
+
+    .v--modal-box
+      display: flex
+      justify-content: space-between
+      flex-direction: column
+
+  @media (max-width: 767px)
+    width: 80%
+
+.checkout__without-button
+  position: relative
+  overflow-y: scroll
+
+.checkout__button
+  padding: 10px 15px
+  box-sizing: border-box
+  width: 100%
+  background: #ffeb00
+  font-size: 18px
+  line-height: 1.1
+  text-align: center
+  cursor: pointer
+  border: none
+
+.checkout-container
+  padding: 0 10px
+  text-align: center
+  box-sizing: border-box
+  border-bottom: 1px solid #BDBDBD
+
+.checkout-title
+  display: flex
+  flex-wrap: wrap
+  align-items: center
+  justify-content: center
+
+.checkout-block
+  display: flex
+  flex-wrap: wrap
+  align-items: center
+
+.checkout-description
+  margin 20px 0
+
+.checkout-subblock
+  display: flex
+  flex-wrap: wrap
+  justify-content: space-between
+  align-items: center
+
+.checkout-subblock__text
+  margin: 0
+  font-size: 20px
+  line-height: 1.1
+  color: #333
+
+.checkout-subblock__text_font
+  font-size: 16px
+
+.checkout__image
+  width: 80px
+  height: 80px
+  display: inline-block
+
+.checkout__title
+  color: #333
+  font-size: 24px
+  line-height: 1.1
+  display: inline-block
+  margin: 10px 0
+  width: calc(100% - 13px)
+
+.checkout__text
+  margin: 0 0 0 20px
+  color: #333
+  font-size: 24px
+  line-height: 1.1
+  display: inline-block
+
+  @media (max-width: 767px)
+    width: calc(100% - 100px)
+    font-size: 20px
+
+.checkout-ticket
+  display: flex
+  border-bottom: 1px solid #BDBDBD
+
+.checkout-ticket-block
+  display: flex
+  flex-wrap: wrap
+  justify-content: space-between
+  align-items: center
+
+.checkout-ticket-block__text
+  color: #333
+  font-size: 20px
+  line-height: 1.1
+  margin: 20px 0
+
+  @media (max-width: 767px)
+    margin: 5px 0
+    font-size: 16px
+
+.checkout-ticket__basket-delete
+  width: 12px
+  height: 14px
+  background-image: url($basket)
+  cursor: pointer
+
+.checkout-ticket-total
+  display: flex
+  justify-content: space-around
+  align-items: center

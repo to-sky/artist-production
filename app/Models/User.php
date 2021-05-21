@@ -14,12 +14,17 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
  * @property int $id
  * @property string $first_name
  * @property string $last_name
+ * @property string $full_name
  * @property string $email
  * @property string $password
  * @property boolean $active
  * @property string $created_at
  * @property string $updated_at
  * @property string $remember_token
+ * @property \App\Models\Address[] $addresses
+ * @property \App\Models\Profile $profile
+ * @property \App\Models\Order[] $orders
+ * @property-read string $display_id
  */
 class User extends Authenticatable implements AuthenticatableContract
 {
@@ -50,7 +55,27 @@ class User extends Authenticatable implements AuthenticatableContract
      *
      * @var array
      */
-    protected $appends = ['avatar', 'fullname', 'role'];
+    protected $appends = ['avatar', 'fullname', 'role', 'display_id'];
+
+    public function tickets()
+    {
+        return $this->hasMany('App\Models\Ticket', 'user_id');
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany('App\Models\Address', 'user_id');
+    }
+
+    public function profile()
+    {
+        return $this->hasOne('App\Models\Profile', 'user_id');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany('App\Models\Order', 'user_id');
+    }
 
     /**
      *  User avatar
@@ -80,5 +105,15 @@ class User extends Authenticatable implements AuthenticatableContract
     public function getRoleAttribute()
     {
         return $this->roles()->first();
+    }
+
+    /**
+     * Returns user id in 6 digit format with prepending zeroes (i.e.: 000105)
+     *
+     * @return string
+     */
+    public function getDisplayIdAttribute()
+    {
+        return sprintf('%06d', $this->id);
     }
 }

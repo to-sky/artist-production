@@ -1,73 +1,52 @@
-@extends('Admin::layouts.master')
+@extends('layouts.master')
 
 @section('content')
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="box box-default">
+    <!-- Password reset -->
+    {!! Form::open(array('route' => 'password.request')) !!}
+        <section class="ap_section">
+            <div class="ap_section__content">
+                <div class="ap_form">
+                    <input type="hidden" name="token" value="{{ $token }}">
 
-                <div class="box-header with-border">
-                    <div class="box-title"></div>
+                    @if (session('status'))
+                        <div class="ap_form__group">
+                            <div class="alert alert-success">
+                                {{ session('status') }}
+                            </div>
+                        </div>
+                    @endif
+
+                    <div class="ap_form__group">
+                        {!! Form::label(null, __('Admin::auth.reset-email'), array('class'=>'ap_form__label')) !!}
+                        {!! Form::text('email', $email ?? old('email'), array('class'=>'ap_form__input')) !!}
+                        @if ($errors->has('email'))
+                            <div class="ap_form__error">{{ $errors->first('email') }}</div>
+                        @endif
+                    </div>
+
+                    <div class="ap_form__group">
+                        {!! Form::label(null, __('Admin::auth.reset-password'), array('class'=>'ap_form__label')) !!}
+                        {!! Form::password('password', array('class'=>'ap_form__input')) !!}
+                        @if ($errors->has('password'))
+                            <div class="ap_form__error">{{ $errors->first('password') }}</div>
+                        @endif
+                    </div>
+
+                    <div class="ap_form__group">
+                        {!! Form::label(null, __('Admin::auth.reset-confirm_password'), array('class'=>'ap_form__label')) !!}
+                        {!! Form::password('password_confirmation', array('class'=>'ap_form__input')) !!}
+                        @if ($errors->has('password_confirmation'))
+                            <div class="ap_form__error">{{ $errors->first('password_confirmation') }}</div>
+                        @endif
+                    </div>
                 </div>
-
-                <div class="box-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('password.request') }}">
-                        {{ csrf_field() }}
-
-                        <input type="hidden" name="token" value="{{ $token }}">
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">{{ trans('Admin::auth.reset-email') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ $email or old('email') }}" required autofocus>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">{{ trans('Admin::auth.reset-password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                            <label for="password-confirm" class="col-md-4 control-label">{{ trans('Admin::auth.reset-confirm_password') }}</label>
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-
-                                @if ($errors->has('password_confirmation'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password_confirmation') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ trans('Admin::auth.reset-btnreset_password') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
             </div>
-        </div>
-    </div>
-</div>
+        </section>
+
+        <section class="ap_section">
+            <div class="ap_buttons">
+                <button class="ap_button--submit ap_button--block">{!! __('Admin::auth.reset-btnreset_password') !!}</button>
+            </div>
+        </section>
+    {!! Form::close() !!}
 @endsection

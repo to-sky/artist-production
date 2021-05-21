@@ -1,0 +1,26 @@
+/*
+	Typography
+*/
+
+$fontGeneral: 'ProximaNova', sans-serif;
+$fontSB: 'ProximaNovaSB', sans-serif;
+
+/*
+   Icons
+*/
+
+$iconArrowLeft: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAeCAYAAABqpJ3BAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEJSURBVHgB1ZixDcIwEEU/0MIAdFQskAUYAAZgGqCHORgAKioWYAEGIBUVqai4LxEpSmzHTnO+J/0C0vyXyJLvAOOMMIxCspVUkpPkAyUmSGcjOUoWkqXkK3lAiTHSYPld678CiqQIuMqTMxSJFfCVP0juUCTmEIfKX6BMn0DW5UlIIPvyxCdgojxxCZgpT9oCpsqTpoC58qQWMFmeUMBX3gQU4Buewyi8SkxhGF6n35IVjFIf4rVk73ie/SGuB5qn5IXul+Dv8v88S5oTmUmJ9khpTsI1E5uS8A31ZiRCWwkTEn1rlewlYvZCWUvELrZCElxqlVAiZTPnk5hJblAidTN3RffKUUGRH499SFwse7sqAAAAAElFTkSuQmCC');
+
+/*
+	Sizing
+*/
+
+.ap_wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-size: 18px;
+  line-height: 1.22;
+  font-family: $fontGeneral;
+  background-color: #F9F8F8;
+}

@@ -1,0 +1,251 @@
+.zone-description
+  position: absolute
+  width: 100%
+  height: 22px
+  top: 0
+  left: 0
+  right: 0
+
+.hall
+  position: relative
+
+.hall-container
+  position: relative
+  transform-origin: top left
+
+.current-zone__wrapper
+  position: absolute
+  cursor: pointer
+
+.current-zone__place-disable
+  filter: grayscale(1)
+
+.current-zone__place
+  position: absolute
+  display: inline-block !important
+  border-radius: 50%
+  background-color: #777
+
+.current-zone__place-available
+  cursor: pointer
+  filter: grayscale(0)
+
+.current-zone__place-target
+  box-shadow: 0 0 2px 2px #777
+
+  &:before
+    position: absolute
+    top: 50%
+    left: 50%
+    width: 10px
+    height: 10px
+    transform: translate(-50%,-50%)
+    background-color: #fff
+    display: block
+    border-radius: 50%
+    content: ""
+
+.current-zone__info-block
+  display: flex
+  justify-content: space-between
+  align-items: center
+  margin: 10px 0
+
+.current-zone__info
+  display: none
+  position: absolute
+  width: 170px
+  text-align: left
+  bottom: calc(100% + 20px)
+  left: 50%
+  transform: translateX(-50%)
+  z-index: 6
+  background-color: #F2F2F2
+  padding: 0 15px
+  box-sizing: border-box
+  transition: 0.3s
+
+  &:before
+    position: absolute
+    top: 100%
+    left: 50%
+    transform: translateX(-50%)
+    display: inline-block
+    content: ""
+    border: 20px solid transparent
+    border-top: 20px solid #F2F2F2
+
+.current-zone__description-popup .current-zone__info
+  display: inline-block
+
+.current-zone__text
+  color: #333
+  margin: 0
+  font-size: 17px
+  line-height: 1.1
+
+.current-zone__close
+  background-color: #ff9933
+  position: absolute
+  width: 32px
+  height: 32px
+  opacity: 0.6
+  cursor: pointer
+  top: 0
+  right: 0
+  z-index: 2
+
+  &:hover
+    opacity: 1
+
+  &:before, &:after
+    position: absolute
+    left: 15px
+    content: ' '
+    height: 33px
+    width: 2px
+    background-color: #333
+    z-index: 2
+
+  &:before
+    transform: rotate(45deg)
+
+  &:after
+    transform: rotate(-45deg)
+
+.current-zone-active .current-zone__close
+  display: block
+
+.current-zone__buy-tickets
+  cursor: pointer
+  bottom: 5px
+  position: fixed
+  left: 50%
+  transform: translateX(-50%)
+  z-index: 400
+  background: #ffeb00
+  border-radius: 5px
+
+  .current-zone__buy-tickets_size
+    padding: 20px 30px
+    font-size: 25px
+
+    @media(max-width: 767px)
+      padding: 15px 20px
+      font-size: 16px
+
+.active-zone-modal .current-zone__buy-tickets
+  display: inline-block
+
+.leaflet-container
+  background-color: #fff
+
+.leaflet-control-zoom-in, leaflet-control-zoom-out
+  user-select: none
+
+.scene-popup.leaflet-popup
+  margin: 0
+  cursor: pointer
+
+.scene-popup .leaflet-popup-content-wrapper
+  padding: 0
+  box-shadow: none
+  border-radius: 0
+
+.scene-popup .leaflet-popup-content
+  margin: 0
+  color: #fff
+  text-align: center
+  user-select: none
+
+  div
+    background-color: #ccc !important
+
+.scene-popup .leaflet-fade-anim .leaflet-map-pane .leaflet-popup
+  bottom: -5px !important
+
+.scene-popup .leaflet-popup-tip-container
+  display: none
+
+.hall .vue2leaflet-map
+  border: 1px solid #000
+  height: 85vh !important
+
+  @media (max-width: 767px)
+    border: none
+
+.description
+  padding: 0 10px
+  box-sizing: border-box
+  display: flex
+  position: relative
+  flex-direction: row
+  width: 100%
+  justify-content: center
+
+  .description-container:first-child
+    margin-left: 0
+
+.description-container
+  display: flex
+  margin-top: 4px
+  margin-left: 10px
+  align-items: center
+
+.description__circle
+  display: inline-block
+  width: 12px
+  height: 12px
+  border-radius: 50%
+
+.description__text
+  display: inline-block
+  margin-left: 10px
+  font-size: 10px
+  line-height: 1.1
+
+.popup-row
+  font-family: 'Source Sans Pro', 'GothamProMedium', Arial, Tahoma, Verdana, sans-serif
+  z-index: 100000
+  margin: 0
+  padding: 0
+  border: none
+  background-color: inherit
+  box-shadow: none
+  border-radius: 0
+  color: #000
+  font-weight: 300
+
+  &:before
+    display: none
+
+.popup-place-mobile
+  font-family: 'Source Sans Pro', 'GothamProMedium', Arial, Tahoma, Verdana, sans-serif
+  margin: 0
+  padding: 0
+  border: none
+  background-color: inherit
+  box-shadow: none
+  border-radius: 0
+  color: #fff
+  font-weight: 300
+
+  &:before
+    display: none
+
+.popup-place-mobile-row
+  margin: 0
+  bottom: -8px !important
+  left: -20px !important
+
+  .leaflet-popup-content-wrapper
+    background: none
+    box-shadow: none
+
+  .leaflet-popup-content
+    margin: 0
+    width: auto !important
+    color: #fff
+
+  .leaflet-popup-tip-container
+    display: none

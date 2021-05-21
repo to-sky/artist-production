@@ -22,6 +22,7 @@
                         <th class="no-sort text-center" width="5%">
                             {!! Form::checkbox('delete_all',1,false,['class' => 'mass']) !!}
                         </th>
+                        <th>{{ __('Thumbnail') }}</th>
                         <th>{{ __('Event') }}</th>
                         <th>{{ __('Date') }}</th>
                         <th>{{ __('Time') }}</th>
@@ -34,25 +35,38 @@
                 </thead>
 
                 <tbody>
-                @foreach ($events as $row)
+                @foreach($events as $event)
                     <tr>
                         <td class="text-center">
-                            {!! Form::checkbox('del-'.$row->id,1,false,['class' => 'single','data-id'=> $row->id]) !!}
+                            {!! Form::checkbox('del-'.$event->id,1,false,['class' => 'single','data-id'=> $event->id]) !!}
                         </td>
-                        <td>{{ $row->name }}</td>
-                        <td>{{ $row->date->toFormattedDateString() }}</td>
-                        <td>{{ $row->date->format('H:i') }}</td>
-                        <td>{{ $row->hall->building->city->name }}</td>
-                        <td>{{ $row->hall->building->name }}</td>
-                        <td>{{ $row->hall->name }}</td>
-                        <td>{{ numberToString($row->is_active) }}</td>
+                        <td class="text-center">
+                            <img src="{{ $event->image_url }}" alt="{{ $event->id }}" width="40">
+                        </td>
+                        <td>{{ $event->name }}</td>
+                        <td>{{ $event->date->formatLocalized('%b %d, %Y') }}</td>
+                        <td>{{ $event->date->format('H:i') }}</td>
+                        <td>{{ $event->hall->building->city->name }}</td>
+                        <td>{{ $event->hall->building->name }}</td>
+                        <td>{{ $event->hall->name }}</td>
+                        <td>{{ numberToString($event->is_active) }}</td>
                         <td>
-                            <a href="{{ route(config('admin.route').'.events.edit', [$row->id]) }}" class="btn btn-xs btn-default">
-                                <i class="fa fa-edit"></i> {{ trans('Admin::admin.users-index-edit') }}
-                            </a>
-                            <a href="{{ route(config('admin.route').'.events.destroy', [$row->id]) }}" class="btn btn-xs btn-default delete-button">
-                                <i class="fa fa-trash"></i> {{ trans('Admin::admin.users-index-delete') }}
-                            </a>
+                            @if(empty($event->kartina_id))
+                                <a href="{{ route(config('admin.route').'.events.edit', [$event->id]) }}#event" class="btn btn-xs btn-default">
+                                    <i class="fa fa-edit"></i> {{ trans('Admin::admin.users-index-edit') }}
+                                </a>
+                                <a href="{{ route(config('admin.route').'.events.edit', [$event->id]) }}#prices" class="btn btn-xs btn-default">
+                                    <i class="fa fa-magic"></i> {{ trans('Admin::admin.events-index-prices') }}
+                                </a>
+                                <a href="{{ route(config('admin.route').'.events.hallPlaces', [$event->id]) }}" class="btn btn-xs btn-default">
+                                    <i class="fa fa-list"></i> {{ trans('Admin::admin.events-index-place-binding') }}
+                                </a>
+                                <a href="{{ route(config('admin.route').'.events.destroy', [$event->id]) }}" class="btn btn-xs btn-default delete-button">
+                                    <i class="fa fa-trash"></i> {{ trans('Admin::admin.users-index-delete') }}
+                                </a>
+                            @else
+                                KaritnaTV
+                            @endif
                         </td>
                     </tr>
                 @endforeach

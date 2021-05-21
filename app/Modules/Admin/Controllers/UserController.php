@@ -7,6 +7,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Modules\Admin\Services\RedirectService;
 use App\Services\UploadService;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -16,6 +17,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Prologue\Alerts\Facades\Alert;
 use App\Helpers\FileHelper;
+
+use Setting;
 
 class UserController extends AdminController
 {
@@ -27,7 +30,9 @@ class UserController extends AdminController
 
     public function __construct(RedirectService $redirectService, UploadService $uploadService)
     {
-        $this->authorizeResource(User::class, 'user');
+        $this->authorizeResource(User::class, 'user', [
+            'except' => ['destroy'],
+        ]);
 
         $this->uploadService = $uploadService;
 
@@ -53,18 +58,27 @@ class UserController extends AdminController
                 Rule::unique('users')->ignore((isset($user->id) ? $user->id : null)),
             ],
             'password' => 'nullable|confirmed|string||min:6|',
+            'avatar' => 'sometimes|file|max:2048|mimetypes:' . FileHelper::mimesImage(),
         ]);
     }
 
     /**
      * Show a list of users
      * @return \Illuminate\View\View
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
         $this->authorize('index', User::class);
 
-        $users = User::all();
+        $users = User
+            ::whereDoesntHave('roles', function ($q) {
+                $q->whereName(Role::CLIENT);
+            })
+            ->whereHas('roles')
+            ->get()
+        ;
 
         return view('Admin::user.index', compact('users'));
     }
@@ -75,7 +89,7 @@ class UserController extends AdminController
      */
     public function create()
     {
-        $roles = Role::pluck('display_name', 'id');
+        $roles = Role::where('name', '!=', Role::CLIENT)->pluck('display_name', 'id');
 
         return view('Admin::user.create', compact('roles'));
     }
@@ -101,7 +115,7 @@ class UserController extends AdminController
         // Manages avatar upload
         $this->uploadService->uploadAvatar($request, $user);
 
-        Alert::success(trans('Admin::admin.users-controller-successfully_created'))->flash();
+        Alert::success(trans('Admin::admin.controller-successfully_created', ['item' => trans('Admin::models.User')]))->flash();
 
         $this->redirectService->setRedirect($request);
         return $this->redirectService->redirect($request);
@@ -116,8 +130,8 @@ class UserController extends AdminController
      */
     public function edit(User $user)
     {
-        $roles = Role::pluck('display_name', 'id');
-        
+        $roles = Role::where('name', '!=', Role::CLIENT)->pluck('display_name', 'id');
+
         return view('Admin::user.edit', compact('user', 'roles'));
     }
 
@@ -132,7 +146,7 @@ class UserController extends AdminController
     {
         $this->updateUser($user, $request);
 
-        Alert::success(trans('Admin::admin.users-controller-successfully_updated'))->flash();
+        Alert::success(trans('Admin::admin.controller-successfully_updated', ['item' => trans('Admin::models.User')]))->flash();
 
         $this->redirectService->setRedirect($request);
         return $this->redirectService->redirect($request);
@@ -175,15 +189,20 @@ class UserController extends AdminController
      * @param $id
      *
      * @return \Illuminate\Http\RedirectResponse
+     *
+     * @throws AuthorizationException
      */
     public function destroy($id)
     {
+        $auth = auth()->user();
+
         $user = User::findOrFail($id);
+
+        if (!$auth->hasRole(Role::ADMIN) || $user->hasRole(Role::ADMIN)) throw new AuthorizationException('Unable to delete user');
+
         User::destroy($id);
 
         return response()->json(null, 204);
-
-//        return redirect()->route('users.index')->withMessage(trans('Admin::admin.users-controller-successfully_deleted'));
     }
 
     /**
@@ -195,7 +214,11 @@ class UserController extends AdminController
     {
         $user = Auth::user();
 
-        $roles = Role::pluck('display_name', 'id');
+        Setting::setExtraColumns(array(
+            'user_id' => $user->id
+        ));
+
+        $roles = Role::where('name', '!=', Role::CLIENT)->pluck('display_name', 'id');
 
         return view('Admin::user.profile', compact('user', 'roles'));
     }
@@ -211,6 +234,15 @@ class UserController extends AdminController
         $user = Auth::user();
 
         $this->updateUser($user, $request);
+
+        Setting::setExtraColumns(array(
+            'user_id' => $user->id
+        ));
+        $settings = $request->get('settings');
+        foreach ($settings as $k => $v) {
+            setting([$k => $v]);
+        }
+        setting()->save();
 
         Alert::success(__('Profile was successfully updated!'))->flash();
 

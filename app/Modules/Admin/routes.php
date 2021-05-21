@@ -22,6 +22,10 @@ Route::group([
     Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
     Route::post('password/reset', 'Auth\ResetPasswordController@reset');
     Route::get(config('admin.route').'/locale/{locale}', 'AdminController@setLocale')->name('admin.locale');
+
+    // Invoices
+    Route::get('invoices/{order}/{tag}', 'InvoiceController@download')->name('invoice.download');
+    Route::get('invoices/{order}/{tag}/print', 'InvoiceController@print')->name('invoice.print');
 });
 
 Route::group([
@@ -32,7 +36,6 @@ Route::group([
     Route::get(config('admin.homeRoute'), config('admin.homeAction','DashboardController@index'));
 //    Route::resource('users', 'UserController');
 //    Route::resource('roles', 'RoleController');
-    Route::get('home', 'DashboardController@index');
     Route::post('logout', 'Auth\LoginController@logout')->name('logout');
     Route::post('addresses/manage', 'AddressController@manage')->name('addresses.manage');
     Route::delete('addresses/{id}', 'AddressController@destroy')->name('addresses.destroy');
@@ -41,11 +44,16 @@ Route::group([
     Route::patch('shippings/{shipping}', 'ShippingController@setDefaultShipping')->name('shippings.set-default');
     Route::delete('shippings/shippingZone/{shipping_zone}', 'ShippingController@deleteShippingZone')->name('shippings.delete-shipping-zone');
 
-    Route::get('events/getBuildings', 'EventController@getBuildings')->name('events.getBuildings');
-    Route::get('events/getHalls', 'EventController@getHalls')->name('events.getHalls');
-
+    Route::prefix('events')->group(function () {
+        Route::delete('{event}/deleteEventImage', 'EventController@deleteEventImage')->name('events.deleteEventImage');
+        Route::delete('{event}/deleteFreePassLogo', 'EventController@deleteFreePassLogo')->name('events.deleteFreePassLogo');
+        Route::get('getBuildings', 'EventController@getBuildings')->name('events.getBuildings');
+        Route::get('getHalls', 'EventController@getHalls')->name('events.getHalls');
+        Route::get('hallPlaces/{event}', 'EventController@hallPlaces')->name(config('admin.route').'.events.hallPlaces');
+        Route::delete('prices/{price}', 'EventController@deletePrice')->name('events.deletePrice');
+        Route::delete('priceGroups/{price_group}', 'EventController@deletePriceGroup')->name('events.deletePriceGroup');
+    });
 });
-
 
 if (Schema::hasTable('menus')) {
     $menus = Menu::with('children')->where('menu_type', '!=', 0)->orderBy('position')->get();
@@ -155,4 +163,71 @@ Route::group([
         'as'   => config('admin.route') . '.actions.ajax',
         'uses' => 'UserActionsController@table'
     ]);
+
+    Route::prefix('tickets')->group(function () {
+        Route::get('print/{ticket}', 'TicketController@print')->name('tickets.print');
+        Route::get('zebra_print/{ticket}', 'TicketController@zebraPrint')->name('tickets.zebraPrint');
+    });
+
+    Route::prefix('admin')->group(function () {
+        Route::prefix('orders')->group(function() {
+            Route::post('events', 'OrderController@eventsList')->name('order.eventsList');
+            Route::get('events/statistic/{event}', 'OrderController@eventStatistic')->name('order.eventStatistic');
+            Route::get('tickets_table', 'OrderController@updateTicketsTable')->name('order.updateTicketsTable');
+            Route::get('{order}', 'TicketController@print')->name('tickets.print');
+            Route::get('widget/{event}', 'OrderController@widgetContent')->name('events.widgetContent');
+            Route::get('user/addresses', 'OrderController@getUserAddresses')->name('order.getAddresses');
+            Route::post('confirm_payment/{order}', 'OrderController@confirmPayment')->name('order.confirmPayment');
+            Route::post('change_order_status/{order}', 'OrderController@changeOrderStatus')->name('order.changeOrderStatus');
+            Route::post('change_shipping_status/{order}', 'OrderController@changeShippingStatus')->name('order.changeShippingStatus');
+            Route::post('remove_ticket/{order}/{ticket}', 'OrderController@deleteTicket')->name('order.deleteTicket');
+            Route::post('{order}/regenerate_invoice', 'OrderController@regenerateInvoice')->name('order.regenerateInvoice');
+            Route::post('comment/add/{order}', 'OrderController@addToComment')->name('order.addToComment');
+            Route::delete('delete_reserve/{order}', 'OrderController@deleteReservation')->name('order.deleteReservation');
+            Route::post('resend_mail/{order}', 'OrderController@resendMails')->name('order.resendMails');
+        });
+
+        Route::get('invoices/modal/{order}', 'OrderController@getInvoicesModal')->name('invoice.modal');
+    });
+
+    Route::prefix('admin/reports')->group(function () {
+        Route::get('/', function () {
+            // @todo: implement redirect service method to redirect different user to different starter reports
+
+            return redirect()->route(config('admin.route') . '.reports.by_partner');
+        })->name(config('admin.route') . '.reports.index');
+
+        Route::get('event/options', 'ReportController@getEventsOptions')->name(config('admin.route') . '.reports.events');
+
+
+        Route::get('partner', 'ReportController@partner')->name(config('admin.route') . '.reports.partner');
+        Route::get('partner/data', 'ReportController@getPartnerData')->name(config('admin.route') . '.reports.data.partner');
+        Route::get('partner/export', 'ReportController@exportPartnerData')->name(config('admin.route') . '.reports.export.partner');
+
+        Route::get('by_partner', 'ReportController@byPartners')->name(config('admin.route') . '.reports.by_partner');
+        Route::get('by_partner/data', 'ReportController@getByPartnersData')->name(config('admin.route') . '.reports.data.by_partner');
+        Route::get('by_partner/export', 'ReportController@exportByPartnerData')->name(config('admin.route') . '.reports.export.by_partner');
+
+        Route::get('by_bookkeeper', 'ReportController@byBookkeepers')->name(config('admin.route') . '.reports.by_bookkeeper');
+        Route::get('by_bookkeeper/data', 'ReportController@getByBookkeepersData')->name(config('admin.route') . '.reports.data.by_bookkeeper');
+        Route::get('by_bookkeeper/export', 'ReportController@exportByBookkeeperData')->name(config('admin.route') . '.reports.export.by_bookkeeper');
+        Route::get('by_bookkeeper/export/tickets', 'ReportController@exportByBookkeepersTickets')
+            ->name(config('admin.route') . '.reports.export.by_bookkeeper.tickets');
+
+        Route::get('overall', 'ReportController@overall')->name(config('admin.route') . '.reports.overall');
+        Route::get('overall/data', 'ReportController@getOverallData')->name(config('admin.route') . '.reports.data.overall');
+        Route::get('overall/export', 'ReportController@exportOverallData')->name(config('admin.route') . '.reports.export.overall');
+
+        Route::get('events', 'ReportController@events')->name(config('admin.route') . '.reports.events');
+        Route::get('events/data', 'ReportController@getEventsData')->name(config('admin.route') . '.reports.data.events');
+
+        Route::get('export/tickets/{event}', 'ReportController@exportTicketSales')->name(config('admin.route') . '.reports.export.tickets');
+        Route::get('export/tickets/{event}/unsold', 'ReportController@exportTicketsUnsold')->name(config('admin.route') . '.reports.export.tickets.unsold');
+    });
+
+    Route::prefix('admin/tickets')->group(function () {
+        Route::get('/', 'TicketController@returnForm')->name(config('admin.route') . '.tickets.index');
+        Route::get('/by_barcode', 'TicketController@getByBarcode')->name(config('admin.route') . '.tickets.by_barcode');
+        Route::post('return', 'TicketController@makeReturn')->name(config('admin.route') . '.tickets.doReturn');
+    });
 });

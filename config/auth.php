@@ -2,6 +2,11 @@
 
 return [
 
+    'redirectRoutes' => [
+        'login' => 'login',
+        'client' => 'profile.show',
+        'admin' => 'admin.orders.create',
+    ],
     /*
     |--------------------------------------------------------------------------
     | Authentication Defaults

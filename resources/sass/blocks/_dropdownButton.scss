@@ -1,0 +1,41 @@
+.link-dropdown-wrap {
+  display: inline-block;
+  position: relative;
+
+  &.active .link-dropdown {
+    display: inline-block;
+  }
+
+  &:not(:last-child) {
+    margin-right: 20px;
+  }
+}
+
+ul.link-dropdown {
+  display: none;
+  position: absolute;
+  min-width: 100%;
+  top: 100%;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+
+  li {
+    display: block;
+    margin: 0;
+    padding: 0;
+
+    a {
+      display: block;
+      margin: 0;
+      padding: 5px 10px;
+      text-decoration: none;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.06);
+      }
+    }
+  }
+}

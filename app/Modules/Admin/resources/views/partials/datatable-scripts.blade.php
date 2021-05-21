@@ -1,21 +1,18 @@
 <script>
-
     jQuery(document).ready(function($) {
-
         var table = $('#datatable').DataTable({
             order: [],
             columnDefs: [
                 {
-                    targets: 'no-sort',
+                    targets: [],
                     orderable: false
                 }
             ],
+            ordering: false,
             language: {
                 url: '{{ route('dataTables.locale', ['locale' => App::getLocale()]) }}'
             }
-        });
-
-        $('#datatable').on('click', '.delete-button', function(e){
+        }).on('click', '.delete-button', function(e){
             e.preventDefault();
             var $this = $(this),
                 url = $(this).attr('href');
@@ -54,6 +51,8 @@
         });
 
         $('.mass').click(function () {
+            checkMass = false;
+
             if ($(this).is(":checked")) {
                 $('.single').each(function () {
                     if ($(this).is(":checked") == false) {
@@ -67,24 +66,37 @@
                     }
                 });
             }
+
+            checkMass = true;
+        });
+
+        var checkMass = true;
+        $('.single').change(function() {
+          if (!checkMass) return;
+
+          setTimeout(function () {
+            if (!$('.single:not(:checked)').length) {
+              $('.mass').prop('checked', true);
+            } else {
+              $('.mass').prop('checked', false);
+            }
+          });
         });
 
         $('#delete').click(function () {
             if (confirm('{{ trans('Admin::templates.templates-view_index-are_you_sure') }}')) {
-                var send = $('#send'),
-                    mass = $('.mass').is(":checked");
+                var send = $('#send');
 
-                if (mass == true) {
+                if ($('.mass').is(':checked')) {
                     send.val('mass');
                 } else {
                     var toDelete = [];
-                    $('.single').each(function () {
-                        if ($(this).is(":checked")) {
-                            toDelete.push($(this).data('id'));
-                        }
+                    $(".single:checked").each(function() {
+                        toDelete.push($(this).data('id'));
                     });
                     send.val(JSON.stringify(toDelete));
                 }
+
                 $('#massDelete').submit();
             }
         });

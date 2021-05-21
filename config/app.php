@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Artist Production'),
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +52,9 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'https://artist-production.de'),
+
+    'domain' => env('APP_DOMAIN', 'artist-production.de'),
 
     'asset_url' => env('ASSET_URL', null),
 
@@ -80,7 +82,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'ru',
 
     /*
     |--------------------------------------------------------------------------
@@ -93,7 +95,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'de',
 
     /*
     |--------------------------------------------------------------------------
@@ -106,7 +108,7 @@ return [
     |
     */
 
-    'faker_locale' => 'en_US',
+    'faker_locale' => 'de_DE',
 
     /*
     |--------------------------------------------------------------------------
@@ -170,6 +172,10 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Srmklive\PayPal\Providers\PayPalServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
+        Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
+        Milon\Barcode\BarcodeServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -234,7 +240,15 @@ return [
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Image' => Intervention\Image\Facades\Image::class,
-        'Setting' => anlutro\LaravelSettings\Facade::class
+        'Setting' => anlutro\LaravelSettings\Facade::class,
+        'PayPal' => Srmklive\PayPal\Facades\PayPal::class,
+        'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
+        'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
+        'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
+        'LinkMenu' => App\Http\ViewHelpers\LinkMenu::class,
+        'InvoiceBuilder' => App\Http\ViewHelpers\InvoiceBuilder::class,
+        'FileHelper' => App\Helpers\FileHelper::class,
     ],
 
 ];

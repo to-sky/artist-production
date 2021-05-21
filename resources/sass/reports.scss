@@ -1,0 +1,357 @@
+.report_form {
+  .select2-selection__clear {
+    background: transparent;
+    color: #444 !important;
+  }
+}
+
+.by-partner-report {
+  h3 {
+    color: #2F003E;
+    font-size: 20px;
+    font-weight: lighter;
+    padding: 0 0 10px 0;
+    margin: 0;
+  }
+
+  .dates {
+    td {
+      background-color: #f5f5f5;
+      width: 300px;
+      padding: 5px;
+    }
+
+    td:first-child {
+      background-color: #E6E6E6;
+      font-weight: bold;
+      color: #95009C;
+    }
+  }
+
+  .partner-report-table {
+    width: 100%;
+    text-align: center;
+
+    thead {
+      color: #417fd4;
+      font-weight: bold;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      height: 40px;
+      padding-top: 0;
+      background-color: #e9f1fc;
+
+      th {
+        padding: 5px 5px 15px;
+        text-align: center;
+
+        &:first-child {
+          text-align: left;
+        }
+
+        &:not(:first-child) {
+          width: 100px;
+        }
+      }
+    }
+
+    tbody {
+      border: solid 1px #ccc;
+
+      &.sep {
+        border: none;
+
+        td {
+          padding: 5px;
+        }
+      }
+
+      tr:first-child {
+        margin-top: 10px;
+      }
+
+      .primary-group-name td {
+        background-color: #417fd4;
+        font-weight: bold;
+        color: #e9f1fc;
+        padding: 5px 5px 10px;
+        text-align: left;
+      }
+
+      .secondary-group-name td {
+        background-color: #e9f1fc;
+        color: #417fd4;
+        padding: 5px 5px 10px 10px;
+        font-weight: bold;
+        text-align: left;
+      }
+
+      .secondary-group-calculation td:not(:first-child) {
+        border-bottom: 1px solid black;
+        padding: 5px;
+      }
+
+      .secondary-group-total {
+        td {
+          padding: 5px;
+        }
+
+        td:nth-child(3) {
+          text-align: right;
+        }
+
+        td:not(:first-child) {
+          background-color: #f0f0e6;
+          font-weight: bolder;
+          font-style: italic;
+        }
+      }
+
+      .primary-group-total {
+        td {
+          padding: 5px;
+          background-color: #dfe3ec;
+          color: #417fd4;
+        }
+
+        td:nth-child(3) {
+          text-align: right;
+        }
+      }
+    }
+
+    .partner-report-total {
+      td {
+        color: #f00;
+        font-weight: bold;
+        border-bottom: 1px solid #ccc;
+        font-size: 14px;
+        height: 20px;
+        background-color: #FFF3BC;
+      }
+
+      td:not(:first-child) {
+        border-bottom-width: 2px;
+      }
+
+      td:nth-child(2) {
+        text-align: right;
+      }
+    }
+  }
+
+  .tickets-table-wrap {
+    float: right;
+
+    &:after {
+      display: block;
+      content: '';
+      clear: both;
+    }
+
+    .tickets-table {
+      caption {
+        white-space: nowrap;
+        text-align: center;
+        border-bottom: solid 2px #000;
+      }
+
+      th, td {
+        text-align: right;
+        border-bottom: solid 1px #ccc;
+        padding: 5px 5px 5px 35px;
+      }
+
+      .tickets-table-total td {
+        font-weight: bold;
+        border-bottom: none;
+      }
+    }
+  }
+}
+
+.by-bookkeeper-report {
+  h3 {
+    color: #2F003E;
+    font-size: 20px;
+    font-weight: lighter;
+    padding: 0 0 10px 0;
+    margin: 0;
+  }
+
+  .bookkeeper-report-table {
+    width: 100%;
+    text-align: right;
+
+    td {
+      padding: 5px;
+    }
+
+    thead {
+      color: #417fd4;
+      font-weight: bold;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      height: 40px;
+      padding-top: 0;
+      background-color: #e9f1fc;
+
+      th {
+        text-align: right;
+        padding: 5px 5px 15px;
+
+        &:first-child {
+          text-align: left;
+        }
+
+        &:not(:first-child) {
+          width: 100px;
+        }
+      }
+    }
+
+    .totals {
+      background-color: #0C630F;
+      color: white;
+      text-align: right;
+
+      td {
+        padding: 5px 5px 15px;
+      }
+    }
+
+    .sep td{
+      padding: 5px;
+    }
+
+    .subsep td{
+      padding: 2px;
+    }
+
+    .primary-group-name td {
+      background-color: #417fd4;
+      font-weight: bold;
+      color: #e9f1fc;
+      padding: 5px 5px 10px;
+      text-align: left;
+    }
+
+    .primary-group-total {
+      background-color: #C2D4D2;
+      color: orangered;
+
+      td {
+        padding: 5px;
+        font-weight: bold;
+      }
+    }
+
+    .secondary-group-name td {
+      background-color: #e9f1fc;
+      color: #417fd4;
+      padding: 5px 5px 10px 10px;
+      font-weight: bold;
+      text-align: left;
+    }
+
+    .secondary-group-total td {
+      padding: 5px;
+      background-color: #f0f0e6;
+      font-weight: bold;
+      font-style: italic;
+    }
+  }
+}
+
+.overall-report {
+  .overall-report-table {
+    thead, .totals {
+      background-color: WhiteSmoke;
+    }
+
+    th, td {
+      text-align: center;
+      padding: 10px 5px;
+      border: solid 1px #ccc;
+    }
+
+    td:nth-child(n+2) {
+      text-align: right;
+    }
+
+    td:last-child {
+      text-align: center;
+    }
+  }
+}
+
+.unsold-tickets-report {
+  position: relative;
+  width: 1000px;
+  margin: 0 auto;
+  padding: 50px 0 0;
+
+  .date {
+    position: absolute;
+    left: 0;
+    top: 10px;
+    line-height: 20px;
+    font-size: 12px;
+  }
+
+  .print-wrap {
+    position: absolute;
+    top: 10px;
+    right: 0;
+  }
+
+  .table {
+    text-align: center;
+
+    table {
+      text-align: left;
+      width: 100%;
+      border-collapse: collapse;
+
+      td, th {
+        border: solid 1px #000;
+        padding: 5px 2px;
+
+        &:last-child {
+          background-color: #ccc;
+        }
+      }
+
+      th {
+        background-color: #ccc;
+      }
+    }
+  }
+}
+
+@media print {
+  .unsold-tickets-report .print-wrap {
+    display: none;
+  }
+}
+
+.events-report-table {
+  width: 100%;
+
+  .heading td {
+    padding: 5px;
+    border: solid 1px #ccc;
+    text-align: center;
+  }
+
+  .body {
+    td {
+      padding: 5px;
+      border: solid 1px #ccc;
+
+      &:nth-child(2) {
+        text-align: center;
+      }
+    }
+  }
+}

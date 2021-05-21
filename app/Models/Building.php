@@ -23,4 +23,9 @@ class Building extends Model
     {
         return $this->hasMany('App\Models\Hall');
     }
+
+    public function hallBlueprints()
+    {
+        return $this->hasMany(HallBlueprint::class);
+    }
 }

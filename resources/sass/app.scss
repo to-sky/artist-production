@@ -1,33 +1,27 @@
+@import
+    'fonts',
+    'settings',
+	'variables',
+	'settings',
 
-// Fonts
-//@import url('https://fonts.googleapis.com/css?family=Nunito');
+	'mixins/interpolation',
 
-// Variables
-//@import 'variables';
+	'UI/general',
+	'blocks/header',
+	'blocks/footer',
+	'blocks/section',
+	'blocks/tickets',
+	'blocks/form',
+	'blocks/approvement',
+	'blocks/events',
+	'blocks/prices',
+	'blocks/shippings',
+	'blocks/order',
+	'blocks/booked',
+	'blocks/linkMenu',
+	'blocks/dropdownButton',
+	'blocks/table',
+	'blocks/mobileMenu',
 
-// Bootstrap
-//@import '~bootstrap/scss/bootstrap';
-
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-}
-
-// Select2
-.select2-container--default .select2-selection--multiple .select2-selection__choice {
-  color: #333;
-}
-.select2-container .select2-selection--single {
-  height: 34px;
-}
-
-.select2-container--default .select2-selection--single .select2-selection__arrow {
-  height: 30px;
-}
-
-.select2-container--default .select2-selection--single,
-.select2-container--default .select2-selection--multiple,
-.select2-selection .select2-selection--single {
-  padding-left: 0;
-  border-color: #d2d6de;
-}
+	'helpers'
+;

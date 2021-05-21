@@ -18,6 +18,7 @@ class ViewComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer('Admin::*', 'App\Modules\Admin\ViewComposers\AdminComposer');
+        View::composer('payment.*', 'App\Modules\Admin\ViewComposers\AdminComposer');
         View::composer(['Admin::*.edit*', 'Admin::*.create*'], 'App\Modules\Admin\ViewComposers\FormComposer');
         View::composer(['Admin::setting.*'], 'App\Modules\Admin\ViewComposers\FormComposer');
     }

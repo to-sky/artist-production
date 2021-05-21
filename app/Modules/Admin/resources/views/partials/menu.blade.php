@@ -1,11 +1,5 @@
 <!-- sidebar menu: : style can be found in sidebar.less -->
 <ul class="sidebar-menu tree" data-widget="tree" data-animation-speed="200">
-    <li @if(Request::path() == 'dashboard') class="active" @endif>
-        <a href="{{ url(config('admin.homeRoute')) }}">
-            <i class="fa fa-dashboard"></i>
-            <span>{{ trans('Admin::admin.Dashboard') }}</span>
-        </a>
-    </li>
 
     @foreach($menus as $menu)
         @if ($menu->availableForRole(Auth::user()->role))
@@ -42,12 +36,60 @@
         @endif
     @endforeach
 
-    @role([\App\Models\Role::ADMIN,  \App\Models\Role::PARTNER])
+    @role(\App\Models\Role::ADMIN)
     <li @if(Request::path() == config('admin.route').'/menu') class="active" @endif>
         <a href="{{ url(config('admin.route').'/menu') }}">
             <i class="fa fa-list"></i>
             <span class="title">{{ trans('Admin::admin.partials-sidebar-menu') }}</span>
         </a>
+    </li>
+    @endrole
+
+    @role([\App\Models\Role::ADMIN,  \App\Models\Role::PARTNER])
+    <li class="treeview @if(strpos(Request::path(), 'reports') !== false){{ 'active menu-open' }}@endif">
+        <a href="#">
+            <i class="fa fa-bar-chart"></i>
+            <span>{{ trans('Admin::admin.Reports') }}</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            @role([\App\Models\Role::ADMIN])
+            <li class="@if(strpos(Request::path(), 'by_partner') !== false){{ 'active' }}@endif">
+                <a href="{{ route(config('admin.route') . '.reports.by_partner') }}">
+                    <i class="fa fa-circle-o"></i>
+                    {{ trans('Admin::admin.by_partner') }}
+                </a>
+            </li>
+            <li class="@if(strpos(Request::path(), 'by_bookkeeper') !== false){{ 'active' }}@endif">
+                <a href="{{ route(config('admin.route') . '.reports.by_bookkeeper') }}">
+                    <i class="fa fa-circle-o"></i>
+                    {{ trans('Admin::admin.by_bookkeeper') }}
+                </a>
+            </li>
+            <li class="@if(strpos(Request::path(), 'overall') !== false){{ 'active' }}@endif">
+                <a href="{{ route(config('admin.route') . '.reports.overall') }}">
+                    <i class="fa fa-circle-o"></i>
+                    {{ trans('Admin::admin.overall') }}
+                </a>
+            </li>
+            <li class="@if(strpos(Request::path(), 'events') !== false){{ 'active' }}@endif">
+                <a href="{{ route(config('admin.route') . '.reports.events') }}">
+                    <i class="fa fa-circle-o"></i>
+                    {{ trans('Admin::admin.events') }}
+                </a>
+            </li>
+            @endrole
+            @role([\App\Models\Role::PARTNER])
+            <li class="@if(strpos(Request::path(), 'partner') !== false){{ 'active' }}@endif">
+                <a href="{{ route(config('admin.route') . '.reports.partner') }}">
+                    <i class="fa fa-circle-o"></i>
+                    {{ trans('Admin::admin.partner') }}
+                </a>
+            </li>
+            @endrole
+        </ul>
     </li>
     <li class="treeview @if(strpos(Request::path(), 'settings') !== false){{ 'active menu-open' }}@endif">
         <a href="#">

@@ -15,5 +15,10 @@ return [
         'name' => 'partner',
         'display_name' => 'Partner',
         'description' => ''
+    ],
+    [
+        'name' => 'client',
+        'display_name' => 'Client',
+        'description' => '',
     ]
 ];

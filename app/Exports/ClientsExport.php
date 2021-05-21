@@ -28,8 +28,8 @@ class ClientsExport implements WithEvents, FromCollection, WithHeadings, WithTit
                 $item['id'],
                 $item['fullname'],
                 $item['email'],
-                $item['phone'],
-                $item['type']
+                $item['profile']['phone'],
+                $item['profile']['type'],
             ];
         });
 

@@ -42,11 +42,11 @@
                     </div>
                     <div class="form-group col-md-12">
                         {!! Form::label('commission', __('Commission')) !!}
-                        {!! Form::text('commission', old('commission', App\Models\Client::DEFAULT_COMMISSION), array('class'=>'form-control')) !!}
+                        {!! Form::text('commission', old('commission', App\Models\Profile::DEFAULT_COMMISSION), array('class'=>'form-control')) !!}
                     </div>
                     <div class="form-group col-md-12">
                         {!! Form::label('type', __('Type')) !!}
-                        {!! Form::select('type', $types, old('type', App\Models\Client::TYPE_INDIVIDUAL), array('class'=>'form-control')) !!}
+                        {!! Form::select('type', $types, old('type', App\Models\Profile::TYPE_INDIVIDUAL), array('class'=>'form-control')) !!}
                     </div>
                     <div class="form-group col-md-12">
                         {!! Form::label('code', __('Code')) !!}
@@ -54,7 +54,7 @@
                     </div>
                     <div class="form-group col-md-12">
                         {!! Form::label('comment', __('Comment')) !!}
-                        {!! Form::textarea('comment', old('comment'), array('class'=>'form-control')) !!}
+                        {!! Form::textarea('comment', old('comment'), array('class'=>'form-control max-width-100')) !!}
                     </div>
                     <div class="form-group col-md-12">
                         <h4>{{ __('Address') }}</h4>

@@ -16,16 +16,15 @@
         </div>
 
         <div class="box-body">
-            <table  class="table table-bordered table-hover table-datatable">
+            <table id="datatable" class="table table-bordered table-hover">
                 <thead>
                 <tr>
                     <th class="no-sort text-center" width="5%">
                         {!! Form::checkbox('delete_all',1,false,['class' => 'mass']) !!}
                     </th>
-                    <th>{{ __('Shipping type') }}</th>
+                    <th width="100">{{ __('Shipping type') }}</th>
                     <th>{{ __('Shipping zones') }}</th>
-                    <th>{{ __('Default') }}</th>
-                    <th>{{ __('Actions') }}</th>
+                    <th width="200">{{ __('Actions') }}</th>
                 </tr>
                 </thead>
 
@@ -37,23 +36,15 @@
                         </td>
                         <td>{{ $shipping->name }}</td>
                         <td>
-                            @foreach($shipping->shipping_zones as $shippingZone)
+                            @foreach($shipping->shippingZones as $shippingZone)
                                 <span class="label label-default">{{ $shippingZone->name }}</span>
                             @endforeach
                         </td>
-                        <td>{{ numberToString($shipping->is_default) }}</td>
-
                         <td>
                             <a href="{{ route(config('admin.route').'.shippings.edit', [$shipping->id]) }}"
                                class="btn btn-xs btn-default">
                                 <i class="fa fa-edit"></i> {{ trans('Admin::admin.users-index-edit') }}
                             </a>
-
-                            {!! Form::open(['route' => ['shippings.set-default', $shipping->id], 'method' => 'patch', 'class' => 'inline']) !!}
-                            <button type="submit" class="btn btn-xs btn-default inline" @if ($shipping->is_default) disabled @endif>
-                                <i class="fa fa-check"></i> {{ trans('Admin::admin.set-to-default') }}
-                            </button>
-                            {!! Form::close() !!}
 
                             <a href="{{ route(config('admin.route').'.shippings.destroy', [$shipping->id]) }}"
                                class="btn btn-xs btn-default delete-button">

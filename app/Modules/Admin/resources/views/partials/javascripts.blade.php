@@ -23,6 +23,8 @@
 <script src="{{ asset('/bower_components/select2/dist/js/select2.full.js') }}"></script>
 <script src="{{ asset('/bower_components/select2/dist/js/i18n/de.js') }}"></script>
 <script src="{{ asset('/bower_components/select2/dist/js/i18n/ru.js') }}"></script>
+<script src="{{ asset('/bower_components/evol-colorpicker/js/evol-colorpicker.js') }}"></script>
+<script src="{{ asset('/bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
 
 <!-- page script -->
 <script type="text/javascript">
@@ -55,6 +57,8 @@
     });
 
     var locale = '{{ app()->getLocale() }}';
+
+    moment.locale(locale);
 
     $('.select2-box').select2({
         language: locale,
@@ -124,4 +128,40 @@
         format: 'Y-MM-D HH:mm',
         locale: locale
     });
+
+    // Modal confirmation on delete item
+    var modal = $('#deleteItem');
+    modal.on('show.bs.modal', function (e) {
+        var target = $(e.relatedTarget);
+        var reload = target.data('reload');
+        var url = target.data('url');
+        var tableRow = target.closest('tr');
+        var itemName = tableRow.find('input').first().val();
+
+        $(this).find('#modalItemName').text(itemName);
+
+        $('.delete-item').click(function() {
+            $.ajax({
+                url: url,
+                type: 'DELETE',
+                success: function() {
+                    modal.modal('hide');
+                    tableRow.remove();
+
+                    if (reload) {
+                        location.reload();
+                    }
+                }
+            });
+        });
+    }).on('hide.bs.modal', function () {
+        $('.delete-item').off('click');
+    });
+
+    // Remove table row
+    $(document).on('click', '.delete-row', function() {
+        $(this).closest('tr').remove();
+    });
+
+    $('input.colorpicker').colorpicker();
 </script>

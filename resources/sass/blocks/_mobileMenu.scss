@@ -1,0 +1,81 @@
+.ap_header__mobile {
+  display: none;
+}
+
+.ap_header__burgermenu {
+  position: relative;
+  width: 30px;
+  height: 30px;
+
+  .trigger {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    font-size: 22px;
+    padding: 0;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    border: none;
+    background: none;
+    outline: none;
+
+    &:before {
+      display: inline-block;
+      content: "\f0c9";
+
+      .active & {
+        content: "\f00d";
+      }
+    }
+  }
+}
+
+.ap_header__burgermenu-list {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin: 10px 0;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 5px rgba(0,0,0,.2);
+  white-space: nowrap;
+
+  .active & {
+    display: block;
+  }
+
+  li {
+    display: block;
+    margin: 0;
+    padding: 0;
+
+    &:not(.info) {
+      a, button {
+        display: block;
+        background: none;
+        width: 100%;
+        padding: 10px;
+        margin: 0;
+        border: none;
+        font-family: ProximaNova, sans-serif;
+        font-size: 18px;
+        text-align: left;
+        color: rgba(0, 0, 0, 0.8);
+      }
+    }
+
+    &.info {
+      padding: 10px;
+      margin-top: 10px;
+    }
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .ap_header__mobile {
+    display: block;
+  }
+}

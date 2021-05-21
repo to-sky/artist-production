@@ -18,7 +18,8 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         Relation::morphMap([
-            \App\Models\User::ENTITY_TYPE => 'App\Models\User'
+            \App\Models\User::ENTITY_TYPE => 'App\Models\User',
+            \App\Models\Event::ENTITY_TYPE => 'App\Models\Event'
         ]);
     }
 

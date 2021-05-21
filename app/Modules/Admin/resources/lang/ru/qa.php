@@ -13,7 +13,9 @@ return [
     'menus-createCrud-create_new_crud' => 'Создать новый пункт меню CRUD',
     'menus-createCrud-crud_parent' => 'CRUD родитель',
     'menus-createCrud-crud_name' => 'CRUD наименование',
+    'menus-createCrud-crud_singular_name' => 'Название CRUD в единственном числе',
     'menus-createCrud-crud_singular_name_placeholder' => 'например, book или diary (используется для генерации таблиц в БД и всех необходиых файлов)',
+    'menus-createCrud-crud_plural_name' => 'Название CRUD во множественном числе',
     'menus-createCrud-crud_plural_name_placeholder' => 'например, books или diaries (используется для генерации таблиц в БД и всех необходиых файлов)',
     'menus-createCrud-crud_title' => 'CRUD заголовок',
     'menus-createCrud-crud_title_placeholder' => 'Заголовок меню (используется для пункта меню)',
@@ -64,7 +66,7 @@ return [
     'menus-index-new_crud' => 'Создать CRUD-контроллер',
     'menus-index-new_custom' => 'Создать контроллер',
     'menus-index-new_parent' => 'Создать новый пункт родительского меню',
-    'menus-index-positions_drag_drop' => 'Вы можете менять позицию пункта меню пертаскивая его',
+    'menus-index-positions_drag_drop' => 'Вы можете менять позицию пункта меню перетаскивая его',
     'menus-index-click_save_positions' => 'Изменения будут сохранены, если вы нажмете "Сохранить позиции"',
     'menus-index-save_positions' => 'Сохранить позиции',
 

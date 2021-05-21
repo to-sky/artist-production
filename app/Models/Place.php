@@ -6,7 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Place extends Model
 {
-    protected $fillable = ['row', 'num', 'text', 'zone_id', 'hall_id', 'kartina_id'];
+    protected $fillable = [
+        'row', 'num', 'text', 'zone_id', 'hall_id', 'kartina_id', 'template',
+        'x', 'y', 'width','height', 'path', 'rotate'
+    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -22,5 +25,10 @@ class Place extends Model
     public function hall()
     {
         return $this->belongsTo('App\Models\Hall');
+    }
+
+    public function tickets()
+    {
+        return $this->hasMany('App\Models\Ticket');
     }
 }

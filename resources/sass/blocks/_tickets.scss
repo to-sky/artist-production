@@ -1,0 +1,160 @@
+.ap_tickets {
+  background-color: #fff;
+}
+
+.ap_ticket {
+  position: relative;
+  display: flex;
+  padding: 20px 20px 40px;
+}
+
+.ap_ticket__image {
+  width: 25%;
+  background-size: cover;
+  background-position: center;
+  border-radius: 4px;
+  margin-right: 20px;
+}
+
+.ap_ticket__title {
+  font-family: $fontSB;
+  margin-bottom: 12px;
+}
+
+.ap_ticket__price {
+  font-family: $fontSB;
+  margin-bottom: 40px;
+}
+
+.ap_ticket__detail {
+  color: rgba(0, 0, 0, 0.4);
+  margin-bottom: 12px;
+}
+
+.ap_ticket__detail:last-child {
+  margin-bottom: 0;
+}
+
+.ap_ticket__detail .fas {
+  display: inline-block;
+  width: 21px;
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.ap_ticket__remove {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  border: 0;
+  background: none;
+  padding: 0;
+  outline: none;
+
+  width: 25px;
+  height: 25px;
+
+  cursor: pointer;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 20px;
+    height: 2px;
+    border-radius: 1px;
+    background-color: #999;
+    transform-origin: center;
+  }
+
+  &::before {
+    transform: rotate(45deg);
+  }
+
+  &::after {
+    transform: rotate(-45deg);
+  }
+}
+
+.ap_tickets__footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 23px 20px;
+  color: rgba(0, 0, 0, 0.4);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+
+  b {
+    font-family: $fontSB;
+    color: rgba(0, 0, 0, 0.8);
+  }
+}
+
+.ap_tickets__footer {
+  a, button {
+    cursor: pointer;
+  }
+}
+
+.ap_tickets__footer-text {
+  text-decoration: none;
+  border: 0;
+  background: none;
+  font-size: inherit;
+  font-family: inherit;
+  color: inherit;
+  outline: none;
+}
+
+@media screen and (max-width: 767px) {
+  .ap_ticket {
+    padding: 10px;
+  }
+
+  .ap_ticket__image {
+    width: 50px;
+    min-width: 50px;
+    height: 62px;
+  }
+
+  .ap_ticket__info {
+    max-width: calc(100% - 70px);
+  }
+
+  .ap_ticket__title {
+    margin: 0 30px 10px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .ap_ticket__price {
+    margin-bottom: 25px;
+  }
+
+  .ap_ticket__detail {
+    margin: 0 0 5px -60px;
+    font-size: 16px;
+
+    .fas {
+      font-size: inherit;
+      margin-right: 5px;
+    }
+  }
+
+  .ap_ticket__remove {
+    top: 5px;
+    right: 5px;
+  }
+
+  .ap_tickets__footer {
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  form .ap_tickets__footer-text {
+    text-align: right;
+    padding: 0;
+  }
+}

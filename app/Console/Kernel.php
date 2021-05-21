@@ -24,8 +24,14 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('kartina:parse-events')
+         $schedule->command('kartina:parse-event-ids')
              ->daily();
+
+         $schedule->command('artist:free_reservations')
+             ->everyMinute();
+
+         $schedule->command('artist:reserve-reminder')
+            ->dailyAt('08:00');
     }
 
     /**

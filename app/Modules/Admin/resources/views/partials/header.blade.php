@@ -34,15 +34,18 @@
     <link rel="stylesheet" href="{{ asset('admin/css/admin.css') }}?v=2">
     <link rel="stylesheet" href="{{ asset('admin/css/admin.bold.css') }}">
     <link rel="stylesheet" href="{{ asset('/bower_components/select2/dist/css/select2.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('/bower_components/flag-icon-css/css/flag-icon.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bower_components/evol-colorpicker/css/evol-colorpicker.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bower_components/bootstrap-daterangepicker/daterangepicker.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
     @yield('after_styles')
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></link>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
@@ -58,3 +61,9 @@
     </script>
     <!-- Site wrapper -->
     <div class="wrapper">
+        <div class="art-overlay">
+            <div class="art-overlay-content">
+                <i class="fa fa-spinner fa-spin art-overlay-spinner"></i>
+                <p class="art-overlay-text"></p>
+            </div>
+        </div>

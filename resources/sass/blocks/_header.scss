@@ -1,0 +1,90 @@
+.ap_header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: rgba(0, 0, 0, 0.8);
+  padding: 33px 60px 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.ap_header__logo {
+  display: flex;
+  align-items: center;
+  margin-right: auto;
+  text-decoration: none;
+}
+
+.ap_header__logo-img {
+  max-width: 75px;
+}
+
+.ap_header__logo-text {
+  margin-left: 10px;
+  font-family: $fontSB;
+}
+
+.ap_header__info {
+  margin-right: 40px;
+}
+
+.ap_header__phone {
+  display: block;
+  position: relative;
+  padding-left: 26px;
+  margin-bottom: 10px;
+
+  &::before {
+    position: absolute;
+    left: 0;
+    top: 0;
+    content: "\f095";
+    font-family: "Font Awesome 5 Free";
+    color: #9393A0;
+    font-weight: 900;
+    transform: rotate(90deg);
+  }
+}
+
+.ap_header__button {
+  border: none;
+  font-size: 18px;
+  padding: 10px 20px;
+  background: #FFEB3B;
+  border-radius: 4px;
+  font-family: $fontSB;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 991px) {
+  .ap_header {
+    padding: 33px 10px 20px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .ap_header__logo-text {
+    display: none;
+  }
+
+  .ap_header__button {
+    max-width: 200px;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .ap_header {
+    padding: 5px;
+  }
+
+  .ap_header__logo-img {
+    max-width: 46px;
+  }
+
+  .ap_header__logo-text, .ap_header__mobile-menu {
+    display: block;
+  }
+
+  .ap_header__info, .ap_header__profile-button {
+    display: none;
+  }
+}

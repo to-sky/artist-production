@@ -39,4 +39,9 @@ class Hall extends Model
     {
         return $this->hasMany('App\Models\Place');
     }
+
+    public function labels()
+    {
+        return $this->hasMany('App\Models\Label');
+    }
 }

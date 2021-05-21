@@ -2,9 +2,8 @@
 
 namespace App\Modules\Admin\Controllers;
 
-use App\Models\Country;
-use App\Models\Shipping;
-use App\Models\ShippingZone;
+use App\Helpers\CountryHelper;
+use App\Models\{Country, Shipping, ShippingZone};
 use Illuminate\Http\Request;
 use App\Modules\Admin\Requests\ShippingRequest;
 use Prologue\Alerts\Facades\Alert;
@@ -45,7 +44,9 @@ class ShippingController extends AdminController
     {
         $shipping = Shipping::create($request->except('shipping_zones'));
 
-        $this->storeShippingZones($shipping);
+        $request->merge(['id' => $shipping->id]);
+
+        $this->createOrUpdateShippingZones($shipping);
 
         Alert::success(trans('Admin::admin.controller-successfully_created', ['item' => trans('Admin::models.Shipping')]))->flash();
 
@@ -60,16 +61,21 @@ class ShippingController extends AdminController
      * @param Shipping $shipping
      * @return null
      */
-    public function storeShippingZones(Shipping $shipping)
+    public function createOrUpdateShippingZones(Shipping $shipping)
     {
-        $shippingZones = collect(request()->shipping_zones);
+        $shippingZones = collect(request()->shippingZones);
 
         if ($shippingZones->isEmpty()) {
             return null;
         }
 
         return $shippingZones->map(function ($item) use ($shipping) {
-            $shippingZone = $shipping->shipping_zones()->create($item);
+            if (! isset($item['id'])) {
+                $shippingZone = $shipping->shippingZones()->create($item);
+            } else {
+                $shippingZone = $shipping->shippingZones()->find($item['id']);
+                $shippingZone->update($item);
+            }
 
             if (isset($item['countries_id'])) {
                 $shippingZone->countries()->sync(array_filter($item['countries_id']));
@@ -103,9 +109,7 @@ class ShippingController extends AdminController
     {
         $shipping->update($request->all());
 
-        $shipping->shipping_zones()->delete();
-
-        $this->storeShippingZones($shipping);
+        $this->createOrUpdateShippingZones($shipping);
 
         Alert::success(trans('Admin::admin.controller-successfully_updated', ['item' => trans('Admin::models.Shipping')]))->flash();
 
@@ -179,7 +183,7 @@ class ShippingController extends AdminController
     public function generateParams()
     {
         $shippingZones = ShippingZone::get()->pluck('name', 'id');
-        $countries = Country::all()->pluck('name', 'id')->prepend('All World', Country::WORLD);
+        $countries = CountryHelper::getList(true);
 
         view()->share('shippingZones', $shippingZones);
         view()->share('countries', $countries);

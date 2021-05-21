@@ -51,10 +51,15 @@ return [
     'users-index-are_you_sure'              => 'Are you sure?',
     'users-index-no_entries_found'          => 'No entries found',
 
-    // ontroller
+    // users-controller
     'controller-successfully_created' => ':item was successfully created!',
     'controller-successfully_updated' => ':item was successfully updated!',
     'controller-successfully_deleted' => ':item was successfully deleted!',
+
+    // events-index
+    'events-index-place-binding' => 'Bind places',
+    'events-index-prices' => 'Prices',
+    'hallPlaces' => 'Bind places',
 
     // roles-index
     'roles-index-add_new'                   => 'Add new',
@@ -90,12 +95,51 @@ return [
     'roles-controller-successfully_updated' => 'Role was successfully updated!',
     'roles-controller-successfully_deleted' => 'Role was successfully deleted!',
 
+    // orders index
+    'add-comment' => 'Add comment',
+
     // errors
     'please-fix' => 'Please fix the following errors:',
 
     // forms
-    'cancel' => 'Cancel'
+    'cancel' => 'Cancel',
+    'delete' => 'Delete',
 
+    // menu
+    'Dashboard' => 'Dashboard',
+    'Roles' => 'Roles',
+    'Users' => 'Users',
+    'Clients' => 'Clients',
+    'Events' => 'Events',
+    'Shippings' => 'Shippings',
+    'Menu' => 'Menu',
+    'Settings' => 'Settings',
+    'Mail' => 'Mail',
+    'Orders' => 'Orders',
+    'Reports' => 'Reports',
+    'Tickets' => 'Refund',
 
+    // actions
+    'index' => 'List',
+    'create' => 'Create',
+    'edit' => 'Edit',
+    'add-new' => 'Add :item',
+    'edit-item' => 'Edit :item',
+    'select-item' => 'Select :item',
+    'set-to-default' => 'Default',
+    'mail' => 'Mail',
+    'profile' => 'Profile',
+    'by_partner' => 'By Partner',
+    'by_bookkeeper' => 'By Cashier',
+    'overall' => 'Summary report',
+    'events' => 'Events',
+    'partner' => 'My Sales',
+
+    'back-to-all-entries' => 'Back to All Entries',
+
+    // orders
+    'last-order-ticket-deletion' => "You are about to remove last ticket from order. This will remove an order as well. Do you want to proceed?",
+
+    'resend-mail' => 'Resend mails and tickets',
 ];
 

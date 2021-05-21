@@ -6,7 +6,11 @@
 /public/bower_components
 /public/images
 /public/admin
+/public/widget
+/public/fonts
 /storage/*.key
+/storage/fonts
+/storage/public
 /vendor
 .env
 .phpunit.result.cache
@@ -16,3 +20,4 @@ npm-debug.log
 yarn-error.log
 .idea
 /_ide_helper.php
+error.log
